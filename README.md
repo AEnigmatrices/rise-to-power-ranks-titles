@@ -63,9 +63,16 @@ The workflow supplies the GitHub account URL to Astro automatically. The reposit
 src/data/ranks.ts   Imperial Court Rank reference
 src/data/titles.ts  Shogunate Title reference
 src/data/types.ts   Shared data type
+src/data/regions.ts Historic province and region descriptions, office mappings, and reading links
+src/data/trivia.ts  Featured notes and contextual office trivia
 ```
 
 Exact duplicate entries from the source references are consolidated and represented by the `count` field. Source order is retained.
+
+The dedicated trivia section includes topic filters, text search, an area filter for regions,
+and progressively revealed cards. It remains readable with JavaScript disabled. Region
+descriptions are shared with the appointment-table popovers; modern locations are approximate.
+Both provinces called Awa have distinct identifiers, and Ōshū / Ushū map to Mutsu / Dewa.
 
 ## Project structure
 

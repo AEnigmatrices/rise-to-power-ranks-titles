@@ -1,0 +1,230 @@
+import type { ReferenceEntry } from './types';
+
+export type Region = {
+    id: string;
+    name: string;
+    japanese: string;
+    area: string;
+    location: string;
+    body: string;
+    source: string;
+    aliases?: string[];
+    type: 'Province' | 'Region' | 'Historic site';
+};
+
+const province = (
+    name: string,
+    japanese: string,
+    area: string,
+    location: string,
+    body: string,
+    options: { id?: string; page?: string; aliases?: string[] } = {},
+): Region => ({
+    id: options.id ?? name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(),
+    name,
+    japanese,
+    area,
+    location,
+    body,
+    source: `https://en.wikipedia.org/wiki/${encodeURIComponent(options.page ?? `${name}_Province`)}`,
+    aliases: options.aliases,
+    type: 'Province',
+});
+
+// Modern locations are approximate orientation aids, not identical boundaries.
+// These are the 68 provinces represented in the appointment data, grouped for browsing.
+export const provinces: Region[] = [
+    province('Yamashiro', '山城', 'Kinai & Kansai', 'Southern Kyoto Prefecture',
+        'The province containing Kyoto, home to the imperial court and the Ashikaga shogunate. Its political importance far exceeded its size.'),
+    province('Yamato', '大和', 'Kinai & Kansai', 'Nara Prefecture',
+        'An early center of imperial power, with successive capitals around Asuka and Nara. Yamato also became a name for Japan itself.'),
+    province('Kawachi', '河内', 'Kinai & Kansai', 'Eastern Osaka Prefecture',
+        'An inland province beside the capital region, with plains shaped by the Yodo and Yamato rivers. Neighboring Izumi was once part of Kawachi.'),
+    province('Izumi', '和泉', 'Kinai & Kansai', 'Southern Osaka Prefecture',
+        'A small province along Osaka Bay, between Settsu and Kii. Its alternative name, Senshū, still identifies this part of Osaka.'),
+    province('Settsu', '摂津', 'Kinai & Kansai', 'Northern Osaka and southeastern Hyōgo',
+        'The province encompassing Osaka and much of present-day Kobe. Osaka Castle became a major center of power here under Toyotomi Hideyoshi.'),
+    province('Ōmi', '近江', 'Kinai & Kansai', 'Shiga Prefecture',
+        'The province surrounding Lake Biwa, Japan’s largest lake. Its position next to Kyoto made its roads and lakeside strongholds strategically valuable.'),
+    province('Tanba', '丹波', 'Kinai & Kansai', 'Central Kyoto and east-central Hyōgo',
+        'A mountainous inland province northwest of Kyoto. Separate river basins divided the landscape, making it difficult to control as a single territory.'),
+    province('Tango', '丹後', 'Kinai & Kansai', 'Northern Kyoto Prefecture',
+        'Kyoto’s coastal province on the Sea of Japan, centered historically around Miyazu. It was separated from Tanba in 713.'),
+    province('Tajima', '但馬', 'Kinai & Kansai', 'Northern Hyōgo Prefecture',
+        'A province on the Sea of Japan side of what is now Hyōgo. Its provincial capital and leading shrine were in the area of modern Toyooka.'),
+    province('Harima', '播磨', 'Kinai & Kansai', 'Southwestern Hyōgo Prefecture',
+        'An Inland Sea province centered on Himeji, also known as Banshū. Akō, later famous for the forty-seven rōnin, lay within its borders.'),
+    province('Kii', '紀伊', 'Kinai & Kansai', 'Wakayama and southern Mie',
+        'The province that gave the Kii Peninsula its name. Also called Kishū, it occupied the southern reaches of the Kansai area.'),
+    province('Awaji', '淡路', 'Kinai & Kansai', 'Awaji Island in Hyōgo Prefecture',
+        'An island province between Honshū and Shikoku. Its name means “road to Awa,” reflecting its position on the approach to Shikoku.'),
+
+    province('Iga', '伊賀', 'Tōkai & Central Japan', 'Western Mie Prefecture',
+        'A mountain-ringed inland province associated with ninja traditions. Local warriors formed a confederation that exercised considerable independence during the Sengoku era.'),
+    province('Ise', '伊勢', 'Tōkai & Central Japan', 'Much of Mie Prefecture',
+        'The province of the Ise Grand Shrines, a major destination for pilgrims. Its coast faces Ise Bay, between the capital region and eastern Japan.'),
+    province('Shima', '志摩', 'Tōkai & Central Japan', 'Toba and Shima in southeastern Mie',
+        'A small peninsula province known for fishing and marine produce. Fish and abalone from the area were supplied to the imperial court.'),
+    province('Owari', '尾張', 'Tōkai & Central Japan', 'Western Aichi, including Nagoya',
+        'Oda Nobunaga’s home province, from which he began his rise to power. It also contains Atsuta Shrine, associated with the imperial sword regalia.'),
+    province('Mikawa', '三河', 'Tōkai & Central Japan', 'Eastern Aichi Prefecture',
+        'The homeland of the Matsudaira, the family from which Tokugawa Ieyasu emerged. Ieyasu consolidated the province after the Imagawa defeat at Okehazama.'),
+    province('Tōtōmi', '遠江', 'Tōkai & Central Japan', 'Western Shizuoka Prefecture',
+        'The province around Hamamatsu, which became an important base for Tokugawa Ieyasu. Its lands were contested by the Tokugawa and Takeda.'),
+    province('Suruga', '駿河', 'Tōkai & Central Japan', 'Central Shizuoka Prefecture',
+        'A coastal province facing Suruga Bay and a major Imagawa stronghold. The Tōkaidō route linked it to both Kyoto and eastern Japan.'),
+    province('Izu', '伊豆', 'Tōkai & Central Japan', 'Izu Peninsula and the Izu Islands',
+        'A peninsula-and-island province once separated from Suruga. Its mainland is now in Shizuoka, while its offshore islands belong to Tokyo.'),
+    province('Kai', '甲斐', 'Tōkai & Central Japan', 'Yamanashi Prefecture',
+        'Takeda Shingen’s mountainous home province, ruled from Kōfu. It was landlocked, with Mount Fuji on its southern boundary.'),
+    province('Shinano', '信濃', 'Tōkai & Central Japan', 'Nagano Prefecture',
+        'A large inland province also known as Shinshū. Its valleys and castle towns became a major arena for the campaigns of Takeda Shingen and Uesugi Kenshin.'),
+    province('Mino', '美濃', 'Tōkai & Central Japan', 'Southern Gifu Prefecture',
+        'A province taken by Oda Nobunaga from the Saitō. Sekigahara, the site of the decisive battle in 1600, lies at its western edge.'),
+    province('Hida', '飛騨', 'Tōkai & Central Japan', 'Northern Gifu Prefecture',
+        'A snowy mountain province around Takayama. Hida was already celebrated for its carpenters in the Nara period, supplying skilled craftspeople to the court.'),
+
+    province('Musashi', '武蔵', 'Kantō', 'Tokyo, Saitama, and part of Kanagawa',
+        'The broad eastern province containing Edo, later Tokyo. Its older provincial capital was at Fuchū, long before Edo became the shogun’s seat.'),
+    province('Sagami', '相模', 'Kantō', 'Central and western Kanagawa',
+        'The province containing Kamakura, the seat of Japan’s first warrior government. In the Sengoku era, the later Hōjō ruled from Odawara.'),
+    province('Awa (Bōsō)', '安房', 'Kantō', 'Southern tip of Chiba’s Bōsō Peninsula',
+        'A coastal province known to the court for its seafood. It shares its pronunciation with Awa in Shikoku, but uses different kanji.',
+        { id: 'awa-boso', page: 'Awa_Province_(Chiba)', aliases: ['Bōshū', 'Awa Chiba'] }),
+    province('Kazusa', '上総', 'Kantō', 'Central Chiba Prefecture',
+        'The central portion of the Bōsō Peninsula, between Shimōsa and Awa. One of the three provinces whose nominal governor was an imperial prince.'),
+    province('Shimōsa', '下総', 'Kantō', 'Northern Chiba and neighboring parts of Kantō',
+        'A fertile province north of Kazusa, with Katori Shrine as its leading shrine. Kazusa and Shimōsa developed from the older territory of Fusa.'),
+    province('Hitachi', '常陸', 'Kantō', 'Most of Ibaraki Prefecture',
+        'An eastern province with its ancient administrative center near Ishioka. Kashima Shrine was its leading shrine; Hitachi was also one of the three princely provinces.'),
+    province('Kōzuke', '上野', 'Kantō', 'Gunma Prefecture',
+        'An inland province at the northern edge of Kantō, also called Jōshū. With Kazusa and Hitachi, it belonged to the three princely provinces.'),
+    province('Shimotsuke', '下野', 'Kantō', 'Tochigi Prefecture',
+        'Kōzuke’s eastern neighbor, also called Yashū. Both names trace back to the older territory of Keno, divided into upper and lower parts.'),
+
+    province('Mutsu', '陸奥', 'Tōhoku', 'Much of present-day Pacific-side Tōhoku',
+        'Also called Ōshū, this vast northern province stretched across much of northeastern Honshū before its later subdivision. Tagajō was an early government center.',
+        { aliases: ['Ōshū', '奥州'] }),
+    province('Dewa', '出羽', 'Tōhoku', 'Yamagata and most of Akita',
+        'Also called Ushū, Dewa occupied the Sea of Japan side of northern Honshū. The title Ushū Tandai refers to this province.',
+        { aliases: ['Ushū', '羽州'] }),
+
+    province('Wakasa', '若狭', 'Hokuriku', 'Southwestern Fukui Prefecture',
+        'A coastal province on Wakasa Bay, near the capital region. It belonged to the Hokurikudō circuit despite lying close to Kyoto.'),
+    province('Echizen', '越前', 'Hokuriku', 'Northern Fukui Prefecture',
+        'The Asakura family’s province, with their headquarters at Ichijōdani. It also had a long-established tradition of papermaking.'),
+    province('Kaga', '加賀', 'Hokuriku', 'Southern Ishikawa Prefecture',
+        'Known in the Sengoku era for the Ikkō-ikki confederation. The province later became part of the Maeda family’s extensive Kaga domain.'),
+    province('Noto', '能登', 'Hokuriku', 'Northern Ishikawa and the Noto Peninsula',
+        'A peninsula province projecting into the Sea of Japan. Nanao Castle was a major Hatakeyama stronghold before the Uesugi and Maeda contested the area.'),
+    province('Etchū', '越中', 'Hokuriku', 'Toyama Prefecture',
+        'A Sea of Japan province between Echigo and Kaga. The poet Ōtomo no Yakamochi served here, leaving accounts of the region in the Man’yōshū.'),
+    province('Echigo', '越後', 'Hokuriku', 'Mainland Niigata Prefecture',
+        'A long coastal province on the Sea of Japan, closely associated with Uesugi Kenshin. Nearby Sado Island formed a separate province.'),
+    province('Sado', '佐渡', 'Hokuriku', 'Sado Island in Niigata Prefecture',
+        'An island province off Echigo, famed for its silver and gold. Its mines later came under the direct control of the Tokugawa shogunate.'),
+
+    province('Inaba', '因幡', 'Chūgoku', 'Eastern Tottori Prefecture',
+        'A Sea of Japan province centered on the Tottori area. It lay between Hōki to the west and Tajima to the east.'),
+    province('Hōki', '伯耆', 'Chūgoku', 'Western Tottori Prefecture',
+        'The province around Mount Daisen, whose slopes divide its eastern and western districts. Its old administrative center was near Kurayoshi.'),
+    province('Izumo', '出雲', 'Chūgoku', 'Eastern Shimane Prefecture',
+        'A province deeply associated with Japanese mythology and Izumo Taisha. The shrine is dedicated to Ōkuninushi, a central figure in the region’s traditions.'),
+    province('Iwami', '石見', 'Chūgoku', 'Western Shimane Prefecture',
+        'A Sea of Japan province famous for the Iwami Ginzan silver mines. Its silver became an important part of East Asian trade from the sixteenth century.'),
+    province('Oki', '隠岐', 'Chūgoku', 'Oki Islands in Shimane Prefecture',
+        'An island province in the Sea of Japan, off Izumo and Hōki. Its scattered islands formed a distinct province despite their small size.'),
+    province('Mimasaka', '美作', 'Chūgoku', 'Northern Okayama Prefecture',
+        'A landlocked, mountainous province around Tsuyama. River basins shaped its settlements and provided routes through the interior.'),
+    province('Bizen', '備前', 'Chūgoku', 'Southeastern Okayama Prefecture',
+        'Renowned for swordmaking, especially the Osafune tradition, and for Bizen pottery. It was one of the provinces formed from ancient Kibi.'),
+    province('Bitchū', '備中', 'Chūgoku', 'Western Okayama Prefecture',
+        'The middle of the three provinces divided from Kibi. Its territory became a contested frontier between the Oda and Mōri in the late Sengoku era.'),
+    province('Bingo', '備後', 'Chūgoku', 'Eastern Hiroshima Prefecture',
+        'The westernmost of the three provinces divided from Kibi. It faced the Inland Sea and became part of the Mōri family’s Sengoku holdings.'),
+    province('Aki', '安芸', 'Chūgoku', 'Western Hiroshima Prefecture',
+        'The province of Itsukushima Shrine on Miyajima. The island’s harbor and position on the Inland Sea gave it both religious and strategic importance.'),
+    province('Suō', '周防', 'Chūgoku', 'Eastern Yamaguchi Prefecture',
+        'A major Ōuchi province, later taken over by the Mōri. Its old provincial capital lay at present-day Hōfu.'),
+    province('Nagato', '長門', 'Chūgoku', 'Western Yamaguchi Prefecture',
+        'The province at Honshū’s western tip, also called Chōshū. Hagi became the seat of the Mōri domain during the Edo period.'),
+
+    province('Awa (Shikoku)', '阿波', 'Shikoku', 'Tokushima Prefecture',
+        'An eastern Shikoku province with fertile settlements along the Yoshino River. Its name sounds like Awa in Chiba, but the written name is different.',
+        { id: 'awa-shikoku', page: 'Awa_Province_(Tokushima)' }),
+    province('Sanuki', '讃岐', 'Shikoku', 'Kagawa Prefecture',
+        'A province on Shikoku’s northeastern coast, facing the Inland Sea. The provincial capital was near present-day Sakaide.'),
+    province('Iyo', '伊予', 'Shikoku', 'Ehime Prefecture',
+        'The province of northwestern Shikoku. Its leading shrine, Ōyamazumi, stands on Ōmishima Island in the Inland Sea.'),
+    province('Tosa', '土佐', 'Shikoku', 'Kōchi Prefecture',
+        'A southern Shikoku province facing the Pacific. Chōsokabe Motochika united Tosa before extending his campaigns across the island.'),
+
+    province('Chikuzen', '筑前', 'Kyūshū & Islands', 'Northern and western Fukuoka Prefecture',
+        'The province containing Dazaifu, the court’s great western administrative center. It formed part of Japan’s gateway to continental Asia.'),
+    province('Chikugo', '筑後', 'Kyūshū & Islands', 'Southern Fukuoka Prefecture',
+        'A northern Kyūshū province south of Chikuzen. The two shared the older regional name Tsukushi and the abbreviated name Chikushū.'),
+    province('Buzen', '豊前', 'Kyūshū & Islands', 'Eastern Fukuoka and northern Ōita',
+        'A northeastern Kyūshū province formed from the older territory of Toyo. Its neighbor Bungo came from the same territory.'),
+    province('Bungo', '豊後', 'Kyūshū & Islands', 'Most of Ōita Prefecture',
+        'The Ōtomo family’s power base. Under Ōtomo Sōrin, the Funai area became a center of contact with Portuguese traders and Christian missionaries.'),
+    province('Hizen', '肥前', 'Kyūshū & Islands', 'Saga and Nagasaki, excluding Iki and Tsushima',
+        'A northwestern Kyūshū province containing Hirado and Nagasaki. These ports became major centers of overseas trade in the sixteenth century.'),
+    province('Higo', '肥後', 'Kyūshū & Islands', 'Kumamoto Prefecture',
+        'A central Kyūshū province associated with the Kikuchi and later Katō Kiyomasa. Kumamoto became its principal castle town.'),
+    province('Hyūga', '日向', 'Kyūshū & Islands', 'Miyazaki Prefecture',
+        'A province on Kyūshū’s southeastern side, facing the Pacific. It lay between Bungo to the north and Ōsumi to the south.'),
+    province('Ōsumi', '大隅', 'Kyūshū & Islands', 'Eastern Kagoshima and the Ōsumi Islands',
+        'A southern Kyūshū province next to Satsuma. Its territory included offshore islands as well as the mainland east of Kagoshima Bay.'),
+    province('Satsuma', '薩摩', 'Kyūshū & Islands', 'Western Kagoshima Prefecture',
+        'The Shimazu family’s home province at Kyūshū’s southwestern end. From Kagoshima, the family expanded its control across much of southern Kyūshū.'),
+    province('Iki', '壱岐', 'Kyūshū & Islands', 'Iki Islands in Nagasaki Prefecture',
+        'A small island province in the strait between Kyūshū and Korea. An island country here appears in third-century Chinese accounts of Japan.'),
+    province('Tsushima', '対馬', 'Kyūshū & Islands', 'Tsushima Island in Nagasaki Prefecture',
+        'An island province between Kyūshū and the Korean Peninsula. Its position made it important for diplomacy, trade with Korea, and maritime defense.'),
+];
+
+export const regions: Region[] = [
+    ...provinces,
+    {
+        id: 'kanto', name: 'Kantō', japanese: '関東', area: 'Kantō', type: 'Region',
+        location: 'Eastern Honshū around the Kantō Plain',
+        body: 'A broad region containing several provinces, including Musashi and Sagami. In the Kantō Kanrei title, it refers to the eastern sphere of the Kamakura government.',
+        source: 'https://en.wikipedia.org/wiki/Kamakura-fu',
+    },
+    {
+        id: 'kyushu', name: 'Kyūshū', japanese: '九州', area: 'Kyūshū & Islands', type: 'Region',
+        location: 'The southwesternmost of Japan’s four main islands',
+        body: 'Its name means “nine provinces,” referring to the historic mainland provinces. The island was an important point of contact with continental Asia.',
+        source: 'https://en.wikipedia.org/wiki/Kyushu',
+    },
+    {
+        id: 'saigoku', name: 'Saigoku', japanese: '西国', area: 'Western Japan', type: 'Region',
+        location: 'Western Japan; the extent varies by period and context',
+        body: 'Literally the “western provinces.” This is a broad regional expression, not a single province or a fixed equivalent of a modern prefecture.',
+        source: 'https://kotobank.jp/word/%E8%A5%BF%E5%9B%BD-67880',
+    },
+    {
+        id: 'akita-castle', name: 'Akita Castle', japanese: '秋田城', area: 'Tōhoku', type: 'Historic site',
+        location: 'Present-day Akita city, in former Dewa Province',
+        body: 'An ancient fortified government outpost on the northern frontier. The Akita Jō no Suke title refers to this older institution, not the later Kubota Castle.',
+        source: 'https://en.wikipedia.org/wiki/Akita_Castle',
+    },
+];
+
+const provincesByJapanese = new Map(provinces.map((region) => [region.japanese, region]));
+const regionsById = new Map(regions.map((region) => [region.id, region]));
+const regionalOffices: Record<string, string> = {
+    '関東管領': 'kanto',
+    '九州探題': 'kyushu',
+    '西国探題': 'saigoku',
+    '奥州探題': 'mutsu',
+    '羽州探題': 'dewa',
+    '秋田城介': 'akita-castle',
+};
+
+export const getEntryRegion = (entry: ReferenceEntry): Region | undefined => {
+    if (entry.category === 'Provincial Office' || entry.category === 'Shugo') {
+        return provincesByJapanese.get(entry.japanese.replace(/(守護|守|介)$/, ''));
+    }
+    return regionsById.get(regionalOffices[entry.japanese]);
+};

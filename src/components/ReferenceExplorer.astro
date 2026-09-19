@@ -1,6 +1,8 @@
 ---
 import { ranks } from '../data/ranks';
 import { titles } from '../data/titles';
+import { getPronunciation } from '../data/pronunciations';
+import { getEntryTrivia, type TriviaItem } from '../data/trivia';
 import type { ReferenceEntry, ReferenceKind } from '../data/types';
 
 const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
@@ -11,29 +13,35 @@ const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
 const totalRecords = (entries: ReferenceEntry[]) =>
     entries.reduce((total, entry) => total + entry.count, 0);
 
-const searchableText = (entry: ReferenceEntry) =>
+const searchableText = (
+    entry: ReferenceEntry,
+    pronunciation: string,
+    trivia: TriviaItem[],
+) =>
     [
         entry.name,
         entry.japanese,
+        pronunciation,
         entry.translation,
         entry.className,
         entry.effect,
         entry.category,
+        ...trivia.flatMap((item) => [item.label, item.body]),
     ].join(' ');
 ---
 
-<section class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
+<section id="reference" class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
     <div class="explorer__intro">
         <div>
             <p class="section-kicker">Reference catalogue</p>
             <h2 id="explorer-heading">Browse every appointment</h2>
         </div>
         <p class="explorer__note">
-            The English game name is kept separate from the historical or literal
-            reading of the Japanese office. Exact duplicate source rows are folded
-            into a <strong>Count</strong>. Some offices have no single universally
-            accepted English equivalent, so the historical wording is intentionally
-            descriptive rather than another game localization.
+            The English game name is kept separate from the Japanese office, its
+            romanized Japanese pronunciation, and its historical or literal meaning. Exact
+            duplicate source rows are folded into a <strong>Count</strong>. Look for
+            <span class="inline-trivia-mark" aria-hidden="true">✦</span> beside terms
+            with additional historical context and short region descriptions.
         </p>
     </div>
 
@@ -84,7 +92,7 @@ const searchableText = (entry: ReferenceEntry) =>
                 id="reference-search"
                 type="search"
                 autocomplete="off"
-                placeholder="Search rank, Japanese office, historical meaning…"
+                placeholder="Search rank, Japanese office, pronunciation, meaning…"
                 data-search
             />
             <kbd aria-hidden="true">/</kbd>
@@ -109,7 +117,9 @@ const searchableText = (entry: ReferenceEntry) =>
 
     <div class="results-line">
         <p data-result-count aria-live="polite"></p>
-        <p class="results-line__hint">Press <kbd>/</kbd> to search</p>
+        <p class="results-line__hint">
+            <span class="inline-trivia-mark" aria-hidden="true">✦</span> has trivia · Press <kbd>/</kbd> to search
+        </p>
     </div>
 
     {
@@ -132,73 +142,121 @@ const searchableText = (entry: ReferenceEntry) =>
                             </caption>
                             <thead>
                                 <tr>
+                                    <th scope="col">Class</th>
                                     <th scope="col">Game name</th>
                                     <th scope="col">Japanese office</th>
+                                    <th scope="col">Japanese pronunciation</th>
                                     <th scope="col">Historical meaning</th>
-                                    <th scope="col">Class</th>
                                     <th scope="col">Effect</th>
                                     <th scope="col" class="count-heading">Count</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {entries.map((entry) => (
-                                    <tr
-                                        data-reference-row
-                                        data-kind={kind}
-                                        data-class={entry.className}
-                                        data-category={entry.category}
-                                        data-bonus={entry.bonus}
-                                        data-count={entry.count}
-                                        data-search-text={searchableText(entry)}
-                                        class:list={[
-                                            entry.category === 'Shugo' && 'is-shugo',
-                                            entry.category === 'Provincial Office' && 'is-provincial',
-                                        ]}
-                                    >
-                                        <td data-label="Game name">
-                                            <span class="entry-name">{entry.name}</span>
-                                            <span class="entry-type">{entry.category}</span>
-                                        </td>
-                                        <td data-label="Japanese office" class="japanese">
-                                            {entry.japanese}
-                                        </td>
-                                        <td data-label="Historical meaning" class="translation">
-                                            {entry.translation}
-                                        </td>
-                                        <td data-label="Class">
-                                            <span
-                                                class:list={[
-                                                    'class-chip',
-                                                    entry.className.startsWith('Upper')
-                                                        ? 'class-chip--upper'
-                                                        : 'class-chip--lower',
-                                                ]}
-                                            >
-                                                {entry.className}
-                                            </span>
-                                        </td>
-                                        <td data-label="Effect">
-                                            <span
-                                                class:list={[
-                                                    'effect-value',
-                                                    kind === 'rank'
-                                                        ? 'effect-value--politics'
-                                                        : 'effect-value--leadership',
-                                                ]}
-                                            >
-                                                <span class="effect-chip" aria-hidden="true">
-                                                    {kind === 'rank' ? 'POL' : 'LDR'}
+                                {entries.map((entry, index) => {
+                                    const pronunciation = getPronunciation(entry.japanese);
+                                    const trivia = getEntryTrivia(entry, kind);
+                                    const triviaId = `trivia-${kind}-${index}`;
+
+                                    return (
+                                        <tr
+                                            data-reference-row
+                                            data-kind={kind}
+                                            data-class={entry.className}
+                                            data-category={entry.category}
+                                            data-bonus={entry.bonus}
+                                            data-count={entry.count}
+                                            data-search-text={searchableText(entry, pronunciation, trivia)}
+                                            class:list={[
+                                                entry.category === 'Shugo' && 'is-shugo',
+                                                entry.category === 'Provincial Office' && 'is-provincial',
+                                            ]}
+                                        >
+                                            <td data-label="Class">
+                                                <span
+                                                    class:list={[
+                                                        'class-chip',
+                                                        entry.className.startsWith('Upper')
+                                                            ? 'class-chip--upper'
+                                                            : 'class-chip--lower',
+                                                    ]}
+                                                >
+                                                    {entry.className}
                                                 </span>
-                                                +{entry.bonus}
-                                            </span>
-                                        </td>
-                                        <td data-label="Count" class="count-cell">
-                                            <span class:list={['count-badge', entry.count > 1 && 'count-badge--multiple']}>
-                                                ×{entry.count}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                            <td data-label="Game name">
+                                                <span class="entry-name">{entry.name}</span>
+                                                <span class="entry-type">{entry.category}</span>
+                                            </td>
+                                            <td data-label="Japanese office" class="japanese">
+                                                <span class="japanese__line">
+                                                    <span lang="ja">{entry.japanese}</span>
+                                                    {trivia.length > 0 && (
+                                                        <span class="trivia-anchor" data-trivia-anchor>
+                                                            <button
+                                                                class="trivia-trigger"
+                                                                type="button"
+                                                                aria-expanded="false"
+                                                                aria-controls={triviaId}
+                                                                data-trivia-trigger
+                                                            >
+                                                                <span aria-hidden="true">✦</span>
+                                                                <span class="sr-only">
+                                                                    Historical trivia about {entry.japanese}
+                                                                </span>
+                                                            </button>
+                                                            <span
+                                                                class="trivia-popover"
+                                                                id={triviaId}
+                                                                role="tooltip"
+                                                                data-trivia-popover
+                                                                data-placement="below"
+                                                            >
+                                                                <span class="trivia-popover__eyebrow">
+                                                                    Historical context
+                                                                </span>
+                                                                {trivia.map((item) => (
+                                                                    <span class="trivia-popover__item">
+                                                                        <strong>{item.label}</strong>
+                                                                        <span>{item.body}</span>
+                                                                    </span>
+                                                                ))}
+                                                                <span class="trivia-popover__hint">
+                                                                    Tap outside or press Esc to close.
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    )}
+                                                </span>
+                                            </td>
+                                            <td data-label="Japanese pronunciation" class="pronunciation">
+                                                {pronunciation}
+                                            </td>
+                                            <td data-label="Historical meaning" class="translation">
+                                                {entry.translation}
+                                            </td>
+                                            <td data-label="Effect">
+                                                <span
+                                                    class:list={[
+                                                        'effect-value',
+                                                        kind === 'rank'
+                                                            ? 'effect-value--politics'
+                                                            : 'effect-value--leadership',
+                                                    ]}
+                                                >
+                                                    <span class="effect-chip" aria-hidden="true">
+                                                        {kind === 'rank' ? 'POL' : 'LDR'}
+                                                    </span>
+                                                    +{entry.bonus}
+                                                </span>
+                                            </td>
+                                            <td data-label="Count" class="count-cell">
+                                                <span class:list={['count-badge', entry.count > 1 && 'count-badge--multiple']}>
+                                                    ×{entry.count}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
 
@@ -227,6 +285,8 @@ const searchableText = (entry: ReferenceEntry) =>
         const categoryFilter = root.querySelector('[data-category-filter]');
         const resetButton = root.querySelector('[data-reset]');
         const resultCount = root.querySelector('[data-result-count]');
+        const triviaAnchors = Array.from(root.querySelectorAll('[data-trivia-anchor]'));
+        const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
 
         if (
             !(searchInput instanceof HTMLInputElement) ||
@@ -255,6 +315,115 @@ const searchableText = (entry: ReferenceEntry) =>
             if (a.startsWith('Lower') && b.startsWith('Upper')) return 1;
             return a.localeCompare(b);
         };
+
+        const closeTrivia = (anchor) => {
+            if (!(anchor instanceof HTMLElement)) return;
+
+            anchor.classList.remove('is-open');
+            anchor.removeAttribute('data-pinned');
+            const trigger = anchor.querySelector('[data-trivia-trigger]');
+            if (trigger instanceof HTMLButtonElement) {
+                trigger.setAttribute('aria-expanded', 'false');
+            }
+        };
+
+        const closeAllTrivia = (except = null) => {
+            triviaAnchors.forEach((anchor) => {
+                if (anchor !== except) closeTrivia(anchor);
+            });
+        };
+
+        const positionTrivia = (anchor) => {
+            if (!(anchor instanceof HTMLElement)) return;
+
+            const trigger = anchor.querySelector('[data-trivia-trigger]');
+            const popover = anchor.querySelector('[data-trivia-popover]');
+            if (!(trigger instanceof HTMLElement) || !(popover instanceof HTMLElement)) return;
+
+            const gutter = 12;
+            const gap = 10;
+            const triggerRect = trigger.getBoundingClientRect();
+            const popoverRect = popover.getBoundingClientRect();
+            const maxLeft = Math.max(gutter, window.innerWidth - popoverRect.width - gutter);
+            const preferredLeft = triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2;
+            const left = Math.min(Math.max(preferredLeft, gutter), maxLeft);
+
+            let top = triggerRect.bottom + gap;
+            let placement = 'below';
+
+            if (top + popoverRect.height > window.innerHeight - gutter) {
+                const above = triggerRect.top - popoverRect.height - gap;
+                if (above >= gutter) {
+                    top = above;
+                    placement = 'above';
+                } else {
+                    top = Math.max(gutter, window.innerHeight - popoverRect.height - gutter);
+                }
+            }
+
+            popover.style.left = `${Math.round(left)}px`;
+            popover.style.top = `${Math.round(top)}px`;
+            popover.dataset.placement = placement;
+        };
+
+        const openTrivia = (anchor, pinned = false) => {
+            if (!(anchor instanceof HTMLElement)) return;
+
+            closeAllTrivia(anchor);
+            anchor.classList.add('is-open');
+            if (pinned) anchor.dataset.pinned = 'true';
+
+            const trigger = anchor.querySelector('[data-trivia-trigger]');
+            if (trigger instanceof HTMLButtonElement) {
+                trigger.setAttribute('aria-expanded', 'true');
+            }
+
+            positionTrivia(anchor);
+        };
+
+        triviaAnchors.forEach((anchor) => {
+            if (!(anchor instanceof HTMLElement)) return;
+
+            const trigger = anchor.querySelector('[data-trivia-trigger]');
+            if (!(trigger instanceof HTMLButtonElement)) return;
+
+            anchor.addEventListener('pointerenter', () => {
+                if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
+                openTrivia(anchor);
+            });
+
+            anchor.addEventListener('pointerleave', () => {
+                if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
+                if (!anchor.contains(document.activeElement)) closeTrivia(anchor);
+            });
+
+            anchor.addEventListener('focusin', () => {
+                if (anchor.dataset.pinned !== 'true') openTrivia(anchor);
+            });
+
+            anchor.addEventListener('focusout', () => {
+                window.setTimeout(() => {
+                    if (
+                        anchor.dataset.pinned !== 'true' &&
+                        !anchor.contains(document.activeElement) &&
+                        !(hoverCapable.matches && anchor.matches(':hover'))
+                    ) {
+                        closeTrivia(anchor);
+                    }
+                }, 0);
+            });
+
+            trigger.addEventListener('click', (event) => {
+                event.stopPropagation();
+
+                if (anchor.dataset.pinned === 'true') {
+                    closeTrivia(anchor);
+                    trigger.blur();
+                } else {
+                    openTrivia(anchor, true);
+                }
+            });
+        });
 
         const getActivePanel = () =>
             panels.find((panel) => panel.getAttribute('data-panel') === activeKind);
@@ -302,6 +471,8 @@ const searchableText = (entry: ReferenceEntry) =>
         };
 
         const updateResults = () => {
+            closeAllTrivia();
+
             const query = normalize(searchInput.value);
             const selectedClass = classFilter.value;
             const selectedCategory = categoryFilter.value;
@@ -347,6 +518,7 @@ const searchableText = (entry: ReferenceEntry) =>
         };
 
         const setKind = (kind, updateHash = true) => {
+            closeAllTrivia();
             activeKind = kind === 'title' ? 'title' : 'rank';
 
             tabs.forEach((tab) => {
@@ -362,8 +534,8 @@ const searchableText = (entry: ReferenceEntry) =>
 
             searchInput.placeholder =
                 activeKind === 'rank'
-                    ? 'Search rank, Japanese office, historical meaning…'
-                    : 'Search title, Japanese office, historical meaning…';
+                    ? 'Search rank, Japanese office, pronunciation, meaning…'
+                    : 'Search title, Japanese office, pronunciation, meaning…';
 
             classFilter.value = '';
             categoryFilter.value = '';
@@ -401,6 +573,14 @@ const searchableText = (entry: ReferenceEntry) =>
             searchInput.focus();
         });
 
+        document.addEventListener('click', (event) => {
+            const target = event.target;
+            if (!(target instanceof Node)) return;
+            if (!root.contains(target) || !(target instanceof Element) || !target.closest('[data-trivia-anchor]')) {
+                closeAllTrivia();
+            }
+        });
+
         document.addEventListener('keydown', (event) => {
             const target = event.target;
             const isEditing =
@@ -408,17 +588,34 @@ const searchableText = (entry: ReferenceEntry) =>
                 target instanceof HTMLTextAreaElement ||
                 target instanceof HTMLSelectElement;
 
+            if (event.key === 'Escape') {
+                closeAllTrivia();
+
+                if (document.activeElement === searchInput) {
+                    searchInput.value = '';
+                    updateResults();
+                    searchInput.blur();
+                }
+            }
+
             if (event.key === '/' && !isEditing) {
                 event.preventDefault();
                 searchInput.focus();
             }
-
-            if (event.key === 'Escape' && document.activeElement === searchInput) {
-                searchInput.value = '';
-                updateResults();
-                searchInput.blur();
-            }
         });
+
+        window.addEventListener('resize', () => closeAllTrivia());
+        window.addEventListener(
+            'scroll',
+            () => {
+                triviaAnchors.forEach((anchor) => {
+                    if (anchor instanceof HTMLElement && anchor.classList.contains('is-open')) {
+                        positionTrivia(anchor);
+                    }
+                });
+            },
+            true,
+        );
 
         setKind(activeKind, false);
     })();
