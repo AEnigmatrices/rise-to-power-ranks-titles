@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-    site: 'https://AEnigmatrices.github.io',
+    site: 'https://aenigmatrices.github.io',
     base: '/rise-to-power-ranks-titles',
+    trailingSlash: 'always',
 });

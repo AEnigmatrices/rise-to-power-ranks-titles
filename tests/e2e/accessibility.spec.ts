@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 test('reference and historical guide pages have no serious or critical automated accessibility violations', async ({ page }) => {
-    for (const path of ['./', './trivia/']) {
+    for (const path of ['./', './trivia/', './trivia/regions/', './trivia/offices/danjo/']) {
         await page.goto(path);
 
         const results = await new AxeBuilder({ page })

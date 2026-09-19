@@ -162,6 +162,36 @@
     transform: translateY(-2px);
 }
 
+.guide-card--linked { padding: 0; }
+
+.guide-card__primary {
+    display: flex;
+    min-width: 0;
+    padding: 24px;
+    flex: 1;
+    flex-direction: column;
+    color: inherit;
+    text-decoration: none;
+}
+
+.guide-card__content {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+.guide-card__primary .guide-card__kicker,
+.guide-card__primary .guide-card__japanese,
+.guide-card__primary .guide-card__title,
+.guide-card__primary .guide-card__meta,
+.guide-card__primary .guide-card__body {
+    display: block;
+}
+
+.guide-card__primary:focus-visible {
+    border-radius: 6px;
+}
+
 .guide-card__japanese {
     margin: 7px 0 0;
     color: var(--gold-text);
@@ -281,6 +311,7 @@
 }
 
 .guide-detail--single { align-items: start; }
+.guide-detail--no-source { grid-template-columns: minmax(0, 1fr); }
 
 .guide-detail__main,
 .guide-source-card {

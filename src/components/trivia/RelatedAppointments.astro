@@ -2,13 +2,13 @@
 import { ArrowRight } from '@lucide/astro';
 import type { Appointment } from '../../data/schema/appointments';
 import { toReferenceEntries } from '../../lib/appointments';
+import { appointmentPath } from '../../lib/routes';
 
 interface Props {
     entries: Appointment[];
 }
 
 const { entries } = Astro.props;
-const base = import.meta.env.BASE_URL;
 const related = toReferenceEntries(entries);
 ---
 
@@ -25,7 +25,7 @@ const related = toReferenceEntries(entries);
         related.length > 0 ? (
             <div class="related-appointments__grid">
                 {related.map((entry) => (
-                    <a class="related-appointment" href={`${base}#${entry.id}`}>
+                    <a class="related-appointment" href={appointmentPath(entry.id)}>
                         <span class="related-appointment__name">{entry.gameName}</span>
                         <span class="related-appointment__jp" lang="ja">{entry.japanese}</span>
                         <span class="related-appointment__reading">{entry.reading}</span>

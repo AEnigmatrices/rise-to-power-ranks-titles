@@ -1,9 +1,10 @@
 import { z } from 'astro/zod';
 
 const nonEmptyString = z.string().trim().min(1);
+const slugSchema = nonEmptyString.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
 
 export const triviaItemSchema = z.object({
-    id: nonEmptyString,
+    id: slugSchema,
     label: nonEmptyString,
     body: nonEmptyString,
     source: z.url().optional(),

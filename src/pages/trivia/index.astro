@@ -4,8 +4,8 @@ import GuideHeader from '../../components/trivia/GuideHeader.astro';
 import GuideCard from '../../components/trivia/GuideCard.astro';
 import { featuredTrivia, officeTrivia } from '../../data/trivia';
 import { provinces, regions } from '../../data/geography';
+import { sitePath } from '../../lib/routes';
 
-const base = import.meta.env.BASE_URL;
 ---
 
 <BaseLayout
@@ -17,7 +17,7 @@ const base = import.meta.env.BASE_URL;
             kicker="Historical Guide"
             title="The stories behind the appointments"
             lede="Explore the historical geography, institutions, terminology, and status culture behind the names used in Rise to Power."
-            backHref={base}
+            backHref={sitePath()}
             backLabel="Back to the Ranks & Titles catalogue"
         />
 
@@ -37,7 +37,7 @@ const base = import.meta.env.BASE_URL;
                     title="Regions & Provinces"
                     meta={`${provinces.length} provinces · ${regions.length} place entries`}
                     body="Browse the old provinces and broader regional names behind provincial offices, Shugo appointments, and regional shogunate commands."
-                    href={`${base}trivia/regions/`}
+                    href={sitePath('trivia/regions/')}
                 />
                 <GuideCard
                     kicker="Institutions & status"
@@ -45,7 +45,7 @@ const base = import.meta.env.BASE_URL;
                     title="Offices & Titles"
                     meta={`${officeTrivia.length} historical topics`}
                     body="Read about court institutions, shogunate offices, status groups, title prefixes, and other terminology that appears across multiple appointments."
-                    href={`${base}trivia/offices/`}
+                    href={sitePath('trivia/offices/')}
                 />
             </div>
         </section>
@@ -73,7 +73,7 @@ const base = import.meta.env.BASE_URL;
         </section>
 
         <footer class="guide-footer">
-            <a href={base}>← Return to the appointment catalogue</a>
+            <a href={sitePath()}>← Return to the appointment catalogue</a>
             <p>Modern geography is used only for orientation; historical province boundaries and political institutions changed over time.</p>
         </footer>
     </main>

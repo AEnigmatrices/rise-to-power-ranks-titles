@@ -1,5 +1,5 @@
 ---
-const base = import.meta.env.BASE_URL;
+import { sitePath } from '../../lib/routes';
 ---
 
 <nav class="section-nav" aria-label="Reference sections">
@@ -9,8 +9,8 @@ const base = import.meta.env.BASE_URL;
     </a>
     <div class="section-nav__links">
         <a href="#reference">Reference</a>
-        <a href={`${base}trivia/`}>Guide</a>
-        <a href={`${base}trivia/regions/`}>Regions</a>
+        <a href={sitePath('trivia/')}>Guide</a>
+        <a href={sitePath('trivia/regions/')}>Regions</a>
         <a href="#top" class="section-nav__top">↑ Top</a>
     </div>
 </nav>

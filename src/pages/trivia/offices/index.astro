@@ -6,8 +6,8 @@ import GuideCard from '../../../components/trivia/GuideCard.astro';
 import { appointments } from '../../../data/appointments';
 import { officeTrivia } from '../../../data/trivia';
 import { getEntryTrivia } from '../../../lib/trivia';
+import { sitePath } from '../../../lib/routes';
 
-const base = import.meta.env.BASE_URL;
 const relatedByTrivia = new Map(
     officeTrivia.map((item) => [
         item.id,
@@ -25,7 +25,7 @@ const relatedByTrivia = new Map(
             kicker="Historical Guide · Institutions"
             title="Offices & Titles"
             lede="Some historical notes belong to entire families of appointments rather than a single row. Browse the institutions, status groups, and title conventions behind them."
-            backHref={`${base}trivia/`}
+            backHref={sitePath('trivia/')}
             backLabel="Back to the Historical Guide"
         />
 
@@ -58,7 +58,7 @@ const relatedByTrivia = new Map(
                             title={item.label}
                             meta={`${related.length} related ${related.length === 1 ? 'appointment' : 'appointments'}`}
                             body={item.body}
-                            href={`${base}trivia/offices/${item.id}/`}
+                            href={sitePath(`trivia/offices/${item.id}/`)}
                             search={[item.label, item.body, ...related.flatMap((entry) => [entry.gameName, entry.japanese, entry.reading])].join(' ')}
                         />
                     );
@@ -69,8 +69,8 @@ const relatedByTrivia = new Map(
         </section>
 
         <footer class="guide-footer">
-            <a href={`${base}trivia/`}>← Historical Guide</a>
-            <a href={base}>Ranks &amp; Titles catalogue →</a>
+            <a href={sitePath('trivia/')}>← Historical Guide</a>
+            <a href={sitePath()}>Ranks &amp; Titles catalogue →</a>
         </footer>
     </main>
 </BaseLayout>

@@ -3,7 +3,7 @@ import { ExternalLink, MapPinned, MousePointerClick } from '@lucide/astro';
 import { geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import japanTopology from 'jpn-atlas/japan/japan.json';
-import { mapAreas, provinces } from '../../data/geography';
+import { mapAreas, regions } from '../../data/geography';
 
 const topology = japanTopology as unknown as Parameters<typeof feature>[0];
 const prefectureCollection = feature(topology, topology.objects.prefectures);
@@ -16,7 +16,7 @@ if (prefectureCollection.type !== 'FeatureCollection') {
 
 const areaMeta = mapAreas.map((area) => ({
     ...area,
-    provinceCount: provinces.filter((province) => province.area === area.id).length,
+    entryCount: regions.filter((region) => region.area === area.id).length,
 }));
 
 const areaByPrefecture = new Map(
@@ -90,7 +90,7 @@ const outline = path(country) ?? '';
                     <button type="button" class="region-map__area" data-map-area-button={area.id} aria-pressed="false">
                         <span class="region-map__area-mark" aria-hidden="true"></span>
                         <span>{area.label}</span>
-                        <strong>{area.provinceCount}</strong>
+                        <strong>{area.entryCount}</strong>
                     </button>
                 ))
             }
