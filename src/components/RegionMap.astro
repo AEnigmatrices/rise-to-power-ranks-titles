@@ -1,0 +1,115 @@
+---
+import { ExternalLink, MapPinned, MousePointerClick } from '@lucide/astro';
+import { geoPath } from 'd3-geo';
+import { feature } from 'topojson-client';
+import japanTopology from 'jpn-atlas/japan/japan.json';
+import { provinces } from '../data/regions';
+
+const topology = japanTopology as any;
+const prefectureCollection = feature(topology, topology.objects.prefectures) as any;
+const country = feature(topology, topology.objects.country) as any;
+const path = geoPath();
+
+const areaMeta = [
+    { id: 'Kinai & Kansai', label: 'Kinai & Kansai', prefectures: [25, 26, 27, 28, 29, 30] },
+    { id: 'Tōkai & Central Japan', label: 'Tōkai & Central', prefectures: [19, 20, 21, 22, 23, 24] },
+    { id: 'Kantō', label: 'Kantō', prefectures: [8, 9, 10, 11, 12, 13, 14] },
+    { id: 'Tōhoku', label: 'Tōhoku', prefectures: [2, 3, 4, 5, 6, 7] },
+    { id: 'Hokuriku', label: 'Hokuriku', prefectures: [15, 16, 17, 18] },
+    { id: 'Chūgoku', label: 'Chūgoku', prefectures: [31, 32, 33, 34, 35] },
+    { id: 'Shikoku', label: 'Shikoku', prefectures: [36, 37, 38, 39] },
+    { id: 'Kyūshū & Islands', label: 'Kyūshū & Islands', prefectures: [40, 41, 42, 43, 44, 45, 46] },
+].map((area) => ({
+    ...area,
+    provinceCount: provinces.filter((province) => province.area === area.id).length,
+}));
+
+const areaByPrefecture = new Map(
+    areaMeta.flatMap((area) => area.prefectures.map((code) => [code, area.id] as const)),
+);
+
+const prefectureCode = (id: string | number | undefined) => {
+    const numeric = Number(id);
+    if (!Number.isFinite(numeric)) return null;
+    return numeric >= 1000 ? Math.floor(numeric / 1000) : numeric;
+};
+
+const prefectures = prefectureCollection.features.map((prefecture: any) => {
+    const code = prefectureCode(prefecture.id);
+    return {
+        code,
+        area: code == null ? undefined : areaByPrefecture.get(code),
+        d: path(prefecture) ?? '',
+    };
+});
+
+const outline = path(country) ?? '';
+---
+
+<section class="region-map" data-region-map hidden aria-labelledby="region-map-heading">
+    <div class="region-map__heading">
+        <div class="region-map__title-lockup">
+            <span class="region-map__icon" aria-hidden="true"><MapPinned size={20} stroke-width={1.7} /></span>
+            <div>
+                <p class="region-map__eyebrow">Geographic orientation</p>
+                <h3 id="region-map-heading">Browse the provinces by area</h3>
+            </div>
+        </div>
+        <p>
+            The outline uses modern prefectures only as an orientation aid. It does <strong>not</strong>
+            represent Sengoku-era province borders; the historical province cards below remain the reference.
+        </p>
+    </div>
+
+    <div class="region-map__body">
+        <div class="region-map__canvas">
+            <svg
+                class="region-map__svg"
+                viewBox="0 0 850 680"
+                role="img"
+                aria-label="Map of modern Japanese prefecture outlines grouped into the historical reference areas used on this page"
+                data-region-map-svg
+            >
+                <path class="region-map__country" d={outline}></path>
+                {
+                    prefectures.map((prefecture: { code: number | null; area?: string; d: string }) => (
+                        <path
+                            class:list={['region-map__prefecture', !prefecture.area && 'is-outside-dataset']}
+                            d={prefecture.d}
+                            data-map-area={prefecture.area ?? ''}
+                            data-prefecture-code={prefecture.code ?? ''}
+                            aria-hidden="true"
+                        ></path>
+                    ))
+                }
+            </svg>
+            <div class="region-map__instruction">
+                <MousePointerClick size={15} stroke-width={1.8} aria-hidden="true" />
+                <span>Select an area on the map or in the index.</span>
+            </div>
+        </div>
+
+        <div class="region-map__index" aria-label="Map area filters">
+            {
+                areaMeta.map((area) => (
+                    <button type="button" class="region-map__area" data-map-area-button={area.id} aria-pressed="false">
+                        <span class="region-map__area-mark" aria-hidden="true"></span>
+                        <span>{area.label}</span>
+                        <strong>{area.provinceCount}</strong>
+                    </button>
+                ))
+            }
+            <button type="button" class="region-map__clear" data-map-area-clear hidden>
+                Show all regions
+            </button>
+        </div>
+    </div>
+
+    <p class="region-map__credit">
+        Geographic outline derived from GSI Global Map Japan 2016 via
+        <a href="https://github.com/biskwikman/jpn-atlas">
+            jpn-atlas <ExternalLink size={12} stroke-width={1.8} aria-hidden="true" />
+        </a>
+        (BSD-3-Clause).
+    </p>
+</section>

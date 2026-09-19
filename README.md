@@ -9,6 +9,11 @@ The site keeps the game's English-localized appointment names alongside their Ja
 - Astro 7
 - TypeScript
 - pnpm via Corepack
+- Fuse.js for weighted fuzzy search across localized names, Japanese offices, readings, and historical meanings
+- Floating UI for collision-aware appointment trivia popovers
+- Lucide Astro for interface icons
+- Motion for restrained result/filter transitions with reduced-motion support
+- D3 Geo + TopoJSON Client + jpn-atlas for the build-time Japan orientation map
 - Plain browser JavaScript for search/filter interactions
 - GitHub Pages via the official Astro GitHub Action
 
@@ -69,10 +74,16 @@ src/data/trivia.ts  Featured notes and contextual office trivia
 
 Exact duplicate entries from the source references are consolidated and represented by the `count` field. Source order is retained.
 
-The dedicated trivia section includes topic filters, text search, an area filter for regions,
-and progressively revealed cards. It remains readable with JavaScript disabled. Region
+The dedicated trivia section includes topic filters, weighted fuzzy search, an area filter for
+regions, and progressively revealed cards. It remains readable with JavaScript disabled. Region
 descriptions are shared with the appointment-table popovers; modern locations are approximate.
 Both provinces called Awa have distinct identifiers, and Ōshū / Ushū map to Mutsu / Dewa.
+
+When **Regions & geography** is selected, the page also renders an interactive Japan orientation
+map. D3 Geo and TopoJSON are used at Astro build time to convert `jpn-atlas` geometry into inline
+SVG paths, so the map does not ship D3 or TopoJSON as browser runtime code. The boundaries shown
+are modern prefectures used only to orient the reader; they are intentionally not presented as
+Sengoku-era province borders.
 
 ## Project structure
 
@@ -83,7 +94,9 @@ src/
   components/
     Hero.astro
     ReferenceExplorer.astro
+    RegionMap.astro
     SystemOverview.astro
+    TriviaGuide.astro
   data/
     ranks.ts
     titles.ts

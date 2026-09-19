@@ -1,4 +1,5 @@
 ---
+import { RotateCcw, Search, Sparkles } from '@lucide/astro';
 import { ranks } from '../data/ranks';
 import { titles } from '../data/titles';
 import { getPronunciation } from '../data/pronunciations';
@@ -40,7 +41,7 @@ const searchableText = (
             The English game name is kept separate from the Japanese office, its
             romanized Japanese pronunciation, and its historical or literal meaning. Exact
             duplicate source rows are folded into a <strong>Count</strong>. Look for
-            <span class="inline-trivia-mark" aria-hidden="true">✦</span> beside terms
+            <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={12} stroke-width={2} /></span> beside terms
             with additional historical context and short region descriptions.
         </p>
     </div>
@@ -84,10 +85,7 @@ const searchableText = (
     <div class="toolbar">
         <div class="toolbar__search field">
             <label class="sr-only" for="reference-search">Search appointments</label>
-            <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
-                <circle cx="11" cy="11" r="6.5"></circle>
-                <path d="m16 16 4.25 4.25"></path>
-            </svg>
+            <Search class="field__icon" size={18} stroke-width={1.8} aria-hidden="true" />
             <input
                 id="reference-search"
                 type="search"
@@ -112,13 +110,16 @@ const searchableText = (
             </select>
         </div>
 
-        <button class="reset-button" type="button" data-reset>Reset</button>
+        <button class="reset-button reset-button--icon" type="button" data-reset>
+            <RotateCcw size={15} stroke-width={1.9} aria-hidden="true" />
+            <span>Reset</span>
+        </button>
     </div>
 
     <div class="results-line">
         <p data-result-count aria-live="polite"></p>
         <p class="results-line__hint">
-            <span class="inline-trivia-mark" aria-hidden="true">✦</span> has trivia · Press <kbd>/</kbd> to search
+            <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={11} stroke-width={2} /></span> has trivia · Fuzzy search enabled · Press <kbd>/</kbd> to search
         </p>
     </div>
 
@@ -165,6 +166,11 @@ const searchableText = (
                                             data-category={entry.category}
                                             data-bonus={entry.bonus}
                                             data-count={entry.count}
+                                            data-order={index}
+                                            data-search-name={entry.name}
+                                            data-search-japanese={entry.japanese}
+                                            data-search-pronunciation={pronunciation}
+                                            data-search-translation={entry.translation}
                                             data-search-text={searchableText(entry, pronunciation, trivia)}
                                             class:list={[
                                                 entry.category === 'Shugo' && 'is-shugo',
@@ -199,7 +205,7 @@ const searchableText = (
                                                                 aria-controls={triviaId}
                                                                 data-trivia-trigger
                                                             >
-                                                                <span aria-hidden="true">✦</span>
+                                                                <Sparkles size={12} stroke-width={2.15} aria-hidden="true" />
                                                                 <span class="sr-only">
                                                                     Historical trivia about {entry.japanese}
                                                                 </span>
@@ -272,43 +278,58 @@ const searchableText = (
     }
 </section>
 
-<script is:inline>
+<script>
+    import Fuse from 'fuse.js';
+    import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
+    import { animate, stagger } from 'motion';
+
+    type ReferenceKind = 'rank' | 'title';
+
+    type SearchRecord = {
+        row: HTMLTableRowElement;
+        name: string;
+        japanese: string;
+        pronunciation: string;
+        translation: string;
+        className: string;
+        category: string;
+        all: string;
+    };
+
     (() => {
-        const root = document.querySelector('[data-reference-explorer]');
+        const root = document.querySelector<HTMLElement>('[data-reference-explorer]');
 
-        if (!(root instanceof HTMLElement)) return;
+        if (!root) return;
 
-        const tabs = Array.from(root.querySelectorAll('[data-view]'));
-        const panels = Array.from(root.querySelectorAll('[data-panel]'));
-        const searchInput = root.querySelector('[data-search]');
-        const classFilter = root.querySelector('[data-class-filter]');
-        const categoryFilter = root.querySelector('[data-category-filter]');
-        const resetButton = root.querySelector('[data-reset]');
-        const resultCount = root.querySelector('[data-result-count]');
-        const triviaAnchors = Array.from(root.querySelectorAll('[data-trivia-anchor]'));
+        const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-view]'));
+        const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-panel]'));
+        const searchInput = root.querySelector<HTMLInputElement>('[data-search]');
+        const classFilter = root.querySelector<HTMLSelectElement>('[data-class-filter]');
+        const categoryFilter = root.querySelector<HTMLSelectElement>('[data-category-filter]');
+        const resetButton = root.querySelector<HTMLButtonElement>('[data-reset]');
+        const resultCount = root.querySelector<HTMLElement>('[data-result-count]');
+        const triviaAnchors = Array.from(root.querySelectorAll<HTMLElement>('[data-trivia-anchor]'));
         const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const floatingCleanups = new WeakMap<HTMLElement, () => void>();
+        const searchers = new Map<ReferenceKind, Fuse<SearchRecord>>();
 
-        if (
-            !(searchInput instanceof HTMLInputElement) ||
-            !(classFilter instanceof HTMLSelectElement) ||
-            !(categoryFilter instanceof HTMLSelectElement) ||
-            !(resetButton instanceof HTMLButtonElement) ||
-            !(resultCount instanceof HTMLElement)
-        ) {
-            return;
-        }
+        if (!searchInput || !classFilter || !categoryFilter || !resetButton || !resultCount) return;
 
-        let activeKind = location.hash === '#titles' ? 'title' : 'rank';
+        let activeKind: ReferenceKind = location.hash === '#titles' ? 'title' : 'rank';
 
-        const normalize = (value) =>
-            value.normalize('NFKC').toLocaleLowerCase().trim();
+        // Match plain romanization (Omi, Kyushu) as well as macrons and Japanese.
+        const normalize = (value: string) => value.normalize('NFKD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLocaleLowerCase()
+            .trim();
 
-        const classNumber = (value) => {
+        const classNumber = (value: string) => {
             const match = value.match(/(\d+)/);
             return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
         };
 
-        const sortClasses = (a, b) => {
+        const sortClasses = (a: string, b: string) => {
             const numberDifference = classNumber(a) - classNumber(b);
             if (numberDifference !== 0) return numberDifference;
             if (a.startsWith('Upper') && b.startsWith('Lower')) return -1;
@@ -316,76 +337,76 @@ const searchableText = (
             return a.localeCompare(b);
         };
 
-        const closeTrivia = (anchor) => {
-            if (!(anchor instanceof HTMLElement)) return;
+        const closeTrivia = (anchor: HTMLElement) => {
+            const cleanup = floatingCleanups.get(anchor);
+            if (cleanup) {
+                cleanup();
+                floatingCleanups.delete(anchor);
+            }
 
             anchor.classList.remove('is-open');
             anchor.removeAttribute('data-pinned');
-            const trigger = anchor.querySelector('[data-trivia-trigger]');
-            if (trigger instanceof HTMLButtonElement) {
-                trigger.setAttribute('aria-expanded', 'false');
-            }
+            const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+            trigger?.setAttribute('aria-expanded', 'false');
         };
 
-        const closeAllTrivia = (except = null) => {
+        const closeAllTrivia = (except: HTMLElement | null = null) => {
             triviaAnchors.forEach((anchor) => {
                 if (anchor !== except) closeTrivia(anchor);
             });
         };
 
-        const positionTrivia = (anchor) => {
-            if (!(anchor instanceof HTMLElement)) return;
+        const startTriviaPositioning = (anchor: HTMLElement) => {
+            const trigger = anchor.querySelector<HTMLElement>('[data-trivia-trigger]');
+            const popover = anchor.querySelector<HTMLElement>('[data-trivia-popover]');
+            if (!trigger || !popover) return;
 
-            const trigger = anchor.querySelector('[data-trivia-trigger]');
-            const popover = anchor.querySelector('[data-trivia-popover]');
-            if (!(trigger instanceof HTMLElement) || !(popover instanceof HTMLElement)) return;
+            floatingCleanups.get(anchor)?.();
 
-            const gutter = 12;
-            const gap = 10;
-            const triggerRect = trigger.getBoundingClientRect();
-            const popoverRect = popover.getBoundingClientRect();
-            const maxLeft = Math.max(gutter, window.innerWidth - popoverRect.width - gutter);
-            const preferredLeft = triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2;
-            const left = Math.min(Math.max(preferredLeft, gutter), maxLeft);
+            const update = async () => {
+                const { x, y, placement } = await computePosition(trigger, popover, {
+                    placement: 'bottom',
+                    strategy: 'fixed',
+                    middleware: [
+                        offset(10),
+                        flip({ padding: 12 }),
+                        shift({ padding: 12 }),
+                        size({
+                            padding: 12,
+                            apply({ availableWidth, availableHeight, elements }) {
+                                Object.assign(elements.floating.style, {
+                                    maxWidth: `${Math.max(0, Math.min(380, availableWidth))}px`,
+                                    maxHeight: `${Math.max(0, Math.min(520, availableHeight))}px`,
+                                });
+                            },
+                        }),
+                    ],
+                });
 
-            let top = triggerRect.bottom + gap;
-            let placement = 'below';
+                Object.assign(popover.style, {
+                    left: `${Math.round(x)}px`,
+                    top: `${Math.round(y)}px`,
+                });
+                popover.dataset.placement = placement.startsWith('top') ? 'above' : 'below';
+            };
 
-            if (top + popoverRect.height > window.innerHeight - gutter) {
-                const above = triggerRect.top - popoverRect.height - gap;
-                if (above >= gutter) {
-                    top = above;
-                    placement = 'above';
-                } else {
-                    top = Math.max(gutter, window.innerHeight - popoverRect.height - gutter);
-                }
-            }
-
-            popover.style.left = `${Math.round(left)}px`;
-            popover.style.top = `${Math.round(top)}px`;
-            popover.dataset.placement = placement;
+            const cleanup = autoUpdate(trigger, popover, update);
+            floatingCleanups.set(anchor, cleanup);
         };
 
-        const openTrivia = (anchor, pinned = false) => {
-            if (!(anchor instanceof HTMLElement)) return;
-
+        const openTrivia = (anchor: HTMLElement, pinned = false) => {
             closeAllTrivia(anchor);
             anchor.classList.add('is-open');
             if (pinned) anchor.dataset.pinned = 'true';
 
-            const trigger = anchor.querySelector('[data-trivia-trigger]');
-            if (trigger instanceof HTMLButtonElement) {
-                trigger.setAttribute('aria-expanded', 'true');
-            }
-
-            positionTrivia(anchor);
+            const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+            trigger?.setAttribute('aria-expanded', 'true');
+            startTriviaPositioning(anchor);
         };
 
         triviaAnchors.forEach((anchor) => {
-            if (!(anchor instanceof HTMLElement)) return;
-
-            const trigger = anchor.querySelector('[data-trivia-trigger]');
-            if (!(trigger instanceof HTMLButtonElement)) return;
+            const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+            if (!trigger) return;
 
             anchor.addEventListener('pointerenter', () => {
                 if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
@@ -425,15 +446,55 @@ const searchableText = (
             });
         });
 
-        const getActivePanel = () =>
-            panels.find((panel) => panel.getAttribute('data-panel') === activeKind);
+        const getActivePanel = (): HTMLElement | undefined =>
+            panels.find((panel) => panel.dataset.panel === activeKind);
 
-        const getActiveRows = () => {
+        const getActiveRows = (): HTMLTableRowElement[] => {
             const panel = getActivePanel();
-            return panel ? Array.from(panel.querySelectorAll('[data-reference-row]')) : [];
+            return panel ? Array.from(panel.querySelectorAll<HTMLTableRowElement>('[data-reference-row]')) : [];
         };
 
-        const refillSelect = (select, values, firstLabel) => {
+        const getSearcher = (): Fuse<SearchRecord> => {
+            const existing = searchers.get(activeKind);
+            if (existing) return existing;
+
+            const records: SearchRecord[] = getActiveRows().map((row) => ({
+                row,
+                name: normalize(row.dataset.searchName ?? ''),
+                japanese: normalize(row.dataset.searchJapanese ?? ''),
+                pronunciation: normalize(row.dataset.searchPronunciation ?? ''),
+                translation: normalize(row.dataset.searchTranslation ?? ''),
+                className: normalize(row.dataset.class ?? ''),
+                category: normalize(row.dataset.category ?? ''),
+                all: normalize(row.dataset.searchText ?? ''),
+            }));
+
+            const searcher = new Fuse(records, {
+                includeScore: true,
+                ignoreLocation: true,
+                threshold: 0.34,
+                minMatchCharLength: 1,
+                useTokenSearch: true,
+                keys: [
+                    { name: 'name', weight: 0.26 },
+                    { name: 'japanese', weight: 0.24 },
+                    { name: 'pronunciation', weight: 0.18 },
+                    { name: 'translation', weight: 0.14 },
+                    { name: 'className', weight: 0.06 },
+                    { name: 'category', weight: 0.06 },
+                    { name: 'all', weight: 0.06 },
+                ],
+            });
+
+            searchers.set(activeKind, searcher);
+            return searcher;
+        };
+
+        const refillSelect = (
+            select: HTMLSelectElement,
+            values: string[],
+            firstLabel: string,
+        ) => {
             select.replaceChildren();
 
             const firstOption = document.createElement('option');
@@ -451,14 +512,10 @@ const searchableText = (
 
         const refreshFilterOptions = () => {
             const rows = getActiveRows();
-            const classes = Array.from(
-                new Set(rows.map((row) => row.getAttribute('data-class') || '')),
-            )
+            const classes = Array.from(new Set(rows.map((row) => row.dataset.class ?? '')))
                 .filter(Boolean)
                 .sort(sortClasses);
-            const categories = Array.from(
-                new Set(rows.map((row) => row.getAttribute('data-category') || '')),
-            )
+            const categories = Array.from(new Set(rows.map((row) => row.dataset.category ?? '')))
                 .filter(Boolean)
                 .sort((a, b) => a.localeCompare(b));
 
@@ -470,6 +527,31 @@ const searchableText = (
             );
         };
 
+        const rankedRows = (rows: HTMLTableRowElement[], query: string): HTMLTableRowElement[] => {
+            if (!query) {
+                return [...rows].sort((a, b) =>
+                    Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0));
+            }
+
+            // One-character searches are especially useful for kanji; keep those exact and predictable.
+            if ([...query].length === 1) {
+                return rows.filter((row) => normalize(row.dataset.searchText ?? '').includes(query));
+            }
+
+            return getSearcher().search(query).map((result) => result.item.row);
+        };
+
+        const animateVisibleRows = (rows: HTMLTableRowElement[]) => {
+            if (reducedMotion.matches || rows.length === 0) return;
+            animate(rows.slice(0, 18), {
+                opacity: [0.48, 1],
+            }, {
+                duration: 0.16,
+                delay: stagger(0.008),
+                ease: 'easeOut',
+            });
+        };
+
         const updateResults = () => {
             closeAllTrivia();
 
@@ -477,59 +559,63 @@ const searchableText = (
             const selectedClass = classFilter.value;
             const selectedCategory = categoryFilter.value;
             const rows = getActiveRows();
-            let visibleEntries = 0;
-            let visibleRecords = 0;
+            const ranked = rankedRows(rows, query);
+            const matches = ranked.filter((row) =>
+                (!selectedClass || row.dataset.class === selectedClass) &&
+                (!selectedCategory || row.dataset.category === selectedCategory));
 
-            rows.forEach((row) => {
-                const searchText = normalize(row.getAttribute('data-search-text') || '');
-                const rowClass = row.getAttribute('data-class') || '';
-                const rowCategory = row.getAttribute('data-category') || '';
-                const matches =
-                    (query.length === 0 || searchText.includes(query)) &&
-                    (selectedClass.length === 0 || rowClass === selectedClass) &&
-                    (selectedCategory.length === 0 || rowCategory === selectedCategory);
-
-                row.hidden = !matches;
-
-                if (matches) {
-                    visibleEntries += 1;
-                    visibleRecords += Number(row.getAttribute('data-count') || 1);
-                }
-            });
+            const visible = new Set(matches);
+            rows.forEach((row) => { row.hidden = !visible.has(row); });
 
             const panel = getActivePanel();
-            const empty = panel?.querySelector('[data-empty]');
-            const table = panel?.querySelector('table');
+            const body = panel?.querySelector<HTMLTableSectionElement>('tbody');
+            if (body) {
+                // Search results follow Fuse relevance; hidden rows remain behind them in source order.
+                matches.forEach((row) => body.append(row));
+                rows
+                    .filter((row) => !visible.has(row))
+                    .sort((a, b) => Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0))
+                    .forEach((row) => body.append(row));
+            }
 
-            if (empty instanceof HTMLElement) empty.hidden = visibleEntries !== 0;
-            if (table instanceof HTMLTableElement) table.hidden = visibleEntries === 0;
+            const empty = panel?.querySelector<HTMLElement>('[data-empty]');
+            const table = panel?.querySelector<HTMLTableElement>('table');
+            if (empty) empty.hidden = matches.length !== 0;
+            if (table) table.hidden = matches.length === 0;
 
             const noun = activeKind === 'rank' ? 'ranks' : 'titles';
             const totalEntries = rows.length;
             const totalRecords = rows.reduce(
-                (sum, row) => sum + Number(row.getAttribute('data-count') || 1),
+                (sum, row) => sum + Number(row.dataset.count ?? 1),
                 0,
             );
-            const filtered = visibleEntries !== totalEntries || visibleRecords !== totalRecords;
+            const visibleRecords = matches.reduce(
+                (sum, row) => sum + Number(row.dataset.count ?? 1),
+                0,
+            );
+            const filtered = matches.length !== totalEntries || visibleRecords !== totalRecords;
+            const relevanceNote = query && matches.length > 1 ? ' · best matches first' : '';
 
             resultCount.textContent = filtered
-                ? `Showing ${visibleEntries} of ${totalEntries} unique ${noun} · ${visibleRecords} source rows`
+                ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} source rows${relevanceNote}`
                 : `${totalEntries} unique ${noun} · ${totalRecords} source rows`;
+
+            animateVisibleRows(matches);
         };
 
-        const setKind = (kind, updateHash = true) => {
+        const setKind = (kind: string | null, updateHash = true) => {
             closeAllTrivia();
             activeKind = kind === 'title' ? 'title' : 'rank';
 
             tabs.forEach((tab) => {
-                const selected = tab.getAttribute('data-view') === activeKind;
+                const selected = tab.dataset.view === activeKind;
                 tab.classList.toggle('is-active', selected);
                 tab.setAttribute('aria-selected', String(selected));
-                tab.setAttribute('tabindex', selected ? '0' : '-1');
+                tab.tabIndex = selected ? 0 : -1;
             });
 
             panels.forEach((panel) => {
-                panel.hidden = panel.getAttribute('data-panel') !== activeKind;
+                panel.hidden = panel.dataset.panel !== activeKind;
             });
 
             searchInput.placeholder =
@@ -542,22 +628,26 @@ const searchableText = (
             refreshFilterOptions();
             updateResults();
 
+            const panel = getActivePanel();
+            if (!reducedMotion.matches && panel) {
+                animate(panel, { opacity: [0.7, 1], y: [6, 0] }, { duration: 0.2, ease: 'easeOut' });
+            }
+
             if (updateHash) {
                 history.replaceState(null, '', activeKind === 'rank' ? '#ranks' : '#titles');
             }
         };
 
         tabs.forEach((tab) => {
-            tab.addEventListener('click', () => setKind(tab.getAttribute('data-view')));
+            tab.addEventListener('click', () => setKind(tab.dataset.view ?? null));
 
             tab.addEventListener('keydown', (event) => {
-                if (!(event instanceof KeyboardEvent)) return;
                 if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
 
                 event.preventDefault();
-                const nextKind = activeKind === 'rank' ? 'title' : 'rank';
+                const nextKind: ReferenceKind = activeKind === 'rank' ? 'title' : 'rank';
                 setKind(nextKind);
-                tabs.find((candidate) => candidate.getAttribute('data-view') === nextKind)?.focus();
+                tabs.find((candidate) => candidate.dataset.view === nextKind)?.focus();
             });
         });
 
@@ -603,19 +693,6 @@ const searchableText = (
                 searchInput.focus();
             }
         });
-
-        window.addEventListener('resize', () => closeAllTrivia());
-        window.addEventListener(
-            'scroll',
-            () => {
-                triviaAnchors.forEach((anchor) => {
-                    if (anchor instanceof HTMLElement && anchor.classList.contains('is-open')) {
-                        positionTrivia(anchor);
-                    }
-                });
-            },
-            true,
-        );
 
         setKind(activeKind, false);
     })();
