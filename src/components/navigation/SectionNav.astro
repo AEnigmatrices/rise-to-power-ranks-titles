@@ -1,3 +1,7 @@
+---
+const base = import.meta.env.BASE_URL;
+---
+
 <nav class="section-nav" aria-label="Reference sections">
     <a class="section-nav__brand" href="#top">
         <span>Rise to Power</span>
@@ -5,8 +9,9 @@
     </a>
     <div class="section-nav__links">
         <a href="#reference">Reference</a>
-        <a href="#trivia">Trivia</a>
-        <a href="#regions">Regions</a>
+        <a href={`${base}trivia/`}>Guide</a>
+        <a href={`${base}trivia/regions/`}>Regions</a>
         <a href="#top" class="section-nav__top">↑ Top</a>
     </div>
 </nav>
+

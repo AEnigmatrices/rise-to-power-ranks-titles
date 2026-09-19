@@ -1,0 +1,80 @@
+---
+import { Search } from '@lucide/astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import GuideCard from '../../../components/trivia/GuideCard.astro';
+import { appointments } from '../../../data/appointments';
+import { officeTrivia } from '../../../data/trivia';
+import { getEntryTrivia } from '../../../lib/trivia';
+
+const base = import.meta.env.BASE_URL;
+const relatedByTrivia = new Map(
+    officeTrivia.map((item) => [
+        item.id,
+        appointments.filter((entry) => getEntryTrivia(entry).some((note) => note.id === item.id)),
+    ]),
+);
+---
+
+<BaseLayout
+    title="Offices & Titles — Historical Guide"
+    description="Browse historical institutions, title conventions, shogunate offices, and court terminology behind Nobunaga's Ambition: Rise to Power."
+>
+    <main id="top" class="guide-shell" data-guide-directory>
+        <GuideHeader
+            kicker="Historical Guide · Institutions"
+            title="Offices & Titles"
+            lede="Some historical notes belong to entire families of appointments rather than a single row. Browse the institutions, status groups, and title conventions behind them."
+            backHref={`${base}trivia/`}
+            backLabel="Back to the Historical Guide"
+        />
+
+        <section class="guide-directory" aria-labelledby="office-directory-heading">
+            <div class="guide-directory__intro">
+                <div>
+                    <p class="guide-section__kicker">Directory</p>
+                    <h2 id="office-directory-heading">Browse every topic</h2>
+                </div>
+                <p>Search by institution, title, Japanese office name, or the related game-localized appointments.</p>
+            </div>
+
+            <div class="guide-directory__controls guide-directory__controls--search-only">
+                <div class="guide-directory__search">
+                    <label class="sr-only" for="guide-office-search">Search offices and titles</label>
+                    <Search size={17} stroke-width={1.8} aria-hidden="true" />
+                    <input id="guide-office-search" type="search" autocomplete="off" placeholder="Search institution, title, or related appointment…" data-guide-search />
+                </div>
+                <p class="guide-directory__count" data-guide-count aria-live="polite"></p>
+            </div>
+
+            <div class="guide-card-grid" data-guide-grid>
+                {officeTrivia.map((item) => {
+                    const related = relatedByTrivia.get(item.id) ?? [];
+                    const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 3).join('・');
+                    return (
+                        <GuideCard
+                            kicker="Office & title context"
+                            japanese={japanese || undefined}
+                            title={item.label}
+                            meta={`${related.length} related ${related.length === 1 ? 'appointment' : 'appointments'}`}
+                            body={item.body}
+                            href={`${base}trivia/offices/${item.id}/`}
+                            search={[item.label, item.body, ...related.flatMap((entry) => [entry.gameName, entry.japanese, entry.reading])].join(' ')}
+                        />
+                    );
+                })}
+            </div>
+
+            <p class="guide-empty-note" data-guide-empty hidden>No office or title topics match this search.</p>
+        </section>
+
+        <footer class="guide-footer">
+            <a href={`${base}trivia/`}>← Historical Guide</a>
+            <a href={base}>Ranks &amp; Titles catalogue →</a>
+        </footer>
+    </main>
+</BaseLayout>
+
+<script>
+    import '../../../scripts/guide-directory';
+</script>

@@ -1,0 +1,73 @@
+---
+import { ExternalLink } from '@lucide/astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import RelatedAppointments from '../../../components/trivia/RelatedAppointments.astro';
+import { appointments } from '../../../data/appointments';
+import { officeTrivia, type TriviaItem } from '../../../data/trivia';
+import { getEntryTrivia } from '../../../lib/trivia';
+
+export function getStaticPaths() {
+    return officeTrivia.map((item) => ({
+        params: { slug: item.id },
+        props: { item },
+    }));
+}
+
+interface Props {
+    item: TriviaItem;
+}
+
+const { item } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const related = appointments.filter((entry) =>
+    getEntryTrivia(entry).some((note) => note.id === item.id),
+);
+const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 4).join('・');
+---
+
+<BaseLayout
+    title={`${item.label} — Offices & Titles · Historical Guide`}
+    description={item.body}
+>
+    <main id="top" class="guide-shell">
+        <GuideHeader
+            kicker="Historical Guide · Offices & Titles"
+            japanese={japanese || undefined}
+            title={item.label}
+            lede={item.body}
+            backHref={`${base}trivia/offices/`}
+            backLabel="Back to Offices & Titles"
+        />
+
+        <section class="guide-detail guide-detail--single">
+            <div class="guide-detail__main">
+                <p class="guide-section__kicker">Why this note appears</p>
+                <h2>Context shared across the catalogue</h2>
+                <p>
+                    This topic is attached to every appointment for which the same
+                    historical institution, title convention, or status group adds
+                    useful context beyond the game’s literal label.
+                </p>
+            </div>
+
+            {item.source && (
+                <aside class="guide-source-card">
+                    <p class="guide-section__kicker">Further reading</p>
+                    <h2>Source</h2>
+                    <a href={item.source}>
+                        <span>Open reference source</span>
+                        <ExternalLink size={14} stroke-width={1.8} aria-hidden="true" />
+                    </a>
+                </aside>
+            )}
+        </section>
+
+        <RelatedAppointments entries={related} />
+
+        <nav class="guide-detail__nav" aria-label="Historical guide navigation">
+            <a href={`${base}trivia/offices/`}>← All offices &amp; titles</a>
+            <a href={`${base}trivia/regions/`}>Regions &amp; provinces →</a>
+        </nav>
+    </main>
+</BaseLayout>

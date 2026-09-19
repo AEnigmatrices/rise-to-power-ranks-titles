@@ -1,0 +1,562 @@
+/* ---------- Historical guide pages ---------- */
+
+.guide-shell {
+    width: min(calc(100% - 40px), 1280px);
+    margin: 0 auto;
+    padding: 20px 0 54px;
+}
+
+.guide-header {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(30px, 5vw, 64px);
+    border: 1px solid #252925;
+    border-radius: 28px;
+    color: #f5f0e5;
+    background:
+        radial-gradient(circle at 88% 12%, rgb(213 189 120 / 0.12), transparent 25rem),
+        linear-gradient(145deg, #202521, #121512 72%);
+    box-shadow: var(--shadow-dark);
+}
+
+.guide-header::after {
+    position: absolute;
+    right: -85px;
+    bottom: -120px;
+    width: 330px;
+    height: 330px;
+    border: 1px solid rgb(213 189 120 / 0.11);
+    border-radius: 50%;
+    content: "";
+}
+
+.guide-header__back {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #aeb5ae;
+    font-size: 0.72rem;
+    font-weight: 720;
+    text-decoration: none;
+}
+
+.guide-header__back:hover { color: #fffaf0; }
+
+.guide-header__copy {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin-top: 34px;
+}
+
+.guide-header__kicker,
+.guide-section__kicker,
+.guide-card__kicker {
+    margin: 0;
+    color: var(--vermilion);
+    font-size: 0.65rem;
+    font-weight: 850;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.guide-header__kicker { color: var(--gold-bright); }
+
+.guide-header__japanese {
+    margin: 8px 0 0;
+    color: var(--gold-bright);
+    font-family: var(--jp-serif);
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    font-weight: 650;
+}
+
+.guide-header h1 {
+    max-width: 930px;
+    margin: 10px 0 0;
+    font-family: var(--serif);
+    font-size: clamp(3rem, 6vw, 6.4rem);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.94;
+}
+
+.guide-header__lede {
+    max-width: 790px;
+    margin: 24px 0 0;
+    color: #b9c0ba;
+    font-size: clamp(0.96rem, 1.4vw, 1.12rem);
+    line-height: 1.75;
+}
+
+.guide-section,
+.guide-directory,
+.related-appointments {
+    padding: clamp(48px, 6vw, 78px) clamp(4px, 2vw, 24px) 0;
+}
+
+.guide-section__heading,
+.guide-directory__intro,
+.related-appointments__heading {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(280px, 0.65fr);
+    gap: clamp(26px, 5vw, 68px);
+    align-items: end;
+    margin-bottom: 28px;
+}
+
+.guide-section__heading h2,
+.guide-directory__intro h2,
+.related-appointments__heading h2,
+.guide-detail h2,
+.guide-source-card h2 {
+    margin: 8px 0 0;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.2vw, 3.35rem);
+    font-weight: 520;
+    letter-spacing: -0.035em;
+    line-height: 1;
+}
+
+.guide-section__heading > p,
+.guide-directory__intro > p,
+.related-appointments__heading > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+    line-height: 1.7;
+}
+
+.guide-route-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.guide-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.guide-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 250px;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    flex-direction: column;
+    background: var(--paper-2);
+    box-shadow: var(--shadow-sm);
+    transition: 140ms ease;
+    transition-property: transform, border-color, box-shadow;
+}
+
+.guide-card:hover {
+    border-color: #c2b493;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.guide-card__japanese {
+    margin: 7px 0 0;
+    color: var(--gold-text);
+    font-family: var(--jp-serif);
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.guide-card__title {
+    margin: 7px 0 0;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1.38rem;
+    font-weight: 600;
+    line-height: 1.18;
+}
+
+.guide-card__meta {
+    margin: 8px 0 0;
+    color: #6d603f;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.guide-card__body {
+    margin: 12px 0 0;
+    color: #5c625d;
+    font-size: 0.81rem;
+    line-height: 1.68;
+}
+
+.guide-card__actions {
+    display: flex;
+    margin-top: auto;
+    padding-top: 18px;
+}
+
+.guide-card__link,
+.guide-card__source {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--vermilion);
+    font-size: 0.72rem;
+    font-weight: 760;
+    text-underline-offset: 3px;
+}
+
+.guide-directory__controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 260px) auto;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 10px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: rgb(251 248 241 / 0.78);
+    box-shadow: var(--shadow-sm);
+}
+
+.guide-directory__controls--search-only {
+    grid-template-columns: minmax(0, 1fr) auto;
+}
+
+.guide-directory__search,
+.guide-directory__select {
+    position: relative;
+}
+
+.guide-directory__search svg {
+    position: absolute;
+    top: 50%;
+    left: 13px;
+    color: var(--muted);
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.guide-directory__search input,
+.guide-directory__select select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    background: #fffdf8;
+}
+
+.guide-directory__search input { padding: 0 13px 0 39px; }
+.guide-directory__select select { padding: 0 36px 0 12px; }
+
+.guide-directory__count {
+    min-width: 84px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.72rem;
+    font-weight: 720;
+    text-align: center;
+}
+
+.guide-empty-note {
+    margin: 20px 0 0;
+    padding: 24px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    background: rgb(251 248 241 / 0.5);
+    text-align: center;
+}
+
+.guide-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(250px, 0.6fr);
+    gap: 18px;
+    padding: clamp(48px, 6vw, 78px) clamp(4px, 2vw, 24px) 0;
+}
+
+.guide-detail--single { align-items: start; }
+
+.guide-detail__main,
+.guide-source-card {
+    padding: clamp(24px, 3vw, 34px);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-2);
+    box-shadow: var(--shadow-sm);
+}
+
+.guide-detail__main > p:not(.guide-section__kicker),
+.guide-detail__aliases {
+    color: var(--muted);
+    line-height: 1.75;
+}
+
+.guide-detail__location {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 22px;
+    color: #645735;
+    font-size: 0.88rem;
+    font-weight: 720;
+}
+
+.guide-source-card h2 { font-size: 1.65rem; }
+
+.guide-source-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    color: var(--vermilion);
+    font-size: 0.76rem;
+    font-weight: 750;
+    text-underline-offset: 3px;
+}
+
+.related-appointments__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.related-appointment {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 3px 12px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: 11px;
+    color: var(--ink);
+    background: var(--paper-2);
+    text-decoration: none;
+    transition: 120ms ease;
+    transition-property: border-color, transform, box-shadow;
+}
+
+.related-appointment:hover {
+    border-color: #c2b493;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-1px);
+}
+
+.related-appointment__name {
+    font-weight: 790;
+}
+
+.related-appointment__jp {
+    grid-column: 1;
+    color: var(--gold-text);
+    font-family: var(--jp-serif);
+    font-size: 0.83rem;
+}
+
+.related-appointment__reading {
+    grid-column: 1;
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.related-appointment__meta {
+    grid-column: 1;
+    margin-top: 5px;
+    color: var(--faint);
+    font-size: 0.66rem;
+}
+
+.related-appointment svg {
+    grid-column: 2;
+    grid-row: 1 / 5;
+    align-self: center;
+    color: var(--vermilion);
+}
+
+.guide-detail__nav,
+.guide-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    margin: 54px clamp(4px, 2vw, 24px) 0;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+}
+
+.guide-detail__nav a,
+.guide-footer a {
+    color: var(--ink-2);
+    font-size: 0.75rem;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.guide-detail__nav a:hover,
+.guide-footer a:hover { color: var(--vermilion); }
+
+.guide-footer {
+    align-items: center;
+    color: var(--faint);
+    font-size: 0.68rem;
+}
+
+.guide-footer p {
+    max-width: 620px;
+    margin: 0;
+    text-align: right;
+}
+
+.guide-teaser {
+    position: relative;
+    margin-top: 64px;
+    padding: clamp(42px, 5vw, 66px) clamp(8px, 2.5vw, 34px);
+    border-top: 1px solid var(--line-strong);
+}
+
+.guide-teaser__heading {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(300px, 0.65fr);
+    gap: clamp(28px, 5vw, 68px);
+    align-items: end;
+    margin-bottom: 25px;
+}
+
+.guide-teaser h2 {
+    margin: 9px 0 0;
+    font-family: var(--serif);
+    font-size: clamp(2.3rem, 3.5vw, 3.8rem);
+    font-weight: 520;
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+}
+
+.guide-teaser__heading > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.72;
+}
+
+.guide-teaser__cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.guide-teaser__card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 13px;
+    align-items: center;
+    min-height: 94px;
+    padding: 17px 18px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: var(--ink);
+    background: var(--paper-2);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    transition: 130ms ease;
+    transition-property: transform, border-color, box-shadow;
+}
+
+.guide-teaser__card:hover {
+    border-color: #c2b493;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.guide-teaser__icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 1px solid #ccb984;
+    border-radius: 50%;
+    color: #70531f;
+    background: var(--gold-soft);
+}
+
+.guide-teaser__copy {
+    display: grid;
+    gap: 3px;
+}
+
+.guide-teaser__copy strong { font-size: 0.86rem; }
+.guide-teaser__copy small {
+    color: var(--muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+}
+.guide-teaser__arrow {
+    color: var(--vermilion);
+    font-weight: 900;
+}
+
+@media (max-width: 980px) {
+    .guide-card-grid,
+    .related-appointments__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .guide-teaser__cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+    .guide-shell {
+        width: min(calc(100% - 18px), 1280px);
+        padding-top: 9px;
+    }
+
+    .guide-header {
+        padding: 30px 22px;
+        border-radius: 20px;
+    }
+
+    .guide-header__copy { margin-top: 27px; }
+
+    .guide-section__heading,
+    .guide-directory__intro,
+    .related-appointments__heading,
+    .guide-teaser__heading {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .guide-route-grid,
+    .guide-card-grid,
+    .related-appointments__grid,
+    .guide-detail {
+        grid-template-columns: 1fr;
+    }
+
+    .guide-directory__controls,
+    .guide-directory__controls--search-only {
+        grid-template-columns: 1fr;
+    }
+
+    .guide-directory__count {
+        text-align: left;
+        padding: 0 4px;
+    }
+
+    .guide-card { min-height: 0; }
+
+    .guide-detail__nav,
+    .guide-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .guide-footer p { text-align: left; }
+
+    .guide-teaser {
+        margin-top: 44px;
+        padding-top: 46px;
+    }
+}

@@ -1,0 +1,50 @@
+---
+import { BookOpen, Landmark, MapPinned } from '@lucide/astro';
+import { officeTrivia } from '../../data/trivia';
+import { provinces, regions } from '../../data/geography';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<section id="guide" class="guide-teaser" aria-labelledby="guide-teaser-heading">
+    <div class="guide-teaser__heading">
+        <div>
+            <p class="section-kicker">Historical guide</p>
+            <h2 id="guide-teaser-heading">Go beyond the game labels.</h2>
+        </div>
+        <p>
+            The catalogue stays focused on lookup. The Historical Guide gives the
+            places, institutions, terminology, and political context room to breathe
+            on dedicated pages.
+        </p>
+    </div>
+
+    <div class="guide-teaser__cards">
+        <a class="guide-teaser__card" href={`${base}trivia/`}>
+            <span class="guide-teaser__icon" aria-hidden="true"><BookOpen size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__copy">
+                <strong>Historical Guide</strong>
+                <small>Curated highlights and paths into the reference</small>
+            </span>
+            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="guide-teaser__card" href={`${base}trivia/regions/`}>
+            <span class="guide-teaser__icon" aria-hidden="true"><MapPinned size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__copy">
+                <strong>Regions &amp; Provinces</strong>
+                <small>{provinces.length} provinces · {regions.length} place entries</small>
+            </span>
+            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+        </a>
+
+        <a class="guide-teaser__card" href={`${base}trivia/offices/`}>
+            <span class="guide-teaser__icon" aria-hidden="true"><Landmark size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__copy">
+                <strong>Offices &amp; Titles</strong>
+                <small>{officeTrivia.length} historical topics</small>
+            </span>
+            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+        </a>
+    </div>
+</section>

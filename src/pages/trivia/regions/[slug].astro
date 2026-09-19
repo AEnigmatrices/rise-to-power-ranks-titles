@@ -1,0 +1,77 @@
+---
+import { ExternalLink, MapPinned } from '@lucide/astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import RelatedAppointments from '../../../components/trivia/RelatedAppointments.astro';
+import { appointments } from '../../../data/appointments';
+import { regions, type Region } from '../../../data/geography';
+import { getEntryRegion } from '../../../lib/geography';
+
+export function getStaticPaths() {
+    return regions.map((region) => ({
+        params: { slug: region.id },
+        props: { region },
+    }));
+}
+
+interface Props {
+    region: Region;
+}
+
+const { region } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const related = appointments.filter((entry) => getEntryRegion(entry)?.id === region.id);
+---
+
+<BaseLayout
+    title={`${region.name} — Regions & Provinces · Historical Guide`}
+    description={`${region.name} (${region.japanese}): ${region.body}`}
+>
+    <main id="top" class="guide-shell">
+        <GuideHeader
+            kicker={`Historical Guide · ${region.type}`}
+            japanese={region.japanese}
+            title={region.name}
+            lede={region.body}
+            backHref={`${base}trivia/regions/`}
+            backLabel="Back to Regions & Provinces"
+        />
+
+        <section class="guide-detail">
+            <div class="guide-detail__main">
+                <p class="guide-section__kicker">Geographic orientation</p>
+                <h2>Where the name points</h2>
+                <div class="guide-detail__location">
+                    <MapPinned size={18} stroke-width={1.8} aria-hidden="true" />
+                    <span>{region.location}</span>
+                </div>
+                <p>
+                    This guide uses modern locations only to help orient the reader.
+                    Historic province boundaries and regional meanings do not map neatly
+                    onto modern prefectural borders.
+                </p>
+                {region.aliases && region.aliases.length > 0 && (
+                    <p class="guide-detail__aliases">
+                        <strong>Also searchable as:</strong> {region.aliases.join(', ')}
+                    </p>
+                )}
+            </div>
+
+            <aside class="guide-source-card">
+                <p class="guide-section__kicker">Further reading</p>
+                <h2>Source</h2>
+                <a href={region.source}>
+                    <span>Open reference source</span>
+                    <ExternalLink size={14} stroke-width={1.8} aria-hidden="true" />
+                </a>
+            </aside>
+        </section>
+
+        <RelatedAppointments entries={related} />
+
+        <nav class="guide-detail__nav" aria-label="Historical guide navigation">
+            <a href={`${base}trivia/regions/`}>← All regions &amp; provinces</a>
+            <a href={`${base}trivia/offices/`}>Offices &amp; titles →</a>
+        </nav>
+    </main>
+</BaseLayout>

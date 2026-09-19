@@ -18,6 +18,12 @@ const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
     title: titles,
 };
 
+const base = import.meta.env.BASE_URL;
+const triviaHref = (item: TriviaItem) =>
+    item.id.startsWith('region-')
+        ? `${base}trivia/regions/${item.id.slice('region-'.length)}/`
+        : `${base}trivia/offices/${item.id}/`;
+
 const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
     [
         entry.gameName,
@@ -229,6 +235,9 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                                                     <span class="trivia-popover__item">
                                                                         <strong>{item.label}</strong>
                                                                         <span>{item.body}</span>
+                                                                        <a class="trivia-popover__more" href={triviaHref(item)}>
+                                                                            Open full historical note →
+                                                                        </a>
                                                                     </span>
                                                                 ))}
                                                                 <span class="trivia-popover__hint">
