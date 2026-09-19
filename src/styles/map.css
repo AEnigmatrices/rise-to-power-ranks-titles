@@ -320,7 +320,7 @@
 .trivia-card__japanese {
     overflow-wrap: anywhere;
     margin: 5px 0 0;
-    color: var(--gold);
+    color: var(--gold-text);
     font-family: var(--jp-serif);
     font-size: 1.04rem;
     font-weight: 700;

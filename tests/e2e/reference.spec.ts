@@ -13,7 +13,9 @@ test('catalogue search, keyboard shortcut, and tab switching work together', asy
     await expect(search).toBeFocused();
 
     await search.fill('Supreme Commander');
-    await expect(page.locator('[data-reference-row]:visible')).toContainText('Supreme Commander');
+    const supremeCommander = page.locator('#rank-danjo-no-kami');
+    await expect(supremeCommander).toBeVisible();
+    await expect(supremeCommander).toContainText('Supreme Commander');
     await expect(resultCount).toContainText('Showing');
 
     await search.clear();
@@ -44,7 +46,7 @@ test('catalogue state is reflected in the URL and direct appointment links resol
     const search = page.getByRole('searchbox', { name: 'Search appointments' });
     await search.fill('Supreme Commander');
 
-    await expect(page).toHaveURL(/q=Supreme(?:\\+|%20)Commander/);
+    await expect(page).toHaveURL(/[?&]q=Supreme\+Commander(?:&|#|$)/);
 
     const row = page.locator('#rank-danjo-no-kami');
     await expect(row).toBeVisible();
