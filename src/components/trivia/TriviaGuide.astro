@@ -57,7 +57,7 @@ const areas = [...new Set(regions.map((region) => region.area))];
     <div class="trivia-guide__controls" data-trivia-controls hidden>
         <div class="trivia-topics" role="group" aria-label="Trivia topic">
             {topics.map((topic) => (
-                <button type="button" class="trivia-topic" data-trivia-topic={topic.id} aria-pressed="false" aria-controls="trivia-cards">
+                <button type="button" class="trivia-topic" data-trivia-topic={topic.id} aria-pressed={topic.id === 'highlights' ? 'true' : 'false'} aria-controls="trivia-cards">
                     {topic.label} <span>{topic.count}</span>
                 </button>
             ))}
@@ -94,6 +94,7 @@ const areas = [...new Set(regions.map((region) => region.area))];
             cards.map((item, index) => (
                 <article class="trivia-card" data-trivia-card data-topic={item.topic} data-area={item.area}
                     data-order={index}
+                    hidden={item.topic !== 'highlights' || index >= 6}
                     data-search-title={item.title}
                     data-search-text={[item.title, item.japanese, item.kicker, item.location, item.body, item.search].join(' ')}>
                     <span class="trivia-card__number" aria-hidden="true">

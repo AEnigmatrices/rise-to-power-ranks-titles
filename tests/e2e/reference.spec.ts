@@ -13,7 +13,9 @@ test('catalogue search, keyboard shortcut, and tab switching work together', asy
     await expect(search).toBeFocused();
 
     await search.fill('Supreme Commander');
-    await expect(page.locator('[data-reference-row]:visible')).toContainText('Supreme Commander');
+    const supremeCommander = page.locator('#rank-danjo-no-kami');
+    await expect(supremeCommander).toBeVisible();
+    await expect(supremeCommander).toContainText('Supreme Commander');
     await expect(resultCount).toContainText('Showing');
 
     await search.clear();
@@ -35,4 +37,30 @@ test('region map filters the historical geography cards', async ({ page }) => {
     await expect(kanto).toHaveAttribute('aria-pressed', 'true');
     await expect(page.locator('[data-trivia-area]')).toHaveValue('Kantō');
     await expect(page.locator('[data-trivia-card]:visible').first()).toBeVisible();
+});
+
+
+test('catalogue state is reflected in the URL and direct appointment links resolve', async ({ page }) => {
+    await page.goto('./');
+
+    const search = page.getByRole('searchbox', { name: 'Search appointments' });
+    await search.fill('Supreme Commander');
+
+    await expect(page).toHaveURL(/[?&]q=Supreme\+Commander(?:&|#|$)/);
+
+    const row = page.locator('#rank-danjo-no-kami');
+    await expect(row).toBeVisible();
+
+    await row.locator('.entry-permalink').click();
+    await expect(page).toHaveURL(/#rank-danjo-no-kami$/);
+});
+
+test('catalogue uses compact appointment cards at tablet widths', async ({ page }) => {
+    await page.setViewportSize({ width: 820, height: 1000 });
+    await page.goto('./#reference');
+
+    const row = page.locator('[data-reference-row]:visible').first();
+    await expect(row).toBeVisible();
+    await expect(row.locator('.name-cell')).toBeVisible();
+    await expect(row.locator('.japanese .pronunciation')).toBeVisible();
 });

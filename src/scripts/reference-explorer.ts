@@ -35,7 +35,17 @@ type SearchRecord = {
 
     if (!searchInput || !classFilter || !categoryFilter || !resetButton || !resultCount) return;
 
-    let activeKind: ReferenceKind = location.hash === '#titles' ? 'title' : 'rank';
+    const initialParams = new URLSearchParams(location.search);
+    const hashKind: ReferenceKind | null = location.hash.startsWith('#title-')
+        ? 'title'
+        : location.hash.startsWith('#rank-')
+            ? 'rank'
+            : null;
+    let activeKind: ReferenceKind =
+        hashKind ?? (initialParams.get('view') === 'title' || location.hash === '#titles' ? 'title' : 'rank');
+    let restoreInitialFilters = true;
+
+    searchInput.value = initialParams.get('q') ?? '';
 
     const closeTrivia = (anchor: HTMLElement) => {
         const cleanup = floatingCleanups.get(anchor);
@@ -251,6 +261,25 @@ type SearchRecord = {
         });
     };
 
+    const syncUrlState = () => {
+        const url = new URL(location.href);
+        const query = searchInput.value.trim();
+
+        if (activeKind === 'title') url.searchParams.set('view', 'title');
+        else url.searchParams.delete('view');
+
+        if (query) url.searchParams.set('q', query);
+        else url.searchParams.delete('q');
+
+        if (classFilter.value) url.searchParams.set('class', classFilter.value);
+        else url.searchParams.delete('class');
+
+        if (categoryFilter.value) url.searchParams.set('type', categoryFilter.value);
+        else url.searchParams.delete('type');
+
+        history.replaceState(null, '', url);
+    };
+
     const updateResults = () => {
         closeAllTrivia();
 
@@ -296,9 +325,10 @@ type SearchRecord = {
         const relevanceNote = query && matches.length > 1 ? ' · best matches first' : '';
 
         resultCount.textContent = filtered
-            ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} source rows${relevanceNote}`
-            : `${totalEntries} unique ${noun} · ${totalRecords} source rows`;
+            ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} occurrences${relevanceNote}`
+            : `${totalEntries} unique ${noun} · ${totalRecords} occurrences`;
 
+        syncUrlState();
         animateVisibleRows(matches);
     };
 
@@ -325,6 +355,13 @@ type SearchRecord = {
         classFilter.value = '';
         categoryFilter.value = '';
         refreshFilterOptions();
+
+        if (restoreInitialFilters) {
+            classFilter.value = initialParams.get('class') ?? '';
+            categoryFilter.value = initialParams.get('type') ?? '';
+            restoreInitialFilters = false;
+        }
+
         updateResults();
 
         const panel = getActivePanel();
@@ -332,8 +369,10 @@ type SearchRecord = {
             animate(panel, { opacity: [0.7, 1], y: [6, 0] }, { duration: 0.2, ease: 'easeOut' });
         }
 
-        if (updateHash) {
-            history.replaceState(null, '', activeKind === 'rank' ? '#ranks' : '#titles');
+        if (updateHash && (location.hash === '#ranks' || location.hash === '#titles')) {
+            const url = new URL(location.href);
+            url.hash = '#reference';
+            history.replaceState(null, '', url);
         }
     };
 
@@ -393,5 +432,28 @@ type SearchRecord = {
         }
     });
 
+    const focusHashEntry = () => {
+        const rawId = decodeURIComponent(location.hash.slice(1));
+        if (!rawId.startsWith('rank-') && !rawId.startsWith('title-')) return;
+
+        const row = root.querySelector<HTMLTableRowElement>(`#${CSS.escape(rawId)}`);
+        if (!row) return;
+
+        const rowKind: ReferenceKind = row.dataset.kind === 'title' ? 'title' : 'rank';
+        if (rowKind !== activeKind) setKind(rowKind, false);
+
+        if (row.hidden) {
+            searchInput.value = '';
+            classFilter.value = '';
+            categoryFilter.value = '';
+            updateResults();
+        }
+
+        requestAnimationFrame(() => row.scrollIntoView({ block: 'center' }));
+    };
+
+    window.addEventListener('hashchange', focusHashEntry);
+
     setKind(activeKind, false);
+    focusHashEntry();
 })();

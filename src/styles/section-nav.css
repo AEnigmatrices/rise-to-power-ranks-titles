@@ -1,0 +1,104 @@
+/* ---------- Persistent section navigation ---------- */
+
+.section-nav {
+    order: 2;
+    position: sticky;
+    z-index: 90;
+    top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    width: min(calc(100% - 24px), 1120px);
+    min-height: 52px;
+    margin: 12px auto 0;
+    padding: 7px 9px 7px 16px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    border-radius: 999px;
+    color: #e8e4d9;
+    background: rgb(18 21 19 / 0.9);
+    box-shadow: 0 12px 34px rgb(27 25 20 / 0.2);
+    backdrop-filter: blur(15px);
+}
+
+.section-nav__brand {
+    display: flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.section-nav__brand span {
+    color: var(--gold-bright);
+    font-size: 0.61rem;
+    font-weight: 850;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.section-nav__brand strong {
+    overflow: hidden;
+    color: #f7f2e8;
+    font-family: var(--serif);
+    font-size: 0.9rem;
+    font-weight: 560;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.section-nav__links {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.section-nav__links a {
+    display: inline-flex;
+    min-height: 36px;
+    align-items: center;
+    padding: 0 12px;
+    border-radius: 999px;
+    color: #adb4ad;
+    font-size: 0.7rem;
+    font-weight: 760;
+    text-decoration: none;
+    transition: 120ms ease;
+    transition-property: color, background-color;
+}
+
+.section-nav__links a:hover,
+.section-nav__links a:focus-visible {
+    color: #fffaf0;
+    background: rgb(213 189 120 / 0.09);
+}
+
+.section-nav__top { color: var(--gold-bright) !important; }
+
+@media (max-width: 720px) {
+    .section-nav {
+        top: 5px;
+        width: calc(100% - 12px);
+        min-height: 48px;
+        margin-top: 6px;
+        padding: 5px 6px 5px 11px;
+        gap: 8px;
+    }
+
+    .section-nav__brand span { display: none; }
+    .section-nav__brand strong { font-size: 0.78rem; }
+
+    .section-nav__links a {
+        min-height: 34px;
+        padding: 0 9px;
+        font-size: 0.65rem;
+    }
+
+    .section-nav__top { display: none !important; }
+}
+
+@media (max-width: 440px) {
+    .section-nav__brand { display: none; }
+    .section-nav { justify-content: center; }
+}

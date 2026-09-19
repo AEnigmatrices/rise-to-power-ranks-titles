@@ -40,7 +40,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
         <p class="explorer__note">
             The English game name is kept separate from the Japanese office, its
             romanized Japanese pronunciation, and its historical or literal meaning. Exact
-            duplicate source rows are folded into a <strong>Count</strong>. Look for
+            duplicate source rows are folded into <strong>Occurrences</strong>. Look for
             <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={12} stroke-width={2} /></span> beside terms
             with additional historical context and short region descriptions.
         </p>
@@ -59,7 +59,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
             <span class="switcher__mark" aria-hidden="true">官</span>
             <span class="switcher__copy">
                 <strong>Imperial Court Ranks</strong>
-                <small>{ranks.length} unique · {totalRecords(ranks)} source rows</small>
+                <small>{ranks.length} unique · {totalRecords(ranks)} occurrences</small>
             </span>
             <span class="effect-chip effect-chip--politics">POL</span>
         </button>
@@ -76,7 +76,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
             <span class="switcher__mark" aria-hidden="true">将</span>
             <span class="switcher__copy">
                 <strong>Shogunate Titles</strong>
-                <small>{titles.length} unique · {totalRecords(titles)} source rows</small>
+                <small>{titles.length} unique · {totalRecords(titles)} occurrences</small>
             </span>
             <span class="effect-chip effect-chip--leadership">LDR</span>
         </button>
@@ -135,7 +135,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                     hidden={kind !== 'rank'}
                 >
                     <div class="table-shell">
-                        <table>
+                        <table class="reference-table">
                             <caption>
                                 {kind === 'rank'
                                     ? 'Imperial Court ranks in Nobunaga’s Ambition: Rise to Power'
@@ -146,10 +146,9 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                     <th scope="col">Class</th>
                                     <th scope="col">Game name</th>
                                     <th scope="col">Japanese office</th>
-                                    <th scope="col">Japanese pronunciation</th>
                                     <th scope="col">Historical meaning</th>
                                     <th scope="col">Effect</th>
-                                    <th scope="col" class="count-heading">Count</th>
+                                    <th scope="col" class="count-heading">Occurrences</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,6 +159,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
 
                                     return (
                                         <tr
+                                            id={entry.id}
                                             data-reference-row
                                             data-kind={kind}
                                             data-class={entry.className}
@@ -177,7 +177,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                                 entry.category === 'provincial-office' && 'is-provincial',
                                             ]}
                                         >
-                                            <td data-label="Class">
+                                            <td data-label="Class" class="class-cell">
                                                 <span
                                                     class:list={[
                                                         'class-chip',
@@ -189,13 +189,17 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                                     {entry.className}
                                                 </span>
                                             </td>
-                                            <td data-label="Game name">
-                                                <span class="entry-name">{entry.gameName}</span>
+                                            <td data-label="Game name" class="name-cell">
+                                                <span class="entry-name-line">
+                                                    <span class="entry-name">{entry.gameName}</span>
+                                                    <a class="entry-permalink" href={`#${entry.id}`} aria-label={`Link to ${entry.gameName}`}>#</a>
+                                                </span>
                                                 <span class="entry-type">{entry.categoryLabel}</span>
                                             </td>
                                             <td data-label="Japanese office" class="japanese">
-                                                <span class="japanese__line">
-                                                    <span lang="ja">{entry.japanese}</span>
+                                                <span class="japanese__main">
+                                                    <span class="japanese__line">
+                                                        <span lang="ja">{entry.japanese}</span>
                                                     {trivia.length > 0 && (
                                                         <span class="trivia-anchor" data-trivia-anchor>
                                                             <button
@@ -213,7 +217,8 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                                             <span
                                                                 class="trivia-popover"
                                                                 id={triviaId}
-                                                                role="tooltip"
+                                                                role="dialog"
+                                                                aria-label={`Historical context for ${entry.japanese}`}
                                                                 data-trivia-popover
                                                                 data-placement="below"
                                                             >
@@ -232,15 +237,14 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                                             </span>
                                                         </span>
                                                     )}
+                                                    </span>
+                                                    <span class="pronunciation">{pronunciation}</span>
                                                 </span>
-                                            </td>
-                                            <td data-label="Japanese pronunciation" class="pronunciation">
-                                                {pronunciation}
                                             </td>
                                             <td data-label="Historical meaning" class="translation">
                                                 {entry.meaning}
                                             </td>
-                                            <td data-label="Effect">
+                                            <td data-label="Effect" class="effect-cell">
                                                 <span
                                                     class:list={[
                                                         'effect-value',
@@ -255,7 +259,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                                     +{entry.bonus}
                                                 </span>
                                             </td>
-                                            <td data-label="Count" class="count-cell">
+                                            <td data-label="Occurrences" class="count-cell">
                                                 <span class:list={['count-badge', entry.count > 1 && 'count-badge--multiple']}>
                                                     ×{entry.count}
                                                 </span>
