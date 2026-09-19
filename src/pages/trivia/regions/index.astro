@@ -1,0 +1,80 @@
+---
+import { Search } from '@lucide/astro';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import GuideCard from '../../../components/trivia/GuideCard.astro';
+import RegionMap from '../../../components/trivia/RegionMap.astro';
+import { regions } from '../../../data/geography';
+
+const base = import.meta.env.BASE_URL;
+const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => a.localeCompare(b));
+---
+
+<BaseLayout
+    title="Regions & Provinces — Historical Guide"
+    description="Browse the historic provinces, regions, and places referenced by ranks and titles in Nobunaga's Ambition: Rise to Power."
+>
+    <main id="top" class="guide-shell" data-guide-directory>
+        <GuideHeader
+            kicker="Historical Guide · Geography"
+            title="Regions & Provinces"
+            lede="Historic provinces are the geography behind provincial court offices and Shugo titles. Modern prefectures below are only an orientation aid."
+            backHref={`${base}trivia/`}
+            backLabel="Back to the Historical Guide"
+        />
+
+        <section class="guide-directory" aria-labelledby="region-directory-heading">
+            <div class="guide-directory__intro">
+                <div>
+                    <p class="guide-section__kicker">Directory</p>
+                    <h2 id="region-directory-heading">Browse every place</h2>
+                </div>
+                <p>Search by historic name, Japanese name, modern location, or description; or use the area map to narrow the list.</p>
+            </div>
+
+            <div class="guide-directory__controls">
+                <div class="guide-directory__search">
+                    <label class="sr-only" for="guide-region-search">Search regions and provinces</label>
+                    <Search size={17} stroke-width={1.8} aria-hidden="true" />
+                    <input id="guide-region-search" type="search" autocomplete="off" placeholder="Search name, Japanese, location, or description…" data-guide-search />
+                </div>
+                <div class="guide-directory__select">
+                    <label class="sr-only" for="guide-region-area">Filter by area</label>
+                    <select id="guide-region-area" data-guide-area>
+                        <option value="">All areas</option>
+                        {areas.map((area) => <option value={area}>{area}</option>)}
+                    </select>
+                </div>
+                <p class="guide-directory__count" data-guide-count aria-live="polite"></p>
+            </div>
+
+            <RegionMap />
+
+            <div class="guide-card-grid" data-guide-grid>
+                {regions.map((region) => (
+                    <GuideCard
+                        kicker={`${region.type} · ${region.area}`}
+                        japanese={region.japanese}
+                        title={region.name}
+                        meta={region.location}
+                        body={region.body}
+                        href={`${base}trivia/regions/${region.id}/`}
+                        search={[region.name, region.japanese, region.location, region.body, ...(region.aliases ?? [])].join(' ')}
+                        area={region.area}
+                    />
+                ))}
+            </div>
+
+            <p class="guide-empty-note" data-guide-empty hidden>No places match this search and area combination.</p>
+        </section>
+
+        <footer class="guide-footer">
+            <a href={`${base}trivia/`}>← Historical Guide</a>
+            <a href={base}>Ranks &amp; Titles catalogue →</a>
+        </footer>
+    </main>
+</BaseLayout>
+
+<script>
+    import '../../../scripts/guide-directory';
+</script>

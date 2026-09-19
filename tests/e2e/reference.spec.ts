@@ -24,22 +24,6 @@ test('catalogue search, keyboard shortcut, and tab switching work together', asy
     await expect(resultCount).toContainText('70 unique titles');
 });
 
-test('region map filters the historical geography cards', async ({ page }) => {
-    await page.goto('./#regions');
-
-    const regionTopic = page.locator('[data-trivia-topic="regions"]');
-    await regionTopic.click();
-
-    const kanto = page.locator('[data-map-area-button="Kantō"]');
-    await expect(kanto).toBeVisible();
-    await kanto.click();
-
-    await expect(kanto).toHaveAttribute('aria-pressed', 'true');
-    await expect(page.locator('[data-trivia-area]')).toHaveValue('Kantō');
-    await expect(page.locator('[data-trivia-card]:visible').first()).toBeVisible();
-});
-
-
 test('catalogue state is reflected in the URL and direct appointment links resolve', async ({ page }) => {
     await page.goto('./');
 

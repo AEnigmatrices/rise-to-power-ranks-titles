@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideHeader from '../../components/trivia/GuideHeader.astro';
+import GuideCard from '../../components/trivia/GuideCard.astro';
+import { featuredTrivia, officeTrivia } from '../../data/trivia';
+import { provinces, regions } from '../../data/geography';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+    title="Historical Guide — Nobunaga's Ambition: Rise to Power"
+    description="Historical context for the ranks, titles, offices, provinces, and terminology found in Nobunaga's Ambition: Rise to Power."
+>
+    <main id="top" class="guide-shell">
+        <GuideHeader
+            kicker="Historical Guide"
+            title="The stories behind the appointments"
+            lede="Explore the historical geography, institutions, terminology, and status culture behind the names used in Rise to Power."
+            backHref={base}
+            backLabel="Back to the Ranks & Titles catalogue"
+        />
+
+        <section class="guide-section" aria-labelledby="guide-paths-heading">
+            <div class="guide-section__heading">
+                <div>
+                    <p class="guide-section__kicker">Browse the guide</p>
+                    <h2 id="guide-paths-heading">Choose a path</h2>
+                </div>
+                <p>The game mixes court offices, warrior-government titles, historic provinces, and regional names. These directories keep those contexts separate.</p>
+            </div>
+
+            <div class="guide-route-grid">
+                <GuideCard
+                    kicker="Historical geography"
+                    japanese="国・地域"
+                    title="Regions & Provinces"
+                    meta={`${provinces.length} provinces · ${regions.length} place entries`}
+                    body="Browse the old provinces and broader regional names behind provincial offices, Shugo appointments, and regional shogunate commands."
+                    href={`${base}trivia/regions/`}
+                />
+                <GuideCard
+                    kicker="Institutions & status"
+                    japanese="官職・役職"
+                    title="Offices & Titles"
+                    meta={`${officeTrivia.length} historical topics`}
+                    body="Read about court institutions, shogunate offices, status groups, title prefixes, and other terminology that appears across multiple appointments."
+                    href={`${base}trivia/offices/`}
+                />
+            </div>
+        </section>
+
+        <section class="guide-section guide-section--highlights" aria-labelledby="guide-highlights-heading">
+            <div class="guide-section__heading">
+                <div>
+                    <p class="guide-section__kicker">Start here</p>
+                    <h2 id="guide-highlights-heading">Eight useful distinctions</h2>
+                </div>
+                <p>Broad notes that help make sense of the catalogue before diving into individual places or institutions.</p>
+            </div>
+
+            <div class="guide-card-grid">
+                {featuredTrivia.map((item) => (
+                    <GuideCard
+                        kicker={item.kicker}
+                        japanese={item.japanese}
+                        title={item.title}
+                        body={item.body}
+                        source={item.source}
+                    />
+                ))}
+            </div>
+        </section>
+
+        <footer class="guide-footer">
+            <a href={base}>← Return to the appointment catalogue</a>
+            <p>Modern geography is used only for orientation; historical province boundaries and political institutions changed over time.</p>
+        </footer>
+    </main>
+</BaseLayout>

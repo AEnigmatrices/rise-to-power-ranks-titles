@@ -135,3 +135,14 @@
     color: var(--muted);
     font-size: 0.84rem;
 }
+
+
+.trivia-popover__more {
+    display: inline-flex;
+    margin-top: 7px;
+    color: var(--vermilion);
+    font-size: 0.7rem;
+    font-weight: 760;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}

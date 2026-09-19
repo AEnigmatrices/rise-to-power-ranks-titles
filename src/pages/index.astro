@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/hero/Hero.astro';
 import SectionNav from '../components/navigation/SectionNav.astro';
 import SystemOverview from '../components/reference/SystemOverview.astro';
-import TriviaGuide from '../components/trivia/TriviaGuide.astro';
+import HistoricalGuideTeaser from '../components/trivia/HistoricalGuideTeaser.astro';
 import ReferenceExplorer from '../components/reference/ReferenceExplorer.astro';
 import { rankAppointments, titleAppointments } from '../data/appointments';
 import { totalRecords } from '../lib/appointments';
@@ -31,7 +31,7 @@ const titleRecords = totalRecords(titleAppointments);
         <SectionNav />
         <SystemOverview />
         <ReferenceExplorer />
-        <TriviaGuide />
+        <HistoricalGuideTeaser />
 
         <footer class="site-footer">
             <p>
