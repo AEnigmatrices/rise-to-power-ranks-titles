@@ -1,0 +1,39 @@
+---
+interface Props {
+    rankRecords: number;
+    rankEntries: number;
+    titleRecords: number;
+    titleEntries: number;
+}
+
+const { rankRecords, rankEntries, titleRecords, titleEntries } = Astro.props;
+---
+
+<header class="hero">
+    <div class="hero__ornament hero__ornament--left" aria-hidden="true">官</div>
+    <div class="hero__ornament hero__ornament--right" aria-hidden="true">将</div>
+
+    <div class="hero__content">
+        <p class="hero__eyebrow">Nobunaga's Ambition · Rise to Power</p>
+        <h1>Ranks <span>&</span> Titles</h1>
+        <p class="hero__lede">
+            A compact reference to the game's two appointment systems: Imperial
+            Court <strong>Ranks</strong> that raise Politics and Shogunate
+            <strong>Titles</strong> that raise Leadership.
+        </p>
+
+        <div class="hero__facts" aria-label="Reference totals">
+            <div class="hero__fact">
+                <span class="hero__fact-value">{rankRecords}</span>
+                <span class="hero__fact-label">Rank records</span>
+                <span class="hero__fact-detail">{rankEntries} unique entries</span>
+            </div>
+            <div class="hero__divider" aria-hidden="true"></div>
+            <div class="hero__fact">
+                <span class="hero__fact-value">{titleRecords}</span>
+                <span class="hero__fact-label">Title records</span>
+                <span class="hero__fact-detail">{titleEntries} unique entries</span>
+            </div>
+        </div>
+    </div>
+</header>

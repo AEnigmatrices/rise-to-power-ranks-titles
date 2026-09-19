@@ -1,43 +1,94 @@
-# Astro Starter Kit: Minimal
+# Rise to Power — Ranks & Titles
 
-```sh
-pnpm create astro@latest -- --template minimal
+A one-page Astro reference for the **Rank** and **Title** appointment systems in *Nobunaga's Ambition: Rise to Power*.
+
+The site keeps the game's English-localized appointment names alongside their Japanese office names and a separate historical/literal English interpretation. It also shows class, stat effect, appointment type, and a count for exact duplicate source rows.
+
+## Stack
+
+- Astro 7
+- TypeScript
+- pnpm via Corepack
+- Plain browser JavaScript for search/filter interactions
+- GitHub Pages via the official Astro GitHub Action
+
+No UI framework or runtime server is required.
+
+## Requirements
+
+- Node.js 24.x (the project also declares `>=22.12.0`)
+- Corepack enabled
+- pnpm 12.5.1 (pinned in `package.json`)
+
+## Local development
+
+```powershell
+corepack enable
+pnpm install
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
+Because the repository is configured for GitHub Pages, Astro uses the base path:
 
 ```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+/rise-to-power-ranks-and-titles
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+Astro will print the exact local URL when the development server starts.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Production build
 
-Any static assets, like images, can be placed in the `public/` directory.
+```powershell
+pnpm build
+pnpm preview
+```
 
-## 🧞 Commands
+The static output is written to `dist/`.
 
-All commands are run from the root of the project, from a terminal:
+## GitHub Pages deployment
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+The repository includes `.github/workflows/deploy.yml` using the official Astro Pages action.
 
-## 👀 Want to learn more?
+1. Create a GitHub repository named `rise-to-power-ranks-and-titles`.
+2. Push this project to its `main` branch.
+3. Open **Settings → Pages** in GitHub.
+4. Set **Source** to **GitHub Actions**.
+5. Push to `main` (or manually run the workflow) to deploy.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The workflow supplies the GitHub account URL to Astro automatically. The repository base path is already configured in `astro.config.mjs`.
+
+## Data layout
+
+```text
+src/data/ranks.ts   Imperial Court Rank reference
+src/data/titles.ts  Shogunate Title reference
+src/data/types.ts   Shared data type
+```
+
+Exact duplicate entries from the source references are consolidated and represented by the `count` field. Source order is retained.
+
+## Project structure
+
+```text
+.github/workflows/deploy.yml
+public/favicon.svg
+src/
+  components/
+    Hero.astro
+    ReferenceExplorer.astro
+    SystemOverview.astro
+  data/
+    ranks.ts
+    titles.ts
+    types.ts
+  layouts/
+    BaseLayout.astro
+  pages/
+    index.astro
+  styles/
+    global.css
+astro.config.mjs
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+```

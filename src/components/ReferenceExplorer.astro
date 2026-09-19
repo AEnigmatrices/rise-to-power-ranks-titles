@@ -1,0 +1,425 @@
+---
+import { ranks } from '../data/ranks';
+import { titles } from '../data/titles';
+import type { ReferenceEntry, ReferenceKind } from '../data/types';
+
+const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
+    rank: ranks,
+    title: titles,
+};
+
+const totalRecords = (entries: ReferenceEntry[]) =>
+    entries.reduce((total, entry) => total + entry.count, 0);
+
+const searchableText = (entry: ReferenceEntry) =>
+    [
+        entry.name,
+        entry.japanese,
+        entry.translation,
+        entry.className,
+        entry.effect,
+        entry.category,
+    ].join(' ');
+---
+
+<section class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
+    <div class="explorer__intro">
+        <div>
+            <p class="section-kicker">Reference catalogue</p>
+            <h2 id="explorer-heading">Browse every appointment</h2>
+        </div>
+        <p class="explorer__note">
+            The English game name is kept separate from the historical or literal
+            reading of the Japanese office. Exact duplicate source rows are folded
+            into a <strong>Count</strong>. Some offices have no single universally
+            accepted English equivalent, so the historical wording is intentionally
+            descriptive rather than another game localization.
+        </p>
+    </div>
+
+    <div class="switcher" role="tablist" aria-label="Appointment system">
+        <button
+            class="switcher__tab is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="rank-panel"
+            id="rank-tab"
+            data-view="rank"
+        >
+            <span class="switcher__mark" aria-hidden="true">官</span>
+            <span class="switcher__copy">
+                <strong>Imperial Court Ranks</strong>
+                <small>{ranks.length} unique · {totalRecords(ranks)} source rows</small>
+            </span>
+            <span class="effect-chip effect-chip--politics">POL</span>
+        </button>
+
+        <button
+            class="switcher__tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="title-panel"
+            id="title-tab"
+            data-view="title"
+        >
+            <span class="switcher__mark" aria-hidden="true">将</span>
+            <span class="switcher__copy">
+                <strong>Shogunate Titles</strong>
+                <small>{titles.length} unique · {totalRecords(titles)} source rows</small>
+            </span>
+            <span class="effect-chip effect-chip--leadership">LDR</span>
+        </button>
+    </div>
+
+    <div class="toolbar">
+        <div class="toolbar__search field">
+            <label class="sr-only" for="reference-search">Search appointments</label>
+            <svg class="field__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5"></circle>
+                <path d="m16 16 4.25 4.25"></path>
+            </svg>
+            <input
+                id="reference-search"
+                type="search"
+                autocomplete="off"
+                placeholder="Search rank, Japanese office, historical meaning…"
+                data-search
+            />
+            <kbd aria-hidden="true">/</kbd>
+        </div>
+
+        <div class="field">
+            <label class="sr-only" for="class-filter">Filter by class</label>
+            <select id="class-filter" data-class-filter>
+                <option value="">All classes</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="sr-only" for="category-filter">Filter by type</label>
+            <select id="category-filter" data-category-filter>
+                <option value="">All office types</option>
+            </select>
+        </div>
+
+        <button class="reset-button" type="button" data-reset>Reset</button>
+    </div>
+
+    <div class="results-line">
+        <p data-result-count aria-live="polite"></p>
+        <p class="results-line__hint">Press <kbd>/</kbd> to search</p>
+    </div>
+
+    {
+        (Object.entries(rowsByKind) as [ReferenceKind, ReferenceEntry[]][]).map(
+            ([kind, entries]) => (
+                <section
+                    class="reference-panel"
+                    id={`${kind}-panel`}
+                    role="tabpanel"
+                    aria-labelledby={`${kind}-tab`}
+                    data-panel={kind}
+                    hidden={kind !== 'rank'}
+                >
+                    <div class="table-shell">
+                        <table>
+                            <caption>
+                                {kind === 'rank'
+                                    ? 'Imperial Court ranks in Nobunaga’s Ambition: Rise to Power'
+                                    : 'Shogunate titles in Nobunaga’s Ambition: Rise to Power'}
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Game name</th>
+                                    <th scope="col">Japanese office</th>
+                                    <th scope="col">Historical meaning</th>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">Effect</th>
+                                    <th scope="col" class="count-heading">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {entries.map((entry) => (
+                                    <tr
+                                        data-reference-row
+                                        data-kind={kind}
+                                        data-class={entry.className}
+                                        data-category={entry.category}
+                                        data-bonus={entry.bonus}
+                                        data-count={entry.count}
+                                        data-search-text={searchableText(entry)}
+                                        class:list={[
+                                            entry.category === 'Shugo' && 'is-shugo',
+                                            entry.category === 'Provincial Office' && 'is-provincial',
+                                        ]}
+                                    >
+                                        <td data-label="Game name">
+                                            <span class="entry-name">{entry.name}</span>
+                                            <span class="entry-type">{entry.category}</span>
+                                        </td>
+                                        <td data-label="Japanese office" class="japanese">
+                                            {entry.japanese}
+                                        </td>
+                                        <td data-label="Historical meaning" class="translation">
+                                            {entry.translation}
+                                        </td>
+                                        <td data-label="Class">
+                                            <span
+                                                class:list={[
+                                                    'class-chip',
+                                                    entry.className.startsWith('Upper')
+                                                        ? 'class-chip--upper'
+                                                        : 'class-chip--lower',
+                                                ]}
+                                            >
+                                                {entry.className}
+                                            </span>
+                                        </td>
+                                        <td data-label="Effect">
+                                            <span
+                                                class:list={[
+                                                    'effect-value',
+                                                    kind === 'rank'
+                                                        ? 'effect-value--politics'
+                                                        : 'effect-value--leadership',
+                                                ]}
+                                            >
+                                                <span class="effect-chip" aria-hidden="true">
+                                                    {kind === 'rank' ? 'POL' : 'LDR'}
+                                                </span>
+                                                +{entry.bonus}
+                                            </span>
+                                        </td>
+                                        <td data-label="Count" class="count-cell">
+                                            <span class:list={['count-badge', entry.count > 1 && 'count-badge--multiple']}>
+                                                ×{entry.count}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        <div class="empty-state" data-empty hidden>
+                            <span class="empty-state__mark" aria-hidden="true">無</span>
+                            <strong>No matching appointments</strong>
+                            <p>Try another search term or loosen one of the filters.</p>
+                        </div>
+                    </div>
+                </section>
+            ),
+        )
+    }
+</section>
+
+<script is:inline>
+    (() => {
+        const root = document.querySelector('[data-reference-explorer]');
+
+        if (!(root instanceof HTMLElement)) return;
+
+        const tabs = Array.from(root.querySelectorAll('[data-view]'));
+        const panels = Array.from(root.querySelectorAll('[data-panel]'));
+        const searchInput = root.querySelector('[data-search]');
+        const classFilter = root.querySelector('[data-class-filter]');
+        const categoryFilter = root.querySelector('[data-category-filter]');
+        const resetButton = root.querySelector('[data-reset]');
+        const resultCount = root.querySelector('[data-result-count]');
+
+        if (
+            !(searchInput instanceof HTMLInputElement) ||
+            !(classFilter instanceof HTMLSelectElement) ||
+            !(categoryFilter instanceof HTMLSelectElement) ||
+            !(resetButton instanceof HTMLButtonElement) ||
+            !(resultCount instanceof HTMLElement)
+        ) {
+            return;
+        }
+
+        let activeKind = location.hash === '#titles' ? 'title' : 'rank';
+
+        const normalize = (value) =>
+            value.normalize('NFKC').toLocaleLowerCase().trim();
+
+        const classNumber = (value) => {
+            const match = value.match(/(\d+)/);
+            return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+        };
+
+        const sortClasses = (a, b) => {
+            const numberDifference = classNumber(a) - classNumber(b);
+            if (numberDifference !== 0) return numberDifference;
+            if (a.startsWith('Upper') && b.startsWith('Lower')) return -1;
+            if (a.startsWith('Lower') && b.startsWith('Upper')) return 1;
+            return a.localeCompare(b);
+        };
+
+        const getActivePanel = () =>
+            panels.find((panel) => panel.getAttribute('data-panel') === activeKind);
+
+        const getActiveRows = () => {
+            const panel = getActivePanel();
+            return panel ? Array.from(panel.querySelectorAll('[data-reference-row]')) : [];
+        };
+
+        const refillSelect = (select, values, firstLabel) => {
+            select.replaceChildren();
+
+            const firstOption = document.createElement('option');
+            firstOption.value = '';
+            firstOption.textContent = firstLabel;
+            select.append(firstOption);
+
+            values.forEach((value) => {
+                const option = document.createElement('option');
+                option.value = value;
+                option.textContent = value;
+                select.append(option);
+            });
+        };
+
+        const refreshFilterOptions = () => {
+            const rows = getActiveRows();
+            const classes = Array.from(
+                new Set(rows.map((row) => row.getAttribute('data-class') || '')),
+            )
+                .filter(Boolean)
+                .sort(sortClasses);
+            const categories = Array.from(
+                new Set(rows.map((row) => row.getAttribute('data-category') || '')),
+            )
+                .filter(Boolean)
+                .sort((a, b) => a.localeCompare(b));
+
+            refillSelect(classFilter, classes, 'All classes');
+            refillSelect(
+                categoryFilter,
+                categories,
+                activeKind === 'rank' ? 'All rank types' : 'All title types',
+            );
+        };
+
+        const updateResults = () => {
+            const query = normalize(searchInput.value);
+            const selectedClass = classFilter.value;
+            const selectedCategory = categoryFilter.value;
+            const rows = getActiveRows();
+            let visibleEntries = 0;
+            let visibleRecords = 0;
+
+            rows.forEach((row) => {
+                const searchText = normalize(row.getAttribute('data-search-text') || '');
+                const rowClass = row.getAttribute('data-class') || '';
+                const rowCategory = row.getAttribute('data-category') || '';
+                const matches =
+                    (query.length === 0 || searchText.includes(query)) &&
+                    (selectedClass.length === 0 || rowClass === selectedClass) &&
+                    (selectedCategory.length === 0 || rowCategory === selectedCategory);
+
+                row.hidden = !matches;
+
+                if (matches) {
+                    visibleEntries += 1;
+                    visibleRecords += Number(row.getAttribute('data-count') || 1);
+                }
+            });
+
+            const panel = getActivePanel();
+            const empty = panel?.querySelector('[data-empty]');
+            const table = panel?.querySelector('table');
+
+            if (empty instanceof HTMLElement) empty.hidden = visibleEntries !== 0;
+            if (table instanceof HTMLTableElement) table.hidden = visibleEntries === 0;
+
+            const noun = activeKind === 'rank' ? 'ranks' : 'titles';
+            const totalEntries = rows.length;
+            const totalRecords = rows.reduce(
+                (sum, row) => sum + Number(row.getAttribute('data-count') || 1),
+                0,
+            );
+            const filtered = visibleEntries !== totalEntries || visibleRecords !== totalRecords;
+
+            resultCount.textContent = filtered
+                ? `Showing ${visibleEntries} of ${totalEntries} unique ${noun} · ${visibleRecords} source rows`
+                : `${totalEntries} unique ${noun} · ${totalRecords} source rows`;
+        };
+
+        const setKind = (kind, updateHash = true) => {
+            activeKind = kind === 'title' ? 'title' : 'rank';
+
+            tabs.forEach((tab) => {
+                const selected = tab.getAttribute('data-view') === activeKind;
+                tab.classList.toggle('is-active', selected);
+                tab.setAttribute('aria-selected', String(selected));
+                tab.setAttribute('tabindex', selected ? '0' : '-1');
+            });
+
+            panels.forEach((panel) => {
+                panel.hidden = panel.getAttribute('data-panel') !== activeKind;
+            });
+
+            searchInput.placeholder =
+                activeKind === 'rank'
+                    ? 'Search rank, Japanese office, historical meaning…'
+                    : 'Search title, Japanese office, historical meaning…';
+
+            classFilter.value = '';
+            categoryFilter.value = '';
+            refreshFilterOptions();
+            updateResults();
+
+            if (updateHash) {
+                history.replaceState(null, '', activeKind === 'rank' ? '#ranks' : '#titles');
+            }
+        };
+
+        tabs.forEach((tab) => {
+            tab.addEventListener('click', () => setKind(tab.getAttribute('data-view')));
+
+            tab.addEventListener('keydown', (event) => {
+                if (!(event instanceof KeyboardEvent)) return;
+                if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+                event.preventDefault();
+                const nextKind = activeKind === 'rank' ? 'title' : 'rank';
+                setKind(nextKind);
+                tabs.find((candidate) => candidate.getAttribute('data-view') === nextKind)?.focus();
+            });
+        });
+
+        searchInput.addEventListener('input', updateResults);
+        classFilter.addEventListener('change', updateResults);
+        categoryFilter.addEventListener('change', updateResults);
+
+        resetButton.addEventListener('click', () => {
+            searchInput.value = '';
+            classFilter.value = '';
+            categoryFilter.value = '';
+            updateResults();
+            searchInput.focus();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            const target = event.target;
+            const isEditing =
+                target instanceof HTMLInputElement ||
+                target instanceof HTMLTextAreaElement ||
+                target instanceof HTMLSelectElement;
+
+            if (event.key === '/' && !isEditing) {
+                event.preventDefault();
+                searchInput.focus();
+            }
+
+            if (event.key === 'Escape' && document.activeElement === searchInput) {
+                searchInput.value = '';
+                updateResults();
+                searchInput.blur();
+            }
+        });
+
+        setKind(activeKind, false);
+    })();
+</script>

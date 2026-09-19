@@ -1,17 +1,36 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import SystemOverview from '../components/SystemOverview.astro';
+import ReferenceExplorer from '../components/ReferenceExplorer.astro';
+import { ranks } from '../data/ranks';
+import { titles } from '../data/titles';
 
+const rankRecords = ranks.reduce((total, entry) => total + entry.count, 0);
+const titleRecords = titles.reduce((total, entry) => total + entry.count, 0);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+    title="Ranks & Titles — Nobunaga's Ambition: Rise to Power"
+    description="A searchable reference for Imperial Court Ranks and Shogunate Titles in Nobunaga's Ambition: Rise to Power, including Japanese offices, historical translations, classes, repeated source rows, and stat bonuses."
+>
+    <main class="page-shell">
+        <Hero
+            rankRecords={rankRecords}
+            rankEntries={ranks.length}
+            titleRecords={titleRecords}
+            titleEntries={titles.length}
+        />
+
+        <SystemOverview />
+        <ReferenceExplorer />
+
+        <footer class="site-footer">
+            <p>
+                Unofficial reference for <em>Nobunaga's Ambition: Rise to Power</em>.
+                Game-localized names are preserved for lookup; historical translations
+                are presented separately for context.
+            </p>
+        </footer>
+    </main>
+</BaseLayout>
