@@ -282,6 +282,7 @@ const searchableText = (
     import Fuse from 'fuse.js';
     import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
     import { animate, stagger } from 'motion';
+    import { isSingleCharacterQuery, normalizeSearchText, sortClasses, sourceOrder } from '../lib/search';
 
     type ReferenceKind = 'rank' | 'title';
 
@@ -317,25 +318,6 @@ const searchableText = (
         if (!searchInput || !classFilter || !categoryFilter || !resetButton || !resultCount) return;
 
         let activeKind: ReferenceKind = location.hash === '#titles' ? 'title' : 'rank';
-
-        // Match plain romanization (Omi, Kyushu) as well as macrons and Japanese.
-        const normalize = (value: string) => value.normalize('NFKD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLocaleLowerCase()
-            .trim();
-
-        const classNumber = (value: string) => {
-            const match = value.match(/(\d+)/);
-            return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
-        };
-
-        const sortClasses = (a: string, b: string) => {
-            const numberDifference = classNumber(a) - classNumber(b);
-            if (numberDifference !== 0) return numberDifference;
-            if (a.startsWith('Upper') && b.startsWith('Lower')) return -1;
-            if (a.startsWith('Lower') && b.startsWith('Upper')) return 1;
-            return a.localeCompare(b);
-        };
 
         const closeTrivia = (anchor: HTMLElement) => {
             const cleanup = floatingCleanups.get(anchor);
@@ -460,13 +442,13 @@ const searchableText = (
 
             const records: SearchRecord[] = getActiveRows().map((row) => ({
                 row,
-                name: normalize(row.dataset.searchName ?? ''),
-                japanese: normalize(row.dataset.searchJapanese ?? ''),
-                pronunciation: normalize(row.dataset.searchPronunciation ?? ''),
-                translation: normalize(row.dataset.searchTranslation ?? ''),
-                className: normalize(row.dataset.class ?? ''),
-                category: normalize(row.dataset.category ?? ''),
-                all: normalize(row.dataset.searchText ?? ''),
+                name: normalizeSearchText(row.dataset.searchName ?? ''),
+                japanese: normalizeSearchText(row.dataset.searchJapanese ?? ''),
+                pronunciation: normalizeSearchText(row.dataset.searchPronunciation ?? ''),
+                translation: normalizeSearchText(row.dataset.searchTranslation ?? ''),
+                className: normalizeSearchText(row.dataset.class ?? ''),
+                category: normalizeSearchText(row.dataset.category ?? ''),
+                all: normalizeSearchText(row.dataset.searchText ?? ''),
             }));
 
             const searcher = new Fuse(records, {
@@ -529,13 +511,12 @@ const searchableText = (
 
         const rankedRows = (rows: HTMLTableRowElement[], query: string): HTMLTableRowElement[] => {
             if (!query) {
-                return [...rows].sort((a, b) =>
-                    Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0));
+                return [...rows].sort((a, b) => sourceOrder(a) - sourceOrder(b));
             }
 
             // One-character searches are especially useful for kanji; keep those exact and predictable.
-            if ([...query].length === 1) {
-                return rows.filter((row) => normalize(row.dataset.searchText ?? '').includes(query));
+            if (isSingleCharacterQuery(query)) {
+                return rows.filter((row) => normalizeSearchText(row.dataset.searchText ?? '').includes(query));
             }
 
             return getSearcher().search(query).map((result) => result.item.row);
@@ -555,7 +536,7 @@ const searchableText = (
         const updateResults = () => {
             closeAllTrivia();
 
-            const query = normalize(searchInput.value);
+            const query = normalizeSearchText(searchInput.value);
             const selectedClass = classFilter.value;
             const selectedCategory = categoryFilter.value;
             const rows = getActiveRows();
@@ -574,7 +555,7 @@ const searchableText = (
                 matches.forEach((row) => body.append(row));
                 rows
                     .filter((row) => !visible.has(row))
-                    .sort((a, b) => Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0))
+                    .sort((a, b) => sourceOrder(a) - sourceOrder(b))
                     .forEach((row) => body.append(row));
             }
 

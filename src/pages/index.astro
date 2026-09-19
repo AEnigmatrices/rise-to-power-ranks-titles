@@ -6,6 +6,10 @@ import TriviaGuide from '../components/TriviaGuide.astro';
 import ReferenceExplorer from '../components/ReferenceExplorer.astro';
 import { ranks } from '../data/ranks';
 import { titles } from '../data/titles';
+import { validateStaticData } from '../data/validation';
+
+// Fail the build early if authored reference data violates the shared schema.
+validateStaticData();
 
 const rankRecords = ranks.reduce((total, entry) => total + entry.count, 0);
 const titleRecords = titles.reduce((total, entry) => total + entry.count, 0);

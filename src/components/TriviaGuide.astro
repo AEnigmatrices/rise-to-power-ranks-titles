@@ -134,6 +134,7 @@ const areas = [...new Set(regions.map((region) => region.area))];
 <script>
     import Fuse from 'fuse.js';
     import { animate, stagger } from 'motion';
+    import { isSingleCharacterQuery, normalizeSearchText, sourceOrder } from '../lib/search';
 
     type TriviaTopic = 'highlights' | 'regions' | 'offices' | 'all';
 
@@ -174,18 +175,12 @@ const areas = [...new Set(regions.map((region) => region.area))];
             return;
         }
 
-        // Match plain romanization (Omi, Kyushu) as well as macrons and Japanese.
-        const normalize = (value: string) => value.normalize('NFKD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .toLowerCase()
-            .trim();
-
         const records: TriviaSearchRecord[] = cards.map((card) => ({
             card,
-            title: normalize(card.dataset.searchTitle ?? ''),
-            area: normalize(card.dataset.area ?? ''),
-            topic: normalize(card.dataset.topic ?? ''),
-            all: normalize(card.dataset.searchText ?? ''),
+            title: normalizeSearchText(card.dataset.searchTitle ?? ''),
+            area: normalizeSearchText(card.dataset.area ?? ''),
+            topic: normalizeSearchText(card.dataset.topic ?? ''),
+            all: normalizeSearchText(card.dataset.searchText ?? ''),
         }));
 
         const fuse = new Fuse(records, {
@@ -204,13 +199,12 @@ const areas = [...new Set(regions.map((region) => region.area))];
 
         const rankedCards = (query: string): HTMLElement[] => {
             if (!query) {
-                return [...cards].sort((a, b) =>
-                    Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0));
+                return [...cards].sort((a, b) => sourceOrder(a) - sourceOrder(b));
             }
 
             // Keep single-kanji searches deterministic instead of fuzzing them.
-            if ([...query].length === 1) {
-                return cards.filter((card) => normalize(card.dataset.searchText ?? '').includes(query));
+            if (isSingleCharacterQuery(query)) {
+                return cards.filter((card) => normalizeSearchText(card.dataset.searchText ?? '').includes(query));
             }
 
             return fuse.search(query).map((result) => result.item.card);
@@ -258,7 +252,7 @@ const areas = [...new Set(regions.map((region) => region.area))];
         };
 
         const update = () => {
-            const query = normalize(search.value);
+            const query = normalizeSearchText(search.value);
             const ranked = rankedCards(query);
             const matches = ranked.filter((card) =>
                 (topic === 'all' || card.dataset.topic === topic) &&
@@ -273,7 +267,7 @@ const areas = [...new Set(regions.map((region) => region.area))];
             matches.forEach((card) => grid.append(card));
             cards
                 .filter((card) => !matched.has(card))
-                .sort((a, b) => Number(a.dataset.order ?? 0) - Number(b.dataset.order ?? 0))
+                .sort((a, b) => sourceOrder(a) - sourceOrder(b))
                 .forEach((card) => grid.append(card));
 
             topics.forEach((button) => {
