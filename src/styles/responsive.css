@@ -59,7 +59,119 @@
     .reset-button { width: 100%; }
 
     .table-shell { overflow-x: auto; }
-    table { min-width: 1120px; }
+    .reference-table { min-width: 960px; }
+}
+
+
+@media (max-width: 860px) {
+    .toolbar {
+        position: static;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .toolbar__search { grid-column: 1 / -1; }
+
+    .table-shell {
+        overflow: visible;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .reference-table,
+    .reference-table tbody,
+    .reference-table tr,
+    .reference-table td {
+        display: block;
+        width: 100%;
+    }
+
+    .reference-table { min-width: 0; }
+    .reference-table thead { display: none; }
+
+    .reference-table tbody {
+        display: grid;
+        gap: 10px;
+    }
+
+    .reference-table tbody tr,
+    .reference-table tbody tr:nth-child(even),
+    .reference-table tbody tr.is-shugo,
+    .reference-table tbody tr.is-provincial {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 8px 14px;
+        overflow: hidden;
+        padding: 15px;
+        border: 1px solid #d8d0c2;
+        border-radius: 12px;
+        background: #faf7f0;
+        background-image: none;
+        box-shadow: 0 6px 22px rgb(0 0 0 / 0.11);
+    }
+
+    .reference-table tbody tr:hover {
+        background: #fffaf0;
+        box-shadow: 0 8px 26px rgb(0 0 0 / 0.13);
+    }
+
+    .reference-table td {
+        padding: 0;
+        border: 0;
+    }
+
+    .reference-table td::before { display: none; }
+
+    .name-cell {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .effect-cell {
+        grid-column: 2;
+        grid-row: 1;
+        align-self: start;
+    }
+
+    .japanese {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        padding-top: 5px !important;
+        border-top: 1px solid #e8e0d3 !important;
+    }
+
+    .translation {
+        grid-column: 1 / -1;
+        grid-row: 3;
+        color: #5b605b;
+        font-size: 0.79rem;
+    }
+
+    .class-cell {
+        grid-column: 1;
+        grid-row: 4;
+        align-self: center;
+    }
+
+    .count-cell {
+        grid-column: 2;
+        grid-row: 4;
+        align-self: center;
+        text-align: right;
+    }
+
+    .entry-permalink { opacity: 1; }
+    .entry-type { margin-top: 2px; }
+
+    .japanese__main {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 6px 10px;
+    }
+
+    .japanese__main .pronunciation { font-size: 0.72rem; }
 }
 
 @media (max-width: 720px) {
@@ -151,77 +263,6 @@
 
     .results-line__hint { display: none; }
 
-    .table-shell {
-        overflow: visible;
-        border: 0;
-        background: transparent;
-        box-shadow: none;
-    }
-
-    table,
-    tbody,
-    tr,
-    td {
-        display: block;
-        width: 100%;
-    }
-
-    table { min-width: 0; }
-    thead { display: none; }
-
-    tbody {
-        display: grid;
-        gap: 10px;
-    }
-
-    tbody tr,
-    tbody tr:nth-child(even),
-    tbody tr.is-shugo,
-    tbody tr.is-provincial {
-        overflow: hidden;
-        border: 1px solid #d8d0c2;
-        border-radius: 12px;
-        background: #faf7f0;
-        background-image: none;
-        box-shadow: 0 6px 22px rgb(0 0 0 / 0.12);
-    }
-
-    tbody tr:hover {
-        background: #faf7f0;
-        box-shadow: 0 6px 22px rgb(0 0 0 / 0.12);
-    }
-
-    td {
-        display: grid;
-        grid-template-columns: minmax(102px, 35%) 1fr;
-        gap: 12px;
-        align-items: baseline;
-        padding: 9px 13px;
-        border-bottom: 1px solid #e9e2d7;
-    }
-
-    td::before {
-        color: #8a8d87;
-        content: attr(data-label);
-        font-size: 0.61rem;
-        font-weight: 850;
-        letter-spacing: 0.07em;
-        text-transform: uppercase;
-    }
-
-    td:first-child { padding-top: 14px; }
-
-    td:last-child {
-        padding-bottom: 14px;
-        border-bottom: 0;
-    }
-
-    .entry-name,
-    .entry-type { grid-column: 2; }
-
-    .pronunciation { font-size: 0.76rem; }
-    .count-cell { text-align: left; }
-
     .trivia-guide {
         margin-top: 54px;
         padding: 34px 3px 0;
@@ -285,7 +326,6 @@
     .region-map__index { grid-template-columns: 1fr; }
     .region-map__clear { grid-column: auto; }
 
-    td { grid-template-columns: 92px 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

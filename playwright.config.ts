@@ -1,6 +1,6 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const basePath = '/rise-to-power-ranks-and-titles/';
+const basePath = '/rise-to-power-ranks-titles/';
 const baseURL = `http://127.0.0.1:4321${basePath}`;
 
 export default defineConfig({
@@ -24,5 +24,7 @@ export default defineConfig({
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
         { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
         { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+        { name: 'mobile-chromium', use: { ...devices['Pixel 5'] } },
+        { name: 'tablet-webkit', use: { ...devices['iPad Pro 11'] } },
     ],
 });

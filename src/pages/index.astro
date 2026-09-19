@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/hero/Hero.astro';
+import SectionNav from '../components/navigation/SectionNav.astro';
 import SystemOverview from '../components/reference/SystemOverview.astro';
 import TriviaGuide from '../components/trivia/TriviaGuide.astro';
 import ReferenceExplorer from '../components/reference/ReferenceExplorer.astro';
@@ -19,7 +20,7 @@ const titleRecords = totalRecords(titleAppointments);
     title="Ranks & Titles — Nobunaga's Ambition: Rise to Power"
     description="A searchable reference for Imperial Court Ranks and Shogunate Titles in Nobunaga's Ambition: Rise to Power, including Japanese offices and pronunciations, historical translations and trivia, classes, repeated source rows, and stat bonuses."
 >
-    <main class="page-shell">
+    <main id="top" class="page-shell">
         <Hero
             rankRecords={rankRecords}
             rankEntries={rankAppointments.length}
@@ -27,6 +28,7 @@ const titleRecords = totalRecords(titleAppointments);
             titleEntries={titleAppointments.length}
         />
 
+        <SectionNav />
         <SystemOverview />
         <ReferenceExplorer />
         <TriviaGuide />

@@ -35,11 +35,22 @@ type TriviaSearchRecord = {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const pageSize = 6;
     let limit = pageSize;
-    let topic: TriviaTopic = location.hash === '#regions' ? 'regions' : 'highlights';
 
     if (!controls || !search || !area || !areaField || !context || !count || !empty || !more || !moreLabel || !grid) {
         return;
     }
+
+    const initialParams = new URLSearchParams(location.search);
+    const requestedTopic = initialParams.get('topic');
+    let topic: TriviaTopic =
+        requestedTopic === 'regions' || requestedTopic === 'offices' || requestedTopic === 'all'
+            ? requestedTopic
+            : location.hash === '#regions'
+                ? 'regions'
+                : 'highlights';
+
+    search.value = initialParams.get('tq') ?? '';
+    if (topic === 'regions') area.value = initialParams.get('area') ?? '';
 
     const records: TriviaSearchRecord[] = cards.map((card) => ({
         card,
@@ -117,6 +128,22 @@ type TriviaSearchRecord = {
         if (mapClear) mapClear.hidden = !activeArea;
     };
 
+    const syncUrlState = () => {
+        const url = new URL(location.href);
+        const query = search.value.trim();
+
+        if (topic === 'highlights') url.searchParams.delete('topic');
+        else url.searchParams.set('topic', topic);
+
+        if (query) url.searchParams.set('tq', query);
+        else url.searchParams.delete('tq');
+
+        if (topic === 'regions' && area.value) url.searchParams.set('area', area.value);
+        else url.searchParams.delete('area');
+
+        history.replaceState(null, '', url);
+    };
+
     const update = () => {
         const query = normalizeSearchText(search.value);
         const ranked = rankedCards(query);
@@ -150,6 +177,7 @@ type TriviaSearchRecord = {
         count.textContent = `Showing ${visibleCards.length} of ${matches.length} ${noun}${matches.length === 1 ? '' : 's'}${relevanceNote}`;
 
         syncMap();
+        syncUrlState();
         animateCards(visibleCards);
     };
 
@@ -162,7 +190,9 @@ type TriviaSearchRecord = {
         topic = 'regions';
         area.value = areaName;
         search.value = '';
-        history.replaceState(null, '', '#regions');
+        const url = new URL(location.href);
+        url.hash = '#regions';
+        history.replaceState(null, '', url);
         filter();
     };
 
@@ -172,7 +202,9 @@ type TriviaSearchRecord = {
             ? nextTopic
             : 'highlights';
         if (topic !== 'regions') area.value = '';
-        history.replaceState(null, '', topic === 'regions' ? '#regions' : '#trivia');
+        const url = new URL(location.href);
+        url.hash = topic === 'regions' ? '#regions' : '#trivia';
+        history.replaceState(null, '', url);
         filter();
     }));
 

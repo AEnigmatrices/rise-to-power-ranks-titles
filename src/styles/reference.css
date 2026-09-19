@@ -147,7 +147,7 @@
 .toolbar {
     position: sticky;
     z-index: 20;
-    top: 10px;
+    top: 68px;
     display: grid;
     grid-template-columns: minmax(280px, 1fr) minmax(150px, 210px) minmax(150px, 210px) auto;
     gap: 8px;
