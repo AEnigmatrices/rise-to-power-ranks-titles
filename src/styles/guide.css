@@ -398,7 +398,7 @@
 .related-appointment__meta {
     grid-column: 1;
     margin-top: 5px;
-    color: var(--faint);
+    color: var(--muted);
     font-size: 0.66rem;
 }
 
