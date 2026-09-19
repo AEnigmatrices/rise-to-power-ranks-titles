@@ -1,0 +1,25 @@
+/* ---------- Shared chips ---------- */
+
+.effect-chip {
+    display: inline-grid;
+    min-width: 36px;
+    min-height: 23px;
+    place-items: center;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 0.075em;
+}
+
+.effect-chip--politics,
+.effect-value--politics .effect-chip {
+    color: var(--politics);
+    background: var(--politics-soft);
+}
+
+.effect-chip--leadership,
+.effect-value--leadership .effect-chip {
+    color: var(--leadership);
+    background: var(--leadership-soft);
+}

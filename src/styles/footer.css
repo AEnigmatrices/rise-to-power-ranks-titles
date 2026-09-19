@@ -1,0 +1,13 @@
+/* ---------- Footer ---------- */
+
+.site-footer {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 38px 20px 0;
+    color: var(--faint);
+    font-size: 0.73rem;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.site-footer p { margin: 0; }

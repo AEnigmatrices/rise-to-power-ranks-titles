@@ -3,23 +3,18 @@ import { ExternalLink, MapPinned, MousePointerClick } from '@lucide/astro';
 import { geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import japanTopology from 'jpn-atlas/japan/japan.json';
-import { provinces } from '../data/regions';
+import { mapAreas, provinces } from '../../data/geography';
 
-const topology = japanTopology as any;
-const prefectureCollection = feature(topology, topology.objects.prefectures) as any;
-const country = feature(topology, topology.objects.country) as any;
+const topology = japanTopology as unknown as Parameters<typeof feature>[0];
+const prefectureCollection = feature(topology, topology.objects.prefectures);
+const country = feature(topology, topology.objects.country);
 const path = geoPath();
 
-const areaMeta = [
-    { id: 'Kinai & Kansai', label: 'Kinai & Kansai', prefectures: [25, 26, 27, 28, 29, 30] },
-    { id: 'Tōkai & Central Japan', label: 'Tōkai & Central', prefectures: [19, 20, 21, 22, 23, 24] },
-    { id: 'Kantō', label: 'Kantō', prefectures: [8, 9, 10, 11, 12, 13, 14] },
-    { id: 'Tōhoku', label: 'Tōhoku', prefectures: [2, 3, 4, 5, 6, 7] },
-    { id: 'Hokuriku', label: 'Hokuriku', prefectures: [15, 16, 17, 18] },
-    { id: 'Chūgoku', label: 'Chūgoku', prefectures: [31, 32, 33, 34, 35] },
-    { id: 'Shikoku', label: 'Shikoku', prefectures: [36, 37, 38, 39] },
-    { id: 'Kyūshū & Islands', label: 'Kyūshū & Islands', prefectures: [40, 41, 42, 43, 44, 45, 46] },
-].map((area) => ({
+if (prefectureCollection.type !== 'FeatureCollection') {
+    throw new Error('Expected prefecture topology to resolve to a FeatureCollection.');
+}
+
+const areaMeta = mapAreas.map((area) => ({
     ...area,
     provinceCount: provinces.filter((province) => province.area === area.id).length,
 }));
@@ -34,7 +29,7 @@ const prefectureCode = (id: string | number | undefined) => {
     return numeric >= 1000 ? Math.floor(numeric / 1000) : numeric;
 };
 
-const prefectures = prefectureCollection.features.map((prefecture: any) => {
+const prefectures = prefectureCollection.features.map((prefecture) => {
     const code = prefectureCode(prefecture.id);
     return {
         code,

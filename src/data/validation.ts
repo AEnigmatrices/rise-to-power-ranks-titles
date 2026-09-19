@@ -1,118 +1,118 @@
 import { z } from 'astro/zod';
-import { ranks } from './ranks';
-import { titles } from './titles';
-import { pronunciations } from './pronunciations';
-import { provinces, regions } from './regions';
-import { officeTrivia } from './trivia';
-
-const nonEmptyString = z.string().trim().min(1);
-const classNameSchema = z.string().regex(
-    /^(Upper|Lower) \d+(?:st|nd|rd|th) Class$/,
-    'Expected a class label such as "Upper 4th Class".',
-);
-const effectSchema = z.string().regex(
-    /^(Politics|Leadership) \+ \d+$/,
-    'Expected an effect such as "Politics + 9".',
-);
-
-const referenceEntrySchema = z.object({
-    name: nonEmptyString,
-    japanese: nonEmptyString,
-    translation: nonEmptyString,
-    className: classNameSchema,
-    effect: effectSchema,
-    bonus: z.number().int().min(1).max(12),
-    count: z.number().int().positive(),
-    category: nonEmptyString,
-}).superRefine((entry, context) => {
-    const effectBonus = Number(entry.effect.match(/(\d+)$/)?.[1]);
-    if (effectBonus !== entry.bonus) {
-        context.addIssue({
-            code: 'custom',
-            path: ['effect'],
-            message: `Effect bonus ${effectBonus} does not match bonus ${entry.bonus}.`,
-        });
-    }
-});
-
-const regionSchema = z.object({
-    id: nonEmptyString,
-    name: nonEmptyString,
-    japanese: nonEmptyString,
-    area: nonEmptyString,
-    location: nonEmptyString,
-    body: nonEmptyString,
-    source: z.url(),
-    aliases: z.array(nonEmptyString).optional(),
-    type: z.enum(['Province', 'Region', 'Historic site']),
-});
-
-const triviaItemSchema = z.object({
-    id: nonEmptyString,
-    label: nonEmptyString,
-    body: nonEmptyString,
-    source: z.url().optional(),
-});
+import {
+    appointments,
+    rankAppointments,
+    titleAppointments,
+} from './appointments';
+import { mapAreas, provinces, regions } from './geography';
+import { featuredTrivia, officeTrivia } from './trivia';
+import { appointmentSchema } from './schema/appointments';
+import { mapAreaSchema, regionSchema } from './schema/geography';
+import { featuredTriviaSchema, triviaItemSchema } from './schema/trivia';
 
 const staticDataSchema = z.object({
-    ranks: z.array(referenceEntrySchema).min(1),
-    titles: z.array(referenceEntrySchema).min(1),
-    pronunciations: z.record(z.string().min(1), nonEmptyString),
+    appointments: z.array(appointmentSchema).min(1),
+    ranks: z.array(appointmentSchema).min(1),
+    titles: z.array(appointmentSchema).min(1),
     provinces: z.array(regionSchema).min(1),
     regions: z.array(regionSchema).min(1),
+    mapAreas: z.array(mapAreaSchema).min(1),
     trivia: z.array(triviaItemSchema).min(1),
+    featuredTrivia: z.array(featuredTriviaSchema).min(1),
 }).superRefine((data, context) => {
-    const validateEffectFamily = (
-        entries: typeof data.ranks,
-        expected: 'Politics' | 'Leadership',
-        path: 'ranks' | 'titles',
+    const assertUnique = <T>(
+        items: T[],
+        value: (item: T) => string,
+        path: string,
+        label: string,
     ) => {
-        entries.forEach((entry, index) => {
-            if (!entry.effect.startsWith(`${expected} + `)) {
+        const seen = new Set<string>();
+        items.forEach((item, index) => {
+            const current = value(item);
+            if (seen.has(current)) {
                 context.addIssue({
                     code: 'custom',
-                    path: [path, index, 'effect'],
-                    message: `${path === 'ranks' ? 'Ranks' : 'Titles'} must modify ${expected}.`,
+                    path: [path, index],
+                    message: `Duplicate ${label}: ${current}.`,
+                });
+            }
+            seen.add(current);
+        });
+    };
+
+    assertUnique(data.appointments, (entry) => entry.id, 'appointments', 'appointment id');
+    assertUnique(
+        data.appointments,
+        (entry) => entry.japanese,
+        'appointments',
+        'Japanese office name',
+    );
+    assertUnique(data.regions, (region) => region.id, 'regions', 'region id');
+    assertUnique(data.trivia, (item) => item.id, 'trivia', 'trivia id');
+    assertUnique(data.mapAreas, (area) => area.id, 'mapAreas', 'map area id');
+
+    const validateSourceOrder = (
+        entries: typeof data.ranks,
+        path: 'ranks' | 'titles',
+    ) => {
+        const orders = entries.map((entry) => entry.sourceOrder).sort((a, b) => a - b);
+        orders.forEach((order, index) => {
+            if (order !== index) {
+                context.addIssue({
+                    code: 'custom',
+                    path: [path, index, 'sourceOrder'],
+                    message: `${path} sourceOrder must form a contiguous 0-based sequence.`,
                 });
             }
         });
     };
 
-    validateEffectFamily(data.ranks, 'Politics', 'ranks');
-    validateEffectFamily(data.titles, 'Leadership', 'titles');
+    validateSourceOrder(data.ranks, 'ranks');
+    validateSourceOrder(data.titles, 'titles');
 
-    const appointmentJapanese = new Set(
-        [...data.ranks, ...data.titles].map((entry) => entry.japanese),
-    );
-    appointmentJapanese.forEach((japanese) => {
-        if (!(japanese in data.pronunciations)) {
+    data.ranks.forEach((entry, index) => {
+        if (entry.kind !== 'rank') {
             context.addIssue({
                 code: 'custom',
-                path: ['pronunciations', japanese],
-                message: `Missing pronunciation for ${japanese}.`,
+                path: ['ranks', index, 'kind'],
+                message: 'Every rank entry must have kind "rank".',
+            });
+        }
+        if (!['imperial-court', 'provincial-office'].includes(entry.category)) {
+            context.addIssue({
+                code: 'custom',
+                path: ['ranks', index, 'category'],
+                message: `Rank entry has title-only category: ${entry.category}.`,
             });
         }
     });
 
-    const assertUniqueIds = (
-        items: Array<{ id: string }>,
-        path: 'regions' | 'trivia',
-    ) => {
-        const seen = new Set<string>();
-        items.forEach((item, index) => {
-            if (seen.has(item.id)) {
-                context.addIssue({
-                    code: 'custom',
-                    path: [path, index, 'id'],
-                    message: `Duplicate ${path === 'regions' ? 'region' : 'trivia'} id: ${item.id}.`,
-                });
-            }
-            seen.add(item.id);
-        });
-    };
+    data.titles.forEach((entry, index) => {
+        if (entry.kind !== 'title') {
+            context.addIssue({
+                code: 'custom',
+                path: ['titles', index, 'kind'],
+                message: 'Every title entry must have kind "title".',
+            });
+        }
+        if (!['shogunate-office', 'shugo'].includes(entry.category)) {
+            context.addIssue({
+                code: 'custom',
+                path: ['titles', index, 'category'],
+                message: `Title entry has rank-only category: ${entry.category}.`,
+            });
+        }
+    });
 
-    assertUniqueIds(data.regions, 'regions');
-    assertUniqueIds(data.trivia, 'trivia');
+    data.appointments.forEach((entry, index) => {
+        if (!entry.id.startsWith(`${entry.kind}-`)) {
+            context.addIssue({
+                code: 'custom',
+                path: ['appointments', index, 'id'],
+                message: `Appointment id must start with ${entry.kind}-.`,
+            });
+        }
+    });
 
     data.provinces.forEach((province, index) => {
         if (province.type !== 'Province') {
@@ -123,22 +123,52 @@ const staticDataSchema = z.object({
             });
         }
     });
+
+    const provinceJapanese = new Set(data.provinces.map((province) => province.japanese));
+    data.appointments.forEach((entry, index) => {
+        if (entry.category !== 'provincial-office' && entry.category !== 'shugo') return;
+
+        const officeProvince = entry.japanese.replace(/(守護|守|介)$/, '');
+        if (!provinceJapanese.has(officeProvince)) {
+            context.addIssue({
+                code: 'custom',
+                path: ['appointments', index, 'japanese'],
+                message: `No province metadata found for ${entry.japanese}.`,
+            });
+        }
+    });
+
+    const prefectureOwners = new Map<number, string>();
+    data.mapAreas.forEach((area, areaIndex) => {
+        area.prefectures.forEach((prefecture) => {
+            const previous = prefectureOwners.get(prefecture);
+            if (previous) {
+                context.addIssue({
+                    code: 'custom',
+                    path: ['mapAreas', areaIndex, 'prefectures'],
+                    message: `Prefecture ${prefecture} belongs to both ${previous} and ${area.id}.`,
+                });
+            }
+            prefectureOwners.set(prefecture, area.id);
+        });
+    });
 });
 
 export const staticData = {
-    ranks,
-    titles,
-    pronunciations,
+    appointments,
+    ranks: rankAppointments,
+    titles: titleAppointments,
     provinces,
     regions,
+    mapAreas,
     trivia: officeTrivia,
+    featuredTrivia,
 };
 
 export type StaticData = z.infer<typeof staticDataSchema>;
 
 /**
- * Parse all authored reference data at build/test time. A malformed record,
- * mismatched effect, duplicate ID, or missing pronunciation fails fast with a
- * path-aware Zod diagnostic instead of silently reaching the rendered page.
+ * Parse all authored reference data at build/test time. Bad relationships,
+ * malformed records, or duplicate stable IDs fail fast with path-aware Zod diagnostics.
  */
 export const validateStaticData = (): StaticData => staticDataSchema.parse(staticData);

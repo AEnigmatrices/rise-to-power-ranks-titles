@@ -121,16 +121,18 @@ pnpm preview
 
 The validator checks, among other things:
 
-- required rank/title fields and class-label shape
-- positive source-row counts and valid bonus ranges
-- the numeric bonus embedded in each effect string
-- Politics effects for Ranks and Leadership effects for Titles
+- normalized appointment fields, grades, tiers, categories, and stable IDs
+- rank/title category consistency and positive source-row counts
+- unique appointment IDs and Japanese office names
 - valid source URLs for geography and trivia records
-- unique region and trivia IDs
+- unique region, trivia, and map-area IDs
 - province records being typed as provinces
-- pronunciation coverage for every Japanese appointment name
+- province metadata coverage for every provincial-office and shugo appointment
+- non-overlapping modern-prefecture groupings used by the orientation map
 
-This keeps malformed data from silently rendering into the reference page.
+Class labels, stat effects, and numeric bonuses are deliberately not authored data. They are derived from `kind`, `grade`, and `tier` in `src/lib/appointments.ts`, so those values cannot drift apart.
+
+This keeps malformed data and broken cross-dataset relationships from silently rendering into the reference page.
 
 ## Search utilities
 
@@ -147,15 +149,43 @@ The quality workflow uses the committed pnpm lockfile, so run `pnpm install` loc
 
 ## Data layout
 
+Appointment data is organized by the systems represented in the game rather than by arbitrary file size:
+
 ```text
-src/data/ranks.ts          Imperial Court Rank reference
-src/data/titles.ts         Shogunate Title reference
-src/data/types.ts          Shared reference types
-src/data/pronunciations.ts Japanese office readings
-src/data/regions.ts        Historic province/region descriptions and mappings
-src/data/trivia.ts         Featured notes and contextual office trivia
-src/data/validation.ts     Zod schemas and cross-dataset validation
+src/data/
+  appointments/
+    ranks/
+      court/
+        grades-01-04.ts Imperial Court appointments by grade band
+        grades-05-06.ts
+        grades-07-08.ts
+        grades-09-10.ts
+        grades-11-12.ts
+        index.ts
+      provincial.ts     Provincial court offices
+      index.ts
+    titles/
+      shogunate.ts      Central/regional shogunate offices
+      shugo.ts           Shugo military-governor appointments
+    index.ts
+  geography/
+    provinces.ts        Historic province descriptions
+    regions.ts          Wider regions and historic sites
+    map.ts              Modern-prefecture orientation groups
+    index.ts
+  trivia/
+    items.ts            Office/title contextual notes
+    featured.ts         Standalone featured historical notes
+    index.ts
+  schema/
+    appointments.ts     Zod schema + inferred appointment types
+    geography.ts        Zod schema + inferred geography types
+    trivia.ts           Zod schema + inferred trivia types
+    index.ts
+  validation.ts         Cross-dataset integrity validation
 ```
+
+Each appointment record owns its stable ID, original `sourceOrder`, Japanese office, reading, localized game name, historical translation, grade, tier, count, kind, and category. Derived presentation values such as `Upper 4th Class`, `Politics + 9`, and the `+9` bonus are calculated centrally instead of being repeated in hundreds of records.
 
 Exact duplicate entries from the source references are consolidated and represented by the `count` field. Source order is retained.
 
@@ -176,27 +206,66 @@ public/
   favicon.svg
 src/
   components/
-    Hero.astro
-    ReferenceExplorer.astro
-    RegionMap.astro
-    SystemOverview.astro
-    TriviaGuide.astro
+    hero/
+      Hero.astro
+    reference/
+      ReferenceExplorer.astro
+      SystemOverview.astro
+    trivia/
+      RegionMap.astro
+      TriviaGuide.astro
   data/
-    pronunciations.ts
-    ranks.ts
-    regions.ts
-    titles.ts
-    trivia.ts
-    types.ts
+    appointments/
+      ranks/
+        court/
+        index.ts
+        provincial.ts
+      titles/
+        index.ts
+        shogunate.ts
+        shugo.ts
+      index.ts
+    geography/
+      index.ts
+      map.ts
+      provinces.ts
+      regions.ts
+    schema/
+      appointments.ts
+      geography.ts
+      trivia.ts
+      index.ts
+    trivia/
+      featured.ts
+      items.ts
+      index.ts
     validation.ts
   layouts/
     BaseLayout.astro
   lib/
+    appointments.ts
+    geography.ts
     search.ts
+    trivia.ts
   pages/
     index.astro
+  scripts/
+    reference-explorer.ts
+    trivia-guide.ts
   styles/
-    global.css
+    global.css          Import manifest
+    tokens.css
+    base.css
+    hero.css
+    systems.css
+    shared.css
+    reference.css
+    table.css
+    popovers.css
+    trivia.css
+    map.css
+    footer.css
+    responsive.css
 tests/
   e2e/
     accessibility.spec.ts
@@ -213,3 +282,5 @@ package.json
 pnpm-lock.yaml
 pnpm-workspace.yaml
 ```
+
+The separation is intentional: `data/` contains authored facts, `lib/` contains pure derived/domain logic, `scripts/` contains browser behavior, and Astro components primarily render views. The split CSS files follow the same feature boundaries while `global.css` remains the single stylesheet entry point.

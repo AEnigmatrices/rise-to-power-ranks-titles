@@ -1,16 +1,4 @@
-import type { ReferenceEntry } from './types';
-
-export type Region = {
-    id: string;
-    name: string;
-    japanese: string;
-    area: string;
-    location: string;
-    body: string;
-    source: string;
-    aliases?: string[];
-    type: 'Province' | 'Region' | 'Historic site';
-};
+import type { Region } from '../schema/geography';
 
 const province = (
     name: string,
@@ -33,7 +21,7 @@ const province = (
 
 // Modern locations are approximate orientation aids, not identical boundaries.
 // These are the 68 provinces represented in the appointment data, grouped for browsing.
-export const provinces: Region[] = [
+export const provinces = [
     province('Yamashiro', '山城', 'Kinai & Kansai', 'Southern Kyoto Prefecture',
         'The province containing Kyoto, home to the imperial court and the Ashikaga shogunate. Its political importance far exceeded its size.'),
     province('Yamato', '大和', 'Kinai & Kansai', 'Nara Prefecture',
@@ -181,50 +169,4 @@ export const provinces: Region[] = [
         'A small island province in the strait between Kyūshū and Korea. An island country here appears in third-century Chinese accounts of Japan.'),
     province('Tsushima', '対馬', 'Kyūshū & Islands', 'Tsushima Island in Nagasaki Prefecture',
         'An island province between Kyūshū and the Korean Peninsula. Its position made it important for diplomacy, trade with Korea, and maritime defense.'),
-];
-
-export const regions: Region[] = [
-    ...provinces,
-    {
-        id: 'kanto', name: 'Kantō', japanese: '関東', area: 'Kantō', type: 'Region',
-        location: 'Eastern Honshū around the Kantō Plain',
-        body: 'A broad region containing several provinces, including Musashi and Sagami. In the Kantō Kanrei title, it refers to the eastern sphere of the Kamakura government.',
-        source: 'https://en.wikipedia.org/wiki/Kamakura-fu',
-    },
-    {
-        id: 'kyushu', name: 'Kyūshū', japanese: '九州', area: 'Kyūshū & Islands', type: 'Region',
-        location: 'The southwesternmost of Japan’s four main islands',
-        body: 'Its name means “nine provinces,” referring to the historic mainland provinces. The island was an important point of contact with continental Asia.',
-        source: 'https://en.wikipedia.org/wiki/Kyushu',
-    },
-    {
-        id: 'saigoku', name: 'Saigoku', japanese: '西国', area: 'Western Japan', type: 'Region',
-        location: 'Western Japan; the extent varies by period and context',
-        body: 'Literally the “western provinces.” This is a broad regional expression, not a single province or a fixed equivalent of a modern prefecture.',
-        source: 'https://kotobank.jp/word/%E8%A5%BF%E5%9B%BD-67880',
-    },
-    {
-        id: 'akita-castle', name: 'Akita Castle', japanese: '秋田城', area: 'Tōhoku', type: 'Historic site',
-        location: 'Present-day Akita city, in former Dewa Province',
-        body: 'An ancient fortified government outpost on the northern frontier. The Akita Jō no Suke title refers to this older institution, not the later Kubota Castle.',
-        source: 'https://en.wikipedia.org/wiki/Akita_Castle',
-    },
-];
-
-const provincesByJapanese = new Map(provinces.map((region) => [region.japanese, region]));
-const regionsById = new Map(regions.map((region) => [region.id, region]));
-const regionalOffices: Record<string, string> = {
-    '関東管領': 'kanto',
-    '九州探題': 'kyushu',
-    '西国探題': 'saigoku',
-    '奥州探題': 'mutsu',
-    '羽州探題': 'dewa',
-    '秋田城介': 'akita-castle',
-};
-
-export const getEntryRegion = (entry: ReferenceEntry): Region | undefined => {
-    if (entry.category === 'Provincial Office' || entry.category === 'Shugo') {
-        return provincesByJapanese.get(entry.japanese.replace(/(守護|守|介)$/, ''));
-    }
-    return regionsById.get(regionalOffices[entry.japanese]);
-};
+] satisfies Region[];

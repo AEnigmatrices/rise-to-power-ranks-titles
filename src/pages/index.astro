@@ -1,18 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/Hero.astro';
-import SystemOverview from '../components/SystemOverview.astro';
-import TriviaGuide from '../components/TriviaGuide.astro';
-import ReferenceExplorer from '../components/ReferenceExplorer.astro';
-import { ranks } from '../data/ranks';
-import { titles } from '../data/titles';
+import Hero from '../components/hero/Hero.astro';
+import SystemOverview from '../components/reference/SystemOverview.astro';
+import TriviaGuide from '../components/trivia/TriviaGuide.astro';
+import ReferenceExplorer from '../components/reference/ReferenceExplorer.astro';
+import { rankAppointments, titleAppointments } from '../data/appointments';
+import { totalRecords } from '../lib/appointments';
 import { validateStaticData } from '../data/validation';
 
 // Fail the build early if authored reference data violates the shared schema.
 validateStaticData();
 
-const rankRecords = ranks.reduce((total, entry) => total + entry.count, 0);
-const titleRecords = titles.reduce((total, entry) => total + entry.count, 0);
+const rankRecords = totalRecords(rankAppointments);
+const titleRecords = totalRecords(titleAppointments);
 ---
 
 <BaseLayout
@@ -22,9 +22,9 @@ const titleRecords = titles.reduce((total, entry) => total + entry.count, 0);
     <main class="page-shell">
         <Hero
             rankRecords={rankRecords}
-            rankEntries={ranks.length}
+            rankEntries={rankAppointments.length}
             titleRecords={titleRecords}
-            titleEntries={titles.length}
+            titleEntries={titleAppointments.length}
         />
 
         <SystemOverview />

@@ -1,0 +1,36 @@
+:root {
+    color-scheme: light;
+    --ink: #171a19;
+    --ink-2: #303532;
+    --muted: #6f746f;
+    --faint: #9b9d96;
+    --paper: #f2eee4;
+    --paper-2: #fbf8f1;
+    --paper-3: #e8e1d4;
+    --line: #d8d0c2;
+    --line-strong: #bbb09e;
+    --night: #121513;
+    --night-2: #1c201d;
+    --night-3: #282d29;
+    --vermilion: #ae392f;
+    --vermilion-soft: #f4e3de;
+    --gold: #a9853f;
+    --gold-bright: #d5bd78;
+    --gold-soft: #f1e7c9;
+    --politics: #2d7458;
+    --politics-soft: #e1efe8;
+    --leadership: #3f628e;
+    --leadership-soft: #e5ebf4;
+    --shadow-sm: 0 8px 28px rgb(44 38 27 / 0.07);
+    --shadow-md: 0 18px 55px rgb(44 38 27 / 0.11);
+    --shadow-dark: 0 28px 90px rgb(20 20 15 / 0.25);
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 24px;
+    --page-width: 1540px;
+    --serif: Georgia, "Times New Roman", serif;
+    --jp-serif: "Noto Serif JP Variable", "Yu Mincho", "Hiragino Mincho ProN", serif;
+    --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: var(--sans);
+    font-synthesis: none;
+}

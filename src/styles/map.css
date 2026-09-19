@@ -1,0 +1,387 @@
+/* ---------- Geographic orientation map ---------- */
+
+.region-map {
+    position: relative;
+    overflow: hidden;
+    margin: 0 0 22px;
+    border: 1px solid #303730;
+    border-radius: var(--radius-md);
+    color: #ece7dc;
+    background:
+        radial-gradient(circle at 22% 18%, rgb(213 189 120 / 0.08), transparent 24rem),
+        linear-gradient(145deg, #1c211d, #111411 72%);
+    box-shadow: var(--shadow-md);
+}
+
+.region-map::after {
+    position: absolute;
+    right: -72px;
+    bottom: -96px;
+    width: 250px;
+    height: 250px;
+    border: 1px solid rgb(213 189 120 / 0.09);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+}
+
+.region-map__heading {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 520px);
+    gap: 28px;
+    align-items: center;
+    padding: 22px 24px 18px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.region-map__title-lockup {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.region-map__icon {
+    display: grid;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid rgb(213 189 120 / 0.32);
+    border-radius: 50%;
+    color: var(--gold-bright);
+    background: rgb(213 189 120 / 0.07);
+}
+
+.region-map__eyebrow {
+    margin: 0 0 3px;
+    color: var(--gold-bright);
+    font-size: 0.6rem;
+    font-weight: 850;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+}
+
+.region-map h3 {
+    margin: 0;
+    color: #f6f1e8;
+    font-family: var(--serif);
+    font-size: clamp(1.3rem, 2vw, 1.72rem);
+    font-weight: 520;
+}
+
+.region-map__heading > p {
+    margin: 0;
+    color: #aeb5ae;
+    font-size: 0.74rem;
+    line-height: 1.65;
+}
+
+.region-map__heading > p strong {
+    color: #dfd8ca;
+}
+
+.region-map__body {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(250px, 0.5fr);
+    min-height: 430px;
+}
+
+.region-map__canvas {
+    position: relative;
+    min-width: 0;
+    padding: 18px 22px 34px;
+    border-right: 1px solid rgb(255 255 255 / 0.08);
+    background:
+        linear-gradient(rgb(255 255 255 / 0.022) 1px, transparent 1px),
+        linear-gradient(90deg, rgb(255 255 255 / 0.022) 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+
+.region-map__svg {
+    display: block;
+    width: 100%;
+    max-height: 470px;
+    margin: 0 auto;
+    overflow: visible;
+}
+
+.region-map__country {
+    fill: none;
+    stroke: rgb(213 189 120 / 0.26);
+    stroke-width: 2.2;
+    pointer-events: none;
+}
+
+.region-map__prefecture {
+    fill: #716a59;
+    stroke: #20251f;
+    stroke-width: 0.75;
+    cursor: pointer;
+    transition: 150ms ease;
+    transition-property: fill, opacity, filter;
+}
+
+.region-map__prefecture:hover,
+.region-map__prefecture.is-hovered {
+    fill: var(--gold-bright);
+    filter: brightness(1.04);
+}
+
+.region-map__prefecture.is-selected {
+    fill: var(--vermilion);
+    opacity: 1;
+}
+
+.region-map__prefecture.is-dimmed {
+    opacity: 0.22;
+}
+
+.region-map__prefecture.is-outside-dataset {
+    fill: #333833;
+    opacity: 0.5;
+    cursor: default;
+}
+
+.region-map__instruction {
+    position: absolute;
+    left: 20px;
+    bottom: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #8e978f;
+    font-size: 0.66rem;
+}
+
+.region-map__index {
+    display: flex;
+    min-width: 0;
+    padding: 17px;
+    flex-direction: column;
+    gap: 6px;
+    justify-content: center;
+}
+
+.region-map__area,
+.region-map__clear {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 8px;
+    font: inherit;
+}
+
+.region-map__area {
+    display: grid;
+    grid-template-columns: 9px minmax(0, 1fr) auto;
+    gap: 9px;
+    align-items: center;
+    padding: 8px 11px;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    color: #c5cbc4;
+    background: rgb(255 255 255 / 0.025);
+    text-align: left;
+    transition: 130ms ease;
+    transition-property: border-color, color, background-color, transform;
+}
+
+.region-map__area:hover,
+.region-map__area.is-hovered {
+    border-color: rgb(213 189 120 / 0.42);
+    color: #f3eee4;
+    background: rgb(213 189 120 / 0.075);
+    transform: translateX(2px);
+}
+
+.region-map__area[aria-pressed="true"] {
+    border-color: rgb(174 57 47 / 0.64);
+    color: #fff7ec;
+    background: rgb(174 57 47 / 0.18);
+}
+
+.region-map__area-mark {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--gold);
+    box-shadow: 0 0 0 3px rgb(169 133 63 / 0.09);
+}
+
+.region-map__area[aria-pressed="true"] .region-map__area-mark {
+    background: #d7685e;
+}
+
+.region-map__area strong {
+    color: #8f988f;
+    font-size: 0.67rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.region-map__clear {
+    margin-top: 5px;
+    padding: 8px 11px;
+    border: 1px dashed rgb(255 255 255 / 0.16);
+    color: #aeb5ae;
+    background: transparent;
+    font-size: 0.69rem;
+    font-weight: 700;
+}
+
+.region-map__clear:hover {
+    border-color: var(--gold);
+    color: #f3eee4;
+}
+
+.region-map__credit {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 10px 24px 12px;
+    border-top: 1px solid rgb(255 255 255 / 0.06);
+    color: #737d75;
+    font-size: 0.6rem;
+    line-height: 1.5;
+}
+
+.region-map__credit a {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    color: #aab2aa;
+    text-underline-offset: 2px;
+}
+
+.trivia-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.trivia-card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 15px;
+    min-height: 245px;
+    padding: 23px 21px 22px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper-2);
+    box-shadow: var(--shadow-sm);
+    transition: 140ms ease;
+    transition-property: transform, border-color, box-shadow;
+}
+
+.trivia-card::after {
+    position: absolute;
+    right: -48px;
+    bottom: -56px;
+    width: 125px;
+    height: 125px;
+    border: 1px solid rgb(169 133 63 / 0.22);
+    border-radius: 50%;
+    content: "";
+}
+
+.trivia-card:hover {
+    border-color: #c4b797;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.trivia-card__number {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border: 1px solid #ccb984;
+    border-radius: 50%;
+    color: #765820;
+    background: var(--gold-soft);
+    font-family: var(--serif);
+    font-size: 0.72rem;
+}
+
+.trivia-card__copy { min-width: 0; }
+
+.trivia-card__kicker {
+    margin: 0;
+    color: var(--vermilion);
+    font-size: 0.61rem;
+    font-weight: 850;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.trivia-card__japanese {
+    overflow-wrap: anywhere;
+    margin: 5px 0 0;
+    color: var(--gold);
+    font-family: var(--jp-serif);
+    font-size: 1.04rem;
+    font-weight: 700;
+}
+
+.trivia-card h3 {
+    margin: 4px 0 0;
+    color: var(--ink);
+    font-size: 1.26rem;
+    font-weight: 600;
+    line-height: 1.22;
+}
+
+.trivia-card__location {
+    margin: 9px 0 0;
+    color: #6d603f;
+    font-size: 0.73rem;
+    font-weight: 680;
+}
+
+.trivia-card__body {
+    margin: 11px 0 0;
+    color: #606560;
+    font-size: 0.81rem;
+    line-height: 1.66;
+}
+
+.trivia-card__source {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 12px;
+    padding: 4px 0;
+    color: var(--vermilion);
+    font-size: 0.71rem;
+    font-weight: 700;
+    text-underline-offset: 3px;
+}
+
+.trivia-card:focus {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+}
+
+.trivia-guide__more {
+    display: flex;
+    min-height: 44px;
+    margin: 23px auto 0;
+    border-color: var(--line-strong);
+    color: var(--ink);
+    background: var(--paper-2);
+}
+
+.trivia-guide__empty {
+    padding: 30px 16px;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    text-align: center;
+}
+
+.trivia-guide__empty p { margin: 4px 0; }

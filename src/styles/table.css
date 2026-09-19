@@ -1,0 +1,176 @@
+/* ---------- Data table ---------- */
+
+.table-shell {
+    overflow-x: auto;
+    overflow-y: hidden;
+    border: 1px solid #323732;
+    border-radius: 12px;
+    background: #f9f6ef;
+    box-shadow: 0 14px 44px rgb(0 0 0 / 0.18);
+}
+
+.reference-panel {
+    min-width: 0;
+}
+
+table {
+    width: 100%;
+    min-width: 1130px;
+    border-collapse: separate;
+    border-spacing: 0;
+    color: var(--ink);
+    font-size: 0.82rem;
+}
+
+caption {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+}
+
+th {
+    position: sticky;
+    z-index: 4;
+    top: 0;
+    padding: 13px 14px;
+    border-bottom: 1px solid #cfc6b8;
+    color: #706f68;
+    background: #e9e3d8;
+    box-shadow: inset 0 -1px 0 rgb(255 255 255 / 0.65);
+    font-size: 0.64rem;
+    font-weight: 850;
+    letter-spacing: 0.09em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+th:first-child { width: 12%; }
+th:nth-child(2) { width: 18%; }
+th:nth-child(3) { width: 13%; }
+th:nth-child(4) { width: 14%; }
+th:nth-child(5) { width: 26%; }
+th:nth-child(6) { width: 10%; }
+
+.count-heading,
+.count-cell {
+    width: 70px;
+    text-align: center;
+}
+
+td {
+    padding: 13px 14px;
+    border-bottom: 1px solid #e5ded2;
+    vertical-align: middle;
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+
+tbody tr:nth-child(even) { background: #f6f1e8; }
+
+tbody tr {
+    transition: 100ms ease;
+    transition-property: background-color, box-shadow;
+}
+
+tbody tr:hover {
+    position: relative;
+    z-index: 1;
+    background: #fffaf0;
+    box-shadow: inset 3px 0 0 var(--gold);
+}
+
+tbody tr.is-shugo,
+tbody tr.is-provincial {
+    background-image: linear-gradient(90deg, rgb(169 133 63 / 0.065), transparent 26%);
+}
+
+.entry-name {
+    display: block;
+    color: var(--ink);
+    font-weight: 790;
+    letter-spacing: -0.005em;
+}
+
+.entry-type {
+    display: block;
+    margin-top: 3px;
+    color: var(--faint);
+    font-size: 0.66rem;
+}
+
+.japanese {
+    color: #262a27;
+    font-family: var(--jp-serif);
+    font-size: 0.98rem;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.japanese__line {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.pronunciation {
+    color: #656a65;
+    font-size: 0.77rem;
+    font-weight: 650;
+    white-space: nowrap;
+}
+
+.translation {
+    color: #4f534f;
+    line-height: 1.5;
+}
+
+.class-chip {
+    display: inline-flex;
+    align-items: center;
+    min-height: 25px;
+    padding: 3px 8px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: #6f746f;
+    background: #eee9df;
+    font-size: 0.67rem;
+    font-weight: 760;
+    white-space: nowrap;
+}
+
+.class-chip--upper {
+    border-color: #c8b683;
+    color: #6f5520;
+    background: #f2e7c7;
+}
+
+.effect-value {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 850;
+    white-space: nowrap;
+}
+
+.effect-value--politics { color: var(--politics); }
+.effect-value--leadership { color: var(--leadership); }
+
+.count-badge {
+    color: #9a9c96;
+    font-size: 0.75rem;
+    font-weight: 750;
+}
+
+.count-badge--multiple {
+    display: inline-flex;
+    min-width: 31px;
+    justify-content: center;
+    padding: 3px 7px;
+    border-radius: 999px;
+    color: #725620;
+    background: #efe1b9;
+}

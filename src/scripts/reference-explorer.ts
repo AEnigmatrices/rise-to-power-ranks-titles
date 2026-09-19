@@ -1,0 +1,397 @@
+import Fuse from 'fuse.js';
+import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
+import { animate, stagger } from 'motion';
+import type { ReferenceKind } from '../lib/appointments';
+import { isSingleCharacterQuery, normalizeSearchText, sortClasses, sourceOrder } from '../lib/search';
+
+type SearchRecord = {
+    row: HTMLTableRowElement;
+    name: string;
+    japanese: string;
+    pronunciation: string;
+    translation: string;
+    className: string;
+    category: string;
+    all: string;
+};
+
+(() => {
+    const root = document.querySelector<HTMLElement>('[data-reference-explorer]');
+
+    if (!root) return;
+
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-view]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-panel]'));
+    const searchInput = root.querySelector<HTMLInputElement>('[data-search]');
+    const classFilter = root.querySelector<HTMLSelectElement>('[data-class-filter]');
+    const categoryFilter = root.querySelector<HTMLSelectElement>('[data-category-filter]');
+    const resetButton = root.querySelector<HTMLButtonElement>('[data-reset]');
+    const resultCount = root.querySelector<HTMLElement>('[data-result-count]');
+    const triviaAnchors = Array.from(root.querySelectorAll<HTMLElement>('[data-trivia-anchor]'));
+    const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const floatingCleanups = new WeakMap<HTMLElement, () => void>();
+    const searchers = new Map<ReferenceKind, Fuse<SearchRecord>>();
+
+    if (!searchInput || !classFilter || !categoryFilter || !resetButton || !resultCount) return;
+
+    let activeKind: ReferenceKind = location.hash === '#titles' ? 'title' : 'rank';
+
+    const closeTrivia = (anchor: HTMLElement) => {
+        const cleanup = floatingCleanups.get(anchor);
+        if (cleanup) {
+            cleanup();
+            floatingCleanups.delete(anchor);
+        }
+
+        anchor.classList.remove('is-open');
+        anchor.removeAttribute('data-pinned');
+        const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+        trigger?.setAttribute('aria-expanded', 'false');
+    };
+
+    const closeAllTrivia = (except: HTMLElement | null = null) => {
+        triviaAnchors.forEach((anchor) => {
+            if (anchor !== except) closeTrivia(anchor);
+        });
+    };
+
+    const startTriviaPositioning = (anchor: HTMLElement) => {
+        const trigger = anchor.querySelector<HTMLElement>('[data-trivia-trigger]');
+        const popover = anchor.querySelector<HTMLElement>('[data-trivia-popover]');
+        if (!trigger || !popover) return;
+
+        floatingCleanups.get(anchor)?.();
+
+        const update = async () => {
+            const { x, y, placement } = await computePosition(trigger, popover, {
+                placement: 'bottom',
+                strategy: 'fixed',
+                middleware: [
+                    offset(10),
+                    flip({ padding: 12 }),
+                    shift({ padding: 12 }),
+                    size({
+                        padding: 12,
+                        apply({ availableWidth, availableHeight, elements }) {
+                            Object.assign(elements.floating.style, {
+                                maxWidth: `${Math.max(0, Math.min(380, availableWidth))}px`,
+                                maxHeight: `${Math.max(0, Math.min(520, availableHeight))}px`,
+                            });
+                        },
+                    }),
+                ],
+            });
+
+            Object.assign(popover.style, {
+                left: `${Math.round(x)}px`,
+                top: `${Math.round(y)}px`,
+            });
+            popover.dataset.placement = placement.startsWith('top') ? 'above' : 'below';
+        };
+
+        const cleanup = autoUpdate(trigger, popover, update);
+        floatingCleanups.set(anchor, cleanup);
+    };
+
+    const openTrivia = (anchor: HTMLElement, pinned = false) => {
+        closeAllTrivia(anchor);
+        anchor.classList.add('is-open');
+        if (pinned) anchor.dataset.pinned = 'true';
+
+        const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+        trigger?.setAttribute('aria-expanded', 'true');
+        startTriviaPositioning(anchor);
+    };
+
+    triviaAnchors.forEach((anchor) => {
+        const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+        if (!trigger) return;
+
+        anchor.addEventListener('pointerenter', () => {
+            if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
+            openTrivia(anchor);
+        });
+
+        anchor.addEventListener('pointerleave', () => {
+            if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
+            if (!anchor.contains(document.activeElement)) closeTrivia(anchor);
+        });
+
+        anchor.addEventListener('focusin', () => {
+            if (anchor.dataset.pinned !== 'true') openTrivia(anchor);
+        });
+
+        anchor.addEventListener('focusout', () => {
+            window.setTimeout(() => {
+                if (
+                    anchor.dataset.pinned !== 'true' &&
+                    !anchor.contains(document.activeElement) &&
+                    !(hoverCapable.matches && anchor.matches(':hover'))
+                ) {
+                    closeTrivia(anchor);
+                }
+            }, 0);
+        });
+
+        trigger.addEventListener('click', (event) => {
+            event.stopPropagation();
+
+            if (anchor.dataset.pinned === 'true') {
+                closeTrivia(anchor);
+                trigger.blur();
+            } else {
+                openTrivia(anchor, true);
+            }
+        });
+    });
+
+    const getActivePanel = (): HTMLElement | undefined =>
+        panels.find((panel) => panel.dataset.panel === activeKind);
+
+    const getActiveRows = (): HTMLTableRowElement[] => {
+        const panel = getActivePanel();
+        return panel ? Array.from(panel.querySelectorAll<HTMLTableRowElement>('[data-reference-row]')) : [];
+    };
+
+    const getSearcher = (): Fuse<SearchRecord> => {
+        const existing = searchers.get(activeKind);
+        if (existing) return existing;
+
+        const records: SearchRecord[] = getActiveRows().map((row) => ({
+            row,
+            name: normalizeSearchText(row.dataset.searchName ?? ''),
+            japanese: normalizeSearchText(row.dataset.searchJapanese ?? ''),
+            pronunciation: normalizeSearchText(row.dataset.searchPronunciation ?? ''),
+            translation: normalizeSearchText(row.dataset.searchTranslation ?? ''),
+            className: normalizeSearchText(row.dataset.class ?? ''),
+            category: normalizeSearchText(row.dataset.category ?? ''),
+            all: normalizeSearchText(row.dataset.searchText ?? ''),
+        }));
+
+        const searcher = new Fuse(records, {
+            includeScore: true,
+            ignoreLocation: true,
+            threshold: 0.34,
+            minMatchCharLength: 1,
+            useTokenSearch: true,
+            keys: [
+                { name: 'name', weight: 0.26 },
+                { name: 'japanese', weight: 0.24 },
+                { name: 'pronunciation', weight: 0.18 },
+                { name: 'translation', weight: 0.14 },
+                { name: 'className', weight: 0.06 },
+                { name: 'category', weight: 0.06 },
+                { name: 'all', weight: 0.06 },
+            ],
+        });
+
+        searchers.set(activeKind, searcher);
+        return searcher;
+    };
+
+    const refillSelect = (
+        select: HTMLSelectElement,
+        values: string[],
+        firstLabel: string,
+    ) => {
+        select.replaceChildren();
+
+        const firstOption = document.createElement('option');
+        firstOption.value = '';
+        firstOption.textContent = firstLabel;
+        select.append(firstOption);
+
+        values.forEach((value) => {
+            const option = document.createElement('option');
+            option.value = value;
+            option.textContent = value;
+            select.append(option);
+        });
+    };
+
+    const refreshFilterOptions = () => {
+        const rows = getActiveRows();
+        const classes = Array.from(new Set(rows.map((row) => row.dataset.class ?? '')))
+            .filter(Boolean)
+            .sort(sortClasses);
+        const categories = Array.from(new Set(rows.map((row) => row.dataset.category ?? '')))
+            .filter(Boolean)
+            .sort((a, b) => a.localeCompare(b));
+
+        refillSelect(classFilter, classes, 'All classes');
+        refillSelect(
+            categoryFilter,
+            categories,
+            activeKind === 'rank' ? 'All rank types' : 'All title types',
+        );
+    };
+
+    const rankedRows = (rows: HTMLTableRowElement[], query: string): HTMLTableRowElement[] => {
+        if (!query) {
+            return [...rows].sort((a, b) => sourceOrder(a) - sourceOrder(b));
+        }
+
+        // One-character searches are especially useful for kanji; keep those exact and predictable.
+        if (isSingleCharacterQuery(query)) {
+            return rows.filter((row) => normalizeSearchText(row.dataset.searchText ?? '').includes(query));
+        }
+
+        return getSearcher().search(query).map((result) => result.item.row);
+    };
+
+    const animateVisibleRows = (rows: HTMLTableRowElement[]) => {
+        if (reducedMotion.matches || rows.length === 0) return;
+        animate(rows.slice(0, 18), {
+            opacity: [0.48, 1],
+        }, {
+            duration: 0.16,
+            delay: stagger(0.008),
+            ease: 'easeOut',
+        });
+    };
+
+    const updateResults = () => {
+        closeAllTrivia();
+
+        const query = normalizeSearchText(searchInput.value);
+        const selectedClass = classFilter.value;
+        const selectedCategory = categoryFilter.value;
+        const rows = getActiveRows();
+        const ranked = rankedRows(rows, query);
+        const matches = ranked.filter((row) =>
+            (!selectedClass || row.dataset.class === selectedClass) &&
+            (!selectedCategory || row.dataset.category === selectedCategory));
+
+        const visible = new Set(matches);
+        rows.forEach((row) => { row.hidden = !visible.has(row); });
+
+        const panel = getActivePanel();
+        const body = panel?.querySelector<HTMLTableSectionElement>('tbody');
+        if (body) {
+            // Search results follow Fuse relevance; hidden rows remain behind them in source order.
+            matches.forEach((row) => body.append(row));
+            rows
+                .filter((row) => !visible.has(row))
+                .sort((a, b) => sourceOrder(a) - sourceOrder(b))
+                .forEach((row) => body.append(row));
+        }
+
+        const empty = panel?.querySelector<HTMLElement>('[data-empty]');
+        const table = panel?.querySelector<HTMLTableElement>('table');
+        if (empty) empty.hidden = matches.length !== 0;
+        if (table) table.hidden = matches.length === 0;
+
+        const noun = activeKind === 'rank' ? 'ranks' : 'titles';
+        const totalEntries = rows.length;
+        const totalRecords = rows.reduce(
+            (sum, row) => sum + Number(row.dataset.count ?? 1),
+            0,
+        );
+        const visibleRecords = matches.reduce(
+            (sum, row) => sum + Number(row.dataset.count ?? 1),
+            0,
+        );
+        const filtered = matches.length !== totalEntries || visibleRecords !== totalRecords;
+        const relevanceNote = query && matches.length > 1 ? ' · best matches first' : '';
+
+        resultCount.textContent = filtered
+            ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} source rows${relevanceNote}`
+            : `${totalEntries} unique ${noun} · ${totalRecords} source rows`;
+
+        animateVisibleRows(matches);
+    };
+
+    const setKind = (kind: string | null, updateHash = true) => {
+        closeAllTrivia();
+        activeKind = kind === 'title' ? 'title' : 'rank';
+
+        tabs.forEach((tab) => {
+            const selected = tab.dataset.view === activeKind;
+            tab.classList.toggle('is-active', selected);
+            tab.setAttribute('aria-selected', String(selected));
+            tab.tabIndex = selected ? 0 : -1;
+        });
+
+        panels.forEach((panel) => {
+            panel.hidden = panel.dataset.panel !== activeKind;
+        });
+
+        searchInput.placeholder =
+            activeKind === 'rank'
+                ? 'Search rank, Japanese office, pronunciation, meaning…'
+                : 'Search title, Japanese office, pronunciation, meaning…';
+
+        classFilter.value = '';
+        categoryFilter.value = '';
+        refreshFilterOptions();
+        updateResults();
+
+        const panel = getActivePanel();
+        if (!reducedMotion.matches && panel) {
+            animate(panel, { opacity: [0.7, 1], y: [6, 0] }, { duration: 0.2, ease: 'easeOut' });
+        }
+
+        if (updateHash) {
+            history.replaceState(null, '', activeKind === 'rank' ? '#ranks' : '#titles');
+        }
+    };
+
+    tabs.forEach((tab) => {
+        tab.addEventListener('click', () => setKind(tab.dataset.view ?? null));
+
+        tab.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+
+            event.preventDefault();
+            const nextKind: ReferenceKind = activeKind === 'rank' ? 'title' : 'rank';
+            setKind(nextKind);
+            tabs.find((candidate) => candidate.dataset.view === nextKind)?.focus();
+        });
+    });
+
+    searchInput.addEventListener('input', updateResults);
+    classFilter.addEventListener('change', updateResults);
+    categoryFilter.addEventListener('change', updateResults);
+
+    resetButton.addEventListener('click', () => {
+        searchInput.value = '';
+        classFilter.value = '';
+        categoryFilter.value = '';
+        updateResults();
+        searchInput.focus();
+    });
+
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        if (!root.contains(target) || !(target instanceof Element) || !target.closest('[data-trivia-anchor]')) {
+            closeAllTrivia();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        const target = event.target;
+        const isEditing =
+            target instanceof HTMLInputElement ||
+            target instanceof HTMLTextAreaElement ||
+            target instanceof HTMLSelectElement;
+
+        if (event.key === 'Escape') {
+            closeAllTrivia();
+
+            if (document.activeElement === searchInput) {
+                searchInput.value = '';
+                updateResults();
+                searchInput.blur();
+            }
+        }
+
+        if (event.key === '/' && !isEditing) {
+            event.preventDefault();
+            searchInput.focus();
+        }
+    });
+
+    setKind(activeKind, false);
+})();

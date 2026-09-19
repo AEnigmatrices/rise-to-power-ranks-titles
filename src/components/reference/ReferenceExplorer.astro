@@ -1,0 +1,283 @@
+---
+import { RotateCcw, Search, Sparkles } from '@lucide/astro';
+import { rankAppointments, titleAppointments } from '../../data/appointments';
+import type { TriviaItem } from '../../data/schema/trivia';
+import { getEntryTrivia } from '../../lib/trivia';
+import {
+    toReferenceEntries,
+    totalRecords,
+    type ReferenceEntry,
+    type ReferenceKind,
+} from '../../lib/appointments';
+
+const ranks = toReferenceEntries(rankAppointments);
+const titles = toReferenceEntries(titleAppointments);
+
+const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
+    rank: ranks,
+    title: titles,
+};
+
+const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
+    [
+        entry.gameName,
+        entry.japanese,
+        entry.reading,
+        entry.meaning,
+        entry.className,
+        entry.effect,
+        entry.categoryLabel,
+        ...trivia.flatMap((item) => [item.label, item.body]),
+    ].join(' ');
+---
+
+<section id="reference" class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
+    <div class="explorer__intro">
+        <div>
+            <p class="section-kicker">Reference catalogue</p>
+            <h2 id="explorer-heading">Browse every appointment</h2>
+        </div>
+        <p class="explorer__note">
+            The English game name is kept separate from the Japanese office, its
+            romanized Japanese pronunciation, and its historical or literal meaning. Exact
+            duplicate source rows are folded into a <strong>Count</strong>. Look for
+            <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={12} stroke-width={2} /></span> beside terms
+            with additional historical context and short region descriptions.
+        </p>
+    </div>
+
+    <div class="switcher" role="tablist" aria-label="Appointment system">
+        <button
+            class="switcher__tab is-active"
+            type="button"
+            role="tab"
+            aria-selected="true"
+            aria-controls="rank-panel"
+            id="rank-tab"
+            data-view="rank"
+        >
+            <span class="switcher__mark" aria-hidden="true">官</span>
+            <span class="switcher__copy">
+                <strong>Imperial Court Ranks</strong>
+                <small>{ranks.length} unique · {totalRecords(ranks)} source rows</small>
+            </span>
+            <span class="effect-chip effect-chip--politics">POL</span>
+        </button>
+
+        <button
+            class="switcher__tab"
+            type="button"
+            role="tab"
+            aria-selected="false"
+            aria-controls="title-panel"
+            id="title-tab"
+            data-view="title"
+        >
+            <span class="switcher__mark" aria-hidden="true">将</span>
+            <span class="switcher__copy">
+                <strong>Shogunate Titles</strong>
+                <small>{titles.length} unique · {totalRecords(titles)} source rows</small>
+            </span>
+            <span class="effect-chip effect-chip--leadership">LDR</span>
+        </button>
+    </div>
+
+    <div class="toolbar">
+        <div class="toolbar__search field">
+            <label class="sr-only" for="reference-search">Search appointments</label>
+            <Search class="field__icon" size={18} stroke-width={1.8} aria-hidden="true" />
+            <input
+                id="reference-search"
+                type="search"
+                autocomplete="off"
+                placeholder="Search rank, Japanese office, pronunciation, meaning…"
+                data-search
+            />
+            <kbd aria-hidden="true">/</kbd>
+        </div>
+
+        <div class="field">
+            <label class="sr-only" for="class-filter">Filter by class</label>
+            <select id="class-filter" data-class-filter>
+                <option value="">All classes</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label class="sr-only" for="category-filter">Filter by type</label>
+            <select id="category-filter" data-category-filter>
+                <option value="">All office types</option>
+            </select>
+        </div>
+
+        <button class="reset-button reset-button--icon" type="button" data-reset>
+            <RotateCcw size={15} stroke-width={1.9} aria-hidden="true" />
+            <span>Reset</span>
+        </button>
+    </div>
+
+    <div class="results-line">
+        <p data-result-count aria-live="polite"></p>
+        <p class="results-line__hint">
+            <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={11} stroke-width={2} /></span> has trivia · Fuzzy search enabled · Press <kbd>/</kbd> to search
+        </p>
+    </div>
+
+    {
+        (Object.entries(rowsByKind) as [ReferenceKind, ReferenceEntry[]][]).map(
+            ([kind, entries]) => (
+                <section
+                    class="reference-panel"
+                    id={`${kind}-panel`}
+                    role="tabpanel"
+                    aria-labelledby={`${kind}-tab`}
+                    data-panel={kind}
+                    hidden={kind !== 'rank'}
+                >
+                    <div class="table-shell">
+                        <table>
+                            <caption>
+                                {kind === 'rank'
+                                    ? 'Imperial Court ranks in Nobunaga’s Ambition: Rise to Power'
+                                    : 'Shogunate titles in Nobunaga’s Ambition: Rise to Power'}
+                            </caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Class</th>
+                                    <th scope="col">Game name</th>
+                                    <th scope="col">Japanese office</th>
+                                    <th scope="col">Japanese pronunciation</th>
+                                    <th scope="col">Historical meaning</th>
+                                    <th scope="col">Effect</th>
+                                    <th scope="col" class="count-heading">Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {entries.map((entry, index) => {
+                                    const pronunciation = entry.reading;
+                                    const trivia = getEntryTrivia(entry);
+                                    const triviaId = `trivia-${entry.id}`;
+
+                                    return (
+                                        <tr
+                                            data-reference-row
+                                            data-kind={kind}
+                                            data-class={entry.className}
+                                            data-category={entry.categoryLabel}
+                                            data-bonus={entry.bonus}
+                                            data-count={entry.count}
+                                            data-order={index}
+                                            data-search-name={entry.gameName}
+                                            data-search-japanese={entry.japanese}
+                                            data-search-pronunciation={pronunciation}
+                                            data-search-translation={entry.meaning}
+                                            data-search-text={searchableText(entry, trivia)}
+                                            class:list={[
+                                                entry.category === 'shugo' && 'is-shugo',
+                                                entry.category === 'provincial-office' && 'is-provincial',
+                                            ]}
+                                        >
+                                            <td data-label="Class">
+                                                <span
+                                                    class:list={[
+                                                        'class-chip',
+                                                        entry.className.startsWith('Upper')
+                                                            ? 'class-chip--upper'
+                                                            : 'class-chip--lower',
+                                                    ]}
+                                                >
+                                                    {entry.className}
+                                                </span>
+                                            </td>
+                                            <td data-label="Game name">
+                                                <span class="entry-name">{entry.gameName}</span>
+                                                <span class="entry-type">{entry.categoryLabel}</span>
+                                            </td>
+                                            <td data-label="Japanese office" class="japanese">
+                                                <span class="japanese__line">
+                                                    <span lang="ja">{entry.japanese}</span>
+                                                    {trivia.length > 0 && (
+                                                        <span class="trivia-anchor" data-trivia-anchor>
+                                                            <button
+                                                                class="trivia-trigger"
+                                                                type="button"
+                                                                aria-expanded="false"
+                                                                aria-controls={triviaId}
+                                                                data-trivia-trigger
+                                                            >
+                                                                <Sparkles size={12} stroke-width={2.15} aria-hidden="true" />
+                                                                <span class="sr-only">
+                                                                    Historical trivia about {entry.japanese}
+                                                                </span>
+                                                            </button>
+                                                            <span
+                                                                class="trivia-popover"
+                                                                id={triviaId}
+                                                                role="tooltip"
+                                                                data-trivia-popover
+                                                                data-placement="below"
+                                                            >
+                                                                <span class="trivia-popover__eyebrow">
+                                                                    Historical context
+                                                                </span>
+                                                                {trivia.map((item) => (
+                                                                    <span class="trivia-popover__item">
+                                                                        <strong>{item.label}</strong>
+                                                                        <span>{item.body}</span>
+                                                                    </span>
+                                                                ))}
+                                                                <span class="trivia-popover__hint">
+                                                                    Tap outside or press Esc to close.
+                                                                </span>
+                                                            </span>
+                                                        </span>
+                                                    )}
+                                                </span>
+                                            </td>
+                                            <td data-label="Japanese pronunciation" class="pronunciation">
+                                                {pronunciation}
+                                            </td>
+                                            <td data-label="Historical meaning" class="translation">
+                                                {entry.meaning}
+                                            </td>
+                                            <td data-label="Effect">
+                                                <span
+                                                    class:list={[
+                                                        'effect-value',
+                                                        kind === 'rank'
+                                                            ? 'effect-value--politics'
+                                                            : 'effect-value--leadership',
+                                                    ]}
+                                                >
+                                                    <span class="effect-chip" aria-hidden="true">
+                                                        {kind === 'rank' ? 'POL' : 'LDR'}
+                                                    </span>
+                                                    +{entry.bonus}
+                                                </span>
+                                            </td>
+                                            <td data-label="Count" class="count-cell">
+                                                <span class:list={['count-badge', entry.count > 1 && 'count-badge--multiple']}>
+                                                    ×{entry.count}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+
+                        <div class="empty-state" data-empty hidden>
+                            <span class="empty-state__mark" aria-hidden="true">無</span>
+                            <strong>No matching appointments</strong>
+                            <p>Try another search term or loosen one of the filters.</p>
+                        </div>
+                    </div>
+                </section>
+            ),
+        )
+    }
+</section>
+
+<script>
+    import '../../scripts/reference-explorer';
+</script>

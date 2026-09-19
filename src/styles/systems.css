@@ -1,0 +1,158 @@
+/* ---------- Two systems ---------- */
+
+.systems {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(270px, 0.72fr) minmax(0, 1.65fr);
+    gap: clamp(36px, 6vw, 100px);
+    padding: 90px clamp(8px, 2.5vw, 34px) 82px;
+}
+
+.systems::after {
+    position: absolute;
+    right: 32%;
+    bottom: 20px;
+    width: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+    content: "";
+}
+
+.systems__heading {
+    align-self: center;
+}
+
+.systems h2,
+.trivia-guide h2,
+.explorer h2 {
+    margin: 9px 0 0;
+    color: var(--ink);
+    font-size: clamp(2.35rem, 3.6vw, 4.05rem);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+}
+
+.systems__heading > p:last-child,
+.explorer__note {
+    max-width: 620px;
+    margin: 19px 0 0;
+    color: var(--muted);
+    line-height: 1.75;
+}
+
+.systems__cards {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--line-strong);
+    box-shadow: var(--shadow-md);
+}
+
+.systems__cards::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    display: grid;
+    width: 58px;
+    height: 58px;
+    place-items: center;
+    border: 7px solid var(--paper);
+    border-radius: 50%;
+    color: var(--ink-2);
+    background: var(--gold-soft);
+    box-shadow: 0 0 0 1px var(--line-strong);
+    content: "+";
+    font-family: var(--serif);
+    font-size: 1.55rem;
+    transform: translate(-50%, -50%);
+}
+
+.system-card {
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 330px;
+    padding: 34px 34px 30px;
+    background: var(--paper-2);
+}
+
+.system-card::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: currentColor;
+    opacity: 0.82;
+    content: "";
+}
+
+.system-card::after {
+    position: absolute;
+    right: -52px;
+    bottom: -62px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.1;
+    content: "";
+}
+
+.system-card--rank { color: var(--politics); }
+.system-card--title { color: var(--leadership); }
+
+.system-card__seal {
+    position: absolute;
+    top: 29px;
+    right: 29px;
+    display: grid;
+    width: 54px;
+    height: 54px;
+    place-items: center;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: color-mix(in srgb, currentColor 4%, transparent);
+    font-family: var(--jp-serif);
+    font-size: 1.25rem;
+}
+
+.system-card__type {
+    padding-right: 66px;
+    color: currentColor;
+}
+
+.system-card h3 {
+    margin: 13px 0 0;
+    color: var(--ink);
+    font-size: 2.5rem;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+}
+
+.system-card p:not(.system-card__type) {
+    max-width: 390px;
+    margin: 14px 0 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.72;
+}
+
+.system-card__effect {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 34px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    color: var(--ink-2);
+    font-size: 0.82rem;
+    font-weight: 780;
+}
