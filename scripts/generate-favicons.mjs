@@ -47,6 +47,3 @@ await Promise.all(
     }),
 );
 
-console.log(
-    `Generated favicon derivatives from favicon-master.webp: ${outputs.map(({ size, format }) => `${size}×${size} ${format.toUpperCase()}`).join(', ')}`,
-);
