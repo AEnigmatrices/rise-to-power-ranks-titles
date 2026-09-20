@@ -12,7 +12,7 @@ export const featuredTrivia: FeaturedTrivia[] = [
         kicker: 'Anime recognition hook',
         japanese: '中務少輔 → 中務大輔 · 兵部少輔',
         title: 'Drifters uses real court offices—but changes Toyohisa’s',
-        body: 'The Sekigahara opening uses real court-office language, not personal court ranks. Ii Naomasa’s 兵部少輔 is attested in documents from the period. Shimazu Toyohisa, however, is historically recorded as 中務大輔 rather than the anime’s 中務少輔.',
+        body: 'The Sekigahara opening uses real court-office language, not personal court ranks. Ii Naomasa’s 兵部少輔 is attested in contemporary documents, while Shimazu Toyohisa is historically recorded as 中務大輔 rather than the anime’s 中務少輔. Toyohisa’s office was the more senior office in the classical hierarchy, but that does not by itself mean Toyohisa personally held the higher 位階.',
     },
     {
         kicker: 'Do not confuse these',
