@@ -60,3 +60,5 @@ jobs:
 
       - name: Run browser and accessibility tests
         run: pnpm test:e2e
+        env:
+          HOME: /root
