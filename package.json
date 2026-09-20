@@ -25,7 +25,8 @@
     "astro": "astro",
     "build:site": "pnpm run generate:favicons && astro build",
     "index:search": "pnpm dlx pagefind@1.5.2 --site dist",
-    "generate:favicons": "node scripts/generate-favicons.mjs"
+    "generate:favicons": "node scripts/generate-favicons.mjs",
+    "provenance:report": "node scripts/report-provenance.mjs"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
