@@ -367,7 +367,7 @@ type SearchRecord = {
             0,
         );
         const filtered = matches.length !== totalEntries || visibleRecords !== totalRecords;
-        const relevanceNote = query && matches.length > 1 ? ' · best matches first' : '';
+        const relevanceNote = query && matches.length > 1 ? ' · grouped by class' : '';
 
         resultCount.textContent = filtered
             ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} occurrences${relevanceNote}`
