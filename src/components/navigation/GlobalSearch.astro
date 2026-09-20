@@ -3,6 +3,7 @@ import { Search, X } from '@lucide/astro';
 import { sitePath } from '../../lib/routes';
 
 const pagefindPath = sitePath('pagefind/pagefind.js');
+const baseUrl = sitePath();
 ---
 
 <div class="global-search" data-global-search data-pagefind-ignore>
@@ -55,7 +56,7 @@ const pagefindPath = sitePath('pagefind/pagefind.js');
     </dialog>
 </div>
 
-<script define:vars={{ pagefindPath }}>
+<script define:vars={{ pagefindPath, baseUrl }}>
     const root = document.querySelector('[data-global-search]');
     const dialog = root?.querySelector('[data-global-search-dialog]');
     const openButton = root?.querySelector('[data-global-search-open]');
@@ -79,6 +80,10 @@ const pagefindPath = sitePath('pagefind/pagefind.js');
         const getPagefind = async () => {
             pagefindPromise ??= import(pagefindPath).then(async (pagefind) => {
                 await pagefind.init();
+                await pagefind.options({
+                    baseUrl,
+                    excerptLength: 24,
+                });
                 return pagefind;
             });
             return pagefindPromise;
@@ -137,9 +142,9 @@ const pagefindPath = sitePath('pagefind/pagefind.js');
                     excerpt.innerHTML = item.excerpt || '';
 
                     const route = document.createElement('small');
-                    route.textContent = new URL(item.url, location.href).pathname
-                        .replace('/rise-to-power-ranks-titles/', '/')
-                        .replace(/\/$/, '') || '/';
+                    const routePath = new URL(item.url, location.href).pathname;
+                    route.textContent =
+                        '/' + routePath.slice(baseUrl.length).replace(/^\/+|\/+$/g, '');
 
                     link.append(title, excerpt, route);
                     results.append(link);
