@@ -147,7 +147,7 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
     await expect(page.getByRole('link', { name: /Central General/ })).toBeVisible();
 
     await page.goto('./trivia/offices/drifters-naomasa/');
-    await expect(page.getByRole('heading', { name: 'Drifters gets Naomasa’s title right' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Drifters gets Naomasa’s office right' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Defense Supervisor/ })).toBeVisible();
 });
 
