@@ -202,7 +202,7 @@ export const triviaById = {
     },
     'crown-prince-kitchen': {
         id: 'crown-prince-kitchen',
-        label: 'The Shuzeng監 served the crown prince',
+        label: 'The Shuzen office served the crown prince',
         body: 'The Shuzeng監 belonged to the Crown Prince’s household rather than the emperor’s. It supervised the food prepared and served within the crown prince’s residence.',
         source: 'https://kotobank.jp/word/%E4%B8%BB%E8%86%B3%E7%9B%A3-528707',
     },
