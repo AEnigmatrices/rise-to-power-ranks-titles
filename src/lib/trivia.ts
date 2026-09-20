@@ -31,10 +31,13 @@ export const getEntryTrivia = (
         if (japanese.startsWith('雅楽')) keys.push('music');
         if (/^主計|^主税/.test(japanese)) keys.push('accounts');
         if (japanese.startsWith('勘解由')) keys.push('audit');
+        if (entry.category === 'provincial-office') keys.push('provincial-office');
         if (['上総介', '常陸介', '上野介'].includes(japanese)) keys.push('three-suke');
         if (japanese.includes('権')) keys.push('gon');
         if (japanese.includes('蔵人')) keys.push('kuroudo');
         if (japanese.startsWith('太宰')) keys.push('dazaifu');
+        if (japanese === '太宰少弐') keys.push('shoni-clan');
+        if (japanese === '秋田城介') keys.push('akita-jo-no-suke');
         if (ministryPrefixes.some((prefix) => japanese.startsWith(prefix))) keys.push('ministries');
         if (['中務少輔', '中務大輔'].includes(japanese)) keys.push('drifters-toyohisa');
         if (japanese === '兵部少輔') keys.push('drifters-naomasa');
@@ -63,6 +66,7 @@ export const getEntryTrivia = (
 
         const exactKey = exact[japanese];
         if (exactKey) keys.push(exactKey);
+        if (entry.category === 'shugo') keys.push('shugo');
         if (japanese.endsWith('探題')) keys.push('tandai');
     }
 
