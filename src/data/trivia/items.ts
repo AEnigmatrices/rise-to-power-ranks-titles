@@ -80,6 +80,12 @@ export const triviaById = {
         label: 'Part of the Eight Ministries',
         body: 'Nakatsukasa, Shikibu, Jibu, Minbu, Hyōbu, Gyōbu, Ōkura, and Kunai were the Eight Ministries of the ritsuryō state. Many ranks in this table are different grades within those ministry hierarchies.',
     },
+    'drifters-court-ranks': {
+        id: 'drifters-court-ranks',
+        label: 'You heard these titles in Drifters',
+        body: 'In episode 1, “FIGHT SONG,” Shimazu Toyohisa introduces himself as 島津中務少輔豊久 (Shimazu Nakatsukasa no Shō Toyohisa), while Ii Naomasa answers as 井伊兵部少輔直政 (Ii Hyōbu no Shō Naomasa). Those are not middle names: 中務少輔 and 兵部少輔 are the same Imperial Court offices listed in this catalogue.',
+        source: 'https://www.nbcuni.co.jp/rondorobe/anime/drifters/story/01.html',
+    },
     danjo: {
         id: 'danjo',
         label: 'A censor and policing office',
