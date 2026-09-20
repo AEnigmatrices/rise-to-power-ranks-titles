@@ -169,14 +169,30 @@ test('reference entries expose notable holder context', async ({ page }) => {
     await expect(naomasaRow).toBeVisible();
 
     const holderDetails = naomasaRow.locator('.holder-details');
-    await holderDetails.locator('summary').click();
+    const holderSummary = holderDetails.locator('summary');
+
+    await expect(async () => {
+        if (!(await holderDetails.evaluate((details) => (details as HTMLDetailsElement).open))) {
+            await holderSummary.click();
+        }
+        await expect(holderDetails).toHaveAttribute('open', '');
+    }).toPass();
 
     await expect(holderDetails.getByText('Ii Naomasa')).toBeVisible();
     await expect(holderDetails.getByText(/Red Devils/i)).toBeVisible();
 
     const unseededRow = page.locator('#rank-tachihaki-senjo');
-    await unseededRow.locator('.holder-details summary').click();
+    const unseededDetails = unseededRow.locator('.holder-details');
+    const unseededSummary = unseededDetails.locator('summary');
+
+    await expect(async () => {
+        if (!(await unseededDetails.evaluate((details) => (details as HTMLDetailsElement).open))) {
+            await unseededSummary.click();
+        }
+        await expect(unseededDetails).toHaveAttribute('open', '');
+    }).toPass();
+
     await expect(
-        unseededRow.getByText(/No famous exact holder has been highlighted/i),
+        unseededDetails.getByText(/No famous exact holder has been highlighted/i),
     ).toBeVisible();
 });
