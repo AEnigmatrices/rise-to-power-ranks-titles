@@ -19,7 +19,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install",
-    "validate": "pnpm run check && pnpm run lint && pnpm run test",
+    "validate": "pnpm run provenance:report && pnpm run check && pnpm run lint && pnpm run test",
     "build": "pnpm run validate && pnpm run build:site && pnpm run index:search",
     "preview": "astro preview",
     "astro": "astro",
