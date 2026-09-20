@@ -2,6 +2,7 @@
 import { Search } from '@lucide/astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import SectionNav from '../../../components/navigation/SectionNav.astro';
 import GuideCard from '../../../components/trivia/GuideCard.astro';
 import RegionMap from '../../../components/trivia/RegionMap.astro';
 import { regions } from '../../../data/geography';
@@ -15,6 +16,7 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
     description="Browse the historic provinces, regions, and places referenced by ranks and titles in Nobunaga's Ambition: Rise to Power."
 >
     <main id="top" class="guide-shell" data-guide-directory>
+        <SectionNav current="guide" />
         <GuideHeader
             kicker="Historical Guide · Geography"
             title="Regions & Provinces"

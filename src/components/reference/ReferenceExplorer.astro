@@ -38,19 +38,11 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
 ---
 
 <section id="reference" class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
-    <div class="explorer__intro">
-        <div>
-            <p class="section-kicker">Reference catalogue</p>
-            <h2 id="explorer-heading">Browse every appointment</h2>
-        </div>
-        <p class="explorer__note">
-            The English game name is kept separate from the Japanese office, its
-            romanized Japanese pronunciation, and its historical or literal meaning. Exact
-            duplicate source rows are folded into <strong>Occurrences</strong>. Look for
-            <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={12} stroke-width={2} /></span> beside terms
-            with additional historical context and short region descriptions.
-        </p>
-    </div>
+    <h2 id="explorer-heading" class="sr-only">Browse every appointment</h2>
+    <p class="explorer__legend">
+        Search game names, Japanese offices, readings, meanings, classes, and historical notes.
+        <span><Sparkles size={12} stroke-width={2} aria-hidden="true" /> marks entries with additional context.</span>
+    </p>
 
     <div class="switcher" role="tablist" aria-label="Appointment system">
         <button

@@ -2,6 +2,7 @@
 import { Search } from '@lucide/astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import SectionNav from '../../../components/navigation/SectionNav.astro';
 import GuideCard from '../../../components/trivia/GuideCard.astro';
 import { appointments } from '../../../data/appointments';
 import { officeTrivia } from '../../../data/trivia';
@@ -21,6 +22,7 @@ const relatedByTrivia = new Map(
     description="Browse historical institutions, title conventions, shogunate offices, and court terminology behind Nobunaga's Ambition: Rise to Power."
 >
     <main id="top" class="guide-shell" data-guide-directory>
+        <SectionNav current="guide" />
         <GuideHeader
             kicker="Historical Guide · Institutions"
             title="Offices & Titles"
