@@ -12,11 +12,13 @@ const baseUrl = sitePath();
         type="button"
         aria-label="Search site"
         aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-keyshortcuts="Control+K Meta+K"
         data-global-search-open
     >
         <Search size={15} stroke-width={1.9} aria-hidden="true" />
         <span>Search</span>
-        <kbd aria-hidden="true">⌘K</kbd>
+        <kbd aria-hidden="true" data-global-search-shortcut>⌘K</kbd>
     </button>
 
     <dialog class="global-search__dialog" aria-labelledby="global-search-title" data-global-search-dialog>
@@ -52,7 +54,7 @@ const baseUrl = sitePath();
                 Start typing to search the whole site.
             </p>
 
-            <div class="global-search__results" data-global-search-results></div>
+            <div class="global-search__results" aria-busy="false" data-global-search-results></div>
         </div>
     </dialog>
 </div>
@@ -65,6 +67,7 @@ const baseUrl = sitePath();
     const input = root?.querySelector('[data-global-search-input]');
     const results = root?.querySelector('[data-global-search-results]');
     const status = root?.querySelector('[data-global-search-status]');
+    const shortcut = root?.querySelector('[data-global-search-shortcut]');
 
     if (
         root instanceof HTMLElement &&
@@ -77,6 +80,12 @@ const baseUrl = sitePath();
     ) {
         let pagefindPromise;
         let searchRun = 0;
+        let returnFocus = null;
+
+        if (shortcut instanceof HTMLElement) {
+            const isApplePlatform = /Mac|iPhone|iPad|iPod/i.test(navigator.platform);
+            shortcut.textContent = isApplePlatform ? '⌘K' : 'Ctrl K';
+        }
 
         const getPagefind = async () => {
             pagefindPromise ??= import(pagefindPath).then(async (pagefind) => {
@@ -91,12 +100,21 @@ const baseUrl = sitePath();
         };
 
         const close = () => {
-            dialog.close();
-            openButton.focus();
+            if (dialog.open) dialog.close();
+            openButton.setAttribute('aria-expanded', 'false');
+
+            const target = returnFocus instanceof HTMLElement ? returnFocus : openButton;
+            target.focus();
+            returnFocus = null;
         };
 
         const open = () => {
-            if (!dialog.open) dialog.showModal();
+            if (dialog.open) return;
+
+            returnFocus =
+                document.activeElement instanceof HTMLElement ? document.activeElement : openButton;
+            dialog.showModal();
+            openButton.setAttribute('aria-expanded', 'true');
             requestAnimationFrame(() => input.focus());
         };
 
@@ -111,6 +129,7 @@ const baseUrl = sitePath();
             }
 
             status.textContent = 'Searching…';
+            results.setAttribute('aria-busy', 'true');
 
             try {
                 const pagefind = await getPagefind();
@@ -154,6 +173,8 @@ const baseUrl = sitePath();
                 if (run !== searchRun) return;
                 results.replaceChildren();
                 status.textContent = 'Site search is unavailable in this preview. The reference search still works normally.';
+            } finally {
+                if (run === searchRun) results.setAttribute('aria-busy', 'false');
             }
         };
 
@@ -163,11 +184,38 @@ const baseUrl = sitePath();
             searchTimer = window.setTimeout(renderResults, 90);
         });
 
+        input.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowDown') return;
+            const firstResult = results.querySelector('a');
+            if (!(firstResult instanceof HTMLAnchorElement)) return;
+
+            event.preventDefault();
+            firstResult.focus();
+        });
+
+        results.addEventListener('keydown', (event) => {
+            if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+
+            const links = Array.from(results.querySelectorAll('a'));
+            const currentIndex = links.indexOf(document.activeElement);
+            if (currentIndex < 0) return;
+
+            event.preventDefault();
+            const direction = event.key === 'ArrowDown' ? 1 : -1;
+            const nextIndex = (currentIndex + direction + links.length) % links.length;
+            links[nextIndex]?.focus();
+        });
+
         openButton.addEventListener('click', open);
         closeButton.addEventListener('click', close);
 
         dialog.addEventListener('click', (event) => {
             if (event.target === dialog) close();
+        });
+
+        dialog.addEventListener('cancel', (event) => {
+            event.preventDefault();
+            close();
         });
 
         document.addEventListener('keydown', (event) => {
