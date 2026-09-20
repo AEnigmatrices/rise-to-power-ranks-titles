@@ -6,6 +6,7 @@ import {
     getAppointmentEffect,
 } from '../../src/lib/appointments';
 import { getEntryRegion } from '../../src/lib/geography';
+import { getEntryTrivia } from '../../src/lib/trivia';
 
 const data = validateStaticData();
 
@@ -59,4 +60,31 @@ describe('authored reference data', () => {
 
         expect(regionalAppointments.every((entry) => getEntryRegion(entry))).toBe(true);
     });
+
+    it('attaches institutional trivia to representative court bureaus', () => {
+        const expectedTrivia = new Map([
+            ['内蔵頭', 'inner-treasury'],
+            ['内匠頭', 'court-artisans'],
+            ['修理大夫', 'repairs-office'],
+            ['兵庫頭', 'arsenal'],
+            ['縫殿頭', 'wardrobe'],
+            ['大膳大夫', 'imperial-banquet-kitchen'],
+            ['大炊頭', 'grain-bureau'],
+            ['主殿頭', 'palace-maintenance'],
+            ['掃部頭', 'palace-housekeeping'],
+            ['東市正', 'capital-markets'],
+            ['造酒正', 'sake-office'],
+            ['図書頭', 'bureau-of-books'],
+            ['大舎人頭', 'imperial-attendants'],
+        ]);
+
+        for (const [japanese, triviaId] of expectedTrivia) {
+            const entry = data.appointments.find((appointment) => appointment.japanese === japanese);
+            expect(entry, japanese).toBeDefined();
+            if (!entry) continue;
+
+            expect(getEntryTrivia(entry).map((item) => item.id), japanese).toContain(triviaId);
+        }
+    });
+
 });
