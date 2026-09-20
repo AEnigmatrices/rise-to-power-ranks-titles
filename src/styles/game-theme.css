@@ -2129,3 +2129,79 @@ body {
         border-radius: 9px;
     }
 }
+
+
+/* ---------- Notable holders ---------- */
+
+.translation__meaning {
+    display: block;
+}
+
+.holder-details {
+    margin-top: 8px;
+    border-top: 1px solid rgb(128 102 47 / 0.28);
+    padding-top: 7px;
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.holder-details summary {
+    width: fit-content;
+    cursor: pointer;
+    color: #755719;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+}
+
+.holder-details summary:hover,
+.holder-details summary:focus-visible {
+    color: #9d372b;
+}
+
+.holder-details__list {
+    display: grid;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.holder-details__item {
+    display: grid;
+    gap: 3px;
+    padding-left: 9px;
+    border-left: 2px solid #b4862e;
+    color: #514839;
+    line-height: 1.5;
+}
+
+.holder-details__name {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 8px;
+    align-items: baseline;
+    color: #24180b;
+}
+
+.holder-details__name [lang='ja'] {
+    color: #625849;
+    font-family: "Noto Serif JP Variable", serif;
+}
+
+.holder-details__item a {
+    width: fit-content;
+    color: #755719;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.holder-details__item a:hover,
+.holder-details__item a:focus-visible {
+    text-decoration: underline;
+}
+
+.holder-details__empty {
+    display: block;
+    margin-top: 6px;
+    color: #746b5d;
+    font-style: italic;
+    line-height: 1.45;
+}
