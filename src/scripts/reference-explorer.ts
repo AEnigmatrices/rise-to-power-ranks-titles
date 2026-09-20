@@ -126,7 +126,7 @@ type SearchRecord = {
             animate(
                 popover,
                 { opacity: [0, 1], transform: ['translateY(-4px) scale(0.985)', 'translateY(0) scale(1)'] },
-                { duration: 0.16, ease: 'ease-out' },
+                { duration: 0.16, ease: 'easeOut' },
             );
         }
     };
@@ -362,7 +362,7 @@ type SearchRecord = {
                 animate(
                     row,
                     { opacity: [0.55, 1], transform: ['translateY(4px)', 'translateY(0)'] },
-                    { duration: 0.14, delay: Math.min(index * 0.008, 0.08), ease: 'ease-out' },
+                    { duration: 0.14, delay: Math.min(index * 0.008, 0.08), ease: 'easeOut' },
                 );
             });
             animate(resultCount, { opacity: [0.45, 1] }, { duration: 0.16 });
@@ -391,7 +391,7 @@ type SearchRecord = {
             animate(
                 activePanel,
                 { opacity: [0.65, 1], transform: ['translateY(3px)', 'translateY(0)'] },
-                { duration: 0.16, ease: 'ease-out' },
+                { duration: 0.16, ease: 'easeOut' },
             );
         }
 
@@ -448,7 +448,7 @@ type SearchRecord = {
             animate(
                 content,
                 { opacity: [0, 1], transform: ['translateY(-3px)', 'translateY(0)'] },
-                { duration: 0.16, ease: 'ease-out' },
+                { duration: 0.16, ease: 'easeOut' },
             );
         });
     });
