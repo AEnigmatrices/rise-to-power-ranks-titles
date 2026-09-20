@@ -1,9 +1,9 @@
 ---
-import { ExternalLink } from '@lucide/astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
 import SectionNav from '../../../components/navigation/SectionNav.astro';
 import RelatedAppointments from '../../../components/trivia/RelatedAppointments.astro';
+import SourceLinks from '../../../components/trivia/SourceLinks.astro';
 import { appointments } from '../../../data/appointments';
 import { officeTrivia, type TriviaItem } from '../../../data/trivia';
 import { getEntryTrivia } from '../../../lib/trivia';
@@ -42,7 +42,7 @@ const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 4
             backLabel="Back to Offices & Titles"
         />
 
-        <section class:list={['guide-detail', 'guide-detail--single', !item.source && 'guide-detail--no-source']}>
+        <section class:list={['guide-detail', 'guide-detail--single', !item.sources.length && 'guide-detail--no-source']}>
             <div class="guide-detail__main">
                 <p class="guide-section__kicker">Why this note appears</p>
                 <h2>Context shared across the catalogue</h2>
@@ -53,14 +53,11 @@ const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 4
                 </p>
             </div>
 
-            {item.source && (
+            {item.sources.length > 0 && (
                 <aside class="guide-source-card">
                     <p class="guide-section__kicker">Further reading</p>
-                    <h2>Source</h2>
-                    <a href={item.source}>
-                        <span>Open reference source</span>
-                        <ExternalLink size={14} stroke-width={1.8} aria-hidden="true" />
-                    </a>
+                    <h2>{item.sources.length === 1 ? 'Source' : 'Sources'}</h2>
+                    <SourceLinks sources={item.sources} />
                 </aside>
             )}
         </section>

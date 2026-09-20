@@ -2,6 +2,8 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
 import SectionNav from '../../../components/navigation/SectionNav.astro';
+import SourceLinks from '../../../components/trivia/SourceLinks.astro';
+import { politicalContextSources } from '../../../data/provenance/context';
 import { sitePath } from '../../../lib/routes';
 ---
 
@@ -202,12 +204,8 @@ import { sitePath } from '../../../lib/routes';
         </section>
 
         <aside class="context-sources">
-            <strong>Further reading:</strong>
-            National Diet Library guides to historical court ranks and offices,
-            including their changing medieval substance,
-            <a href="https://ndlsearch.ndl.go.jp/rnavi/humanities/kansyoku">官職・位階を調べる</a>;
-            and the <em>Cambridge History of Japan</em> chapter
-            <a href="https://www.cambridge.org/core/books/abs/cambridge-history-of-japan/muromachi-local-government-shugo-and-kokujin/2C7AE60F634305049BE5683C5155B229">“Muromachi local government: shugo and kokujin.”</a>
+            <strong>Further reading</strong>
+            <SourceLinks sources={politicalContextSources} />
         </aside>
 
         <nav class="guide-detail__nav" aria-label="Continue exploring">

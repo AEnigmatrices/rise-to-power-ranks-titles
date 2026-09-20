@@ -19,13 +19,14 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:install": "playwright install",
-    "validate": "pnpm run check && pnpm run lint && pnpm run test",
+    "validate": "pnpm run provenance:report && pnpm run check && pnpm run lint && pnpm run test",
     "build": "pnpm run validate && pnpm run build:site && pnpm run index:search",
     "preview": "astro preview",
     "astro": "astro",
     "build:site": "pnpm run generate:favicons && astro build",
     "index:search": "pnpm dlx pagefind@1.5.2 --site dist",
-    "generate:favicons": "node scripts/generate-favicons.mjs"
+    "generate:favicons": "node scripts/generate-favicons.mjs",
+    "provenance:report": "node scripts/report-provenance.mjs"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",

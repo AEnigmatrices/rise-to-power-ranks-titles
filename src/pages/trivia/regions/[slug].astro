@@ -1,9 +1,10 @@
 ---
-import { ExternalLink, MapPinned } from '@lucide/astro';
+import { MapPinned } from '@lucide/astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
 import SectionNav from '../../../components/navigation/SectionNav.astro';
 import RelatedAppointments from '../../../components/trivia/RelatedAppointments.astro';
+import SourceLinks from '../../../components/trivia/SourceLinks.astro';
 import { appointments } from '../../../data/appointments';
 import { regions, type Region } from '../../../data/geography';
 import { getEntryRegion } from '../../../lib/geography';
@@ -65,11 +66,8 @@ const related = appointments.filter((entry) => getEntryRegion(entry)?.id === reg
 
             <aside class="guide-source-card">
                 <p class="guide-section__kicker">Further reading</p>
-                <h2>Source</h2>
-                <a href={region.source}>
-                    <span>Open reference source</span>
-                    <ExternalLink size={14} stroke-width={1.8} aria-hidden="true" />
-                </a>
+                <h2>{region.sources.length === 1 ? 'Source' : 'Sources'}</h2>
+                <SourceLinks sources={region.sources} />
             </aside>
         </section>
 

@@ -612,3 +612,57 @@
 @media (max-width: 720px) {
     .guide-teaser__cards--four { grid-template-columns: 1fr; }
 }
+
+.source-list {
+    display: grid;
+    gap: 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.source-list li { margin: 0; }
+
+.source-list a {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--ink-2);
+    background: rgb(255 255 255 / 0.45);
+    text-decoration: none;
+}
+
+.source-list a:hover {
+    border-color: #c2b493;
+    color: var(--vermilion);
+}
+
+.source-list a > span {
+    display: grid;
+    gap: 2px;
+}
+
+.source-list strong {
+    font-size: 0.76rem;
+    line-height: 1.4;
+}
+
+.source-list small {
+    color: var(--muted);
+    font-size: 0.66rem;
+    line-height: 1.45;
+}
+
+.source-list svg {
+    flex: 0 0 auto;
+    margin-top: 2px;
+}
+
+.context-sources .source-list {
+    margin-top: 12px;
+}

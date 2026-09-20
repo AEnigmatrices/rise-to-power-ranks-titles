@@ -173,12 +173,29 @@ src/data/
     appointments.ts
     geography.ts
     trivia.ts
+    sources.ts
+  provenance/
+    context.ts
   validation.ts
 ```
 
 Each appointment owns its stable ID, original `sourceOrder`, Japanese office, reading, localized game name, historical meaning, grade, tier, count, kind, and category. Presentation values such as class labels, stat effects, and bonuses are derived centrally in `src/lib/appointments.ts`.
 
 Route-backed geography and trivia IDs are validated as URL-safe slugs. Cross-dataset validation also checks province metadata coverage, category consistency, unique IDs, source ordering, and non-overlapping modern-prefecture map groups.
+
+### Historical provenance
+
+Historical claims use a shared `HistoricalSource` model rather than anonymous URL strings. Trivia, geography, notable holders, and Political Context material store one or more `sources[]` entries. Each source always carries a URL and can also record a title, publisher, year, and claim-specific note. The UI derives a readable publisher label when older migrated records only have a URL.
+
+This is deliberately separate from the game catalogue's own provenance. Appointment `sourceOrder`, duplicate counts, localized names, classes, and game effects describe the transcribed _Rise to Power_ data; `sources[]` is reserved for historical claims and explanatory material.
+
+Run the provenance coverage report with:
+
+```powershell
+pnpm provenance:report
+```
+
+The report summarizes structured source groups, source URLs, enriched metadata, and fails when a legacy singular `source:` field reappears in the historical datasets.
 
 ## Project structure
 

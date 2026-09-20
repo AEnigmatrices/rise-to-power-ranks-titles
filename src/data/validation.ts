@@ -6,9 +6,19 @@ import {
 } from './appointments';
 import { mapAreas, provinces, regions } from './geography';
 import { featuredTrivia, officeTrivia } from './trivia';
+import { notableHoldersByAppointment } from './holders';
+import { politicalContextSources } from './provenance/context';
 import { appointmentSchema } from './schema/appointments';
 import { mapAreaSchema, regionSchema } from './schema/geography';
 import { featuredTriviaSchema, triviaItemSchema } from './schema/trivia';
+import { historicalSourceSchema } from './schema/sources';
+
+const notableHolderSchema = z.object({
+    name: z.string().trim().min(1),
+    japanese: z.string().trim().min(1).optional(),
+    description: z.string().trim().min(1),
+    sources: z.array(historicalSourceSchema).min(1),
+});
 
 const staticDataSchema = z.object({
     appointments: z.array(appointmentSchema).min(1),
@@ -19,6 +29,8 @@ const staticDataSchema = z.object({
     mapAreas: z.array(mapAreaSchema).min(1),
     trivia: z.array(triviaItemSchema).min(1),
     featuredTrivia: z.array(featuredTriviaSchema).min(1),
+    holders: z.array(notableHolderSchema).min(1),
+    contextSources: z.array(historicalSourceSchema).min(1),
 }).superRefine((data, context) => {
     const assertUnique = <T>(
         items: T[],
@@ -163,6 +175,8 @@ export const staticData = {
     mapAreas,
     trivia: officeTrivia,
     featuredTrivia,
+    holders: Object.values(notableHoldersByAppointment).flatMap((items) => items ?? []),
+    contextSources: politicalContextSources,
 };
 
 export type StaticData = z.infer<typeof staticDataSchema>;

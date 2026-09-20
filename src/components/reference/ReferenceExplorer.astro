@@ -5,6 +5,7 @@ import { getNotableHolders } from '../../data/holders';
 import type { TriviaItem } from '../../data/schema/trivia';
 import { getEntryTrivia } from '../../lib/trivia';
 import { sitePath } from '../../lib/routes';
+import { getSourceLabel } from '../../lib/sources';
 import {
     toReferenceEntries,
     totalRecords,
@@ -332,9 +333,13 @@ const searchableText = (
                                                                 )}
                                                             </span>
                                                             <span>{holder.description}</span>
-                                                            <a href={holder.source}>
-                                                                Source →
-                                                            </a>
+                                                            <span class="holder-details__sources">
+                                                                {holder.sources.map((source) => (
+                                                                    <a href={source.url}>
+                                                                        {getSourceLabel(source)} →
+                                                                    </a>
+                                                                ))}
+                                                            </span>
                                                         </span>
                                                     ))}
                                                 </span>

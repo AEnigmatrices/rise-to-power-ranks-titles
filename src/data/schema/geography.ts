@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { historicalSourceSchema } from './sources';
 
 const nonEmptyString = z.string().trim().min(1);
 const slugSchema = nonEmptyString.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
@@ -11,7 +12,7 @@ export const regionSchema = z.object({
     location: nonEmptyString,
     body: nonEmptyString,
     knownFor: nonEmptyString,
-    source: z.url(),
+    sources: z.array(historicalSourceSchema).min(1),
     aliases: z.array(nonEmptyString).optional(),
     type: z.enum(['Province', 'Region', 'Historic site']),
 });
