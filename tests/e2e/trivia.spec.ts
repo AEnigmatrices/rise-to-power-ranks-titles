@@ -146,3 +146,32 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
     await expect(page.getByRole('heading', { name: 'Drifters gets Naomasa’s title right' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Defense Supervisor/ })).toBeVisible();
 });
+
+
+test('region detail pages surface what the place is known for', async ({ page }) => {
+    await page.goto('./trivia/regions/owari/');
+
+    await expect(page.getByText('Known for')).toBeVisible();
+    await expect(
+        page.getByText(/Oda Nobunaga’s home province/i),
+    ).toBeVisible();
+});
+
+test('reference entries expose notable holder context', async ({ page }) => {
+    await page.goto('./reference/#rank-hyobu-no-sho');
+
+    const naomasaRow = page.locator('#rank-hyobu-no-sho');
+    await expect(naomasaRow).toBeVisible();
+
+    const holderDetails = naomasaRow.locator('.holder-details');
+    await holderDetails.locator('summary').click();
+
+    await expect(holderDetails.getByText('Ii Naomasa')).toBeVisible();
+    await expect(holderDetails.getByText(/Red Devils/i)).toBeVisible();
+
+    const unseededRow = page.locator('#rank-tachihaki-senjo');
+    await unseededRow.locator('.holder-details summary').click();
+    await expect(
+        unseededRow.getByText(/No famous exact holder has been highlighted/i),
+    ).toBeVisible();
+});
