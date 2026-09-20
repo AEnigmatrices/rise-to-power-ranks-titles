@@ -16,11 +16,6 @@ import {
 const ranks = toReferenceEntries(rankAppointments);
 const titles = toReferenceEntries(titleAppointments);
 
-const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
-    rank: ranks,
-    title: titles,
-};
-
 type ReferenceGroup = {
     className: string;
     bonus: number;
@@ -199,7 +194,7 @@ const searchableText = (
             {ranks.length} unique ranks · {totalRecords(ranks)} occurrences
         </p>
         <p class="results-line__hint">
-            Press <kbd>/</kbd> to search · <kbd>Esc</kbd> to clear
+            <strong>×N</strong> marks repeated source occurrences · Press <kbd>/</kbd> to search
         </p>
     </div>
 
