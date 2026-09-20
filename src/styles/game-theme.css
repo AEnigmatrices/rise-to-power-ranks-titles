@@ -397,7 +397,8 @@ body::before {
 }
 
 .guide-teaser__cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));    gap: 7px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
 }
 
 .guide-teaser__card {
@@ -796,7 +797,8 @@ body::before {
     min-height: 220px;
 }
 
-.guide-card:hover,.related-appointment:hover {
+.guide-card:hover,
+.related-appointment:hover {
     border-color: #9e7427;
     box-shadow:
         inset 0 1px 0 rgb(255 244 202 / 0.45),
