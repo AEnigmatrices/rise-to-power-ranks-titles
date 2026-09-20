@@ -56,8 +56,12 @@ const {
                 <p class="guide-card__body">{body}</p>
                 <div class="guide-card__actions">
                     {source && (
-                        <a class="guide-card__source" href={source}>
-                            <span>Source for {title}</span>
+                        <a
+                            class="guide-card__source"
+                            href={source}
+                            aria-label={`Source for ${title}`}
+                        >
+                            <span>Source</span>
                             <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
                         </a>
                     )}
