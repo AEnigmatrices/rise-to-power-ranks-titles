@@ -1,3 +1,48 @@
+
+/* Native cross-document transitions keep navigation multi-page and progressive. */
+@view-transition {
+    navigation: auto;
+}
+
+.section-nav {
+    view-transition-name: site-navigation;
+}
+
+::view-transition-old(root) {
+    animation: 120ms ease both site-page-out;
+}
+
+::view-transition-new(root) {
+    animation: 180ms ease both site-page-in;
+}
+
+::view-transition-old(site-navigation),
+::view-transition-new(site-navigation) {
+    animation-duration: 150ms;
+}
+
+@keyframes site-page-out {
+    to {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes site-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation-duration: 0.001ms !important;
+    }
+}
+
 /* Shared interaction and layout rules over the lacquer / parchment theme. */
 :root {
     --text-on-dark: #f5e8c8;
