@@ -1,5 +1,6 @@
 ---
 import { sitePath } from '../../lib/routes';
+import GlobalSearch from './GlobalSearch.astro';
 
 interface Props {
     current?: 'home' | 'reference' | 'guide';
@@ -8,7 +9,7 @@ interface Props {
 const { current } = Astro.props;
 ---
 
-<nav class="section-nav" aria-label="Site navigation">
+<nav class="section-nav" aria-label="Site navigation" data-pagefind-ignore>
     <a class="section-nav__brand" href={sitePath()}>
         <span>Tenka Sōsei</span>
         <strong>Ranks &amp; Titles</strong>
@@ -17,6 +18,7 @@ const { current } = Astro.props;
         <a href={sitePath()} aria-current={current === 'home' ? 'page' : undefined}>Overview</a>
         <a href={sitePath('reference/')} aria-current={current === 'reference' ? 'page' : undefined}>Reference</a>
         <a href={sitePath('trivia/')} aria-current={current === 'guide' ? 'page' : undefined}>Historical Guide</a>
+        <GlobalSearch />
         <a href="#top" class="section-nav__top">↑ Top</a>
     </div>
 </nav>
