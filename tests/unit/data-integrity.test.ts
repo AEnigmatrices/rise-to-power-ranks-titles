@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { validateStaticData } from '../../src/data/validation';
 import { notableHoldersByAppointment } from '../../src/data/holders';
+import { featuredTrivia, officeTrivia } from '../../src/data/trivia';
 import {
     getAppointmentBonus,
     getAppointmentClassName,
@@ -68,6 +69,11 @@ describe('authored reference data', () => {
         expect(
             Object.keys(notableHoldersByAppointment).every((id) => appointmentIds.has(id)),
         ).toBe(true);
+    });
+
+    it('keeps historical trivia backed by reference sources', () => {
+        expect(officeTrivia.every((item) => item.source)).toBe(true);
+        expect(featuredTrivia.every((item) => item.source)).toBe(true);
     });
 
     it('attaches institutional trivia to representative court bureaus', () => {
