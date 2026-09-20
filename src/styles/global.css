@@ -6,7 +6,6 @@
 @import './introduction.css';
 @import './shared.css';
 @import './reference.css';
-@import './table.css';
 @import './popovers.css';
 @import './map.css';
 @import './guide.css';
@@ -14,4 +13,7 @@
 @import './responsive.css';
 
 @import './game-theme.css';
+
+/* The redesigned ledger owns its final component styling after the global theme layer. */
+@import './table.css';
 @import './usability.css';
