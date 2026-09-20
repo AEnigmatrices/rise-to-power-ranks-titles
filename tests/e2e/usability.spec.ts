@@ -100,23 +100,42 @@ test('directory recovery clears both the search and the map filter', async ({ pa
     await expect(page.locator('[data-map-area-button][aria-pressed="true"]')).toHaveCount(0);
 });
 
-test('core page layouts fit a narrow phone without horizontal overflow', async ({ page }) => {
-    await page.setViewportSize({ width: 320, height: 780 });
-    for (const path of [
-        './',
-        './reference/',
-        './trivia/',
-        './trivia/context/',
-        './trivia/regions/',
-        './trivia/offices/',
-        './trivia/regions/mutsu/',
-        './trivia/offices/danjo/',
-    ]) {
-        await page.goto(path);
-        const width = await page.evaluate(() => ({
-            content: document.documentElement.scrollWidth,
-            viewport: document.documentElement.clientWidth,
-        }));
-        expect(width.content, `Horizontal overflow on ${path}`).toBeLessThanOrEqual(width.viewport);
+const narrowLayoutRoutes = [
+    './',
+    './reference/',
+    './trivia/',
+    './trivia/context/',
+    './trivia/regions/',
+    './trivia/offices/',
+    './trivia/regions/mutsu/',
+    './trivia/offices/danjo/',
+] as const;
+
+test('core page layouts fit a narrow phone without horizontal overflow', async ({
+    context,
+}) => {
+    test.setTimeout(60_000);
+
+    for (const path of narrowLayoutRoutes) {
+        await test.step(path, async () => {
+            const page = await context.newPage();
+
+            try {
+                await page.setViewportSize({ width: 320, height: 780 });
+                await page.goto(path);
+
+                const width = await page.evaluate(() => ({
+                    content: document.documentElement.scrollWidth,
+                    viewport: document.documentElement.clientWidth,
+                }));
+
+                expect(
+                    width.content,
+                    `Horizontal overflow on ${path}`,
+                ).toBeLessThanOrEqual(width.viewport);
+            } finally {
+                await page.close();
+            }
+        });
     }
 });

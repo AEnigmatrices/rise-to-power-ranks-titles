@@ -2,6 +2,19 @@ import type { FeaturedTrivia } from '../schema/trivia';
 
 export const featuredTrivia: FeaturedTrivia[] = [
     {
+        kicker: 'Game term vs. historical system',
+        japanese: '位階 ≠ 官職',
+        title: '“Rank” is the game label, not a single historical category',
+        body: 'Historically, 位階 (court rank) and 官職 (court office) were distinct. The ritsuryō state linked offices to expected ranks through 官位相当, but the two were not identical—and by the Sengoku period a warrior’s personal rank could diverge from the nominal rank associated with an office. Rise to Power abstracts these into one Rank progression.',
+        source: 'https://ndlsearch.ndl.go.jp/rnavi/humanities/kansyoku',
+    },
+    {
+        kicker: 'Anime recognition hook',
+        japanese: '中務少輔 → 中務大輔 · 兵部少輔',
+        title: 'Drifters uses real court offices—but changes Toyohisa’s',
+        body: 'The Sekigahara opening uses real court-office language, not personal court ranks. Ii Naomasa’s 兵部少輔 is attested in contemporary documents, while Shimazu Toyohisa is historically recorded as 中務大輔 rather than the anime’s 中務少輔. Toyohisa’s office was the more senior office in the classical hierarchy, but that does not by itself mean Toyohisa personally held the higher 位階.',
+    },
+    {
         kicker: 'Do not confuse these',
         japanese: '守 ≠ 守護',
         title: 'Court provincial title vs. shogunate governor',

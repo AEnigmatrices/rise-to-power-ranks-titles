@@ -10,6 +10,7 @@ export const regionSchema = z.object({
     area: nonEmptyString,
     location: nonEmptyString,
     body: nonEmptyString,
+    knownFor: nonEmptyString,
     source: z.url(),
     aliases: z.array(nonEmptyString).optional(),
     type: z.enum(['Province', 'Region', 'Historic site']),

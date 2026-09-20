@@ -6,7 +6,7 @@ const province = (
     area: string,
     location: string,
     body: string,
-    options: { id?: string; page?: string; aliases?: string[] } = {},
+    options: { id?: string; page?: string; aliases?: string[]; knownFor?: string } = {},
 ): Region => ({
     id: options.id ?? name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(),
     name,
@@ -14,6 +14,7 @@ const province = (
     area,
     location,
     body,
+    knownFor: options.knownFor ?? body.split('.')[0],
     source: `https://en.wikipedia.org/wiki/${encodeURIComponent(options.page ?? `${name}_Province`)}`,
     aliases: options.aliases,
     type: 'Province',

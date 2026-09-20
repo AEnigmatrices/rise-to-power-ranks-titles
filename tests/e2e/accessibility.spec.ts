@@ -12,22 +12,35 @@ const accessibilityRoutes = [
     './trivia/offices/danjo/',
 ] as const;
 
-test.describe('automated accessibility', () => {
+test('core routes have no serious or critical automated accessibility violations', async ({
+    context,
+}) => {
+    test.setTimeout(120_000);
+
     for (const path of accessibilityRoutes) {
-        test(`${path} has no serious or critical automated accessibility violations`, async ({
-            page,
-        }) => {
-            await page.goto(path);
+        await test.step(path, async () => {
+            const page = await context.newPage();
 
-            const results = await new AxeBuilder({ page })
-                .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-                .analyze();
+            try {
+                await page.goto(path);
 
-            const blockingViolations = results.violations.filter(
-                (violation) => violation.impact === 'serious' || violation.impact === 'critical',
-            );
+                const results = await new AxeBuilder({ page })
+                    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+                    .analyze();
 
-            expect(blockingViolations, `Accessibility violations on ${path}`).toEqual([]);
+                const blockingViolations = results.violations.filter(
+                    (violation) =>
+                        violation.impact === 'serious' ||
+                        violation.impact === 'critical',
+                );
+
+                expect(
+                    blockingViolations,
+                    `Accessibility violations on ${path}`,
+                ).toEqual([]);
+            } finally {
+                await page.close();
+            }
         });
     }
 });

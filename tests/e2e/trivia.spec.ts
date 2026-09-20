@@ -124,3 +124,75 @@ test('historical guide directories retain the global site navigation', async ({ 
     await page.goto('./trivia/offices/danjo/');
     await expect(page.getByRole('navigation', { name: 'Site navigation' })).toBeVisible();
 });
+
+
+test('Drifters trivia distinguishes Toyohisa’s anime title from the historical office', async ({ page }) => {
+    await page.goto('./reference/#rank-nakatsukasa-no-sho');
+
+    const animeToyohisaRow = page.locator('#rank-nakatsukasa-no-sho');
+    await expect(animeToyohisaRow).toBeVisible();
+    await animeToyohisaRow.locator('[data-trivia-trigger]').click();
+    await expect(
+        animeToyohisaRow
+            .locator('[data-trivia-popover]')
+            .getByText('Drifters changes Toyohisa’s court office'),
+    ).toBeVisible();
+
+    await page.goto('./trivia/offices/drifters-toyohisa/');
+    await expect(page.getByRole('heading', { name: 'Drifters changes Toyohisa’s court office' })).toBeVisible();
+
+    const toyohisaRelated = page.locator('.related-appointment');
+    await expect(toyohisaRelated).toHaveCount(2);
+    await expect(page.getByRole('link', { name: /Scribe Captain/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Central General/ })).toBeVisible();
+
+    await page.goto('./trivia/offices/drifters-naomasa/');
+    await expect(page.getByRole('heading', { name: 'Drifters gets Naomasa’s office right' })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Defense Supervisor/ })).toBeVisible();
+});
+
+
+test('region detail pages surface what the place is known for', async ({ page }) => {
+    await page.goto('./trivia/regions/owari/');
+
+    const knownFor = page.locator('.guide-detail__known-for');
+    await expect(knownFor.getByText('Known for')).toBeVisible();
+    await expect(
+        knownFor.getByText(/Oda Nobunaga’s home province/i),
+    ).toBeVisible();
+});
+
+test('reference entries expose notable holder context', async ({ page }) => {
+    await page.goto('./reference/#rank-hyobu-no-sho');
+
+    const naomasaRow = page.locator('#rank-hyobu-no-sho');
+    await expect(naomasaRow).toBeVisible();
+
+    const holderDetails = naomasaRow.locator('.holder-details');
+    const holderSummary = holderDetails.locator('summary');
+
+    await expect(async () => {
+        if (!(await holderDetails.evaluate((details) => (details as HTMLDetailsElement).open))) {
+            await holderSummary.click();
+        }
+        await expect(holderDetails).toHaveAttribute('open', '');
+    }).toPass();
+
+    await expect(holderDetails.getByText('Ii Naomasa')).toBeVisible();
+    await expect(holderDetails.getByText(/Red Devils/i)).toBeVisible();
+
+    const unseededRow = page.locator('#rank-tachihaki-senjo');
+    const unseededDetails = unseededRow.locator('.holder-details');
+    const unseededSummary = unseededDetails.locator('summary');
+
+    await expect(async () => {
+        if (!(await unseededDetails.evaluate((details) => (details as HTMLDetailsElement).open))) {
+            await unseededSummary.click();
+        }
+        await expect(unseededDetails).toHaveAttribute('open', '');
+    }).toPass();
+
+    await expect(
+        unseededDetails.getByText(/No famous exact holder has been highlighted/i),
+    ).toBeVisible();
+});

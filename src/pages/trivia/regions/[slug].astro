@@ -52,6 +52,10 @@ const related = appointments.filter((entry) => getEntryRegion(entry)?.id === reg
                     Historic province boundaries and regional meanings do not map neatly
                     onto modern prefectural borders.
                 </p>
+                <div class="guide-detail__known-for">
+                    <p class="guide-section__kicker">Known for</p>
+                    <p>{region.knownFor}</p>
+                </div>
                 {region.aliases && region.aliases.length > 0 && (
                     <p class="guide-detail__aliases">
                         <strong>Also searchable as:</strong> {region.aliases.join(', ')}

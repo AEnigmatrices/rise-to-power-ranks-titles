@@ -80,6 +80,18 @@ export const triviaById = {
         label: 'Part of the Eight Ministries',
         body: 'Nakatsukasa, Shikibu, Jibu, Minbu, Hyōbu, Gyōbu, Ōkura, and Kunai were the Eight Ministries of the ritsuryō state. Many ranks in this table are different grades within those ministry hierarchies.',
     },
+    'drifters-toyohisa': {
+        id: 'drifters-toyohisa',
+        label: 'Drifters changes Toyohisa’s court office',
+        body: 'Drifters styles Shimazu Toyohisa as 島津中務少輔豊久 (Nakatsukasa no Shō), but historical records around Sekigahara identify him as 島津中務大輔豊久 (Nakatsukasa no Taifu). The anime’s 少輔 is therefore a fictional variation; the historically attested office corresponds to the catalogue’s 中務大輔 entry.',
+        source: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf',
+    },
+    'drifters-naomasa': {
+        id: 'drifters-naomasa',
+        label: 'Drifters gets Naomasa’s office right',
+        body: 'Ii Naomasa’s 兵部少輔 (Hyōbu no Shō) is strongly attested near Sekigahara: surviving documents from 1599, 1600, and 1601 repeatedly style him 井伊兵部少輔直政, and Hikone Castle Museum identifies 兵部少輔 as his customary title. A much later genealogical compilation, Keizu Sanyō, instead gives 兵部大輔 for 1588; the contemporary documentary evidence therefore favors 少輔 for how Naomasa was actually styled around Sekigahara.',
+        source: 'https://dcollections.lib.keio.ac.jp/ja/sagara/003-095',
+    },
     danjo: {
         id: 'danjo',
         label: 'A censor and policing office',
