@@ -2,9 +2,30 @@
 
 .table-shell {
     overflow: visible;
+    padding: 0 6px 8px;
     border: 0;
-    background: transparent;
-    box-shadow: none;
+    border-radius: 0 0 12px 12px;
+    background: rgb(0 0 0 / 0.08);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.025);
+}
+
+.reference-ledger__columns {
+    display: grid;
+    grid-template-columns: 31% 26% 43%;
+    margin: 0 -6px;
+    padding: 10px 18px 9px;
+    border-top: 1px solid rgb(232 201 104 / 0.08);
+    border-bottom: 1px solid rgb(232 201 104 / 0.13);
+    color: #7f887f;
+    font-size: 0.62rem;
+    font-weight: 760;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.reference-ledger__columns span:nth-child(2),
+.reference-ledger__columns span:nth-child(3) {
+    padding-left: 18px;
 }
 
 .reference-panel {
@@ -33,15 +54,15 @@
 }
 
 .reference-group__heading th {
-    padding: 30px 0 11px;
-    border-bottom: 1px solid rgb(232 201 104 / 0.24);
+    padding: 34px 12px 12px;
+    border-bottom: 1px solid rgb(232 201 104 / 0.22);
     color: #f5f1e8;
     background: transparent;
     text-align: left;
 }
 
 .reference-group:first-of-type .reference-group__heading th {
-    padding-top: 12px;
+    padding-top: 20px;
 }
 
 .reference-group__title {
@@ -52,9 +73,10 @@
 }
 
 .reference-group__title > span:first-child {
+    color: #f6edd8;
     font-family: var(--serif);
     font-size: clamp(1.2rem, 1.8vw, 1.55rem);
-    font-weight: 560;
+    font-weight: 620;
     letter-spacing: -0.02em;
 }
 
@@ -68,24 +90,24 @@
 }
 
 .reference-group__effect--politics {
-    color: var(--politics);
+    color: #83bd99;
 }
 
 .reference-group__effect--leadership {
-    color: var(--leadership);
+    color: #91b7d8;
 }
 
 .reference-group__count {
     display: block;
-    margin-top: 4px;
-    color: #8f978f;
+    margin-top: 5px;
+    color: #929a92;
     font-size: 0.68rem;
     font-weight: 650;
     letter-spacing: 0.02em;
 }
 
 .reference-table td {
-    padding: 18px 18px;
+    padding: 17px 18px;
     border-bottom: 1px solid rgb(255 255 255 / 0.07);
     vertical-align: top;
     transition: background-color 120ms ease;
@@ -93,7 +115,7 @@
 
 .reference-table td:first-child {
     width: 31%;
-    padding-left: 0;
+    padding-left: 12px;
 }
 
 .reference-table td:nth-child(2) {
@@ -102,7 +124,7 @@
 
 .reference-table td:last-child {
     width: 43%;
-    padding-right: 0;
+    padding-right: 12px;
 }
 
 .reference-group tr:last-child td {
@@ -115,7 +137,7 @@
 }
 
 .reference-table tbody tr[data-reference-row]:hover td {
-    background: rgb(255 255 255 / 0.035);
+    background: rgb(232 201 104 / 0.045);
 }
 
 .reference-table tbody tr[data-reference-row]:hover td:first-child {
@@ -142,8 +164,8 @@
 
 .entry-name {
     display: block;
-    color: #f3efe6;
-    font-size: 0.92rem;
+    color: #f7f1e5;
+    font-size: 0.94rem;
     font-weight: 780;
     letter-spacing: -0.008em;
     line-height: 1.35;
@@ -184,7 +206,7 @@
 }
 
 .entry-type {
-    color: #899189;
+    color: #9ba39b;
     font-size: 0.68rem;
     font-weight: 650;
 }
@@ -194,9 +216,9 @@
 }
 
 .japanese {
-    color: #eee8da;
+    color: #f0e7d4;
     font-family: var(--jp-serif);
-    font-size: 1rem;
+    font-size: 1.04rem;
     font-weight: 650;
 }
 
@@ -220,8 +242,8 @@
 }
 
 .translation {
-    color: #c4cbc4;
-    line-height: 1.6;
+    color: #cbd1cb;
+    line-height: 1.62;
 }
 
 .translation__meaning {
@@ -301,6 +323,13 @@
 @media (max-width: 860px) {
     .table-shell {
         overflow: visible;
+        padding: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .reference-ledger__columns {
+        display: none;
     }
 
     .reference-table,
@@ -331,17 +360,18 @@
         grid-template-columns: minmax(0, 1fr) auto;
         gap: 10px 16px;
         overflow: hidden;
-        padding: 17px 18px;
-        border: 1px solid #d8d0c2;
-        border-radius: 14px;
+        padding: 18px;
+        border: 1px solid #cbb989;
+        border-radius: 12px;
         color: var(--ink);
-        background: #faf7f0;
-        box-shadow: 0 8px 24px rgb(0 0 0 / 0.11);
+        background: linear-gradient(180deg, #f5e8c8, #edddb5);
+        box-shadow: 0 7px 20px rgb(0 0 0 / 0.12);
     }
 
     .reference-table tbody tr[data-reference-row]:hover {
-        background: #fffaf0;
-        box-shadow: 0 10px 28px rgb(0 0 0 / 0.13);
+        border-color: #b99a55;
+        background: linear-gradient(180deg, #faedcf, #f0dfb7);
+        box-shadow: 0 9px 24px rgb(0 0 0 / 0.14);
     }
 
     .reference-table tbody tr[data-reference-row]:hover td,
@@ -398,8 +428,8 @@
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
-        margin-top: 7px;
-        color: #777c77;
+        margin-top: 8px;
+        color: #6f6b60;
         font-size: 0.68rem;
         font-weight: 700;
     }
