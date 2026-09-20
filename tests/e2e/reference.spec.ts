@@ -62,7 +62,7 @@ test('legacy root catalogue URLs forward to the reference page', async ({ page }
 test('homepage remains an overview rather than embedding the catalogue', async ({ page }) => {
     await page.goto('./');
 
-    await expect(page.getByRole('heading', { name: 'Two old authorities. One age of warlords.' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Ranks and Titles are two different appointment tracks.' })).toBeVisible();
     await expect(page.getByRole('searchbox', { name: 'Search appointments' })).toHaveCount(0);
 
     await page.getByRole('link', { name: /Browse the reference/ }).click();
