@@ -86,6 +86,9 @@ export const getEntryTrivia = (
         if (exactKey) keys.push(exactKey);
         if (entry.category === 'shugo') keys.push('shugo');
         if (japanese.endsWith('探題')) keys.push('tandai');
+        if (japanese === '九州探題') keys.push('kyushu-tandai');
+        if (japanese === '奥州探題') keys.push('oshu-tandai-context');
+        if (japanese === '羽州探題') keys.push('ushu-tandai-context');
     }
 
     const region = getEntryRegion(entry);
