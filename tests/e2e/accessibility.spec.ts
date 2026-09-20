@@ -1,29 +1,33 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
-test('overview, reference, and historical guide pages have no serious or critical automated accessibility violations', async ({
-    page,
-}) => {
-    for (const path of [
-        './',
-        './reference/',
-        './trivia/',
-        './trivia/context/',
-        './trivia/regions/',
-        './trivia/offices/',
-        './trivia/regions/mutsu/',
-        './trivia/offices/danjo/',
-    ]) {
-        await page.goto(path);
+const accessibilityRoutes = [
+    './',
+    './reference/',
+    './trivia/',
+    './trivia/context/',
+    './trivia/regions/',
+    './trivia/offices/',
+    './trivia/regions/mutsu/',
+    './trivia/offices/danjo/',
+] as const;
 
-        const results = await new AxeBuilder({ page })
-            .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-            .analyze();
+test.describe('automated accessibility', () => {
+    for (const path of accessibilityRoutes) {
+        test(`${path} has no serious or critical automated accessibility violations`, async ({
+            page,
+        }) => {
+            await page.goto(path);
 
-        const blockingViolations = results.violations.filter(
-            (violation) => violation.impact === 'serious' || violation.impact === 'critical',
-        );
+            const results = await new AxeBuilder({ page })
+                .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+                .analyze();
 
-        expect(blockingViolations, `Accessibility violations on ${path}`).toEqual([]);
+            const blockingViolations = results.violations.filter(
+                (violation) => violation.impact === 'serious' || violation.impact === 'critical',
+            );
+
+            expect(blockingViolations, `Accessibility violations on ${path}`).toEqual([]);
+        });
     }
 });
