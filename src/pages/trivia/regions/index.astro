@@ -31,28 +31,55 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
                     <p class="guide-section__kicker">Directory</p>
                     <h2 id="region-directory-heading">Browse every place</h2>
                 </div>
-                <p>Search by historic name, Japanese name, modern location, or description; or use the area map to narrow the list.</p>
+                <p>
+                    Search by historic name, Japanese name, modern location, or description; or use
+                    the area map to narrow the list.
+                </p>
             </div>
 
             <div class="guide-directory__controls">
                 <div class="guide-directory__search">
-                    <label class="sr-only" for="guide-region-search">Search regions and provinces</label>
-                    <Search size={17} stroke-width={1.8} aria-hidden="true" />
-                    <input id="guide-region-search" type="search" autocomplete="off" placeholder="Search name, Japanese, location, or description…" data-guide-search />
+                    <label class="control-label" for="guide-region-search">
+                        Search regions and provinces
+                    </label>
+                    <div class="control-input">
+                        <Search size={17} stroke-width={1.8} aria-hidden="true" />
+                        <input
+                            id="guide-region-search"
+                            type="search"
+                            autocomplete="off"
+                            spellcheck="false"
+                            placeholder="Name, Japanese, or location…"
+                            data-guide-search
+                        />
+                    </div>
                 </div>
                 <div class="guide-directory__select">
-                    <label class="sr-only" for="guide-region-area">Filter by area</label>
+                    <label class="control-label" for="guide-region-area">
+                        Filter by area
+                    </label>
                     <select id="guide-region-area" data-guide-area>
                         <option value="">All areas</option>
-                        {areas.map((area) => <option value={area}>{area}</option>)}
+                        {areas.map((area) => (
+                            <option value={area}>{area}</option>
+                        ))}
                     </select>
                 </div>
-                <p class="guide-directory__count" data-guide-count aria-live="polite"></p>
+                <button class="reset-button" type="button" data-guide-reset>
+                    Reset
+                </button>
+            </div>
+
+            <div class="directory-results-line">
+                <p class="guide-directory__count" data-guide-count role="status" aria-atomic="true">
+                    {regions.length} entries
+                </p>
+                <a href="#directory-results">Skip map to results ↓</a>
             </div>
 
             <RegionMap />
 
-            <div class="guide-card-grid" data-guide-grid>
+            <div id="directory-results" class="guide-card-grid" data-guide-grid tabindex="-1">
                 {regions.map((region) => (
                     <GuideCard
                         kicker={`${region.type} · ${region.area}`}
@@ -61,13 +88,25 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
                         meta={region.location}
                         body={region.body}
                         href={sitePath(`trivia/regions/${region.id}/`)}
-                        search={[region.name, region.japanese, region.location, region.body, ...(region.aliases ?? [])].join(' ')}
+                        search={[
+                            region.name,
+                            region.japanese,
+                            region.location,
+                            region.body,
+                            ...(region.aliases ?? []),
+                        ].join(' ')}
                         area={region.area}
                     />
                 ))}
             </div>
 
-            <p class="guide-empty-note" data-guide-empty hidden>No places match this search and area combination.</p>
+            <div class="guide-empty-note" data-guide-empty hidden>
+                <strong>No matching places</strong>
+                <p>Try a different name or clear the search and area filter.</p>
+                <button class="reset-button" type="button" data-guide-reset>
+                    Clear search &amp; filters
+                </button>
+            </div>
         </section>
 
         <footer class="guide-footer">

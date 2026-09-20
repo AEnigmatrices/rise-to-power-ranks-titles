@@ -1,6 +1,6 @@
 # Rise to Power — Ranks & Titles
 
-An Astro reference for the **Rank** and **Title** appointment systems in *Nobunaga's Ambition: Rise to Power* (*Tenka Sōsei*), with a concise historical overview, a dedicated searchable catalogue, and a statically generated Historical Guide for political context, offices, titles, regions, and provinces. The visual system deliberately echoes the game's bronze, lacquer, muted-teal, parchment, and strategic-map interface language without reusing proprietary screenshot assets.
+An Astro reference for the **Rank** and **Title** appointment systems in _Nobunaga's Ambition: Rise to Power_ (_Tenka Sōsei_), with a concise historical overview, a dedicated searchable catalogue, and a statically generated Historical Guide for political context, offices, titles, regions, and provinces. The visual system deliberately echoes the game's bronze, lacquer, muted-teal, parchment, and strategic-map interface language without reusing proprietary screenshot assets.
 
 The catalogue preserves the game's English-localized appointment names alongside Japanese office names, readings, historical/literal meanings, class, stat effect, appointment type, and exact duplicate-source occurrence counts. Historical context is available both as compact inline notes and as dedicated guide pages.
 
@@ -13,7 +13,7 @@ The catalogue preserves the game's English-localized appointment names alongside
 - Fuse.js for weighted fuzzy catalogue and directory search
 - Floating UI for collision-aware inline historical popovers
 - Lucide Astro for interface icons
-- Motion for restrained catalogue transitions with reduced-motion support
+- CSS interaction transitions with reduced-motion support; catalogue results update immediately
 - D3 Geo + TopoJSON Client + jpn-atlas for the build-time Japan orientation map
 - Fontsource Noto Serif JP Variable for self-hosted Japanese serif typography
 - Plain browser TypeScript for interactive catalogue and directory behavior
@@ -229,11 +229,13 @@ src/
     guide.css
     footer.css
     responsive.css
+    usability.css
 tests/
   e2e/
     accessibility.spec.ts
     reference.spec.ts
     trivia.spec.ts
+    usability.spec.ts
   unit/
     data-integrity.test.ts
     search.test.ts

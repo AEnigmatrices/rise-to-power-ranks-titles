@@ -11,18 +11,26 @@ interface Props {
 const { rankRecords, rankEntries, titleRecords, titleEntries } = Astro.props;
 ---
 
-<header class="hero">
-    <div class="hero__ornament hero__ornament--left" aria-hidden="true">天</div>
-    <div class="hero__ornament hero__ornament--right" aria-hidden="true">創</div>
+<header id="main-content" class="hero" tabindex="-1">
+    <div class="hero__ornament hero__ornament--left" aria-hidden="true">
+        天
+    </div>
+    <div class="hero__ornament hero__ornament--right" aria-hidden="true">
+        創
+    </div>
 
     <div class="hero__content">
         <p class="hero__eyebrow">Nobunaga's Ambition · Rise to Power</p>
-        <p class="hero__japanese" lang="ja">信長の野望・天下創世</p>
-        <h1>Ranks <span>&</span> Titles</h1>
+        <p class="hero__japanese" lang="ja">
+            信長の野望・天下創世
+        </p>
+        <h1>
+            Ranks <span>&</span> Titles
+        </h1>
         <p class="hero__lede">
-            <em>Tenka Sōsei</em> models two overlapping traditions of authority:
-            Imperial Court <strong>Ranks</strong> that raise Politics and Shogunate{' '}
-            <strong>Titles</strong> that raise Leadership.
+            <em>Tenka Sōsei</em> models two overlapping traditions of authority: Imperial Court{' '}
+            <strong>Ranks</strong> that raise Politics and Shogunate <strong>Titles</strong> that
+            raise Leadership.
         </p>
 
         <div class="hero__facts" aria-label="Reference totals">
@@ -40,9 +48,15 @@ const { rankRecords, rankEntries, titleRecords, titleEntries } = Astro.props;
         </div>
 
         <nav class="hero__nav" aria-label="Explore the site">
-            <a href={sitePath('reference/')}>Browse the reference <span aria-hidden="true">→</span></a>
-            <a href={sitePath('trivia/context/')}>Political context <span aria-hidden="true">→</span></a>
-            <a href={sitePath('trivia/')}>Historical Guide <span aria-hidden="true">→</span></a>
+            <a class="hero__primary" href={sitePath('reference/')}>
+                Browse the reference <span aria-hidden="true">→</span>
+            </a>
+            <a href={sitePath('trivia/context/')}>
+                Political context <span aria-hidden="true">→</span>
+            </a>
+            <a href={sitePath('trivia/')}>
+                Historical Guide <span aria-hidden="true">→</span>
+            </a>
         </nav>
     </div>
 </header>

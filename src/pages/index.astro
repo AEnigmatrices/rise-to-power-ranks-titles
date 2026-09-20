@@ -19,6 +19,7 @@ const titleRecords = totalRecords(titleAppointments);
     description="An introduction to the Imperial Court Ranks and Shogunate Titles represented in Nobunaga's Ambition: Rise to Power (Tenka Sōsei), with links to the full game reference and historical guide."
 >
     <main id="top" class="page-shell">
+        <SectionNav current="home" />
         <Hero
             rankRecords={rankRecords}
             rankEntries={rankAppointments.length}
@@ -26,15 +27,14 @@ const titleRecords = totalRecords(titleAppointments);
             titleEntries={titleAppointments.length}
         />
 
-        <SectionNav current="home" />
         <IntroductionOverview />
         <HistoricalGuideTeaser />
 
         <footer class="site-footer">
             <p>
-                Unofficial reference for <em>Nobunaga's Ambition: Rise to Power</em>
-                (<em>Tenka Sōsei</em>). Game-localized names are preserved for lookup;
-                historical readings and context are presented separately.
+                Unofficial reference for <em>Nobunaga's Ambition: Rise to Power</em>(
+                <em>Tenka Sōsei</em>). Game-localized names are preserved for lookup; historical
+                readings and context are presented separately.
             </p>
         </footer>
     </main>

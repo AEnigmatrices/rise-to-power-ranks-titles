@@ -37,22 +37,46 @@ const relatedByTrivia = new Map(
                     <p class="guide-section__kicker">Directory</p>
                     <h2 id="office-directory-heading">Browse every topic</h2>
                 </div>
-                <p>Search by institution, title, Japanese office name, or the related game-localized appointments.</p>
+                <p>
+                    Search by institution, title, Japanese office name, or the related
+                    game-localized appointments.
+                </p>
             </div>
 
             <div class="guide-directory__controls guide-directory__controls--search-only">
                 <div class="guide-directory__search">
-                    <label class="sr-only" for="guide-office-search">Search offices and titles</label>
-                    <Search size={17} stroke-width={1.8} aria-hidden="true" />
-                    <input id="guide-office-search" type="search" autocomplete="off" placeholder="Search institution, title, or related appointment…" data-guide-search />
+                    <label class="control-label" for="guide-office-search">
+                        Search offices and titles
+                    </label>
+                    <div class="control-input">
+                        <Search size={17} stroke-width={1.8} aria-hidden="true" />
+                        <input
+                            id="guide-office-search"
+                            type="search"
+                            autocomplete="off"
+                            spellcheck="false"
+                            placeholder="Institution, title, or appointment…"
+                            data-guide-search
+                        />
+                    </div>
                 </div>
-                <p class="guide-directory__count" data-guide-count aria-live="polite"></p>
+                <button class="reset-button" type="button" data-guide-reset>
+                    Reset
+                </button>
+            </div>
+
+            <div class="directory-results-line">
+                <p class="guide-directory__count" data-guide-count role="status" aria-atomic="true">
+                    {officeTrivia.length} entries
+                </p>
             </div>
 
             <div class="guide-card-grid" data-guide-grid>
                 {officeTrivia.map((item) => {
                     const related = relatedByTrivia.get(item.id) ?? [];
-                    const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 3).join('・');
+                    const japanese = [...new Set(related.map((entry) => entry.japanese))]
+                        .slice(0, 3)
+                        .join('・');
                     return (
                         <GuideCard
                             kicker="Office & title context"
@@ -61,13 +85,27 @@ const relatedByTrivia = new Map(
                             meta={`${related.length} related ${related.length === 1 ? 'appointment' : 'appointments'}`}
                             body={item.body}
                             href={sitePath(`trivia/offices/${item.id}/`)}
-                            search={[item.label, item.body, ...related.flatMap((entry) => [entry.gameName, entry.japanese, entry.reading])].join(' ')}
+                            search={[
+                                item.label,
+                                item.body,
+                                ...related.flatMap((entry) => [
+                                    entry.gameName,
+                                    entry.japanese,
+                                    entry.reading,
+                                ]),
+                            ].join(' ')}
                         />
                     );
                 })}
             </div>
 
-            <p class="guide-empty-note" data-guide-empty hidden>No office or title topics match this search.</p>
+            <div class="guide-empty-note" data-guide-empty hidden>
+                <strong>No matching topics</strong>
+                <p>Try another institution, title, or appointment name.</p>
+                <button class="reset-button" type="button" data-guide-reset>
+                    Clear search
+                </button>
+            </div>
         </section>
 
         <footer class="guide-footer">

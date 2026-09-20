@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import { normalizeSearchText } from '../lib/search';
+import { isSingleCharacterQuery, normalizeSearchText } from '../lib/search';
 
 type DirectoryRecord = {
     card: HTMLElement;
@@ -17,7 +17,9 @@ type DirectoryRecord = {
     const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-guide-card]'));
     const map = root.querySelector<HTMLElement>('[data-region-map]');
     const mapPaths = Array.from(root.querySelectorAll<SVGPathElement>('[data-map-area]'));
-    const mapButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-map-area-button]'));
+    const mapButtons = Array.from(
+        root.querySelectorAll<HTMLButtonElement>('[data-map-area-button]'),
+    );
     const mapClear = root.querySelector<HTMLButtonElement>('[data-map-area-clear]');
 
     if (!search || !count || !empty) return;
@@ -46,7 +48,10 @@ type DirectoryRecord = {
         mapPaths.forEach((path) => {
             const pathArea = path.dataset.mapArea ?? '';
             path.classList.toggle('is-selected', Boolean(activeArea && pathArea === activeArea));
-            path.classList.toggle('is-dimmed', Boolean(activeArea && pathArea && pathArea !== activeArea));
+            path.classList.toggle(
+                'is-dimmed',
+                Boolean(activeArea && pathArea && pathArea !== activeArea),
+            );
         });
 
         mapButtons.forEach((button) => {
@@ -73,11 +78,14 @@ type DirectoryRecord = {
     const update = () => {
         const query = normalizeSearchText(search.value);
         const ranked = query
-            ? fuse.search(query).map((result) => result.item.card)
+            ? isSingleCharacterQuery(query)
+                ? records
+                      .filter((record) => record.all.includes(query))
+                      .map((record) => record.card)
+                : fuse.search(query).map((result) => result.item.card)
             : cards;
 
-        const matches = ranked.filter((card) =>
-            !area?.value || card.dataset.area === area.value);
+        const matches = ranked.filter((card) => !area?.value || card.dataset.area === area.value);
 
         const visible = new Set(matches);
         cards.forEach((card) => {
@@ -91,7 +99,7 @@ type DirectoryRecord = {
         }
 
         empty.hidden = matches.length > 0;
-        count.textContent = `${matches.length} ${matches.length === 1 ? 'entry' : 'entries'}`;
+        count.textContent = `${matches.length} ${matches.length === 1 ? 'entry' : 'entries'}${query || area?.value ? ` of ${cards.length}` : ''}`;
 
         syncMap();
         syncUrl();
@@ -104,7 +112,29 @@ type DirectoryRecord = {
     };
 
     search.addEventListener('input', update);
+    search.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            search.value = '';
+            update();
+        }
+    });
     area?.addEventListener('change', update);
+
+    root.querySelectorAll<HTMLButtonElement>('[data-guide-reset]').forEach((button) => {
+        button.addEventListener('click', () => {
+            search.value = '';
+            if (area) area.value = '';
+            update();
+            search.focus();
+        });
+    });
+
+    window.addEventListener('popstate', () => {
+        const current = new URLSearchParams(location.search);
+        search.value = current.get('q') ?? '';
+        if (area) area.value = current.get('area') ?? '';
+        update();
+    });
 
     mapPaths.forEach((path) => {
         const areaName = path.dataset.mapArea ?? '';

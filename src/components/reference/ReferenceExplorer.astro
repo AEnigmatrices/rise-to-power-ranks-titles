@@ -1,5 +1,5 @@
 ---
-import { RotateCcw, Search, Sparkles } from '@lucide/astro';
+import { RotateCcw, Search, Sparkles, X } from '@lucide/astro';
 import { rankAppointments, titleAppointments } from '../../data/appointments';
 import type { TriviaItem } from '../../data/schema/trivia';
 import { getEntryTrivia } from '../../lib/trivia';
@@ -38,10 +38,14 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
 ---
 
 <section id="reference" class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
-    <h2 id="explorer-heading" class="sr-only">Browse every appointment</h2>
-    <p class="explorer__legend">
-        Search game names, Japanese offices, readings, meanings, classes, and historical notes.
-        <span><Sparkles size={12} stroke-width={2} aria-hidden="true" /> marks entries with additional context.</span>
+    <h2 id="explorer-heading" class="sr-only">
+        Browse every appointment
+    </h2>
+    <p class="explorer__legend" id="reference-search-help">
+        Search English or Japanese names, readings, and historical meanings.
+        <span>
+            <Sparkles size={12} stroke-width={2} aria-hidden="true" /> opens a historical note.
+        </span>
     </p>
 
     <div class="switcher" role="tablist" aria-label="Appointment system">
@@ -54,12 +58,16 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
             id="rank-tab"
             data-view="rank"
         >
-            <span class="switcher__mark" aria-hidden="true">官</span>
+            <span class="switcher__mark" aria-hidden="true">
+                官
+            </span>
             <span class="switcher__copy">
                 <strong>Imperial Court Ranks</strong>
-                <small>{ranks.length} unique · {totalRecords(ranks)} occurrences</small>
+                <small>
+                    {ranks.length} unique · {totalRecords(ranks)} occurrences
+                </small>
             </span>
-            <span class="effect-chip effect-chip--politics">POL</span>
+            <span class="effect-chip effect-chip--politics">Politics ↑</span>
         </button>
 
         <button
@@ -67,42 +75,57 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
             type="button"
             role="tab"
             aria-selected="false"
+            tabindex="-1"
             aria-controls="title-panel"
             id="title-tab"
             data-view="title"
         >
-            <span class="switcher__mark" aria-hidden="true">将</span>
+            <span class="switcher__mark" aria-hidden="true">
+                将
+            </span>
             <span class="switcher__copy">
                 <strong>Shogunate Titles</strong>
-                <small>{titles.length} unique · {totalRecords(titles)} occurrences</small>
+                <small>
+                    {titles.length} unique · {totalRecords(titles)} occurrences
+                </small>
             </span>
-            <span class="effect-chip effect-chip--leadership">LDR</span>
+            <span class="effect-chip effect-chip--leadership">Leadership ↑</span>
         </button>
     </div>
 
     <div class="toolbar">
         <div class="toolbar__search field">
-            <label class="sr-only" for="reference-search">Search appointments</label>
-            <Search class="field__icon" size={18} stroke-width={1.8} aria-hidden="true" />
-            <input
-                id="reference-search"
-                type="search"
-                autocomplete="off"
-                placeholder="Search rank, Japanese office, pronunciation, meaning…"
-                data-search
-            />
-            <kbd aria-hidden="true">/</kbd>
+            <label class="control-label" for="reference-search">
+                Search appointments
+            </label>
+            <div class="control-input">
+                <Search class="field__icon" size={18} stroke-width={1.8} aria-hidden="true" />
+                <input
+                    id="reference-search"
+                    type="search"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-describedby="reference-search-help"
+                    placeholder="Name, Japanese office, or meaning…"
+                    data-search
+                />
+                <kbd aria-hidden="true">/</kbd>
+            </div>
         </div>
 
         <div class="field">
-            <label class="sr-only" for="class-filter">Filter by class</label>
+            <label class="control-label" for="class-filter">
+                Filter by class
+            </label>
             <select id="class-filter" data-class-filter>
                 <option value="">All classes</option>
             </select>
         </div>
 
         <div class="field">
-            <label class="sr-only" for="category-filter">Filter by type</label>
+            <label class="control-label" for="category-filter">
+                Filter by type
+            </label>
             <select id="category-filter" data-category-filter>
                 <option value="">All office types</option>
             </select>
@@ -115,172 +138,207 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
     </div>
 
     <div class="results-line">
-        <p data-result-count aria-live="polite"></p>
+        <p data-result-count role="status" aria-atomic="true">
+            {ranks.length} unique ranks · {totalRecords(ranks)} occurrences
+        </p>
         <p class="results-line__hint">
-            <span class="inline-trivia-mark" aria-hidden="true"><Sparkles size={11} stroke-width={2} /></span> has trivia · Fuzzy search enabled · Press <kbd>/</kbd> to search
+            Press <kbd>/</kbd> to search · <kbd>Esc</kbd> to clear
         </p>
     </div>
 
-    {
-        (Object.entries(rowsByKind) as [ReferenceKind, ReferenceEntry[]][]).map(
-            ([kind, entries]) => (
-                <section
-                    class="reference-panel"
-                    id={`${kind}-panel`}
-                    role="tabpanel"
-                    aria-labelledby={`${kind}-tab`}
-                    data-panel={kind}
-                    hidden={kind !== 'rank'}
-                >
-                    <div class="table-shell">
-                        <table class="reference-table">
-                            <caption>
-                                {kind === 'rank'
-                                    ? 'Imperial Court ranks in Nobunaga’s Ambition: Rise to Power'
-                                    : 'Shogunate titles in Nobunaga’s Ambition: Rise to Power'}
-                            </caption>
-                            <thead>
-                                <tr>
-                                    <th scope="col">Class</th>
-                                    <th scope="col">Game name</th>
-                                    <th scope="col">Japanese office</th>
-                                    <th scope="col">Historical meaning</th>
-                                    <th scope="col">Effect</th>
-                                    <th scope="col" class="count-heading">Occurrences</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {entries.map((entry, index) => {
-                                    const pronunciation = entry.reading;
-                                    const trivia = getEntryTrivia(entry);
-                                    const triviaId = `trivia-${entry.id}`;
+    {(Object.entries(rowsByKind) as [ReferenceKind, ReferenceEntry[]][]).map(([kind, entries]) => (
+        <section
+            class="reference-panel"
+            id={`${kind}-panel`}
+            role="tabpanel"
+            aria-labelledby={`${kind}-tab`}
+            data-panel={kind}
+            hidden={kind !== 'rank'}
+        >
+            <div class="table-shell">
+                <table class="reference-table">
+                    <caption>
+                        {kind === 'rank'
+                            ? 'Imperial Court ranks in Nobunaga’s Ambition: Rise to Power'
+                            : 'Shogunate titles in Nobunaga’s Ambition: Rise to Power'}
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Class</th>
+                            <th scope="col">Game name</th>
+                            <th scope="col">Japanese office</th>
+                            <th scope="col">Historical meaning</th>
+                            <th scope="col">Effect</th>
+                            <th scope="col" class="count-heading">
+                                Occurrences
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {entries.map((entry, index) => {
+                            const pronunciation = entry.reading;
+                            const trivia = getEntryTrivia(entry);
+                            const triviaId = `trivia-${entry.id}`;
 
-                                    return (
-                                        <tr
-                                            id={entry.id}
-                                            data-reference-row
-                                            data-kind={kind}
-                                            data-class={entry.className}
-                                            data-category={entry.categoryLabel}
-                                            data-bonus={entry.bonus}
-                                            data-count={entry.count}
-                                            data-order={index}
-                                            data-search-name={entry.gameName}
-                                            data-search-japanese={entry.japanese}
-                                            data-search-pronunciation={pronunciation}
-                                            data-search-translation={entry.meaning}
-                                            data-search-text={searchableText(entry, trivia)}
+                            return (
+                                <tr
+                                    id={entry.id}
+                                    data-reference-row
+                                    data-kind={kind}
+                                    data-class={entry.className}
+                                    data-category={entry.categoryLabel}
+                                    data-bonus={entry.bonus}
+                                    data-count={entry.count}
+                                    data-order={index}
+                                    data-search-name={entry.gameName}
+                                    data-search-japanese={entry.japanese}
+                                    data-search-pronunciation={pronunciation}
+                                    data-search-translation={entry.meaning}
+                                    data-search-text={searchableText(entry, trivia)}
+                                    class:list={[
+                                        entry.category === 'shugo' && 'is-shugo',
+                                        entry.category === 'provincial-office' && 'is-provincial',
+                                    ]}
+                                >
+                                    <td data-label="Class" class="class-cell">
+                                        <span
                                             class:list={[
-                                                entry.category === 'shugo' && 'is-shugo',
-                                                entry.category === 'provincial-office' && 'is-provincial',
+                                                'class-chip',
+                                                entry.className.startsWith('Upper')
+                                                    ? 'class-chip--upper'
+                                                    : 'class-chip--lower',
                                             ]}
                                         >
-                                            <td data-label="Class" class="class-cell">
-                                                <span
-                                                    class:list={[
-                                                        'class-chip',
-                                                        entry.className.startsWith('Upper')
-                                                            ? 'class-chip--upper'
-                                                            : 'class-chip--lower',
-                                                    ]}
-                                                >
-                                                    {entry.className}
-                                                </span>
-                                            </td>
-                                            <td data-label="Game name" class="name-cell">
-                                                <span class="entry-name-line">
-                                                    <span class="entry-name">{entry.gameName}</span>
-                                                    <a class="entry-permalink" href={`#${entry.id}`} aria-label={`Link to ${entry.gameName}`}>#</a>
-                                                </span>
-                                                <span class="entry-type">{entry.categoryLabel}</span>
-                                            </td>
-                                            <td data-label="Japanese office" class="japanese">
-                                                <span class="japanese__main">
-                                                    <span class="japanese__line">
-                                                        <span lang="ja">{entry.japanese}</span>
-                                                    {trivia.length > 0 && (
-                                                        <span class="trivia-anchor" data-trivia-anchor>
+                                            {entry.className}
+                                        </span>
+                                    </td>
+                                    <td data-label="Game name" class="name-cell">
+                                        <span class="entry-name-line">
+                                            <span class="entry-name">{entry.gameName}</span>
+                                            <a
+                                                class="entry-permalink"
+                                                href={`#${entry.id}`}
+                                                aria-label={`Link to ${entry.gameName}`}
+                                            >
+                                                #
+                                            </a>
+                                        </span>
+                                        <span class="entry-type">{entry.categoryLabel}</span>
+                                    </td>
+                                    <td data-label="Japanese office" class="japanese">
+                                        <span class="japanese__main">
+                                            <span class="japanese__line">
+                                                <span lang="ja">{entry.japanese}</span>
+                                                {trivia.length > 0 && (
+                                                    <span class="trivia-anchor" data-trivia-anchor>
+                                                        <button
+                                                            class="trivia-trigger"
+                                                            type="button"
+                                                            aria-expanded="false"
+                                                            aria-controls={triviaId}
+                                                            data-trivia-trigger
+                                                        >
+                                                            <Sparkles
+                                                                size={12}
+                                                                stroke-width={2.15}
+                                                                aria-hidden="true"
+                                                            />
+                                                            <span class="sr-only">
+                                                                Historical trivia about{' '}
+                                                                {entry.japanese}
+                                                            </span>
+                                                        </button>
+                                                        <span
+                                                            class="trivia-popover"
+                                                            id={triviaId}
+                                                            role="dialog"
+                                                            aria-label={`Historical context for ${entry.japanese}`}
+                                                            data-trivia-popover
+                                                            data-placement="below"
+                                                        >
+                                                            <span class="trivia-popover__eyebrow">
+                                                                Historical context
+                                                            </span>
                                                             <button
-                                                                class="trivia-trigger"
+                                                                class="trivia-popover__close"
                                                                 type="button"
-                                                                aria-expanded="false"
-                                                                aria-controls={triviaId}
-                                                                data-trivia-trigger
+                                                                aria-label="Close historical note"
+                                                                data-trivia-close
                                                             >
-                                                                <Sparkles size={12} stroke-width={2.15} aria-hidden="true" />
-                                                                <span class="sr-only">
-                                                                    Historical trivia about {entry.japanese}
-                                                                </span>
+                                                                <X size={16} aria-hidden="true" />
                                                             </button>
-                                                            <span
-                                                                class="trivia-popover"
-                                                                id={triviaId}
-                                                                role="dialog"
-                                                                aria-label={`Historical context for ${entry.japanese}`}
-                                                                data-trivia-popover
-                                                                data-placement="below"
-                                                            >
-                                                                <span class="trivia-popover__eyebrow">
-                                                                    Historical context
+                                                            {trivia.map((item) => (
+                                                                <span class="trivia-popover__item">
+                                                                    <strong>{item.label}</strong>
+                                                                    <span>{item.body}</span>
+                                                                    <a
+                                                                        class="trivia-popover__more"
+                                                                        href={triviaHref(item)}
+                                                                    >
+                                                                        Open full historical note →
+                                                                    </a>
                                                                 </span>
-                                                                {trivia.map((item) => (
-                                                                    <span class="trivia-popover__item">
-                                                                        <strong>{item.label}</strong>
-                                                                        <span>{item.body}</span>
-                                                                        <a class="trivia-popover__more" href={triviaHref(item)}>
-                                                                            Open full historical note →
-                                                                        </a>
-                                                                    </span>
-                                                                ))}
-                                                                <span class="trivia-popover__hint">
-                                                                    Tap outside or press Esc to close.
-                                                                </span>
+                                                            ))}
+                                                            <span class="trivia-popover__hint">
+                                                                Tap outside or press Esc to close.
                                                             </span>
                                                         </span>
-                                                    )}
                                                     </span>
-                                                    <span class="pronunciation">{pronunciation}</span>
-                                                </span>
-                                            </td>
-                                            <td data-label="Historical meaning" class="translation">
-                                                {entry.meaning}
-                                            </td>
-                                            <td data-label="Effect" class="effect-cell">
-                                                <span
-                                                    class:list={[
-                                                        'effect-value',
-                                                        kind === 'rank'
-                                                            ? 'effect-value--politics'
-                                                            : 'effect-value--leadership',
-                                                    ]}
-                                                >
-                                                    <span class="effect-chip" aria-hidden="true">
-                                                        {kind === 'rank' ? 'POL' : 'LDR'}
-                                                    </span>
-                                                    +{entry.bonus}
-                                                </span>
-                                            </td>
-                                            <td data-label="Occurrences" class="count-cell">
-                                                <span class:list={['count-badge', entry.count > 1 && 'count-badge--multiple']}>
-                                                    ×{entry.count}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                                )}
+                                            </span>
+                                            <span class="pronunciation">{pronunciation}</span>
+                                        </span>
+                                    </td>
+                                    <td data-label="Historical meaning" class="translation">
+                                        {entry.meaning}
+                                    </td>
+                                    <td data-label="Effect" class="effect-cell">
+                                        <span
+                                            class:list={[
+                                                'effect-value',
+                                                kind === 'rank'
+                                                    ? 'effect-value--politics'
+                                                    : 'effect-value--leadership',
+                                            ]}
+                                        >
+                                            <span class="effect-chip" aria-hidden="true">
+                                                {kind === 'rank' ? 'POL' : 'LDR'}
+                                            </span>
+                                            <span class="sr-only">
+                                                {kind === 'rank' ? 'Politics' : 'Leadership'}
+                                            </span>
+                                            +{entry.bonus}
+                                        </span>
+                                    </td>
+                                    <td data-label="Occurrences" class="count-cell">
+                                        <span
+                                            class:list={[
+                                                'count-badge',
+                                                entry.count > 1 && 'count-badge--multiple',
+                                            ]}
+                                        >
+                                            ×{entry.count}
+                                        </span>
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
 
-                        <div class="empty-state" data-empty hidden>
-                            <span class="empty-state__mark" aria-hidden="true">無</span>
-                            <strong>No matching appointments</strong>
-                            <p>Try another search term or loosen one of the filters.</p>
-                        </div>
-                    </div>
-                </section>
-            ),
-        )
-    }
+                <div class="empty-state" data-empty hidden>
+                    <span class="empty-state__mark" aria-hidden="true">
+                        無
+                    </span>
+                    <strong>No matching appointments</strong>
+                    <p>Try another search term or loosen one of the filters.</p>
+                    <button class="reset-button" type="button" data-reset>
+                        Clear search &amp; filters
+                    </button>
+                </div>
+            </div>
+        </section>
+    ))}
 </section>
 
 <script>

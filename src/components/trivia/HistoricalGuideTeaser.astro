@@ -6,40 +6,56 @@ import { sitePath } from '../../lib/routes';
 
 <section id="guide" class="guide-teaser" aria-labelledby="guide-teaser-heading">
     <div class="guide-teaser__heading">
-        <p class="section-kicker">Select a destination</p>
-        <h2 id="guide-teaser-heading">Continue from the overview.</h2>
+        <div>
+            <p class="section-kicker">Explore further</p>
+            <h2 id="guide-teaser-heading">Choose your next path.</h2>
+        </div>
         <p>
-            Use the catalogue for lookup, Political Context for the longer institutional
-            history, or the Historical Guide to explore geography and individual offices.
+            Use the catalogue for lookup, Political Context for the longer institutional history, or
+            the Historical Guide to explore geography and individual offices.
         </p>
     </div>
 
     <div class="guide-teaser__cards">
         <a class="guide-teaser__card" href={sitePath('reference/')}>
-            <span class="guide-teaser__icon" aria-hidden="true"><LibraryBig size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__icon" aria-hidden="true">
+                <LibraryBig size={21} stroke-width={1.7} />
+            </span>
             <span class="guide-teaser__copy">
                 <strong>Ranks &amp; Titles Reference</strong>
-                <small>{appointments.length} unique appointments · search, filters, and permalinks</small>
+                <small>
+                    {appointments.length} unique appointments · search, filters, and permalinks
+                </small>
             </span>
-            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+            <span class="guide-teaser__arrow" aria-hidden="true">
+                →
+            </span>
         </a>
 
         <a class="guide-teaser__card" href={sitePath('trivia/context/')}>
-            <span class="guide-teaser__icon" aria-hidden="true"><Scale size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__icon" aria-hidden="true">
+                <Scale size={21} stroke-width={1.7} />
+            </span>
             <span class="guide-teaser__copy">
                 <strong>Political Context</strong>
                 <small>Origins, structure, decline, and the rise of the daimyo</small>
             </span>
-            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+            <span class="guide-teaser__arrow" aria-hidden="true">
+                →
+            </span>
         </a>
 
         <a class="guide-teaser__card" href={sitePath('trivia/')}>
-            <span class="guide-teaser__icon" aria-hidden="true"><BookOpen size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__icon" aria-hidden="true">
+                <BookOpen size={21} stroke-width={1.7} />
+            </span>
             <span class="guide-teaser__copy">
                 <strong>Historical Guide</strong>
                 <small>Regions, provinces, offices, titles, and focused historical notes</small>
             </span>
-            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+            <span class="guide-teaser__arrow" aria-hidden="true">
+                →
+            </span>
         </a>
     </div>
 </section>

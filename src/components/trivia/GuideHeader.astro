@@ -8,19 +8,28 @@ interface Props {
     japanese?: string;
     backHref: string;
     backLabel: string;
+    compact?: boolean;
 }
 
-const { kicker, title, lede, japanese, backHref, backLabel } = Astro.props;
+const { kicker, title, lede, japanese, backHref, backLabel, compact = false } = Astro.props;
 ---
 
-<header class="guide-header">
+<header
+    id="main-content"
+    class:list={['guide-header', compact && 'guide-header--compact']}
+    tabindex="-1"
+>
     <a class="guide-header__back" href={backHref}>
         <ArrowLeft size={15} stroke-width={1.9} aria-hidden="true" />
         <span>{backLabel}</span>
     </a>
     <div class="guide-header__copy">
         <p class="guide-header__kicker">{kicker}</p>
-        {japanese && <p class="guide-header__japanese" lang="ja">{japanese}</p>}
+        {japanese && (
+            <p class="guide-header__japanese" lang="ja">
+                {japanese}
+            </p>
+        )}
         <h1>{title}</h1>
         <p class="guide-header__lede">{lede}</p>
     </div>

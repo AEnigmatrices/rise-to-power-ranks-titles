@@ -1,8 +1,12 @@
 import Fuse from 'fuse.js';
 import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
-import { animate, stagger } from 'motion';
 import type { ReferenceKind } from '../lib/appointments';
-import { isSingleCharacterQuery, normalizeSearchText, sortClasses, sourceOrder } from '../lib/search';
+import {
+    isSingleCharacterQuery,
+    normalizeSearchText,
+    sortClasses,
+    sourceOrder,
+} from '../lib/search';
 
 type SearchRecord = {
     row: HTMLTableRowElement;
@@ -25,25 +29,27 @@ type SearchRecord = {
     const searchInput = root.querySelector<HTMLInputElement>('[data-search]');
     const classFilter = root.querySelector<HTMLSelectElement>('[data-class-filter]');
     const categoryFilter = root.querySelector<HTMLSelectElement>('[data-category-filter]');
-    const resetButton = root.querySelector<HTMLButtonElement>('[data-reset]');
+    const resetButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-reset]'));
     const resultCount = root.querySelector<HTMLElement>('[data-result-count]');
     const triviaAnchors = Array.from(root.querySelectorAll<HTMLElement>('[data-trivia-anchor]'));
     const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const floatingCleanups = new WeakMap<HTMLElement, () => void>();
     const searchers = new Map<ReferenceKind, Fuse<SearchRecord>>();
 
-    if (!searchInput || !classFilter || !categoryFilter || !resetButton || !resultCount) return;
+    if (!searchInput || !classFilter || !categoryFilter || !resetButtons.length || !resultCount)
+        return;
 
-    const initialParams = new URLSearchParams(location.search);
+    let initialParams = new URLSearchParams(location.search);
     const hashKind: ReferenceKind | null = location.hash.startsWith('#title-')
         ? 'title'
         : location.hash.startsWith('#rank-')
-            ? 'rank'
-            : null;
+          ? 'rank'
+          : null;
     let activeKind: ReferenceKind =
-        hashKind ?? (initialParams.get('view') === 'title' || location.hash === '#titles' ? 'title' : 'rank');
+        hashKind ??
+        (initialParams.get('view') === 'title' || location.hash === '#titles' ? 'title' : 'rank');
     let restoreInitialFilters = true;
+    let restoringUrlState = true;
 
     searchInput.value = initialParams.get('q') ?? '';
 
@@ -117,15 +123,20 @@ type SearchRecord = {
     triviaAnchors.forEach((anchor) => {
         const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
         if (!trigger) return;
+        let closeTimer: number | undefined;
 
         anchor.addEventListener('pointerenter', () => {
+            window.clearTimeout(closeTimer);
             if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
             openTrivia(anchor);
         });
 
         anchor.addEventListener('pointerleave', () => {
             if (!hoverCapable.matches || anchor.dataset.pinned === 'true') return;
-            if (!anchor.contains(document.activeElement)) closeTrivia(anchor);
+            closeTimer = window.setTimeout(() => {
+                if (anchor.dataset.pinned !== 'true' && !anchor.contains(document.activeElement))
+                    closeTrivia(anchor);
+            }, 180);
         });
 
         anchor.addEventListener('focusin', () => {
@@ -135,8 +146,10 @@ type SearchRecord = {
         anchor.addEventListener('focusout', () => {
             window.setTimeout(() => {
                 if (
-                    anchor.dataset.pinned !== 'true' &&
                     !anchor.contains(document.activeElement) &&
+                    // Touch WebKit blurs buttons to the body before dispatching a tap.
+                    (anchor.dataset.pinned !== 'true' ||
+                        document.activeElement !== document.body) &&
                     !(hoverCapable.matches && anchor.matches(':hover'))
                 ) {
                     closeTrivia(anchor);
@@ -149,10 +162,14 @@ type SearchRecord = {
 
             if (anchor.dataset.pinned === 'true') {
                 closeTrivia(anchor);
-                trigger.blur();
             } else {
                 openTrivia(anchor, true);
             }
+        });
+
+        anchor.querySelector('[data-trivia-close]')?.addEventListener('click', () => {
+            trigger.focus();
+            closeTrivia(anchor);
         });
     });
 
@@ -161,7 +178,9 @@ type SearchRecord = {
 
     const getActiveRows = (): HTMLTableRowElement[] => {
         const panel = getActivePanel();
-        return panel ? Array.from(panel.querySelectorAll<HTMLTableRowElement>('[data-reference-row]')) : [];
+        return panel
+            ? Array.from(panel.querySelectorAll<HTMLTableRowElement>('[data-reference-row]'))
+            : [];
     };
 
     const getSearcher = (): Fuse<SearchRecord> => {
@@ -200,11 +219,7 @@ type SearchRecord = {
         return searcher;
     };
 
-    const refillSelect = (
-        select: HTMLSelectElement,
-        values: string[],
-        firstLabel: string,
-    ) => {
+    const refillSelect = (select: HTMLSelectElement, values: string[], firstLabel: string) => {
         select.replaceChildren();
 
         const firstOption = document.createElement('option');
@@ -244,21 +259,14 @@ type SearchRecord = {
 
         // One-character searches are especially useful for kanji; keep those exact and predictable.
         if (isSingleCharacterQuery(query)) {
-            return rows.filter((row) => normalizeSearchText(row.dataset.searchText ?? '').includes(query));
+            return rows.filter((row) =>
+                normalizeSearchText(row.dataset.searchText ?? '').includes(query),
+            );
         }
 
-        return getSearcher().search(query).map((result) => result.item.row);
-    };
-
-    const animateVisibleRows = (rows: HTMLTableRowElement[]) => {
-        if (reducedMotion.matches || rows.length === 0) return;
-        animate(rows.slice(0, 18), {
-            y: [2, 0],
-        }, {
-            duration: 0.16,
-            delay: stagger(0.008),
-            ease: 'easeOut',
-        });
+        return getSearcher()
+            .search(query)
+            .map((result) => result.item.row);
     };
 
     const syncUrlState = () => {
@@ -277,6 +285,16 @@ type SearchRecord = {
         if (categoryFilter.value) url.searchParams.set('type', categoryFilter.value);
         else url.searchParams.delete('type');
 
+        // A filtered-out appointment must not override the selected system on reload.
+        const target = document.getElementById(url.hash.slice(1));
+        if (
+            !restoringUrlState &&
+            target?.matches('[data-reference-row]') &&
+            (target.hidden || target.dataset.kind !== activeKind)
+        ) {
+            url.hash = '';
+        }
+
         history.replaceState(null, '', url);
     };
 
@@ -288,20 +306,23 @@ type SearchRecord = {
         const selectedCategory = categoryFilter.value;
         const rows = getActiveRows();
         const ranked = rankedRows(rows, query);
-        const matches = ranked.filter((row) =>
-            (!selectedClass || row.dataset.class === selectedClass) &&
-            (!selectedCategory || row.dataset.category === selectedCategory));
+        const matches = ranked.filter(
+            (row) =>
+                (!selectedClass || row.dataset.class === selectedClass) &&
+                (!selectedCategory || row.dataset.category === selectedCategory),
+        );
 
         const visible = new Set(matches);
-        rows.forEach((row) => { row.hidden = !visible.has(row); });
+        rows.forEach((row) => {
+            row.hidden = !visible.has(row);
+        });
 
         const panel = getActivePanel();
         const body = panel?.querySelector<HTMLTableSectionElement>('tbody');
         if (body) {
             // Search results follow Fuse relevance; hidden rows remain behind them in source order.
             matches.forEach((row) => body.append(row));
-            rows
-                .filter((row) => !visible.has(row))
+            rows.filter((row) => !visible.has(row))
                 .sort((a, b) => sourceOrder(a) - sourceOrder(b))
                 .forEach((row) => body.append(row));
         }
@@ -313,10 +334,7 @@ type SearchRecord = {
 
         const noun = activeKind === 'rank' ? 'ranks' : 'titles';
         const totalEntries = rows.length;
-        const totalRecords = rows.reduce(
-            (sum, row) => sum + Number(row.dataset.count ?? 1),
-            0,
-        );
+        const totalRecords = rows.reduce((sum, row) => sum + Number(row.dataset.count ?? 1), 0);
         const visibleRecords = matches.reduce(
             (sum, row) => sum + Number(row.dataset.count ?? 1),
             0,
@@ -329,7 +347,6 @@ type SearchRecord = {
             : `${totalEntries} unique ${noun} · ${totalRecords} occurrences`;
 
         syncUrlState();
-        animateVisibleRows(matches);
     };
 
     const setKind = (kind: string | null, updateHash = true) => {
@@ -347,10 +364,7 @@ type SearchRecord = {
             panel.hidden = panel.dataset.panel !== activeKind;
         });
 
-        searchInput.placeholder =
-            activeKind === 'rank'
-                ? 'Search rank, Japanese office, pronunciation, meaning…'
-                : 'Search title, Japanese office, pronunciation, meaning…';
+        searchInput.placeholder = 'Name, Japanese office, or meaning…';
 
         classFilter.value = '';
         categoryFilter.value = '';
@@ -364,11 +378,6 @@ type SearchRecord = {
 
         updateResults();
 
-        const panel = getActivePanel();
-        if (!reducedMotion.matches && panel) {
-            animate(panel, { y: [6, 0] }, { duration: 0.2, ease: 'easeOut' });
-        }
-
         if (updateHash && (location.hash === '#ranks' || location.hash === '#titles')) {
             const url = new URL(location.href);
             url.hash = '#reference';
@@ -380,10 +389,17 @@ type SearchRecord = {
         tab.addEventListener('click', () => setKind(tab.dataset.view ?? null));
 
         tab.addEventListener('keydown', (event) => {
-            if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+            if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
 
             event.preventDefault();
-            const nextKind: ReferenceKind = activeKind === 'rank' ? 'title' : 'rank';
+            const nextKind: ReferenceKind =
+                event.key === 'Home'
+                    ? 'rank'
+                    : event.key === 'End'
+                      ? 'title'
+                      : activeKind === 'rank'
+                        ? 'title'
+                        : 'rank';
             setKind(nextKind);
             tabs.find((candidate) => candidate.dataset.view === nextKind)?.focus();
         });
@@ -393,18 +409,24 @@ type SearchRecord = {
     classFilter.addEventListener('change', updateResults);
     categoryFilter.addEventListener('change', updateResults);
 
-    resetButton.addEventListener('click', () => {
-        searchInput.value = '';
-        classFilter.value = '';
-        categoryFilter.value = '';
-        updateResults();
-        searchInput.focus();
-    });
+    resetButtons.forEach((button) =>
+        button.addEventListener('click', () => {
+            searchInput.value = '';
+            classFilter.value = '';
+            categoryFilter.value = '';
+            updateResults();
+            searchInput.focus();
+        }),
+    );
 
     document.addEventListener('click', (event) => {
         const target = event.target;
         if (!(target instanceof Node)) return;
-        if (!root.contains(target) || !(target instanceof Element) || !target.closest('[data-trivia-anchor]')) {
+        if (
+            !root.contains(target) ||
+            !(target instanceof Element) ||
+            !target.closest('[data-trivia-anchor]')
+        ) {
             closeAllTrivia();
         }
     });
@@ -414,26 +436,36 @@ type SearchRecord = {
         const isEditing =
             target instanceof HTMLInputElement ||
             target instanceof HTMLTextAreaElement ||
-            target instanceof HTMLSelectElement;
+            target instanceof HTMLSelectElement ||
+            (target instanceof HTMLElement && target.isContentEditable);
 
         if (event.key === 'Escape') {
+            const openAnchor = triviaAnchors.find(
+                (anchor) =>
+                    anchor.classList.contains('is-open') && anchor.contains(document.activeElement),
+            );
+            openAnchor?.querySelector<HTMLButtonElement>('[data-trivia-trigger]')?.focus();
             closeAllTrivia();
 
             if (document.activeElement === searchInput) {
                 searchInput.value = '';
                 updateResults();
-                searchInput.blur();
             }
         }
 
-        if (event.key === '/' && !isEditing) {
+        if (event.key === '/' && !isEditing && !event.ctrlKey && !event.metaKey && !event.altKey) {
             event.preventDefault();
             searchInput.focus();
         }
     });
 
     const focusHashEntry = () => {
-        const rawId = decodeURIComponent(location.hash.slice(1));
+        let rawId: string;
+        try {
+            rawId = decodeURIComponent(location.hash.slice(1));
+        } catch {
+            return;
+        }
         if (!rawId.startsWith('rank-') && !rawId.startsWith('title-')) return;
 
         const row = root.querySelector<HTMLTableRowElement>(`#${CSS.escape(rawId)}`);
@@ -453,7 +485,24 @@ type SearchRecord = {
     };
 
     window.addEventListener('hashchange', focusHashEntry);
+    window.addEventListener('popstate', () => {
+        restoringUrlState = true;
+        initialParams = new URLSearchParams(location.search);
+        searchInput.value = initialParams.get('q') ?? '';
+        restoreInitialFilters = true;
+        setKind(
+            location.hash.startsWith('#title-')
+                ? 'title'
+                : location.hash.startsWith('#rank-')
+                  ? 'rank'
+                  : initialParams.get('view'),
+            false,
+        );
+        focusHashEntry();
+        restoringUrlState = false;
+    });
 
     setKind(activeKind, false);
     focusHashEntry();
+    restoringUrlState = false;
 })();
