@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer';
 import { mkdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import sharp from 'sharp';
