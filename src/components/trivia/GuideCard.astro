@@ -1,5 +1,7 @@
 ---
 import { ArrowRight, ExternalLink } from '@lucide/astro';
+import type { HistoricalSource } from '../../data/schema/sources';
+import { getSourceLabel } from '../../lib/sources';
 
 interface Props {
     title: string;
@@ -8,7 +10,7 @@ interface Props {
     japanese?: string;
     meta?: string;
     href?: string;
-    source?: string;
+    sources?: HistoricalSource[];
     search?: string;
     area?: string;
 }
@@ -20,7 +22,7 @@ const {
     japanese,
     meta,
     href,
-    source,
+    sources,
     search = '',
     area = '',
 } = Astro.props;
@@ -55,13 +57,13 @@ const {
                 {meta && <p class="guide-card__meta">{meta}</p>}
                 <p class="guide-card__body">{body}</p>
                 <div class="guide-card__actions">
-                    {source && (
+                    {sources && sources.length > 0 && (
                         <a
                             class="guide-card__source"
-                            href={source}
-                            aria-label={`Source for ${title}`}
+                            href={sources[0].url}
+                            aria-label={`Source for ${title}: ${getSourceLabel(sources[0])}`}
                         >
-                            <span>Source</span>
+                            <span>{sources.length > 1 ? `${sources.length} sources` : 'Source'}</span>
                             <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
                         </a>
                     )}
