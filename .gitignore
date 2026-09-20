@@ -29,7 +29,7 @@ test-results/
 coverage/
 
 # generated favicon derivatives
-public/favicon-32x32.png
-public/favicon-48x48.png
-public/favicon-192x192.png
+public/favicon-32x32.webp
+public/favicon-48x48.webp
+public/favicon-192x192.webp
 public/apple-touch-icon.png
