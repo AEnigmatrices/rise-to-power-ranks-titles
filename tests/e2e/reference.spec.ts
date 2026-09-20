@@ -47,9 +47,28 @@ test('catalogue uses compact appointment cards at tablet widths', async ({ page 
     await expect(row).toBeVisible();
     await expect(row.locator('.name-cell')).toBeVisible();
     await expect(row.locator('.japanese .pronunciation')).toBeVisible();
-    await expect(row.locator('.class-cell')).toHaveCSS('display', 'flex');
-    await expect(row.locator('.effect-cell')).toHaveCSS('display', 'flex');
-    await expect(row.locator('.count-cell')).toHaveCSS('display', 'flex');
+    await expect(row.locator('.entry-mobile-meta')).toBeVisible();
+    await expect(row.locator('.entry-mobile-meta')).toContainText(/Class/);
+    await expect(page.locator('.reference-group__heading:visible')).toHaveCount(0);
+});
+
+
+test('desktop catalogue is grouped by class instead of repeating class and effect columns', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.goto('./reference/');
+
+    const firstGroup = page.locator('[data-reference-group]:visible').first();
+    await expect(firstGroup.locator('.reference-group__heading')).toBeVisible();
+    await expect(firstGroup.locator('.reference-group__heading')).toContainText(/Class/);
+    await expect(firstGroup.locator('.reference-group__heading')).toContainText(/Politics \+\d+/);
+
+    const firstRow = firstGroup.locator('[data-reference-row]:visible').first();
+    await expect(firstRow.locator('.name-cell')).toBeVisible();
+    await expect(firstRow.locator('.japanese')).toBeVisible();
+    await expect(firstRow.locator('.translation')).toBeVisible();
+    await expect(firstRow.locator('.class-cell')).toHaveCount(0);
+    await expect(firstRow.locator('.effect-cell')).toHaveCount(0);
+    await expect(firstRow.locator('.count-cell')).toHaveCount(0);
 });
 
 test('legacy root catalogue URLs forward to the reference page', async ({ page }) => {

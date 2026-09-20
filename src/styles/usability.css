@@ -383,20 +383,6 @@ html {
     margin-top: 18px;
 }
 
-.entry-permalink {
-    display: inline-grid;
-    flex: 0 0 auto;
-    min-width: 28px;
-    min-height: 28px;
-    place-items: center;
-    border-radius: 5px;
-    color: #775719;
-    opacity: 1;
-}
-
-.entry-permalink:hover {
-    background: #e5ce93;
-}
 
 /* Raise the open note above sticky controls without trapping it in a hovered row. */
 .reference-table tbody tr:has(.trivia-anchor.is-open) {
@@ -437,18 +423,6 @@ html {
     .table-shell {
         overflow: visible;
     }
-
-    .reference-table th {
-        top: 170px;
-    }
-
-    .reference-table th:first-child {
-        border-top-left-radius: 9px;
-    }
-
-    .reference-table th:last-child {
-        border-top-right-radius: 9px;
-    }
 }
 
 @media (max-width: 980px) {
@@ -479,43 +453,10 @@ html {
 }
 
 @media (max-width: 860px) {
-    .reference-table td {
-        min-width: 0;
-        padding: 0;
-        border-bottom: 0;
-    }
-
     .reference-table .japanese,
     .japanese__main .pronunciation {
         white-space: normal;
         overflow-wrap: anywhere;
-    }
-
-    .reference-table .translation {
-        font-weight: 500;
-        font-size: 0.9rem;
-    }
-
-    .reference-table tbody tr:target {
-        background: #ffe8ae;
-        box-shadow: inset 4px 0 0 var(--vermilion);
-    }
-
-    .reference-table td:is(.class-cell, .effect-cell, .count-cell)::before {
-        display: block;
-        font-size: 0.65rem;
-        letter-spacing: 0.03em;
-    }
-
-    .reference-table td:is(.class-cell, .effect-cell, .count-cell) {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 6px;
-    }
-
-    .reference-table td:is(.effect-cell, .count-cell) {
-        align-items: flex-end;
     }
 
     .entry-permalink,
@@ -772,15 +713,6 @@ html {
 
 .guide-card__primary:focus-visible {
     outline-offset: -5px;
-}
-
-@media (max-width: 860px) {
-    .reference-table td:is(.class-cell, .effect-cell, .count-cell)::before {
-        content: attr(data-label);
-        color: #7a7d77;
-        font-weight: 760;
-        text-transform: uppercase;
-    }
 }
 
 

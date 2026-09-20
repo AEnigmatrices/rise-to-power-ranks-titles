@@ -16,9 +16,35 @@ import {
 const ranks = toReferenceEntries(rankAppointments);
 const titles = toReferenceEntries(titleAppointments);
 
-const rowsByKind: Record<ReferenceKind, ReferenceEntry[]> = {
-    rank: ranks,
-    title: titles,
+type ReferenceGroup = {
+    className: string;
+    bonus: number;
+    entries: ReferenceEntry[];
+};
+
+const groupEntries = (entries: ReferenceEntry[]): ReferenceGroup[] => {
+    const groups = new Map<string, ReferenceGroup>();
+
+    entries.forEach((entry) => {
+        const existing = groups.get(entry.className);
+        if (existing) {
+            existing.entries.push(entry);
+            return;
+        }
+
+        groups.set(entry.className, {
+            className: entry.className,
+            bonus: entry.bonus,
+            entries: [entry],
+        });
+    });
+
+    return [...groups.values()];
+};
+
+const groupsByKind: Record<ReferenceKind, ReferenceGroup[]> = {
+    rank: groupEntries(ranks),
+    title: groupEntries(titles),
 };
 
 const triviaHref = (item: TriviaItem) =>
@@ -168,11 +194,11 @@ const searchableText = (
             {ranks.length} unique ranks · {totalRecords(ranks)} occurrences
         </p>
         <p class="results-line__hint">
-            Press <kbd>/</kbd> to search · <kbd>Esc</kbd> to clear
+            <strong>×N</strong> marks repeated source occurrences · Press <kbd>/</kbd> to search
         </p>
     </div>
 
-    {(Object.entries(rowsByKind) as [ReferenceKind, ReferenceEntry[]][]).map(([kind, entries]) => (
+    {(Object.entries(groupsByKind) as [ReferenceKind, ReferenceGroup[]][]).map(([kind, groups]) => (
         <section
             class="reference-panel"
             id={`${kind}-panel`}
@@ -188,196 +214,204 @@ const searchableText = (
                             ? 'Imperial Court ranks in Nobunaga’s Ambition: Rise to Power'
                             : 'Shogunate titles in Nobunaga’s Ambition: Rise to Power'}
                     </caption>
-                    <thead>
+                    <thead class="sr-only">
                         <tr>
-                            <th scope="col">Class</th>
-                            <th scope="col">Game name</th>
+                            <th scope="col">Appointment</th>
                             <th scope="col">Japanese office</th>
                             <th scope="col">Historical meaning</th>
-                            <th scope="col">Effect</th>
-                            <th scope="col" class="count-heading">
-                                Occurrences
-                            </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {entries.map((entry, index) => {
-                            const pronunciation = entry.reading;
-                            const trivia = getEntryTrivia(entry);
-                            const holders = getNotableHolders(entry.id);
-                            const triviaId = `trivia-${entry.id}`;
 
-                            return (
-                                <tr
-                                    id={entry.id}
-                                    data-reference-row
-                                    data-kind={kind}
-                                    data-class={entry.className}
-                                    data-category={entry.categoryLabel}
-                                    data-bonus={entry.bonus}
-                                    data-count={entry.count}
-                                    data-order={index}
-                                    data-search-name={entry.gameName}
-                                    data-search-japanese={entry.japanese}
-                                    data-search-pronunciation={pronunciation}
-                                    data-search-translation={entry.meaning}
-                                    data-search-text={searchableText(entry, trivia, holders)}
-                                    class:list={[
-                                        entry.category === 'shugo' && 'is-shugo',
-                                        entry.category === 'provincial-office' && 'is-provincial',
-                                    ]}
-                                >
-                                    <td data-label="Class" class="class-cell">
-                                        <span
+                    {groups.map((group) => {
+                        const groupRecords = totalRecords(group.entries);
+                        const stat = kind === 'rank' ? 'Politics' : 'Leadership';
+
+                        return (
+                            <tbody
+                                class="reference-group"
+                                data-reference-group
+                                data-class={group.className}
+                            >
+                                <tr class="reference-group__heading">
+                                    <th colspan="3" scope="rowgroup">
+                                        <span class="reference-group__title">
+                                            <span>{group.className}</span>
+                                            <span
+                                                class:list={[
+                                                    'reference-group__effect',
+                                                    kind === 'rank'
+                                                        ? 'reference-group__effect--politics'
+                                                        : 'reference-group__effect--leadership',
+                                                ]}
+                                            >
+                                                {stat} +{group.bonus}
+                                            </span>
+                                        </span>
+                                        <span class="reference-group__count">
+                                            {group.entries.length} appointments
+                                            {groupRecords !== group.entries.length && (
+                                                <> · {groupRecords} occurrences</>
+                                            )}
+                                        </span>
+                                    </th>
+                                </tr>
+
+                                {group.entries.map((entry, index) => {
+                                    const pronunciation = entry.reading;
+                                    const trivia = getEntryTrivia(entry);
+                                    const holders = getNotableHolders(entry.id);
+                                    const triviaId = `trivia-${entry.id}`;
+
+                                    return (
+                                        <tr
+                                            id={entry.id}
+                                            data-reference-row
+                                            data-kind={kind}
+                                            data-class={entry.className}
+                                            data-category={entry.categoryLabel}
+                                            data-bonus={entry.bonus}
+                                            data-count={entry.count}
+                                            data-order={entry.sourceOrder ?? index}
+                                            data-search-name={entry.gameName}
+                                            data-search-japanese={entry.japanese}
+                                            data-search-pronunciation={pronunciation}
+                                            data-search-translation={entry.meaning}
+                                            data-search-text={searchableText(entry, trivia, holders)}
                                             class:list={[
-                                                'class-chip',
-                                                entry.className.startsWith('Upper')
-                                                    ? 'class-chip--upper'
-                                                    : 'class-chip--lower',
+                                                entry.category === 'shugo' && 'is-shugo',
+                                                entry.category === 'provincial-office' && 'is-provincial',
                                             ]}
                                         >
-                                            {entry.className}
-                                        </span>
-                                    </td>
-                                    <td data-label="Game name" class="name-cell">
-                                        <span class="entry-name-line">
-                                            <span class="entry-name">{entry.gameName}</span>
-                                            <a
-                                                class="entry-permalink"
-                                                href={`#${entry.id}`}
-                                                aria-label={`Link to ${entry.gameName}`}
-                                            >
-                                                #
-                                            </a>
-                                        </span>
-                                        <span class="entry-type">{entry.categoryLabel}</span>
-                                    </td>
-                                    <td data-label="Japanese office" class="japanese">
-                                        <span class="japanese__main">
-                                            <span class="japanese__line">
-                                                <span lang="ja">{entry.japanese}</span>
-                                                {trivia.length > 0 && (
-                                                    <span class="trivia-anchor" data-trivia-anchor>
-                                                        <button
-                                                            class="trivia-trigger"
-                                                            type="button"
-                                                            aria-expanded="false"
-                                                            aria-controls={triviaId}
-                                                            data-trivia-trigger
-                                                        >
-                                                            <Sparkles
-                                                                size={12}
-                                                                stroke-width={2.15}
-                                                                aria-hidden="true"
-                                                            />
-                                                            <span class="sr-only">
-                                                                Historical trivia about{' '}
-                                                                {entry.japanese}
-                                                            </span>
-                                                        </button>
+                                            <td data-label="Appointment" class="name-cell">
+                                                <span class="entry-name-line">
+                                                    <span class="entry-name">{entry.gameName}</span>
+                                                    <a
+                                                        class="entry-permalink"
+                                                        href={`#${entry.id}`}
+                                                        aria-label={`Link to ${entry.gameName}`}
+                                                    >
+                                                        #
+                                                    </a>
+                                                </span>
+                                                <span class="entry-meta">
+                                                    <span class="entry-type">{entry.categoryLabel}</span>
+                                                    {entry.count > 1 && (
                                                         <span
-                                                            class="trivia-popover"
-                                                            id={triviaId}
-                                                            role="dialog"
-                                                            aria-label={`Historical context for ${entry.japanese}`}
-                                                            data-trivia-popover
-                                                            data-placement="below"
+                                                            class="count-badge count-badge--multiple"
+                                                            aria-label={`${entry.count} occurrences in the source data`}
                                                         >
-                                                            <span class="trivia-popover__eyebrow">
-                                                                Historical context
-                                                            </span>
-                                                            <button
-                                                                class="trivia-popover__close"
-                                                                type="button"
-                                                                aria-label="Close historical note"
-                                                                data-trivia-close
-                                                            >
-                                                                <X size={16} aria-hidden="true" />
-                                                            </button>
-                                                            {trivia.map((item) => (
-                                                                <span class="trivia-popover__item">
-                                                                    <strong>{item.label}</strong>
-                                                                    <span>{item.body}</span>
-                                                                    <a
-                                                                        class="trivia-popover__more"
-                                                                        href={triviaHref(item)}
+                                                            ×{entry.count}
+                                                        </span>
+                                                    )}
+                                                </span>
+                                                <span class="entry-mobile-meta" aria-hidden="true">
+                                                    <span>{entry.className}</span>
+                                                    <span>·</span>
+                                                    <span>{stat} +{entry.bonus}</span>
+                                                </span>
+                                            </td>
+
+                                            <td data-label="Japanese office" class="japanese">
+                                                <span class="japanese__main">
+                                                    <span class="japanese__line">
+                                                        <span lang="ja">{entry.japanese}</span>
+                                                        {trivia.length > 0 && (
+                                                            <span class="trivia-anchor" data-trivia-anchor>
+                                                                <button
+                                                                    class="trivia-trigger"
+                                                                    type="button"
+                                                                    aria-expanded="false"
+                                                                    aria-controls={triviaId}
+                                                                    data-trivia-trigger
+                                                                >
+                                                                    <Sparkles
+                                                                        size={12}
+                                                                        stroke-width={2.15}
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                    <span class="sr-only">
+                                                                        Historical trivia about{' '}
+                                                                        {entry.japanese}
+                                                                    </span>
+                                                                </button>
+                                                                <span
+                                                                    class="trivia-popover"
+                                                                    id={triviaId}
+                                                                    role="dialog"
+                                                                    aria-label={`Historical context for ${entry.japanese}`}
+                                                                    data-trivia-popover
+                                                                    data-placement="below"
+                                                                >
+                                                                    <span class="trivia-popover__eyebrow">
+                                                                        Historical context
+                                                                    </span>
+                                                                    <button
+                                                                        class="trivia-popover__close"
+                                                                        type="button"
+                                                                        aria-label="Close historical note"
+                                                                        data-trivia-close
                                                                     >
-                                                                        Open full historical note →
-                                                                    </a>
+                                                                        <X size={16} aria-hidden="true" />
+                                                                    </button>
+                                                                    {trivia.map((item) => (
+                                                                        <span class="trivia-popover__item">
+                                                                            <strong>{item.label}</strong>
+                                                                            <span>{item.body}</span>
+                                                                            <a
+                                                                                class="trivia-popover__more"
+                                                                                href={triviaHref(item)}
+                                                                            >
+                                                                                Open full historical note →
+                                                                            </a>
+                                                                        </span>
+                                                                    ))}
+                                                                    <span class="trivia-popover__hint">
+                                                                        Tap outside or press Esc to close.
+                                                                    </span>
+                                                                </span>
+                                                            </span>
+                                                        )}
+                                                    </span>
+                                                    <span class="pronunciation">{pronunciation}</span>
+                                                </span>
+                                            </td>
+
+                                            <td data-label="Historical meaning" class="translation">
+                                                <span class="translation__meaning">{entry.meaning}</span>
+                                                {holders.length > 0 && (
+                                                    <details class="holder-details">
+                                                        <summary>
+                                                            Notable {holders.length === 1 ? 'holder' : 'holders'}
+                                                        </summary>
+                                                        <span class="holder-details__list">
+                                                            {holders.map((holder) => (
+                                                                <span class="holder-details__item">
+                                                                    <span class="holder-details__name">
+                                                                        <strong>{holder.name}</strong>
+                                                                        {holder.japanese && (
+                                                                            <span lang="ja">{holder.japanese}</span>
+                                                                        )}
+                                                                    </span>
+                                                                    <span>{holder.description}</span>
+                                                                    <span class="holder-details__sources">
+                                                                        {holder.sources.map((source) => (
+                                                                            <a href={source.url}>
+                                                                                {getSourceLabel(source)} →
+                                                                            </a>
+                                                                        ))}
+                                                                    </span>
                                                                 </span>
                                                             ))}
-                                                            <span class="trivia-popover__hint">
-                                                                Tap outside or press Esc to close.
-                                                            </span>
                                                         </span>
-                                                    </span>
+                                                    </details>
                                                 )}
-                                            </span>
-                                            <span class="pronunciation">{pronunciation}</span>
-                                        </span>
-                                    </td>
-                                    <td data-label="Historical meaning" class="translation">
-                                        <span class="translation__meaning">{entry.meaning}</span>
-                                        {holders.length > 0 && (
-                                            <details class="holder-details">
-                                                <summary>
-                                                    Notable {holders.length === 1 ? 'holder' : 'holders'}
-                                                </summary>
-                                                <span class="holder-details__list">
-                                                    {holders.map((holder) => (
-                                                        <span class="holder-details__item">
-                                                            <span class="holder-details__name">
-                                                                <strong>{holder.name}</strong>
-                                                                {holder.japanese && (
-                                                                    <span lang="ja">{holder.japanese}</span>
-                                                                )}
-                                                            </span>
-                                                            <span>{holder.description}</span>
-                                                            <span class="holder-details__sources">
-                                                                {holder.sources.map((source) => (
-                                                                    <a href={source.url}>
-                                                                        {getSourceLabel(source)} →
-                                                                    </a>
-                                                                ))}
-                                                            </span>
-                                                        </span>
-                                                    ))}
-                                                </span>
-                                            </details>
-                                        )}
-                                    </td>
-                                    <td data-label="Effect" class="effect-cell">
-                                        <span
-                                            class:list={[
-                                                'effect-value',
-                                                kind === 'rank'
-                                                    ? 'effect-value--politics'
-                                                    : 'effect-value--leadership',
-                                            ]}
-                                        >
-                                            <span class="effect-chip" aria-hidden="true">
-                                                {kind === 'rank' ? 'POL' : 'LDR'}
-                                            </span>
-                                            <span class="sr-only">
-                                                {kind === 'rank' ? 'Politics' : 'Leadership'}
-                                            </span>
-                                            +{entry.bonus}
-                                        </span>
-                                    </td>
-                                    <td data-label="Occurrences" class="count-cell">
-                                        <span
-                                            class:list={[
-                                                'count-badge',
-                                                entry.count > 1 && 'count-badge--multiple',
-                                            ]}
-                                        >
-                                            ×{entry.count}
-                                        </span>
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        );
+                    })}
                 </table>
 
                 <div class="empty-state" data-empty hidden>
@@ -393,6 +427,7 @@ const searchableText = (
             </div>
         </section>
     ))}
+
 </section>
 
 <script>

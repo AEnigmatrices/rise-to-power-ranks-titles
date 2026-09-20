@@ -335,14 +335,24 @@ type SearchRecord = {
         });
 
         const panel = getActivePanel();
-        const body = panel?.querySelector<HTMLTableSectionElement>('tbody');
-        if (body) {
-            // Search results follow Fuse relevance; hidden rows remain behind them in source order.
-            matches.forEach((row) => body.append(row));
-            rows.filter((row) => !visible.has(row))
-                .sort((a, b) => sourceOrder(a) - sourceOrder(b))
-                .forEach((row) => body.append(row));
-        }
+        const groups = panel
+            ? Array.from(panel.querySelectorAll<HTMLTableSectionElement>('[data-reference-group]'))
+            : [];
+
+        groups.forEach((group) => {
+            const groupRows = Array.from(
+                group.querySelectorAll<HTMLTableRowElement>('[data-reference-row]'),
+            );
+            const groupMatches = matches.filter((row) => groupRows.includes(row));
+            const hiddenRows = groupRows
+                .filter((row) => !visible.has(row))
+                .sort((a, b) => sourceOrder(a) - sourceOrder(b));
+
+            // Keep the class hierarchy intact while still ranking matches by relevance.
+            groupMatches.forEach((row) => group.append(row));
+            hiddenRows.forEach((row) => group.append(row));
+            group.hidden = groupMatches.length === 0;
+        });
 
         const empty = panel?.querySelector<HTMLElement>('[data-empty]');
         const table = panel?.querySelector<HTMLTableElement>('table');
@@ -357,7 +367,7 @@ type SearchRecord = {
             0,
         );
         const filtered = matches.length !== totalEntries || visibleRecords !== totalRecords;
-        const relevanceNote = query && matches.length > 1 ? ' · best matches first' : '';
+        const relevanceNote = query && matches.length > 1 ? ' · grouped by class' : '';
 
         resultCount.textContent = filtered
             ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} occurrences${relevanceNote}`
