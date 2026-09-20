@@ -15,7 +15,7 @@ export default defineConfig({
         trace: 'on-first-retry',
     },
     webServer: {
-        command: 'pnpm exec astro build && pnpm exec astro preview --host 127.0.0.1',
+        command: 'pnpm run build && pnpm exec astro preview --host 127.0.0.1',
         url: baseURL,
         reuseExistingServer: !process.env.CI,
         timeout: 120_000,
