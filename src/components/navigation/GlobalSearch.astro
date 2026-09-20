@@ -1,0 +1,19 @@
+---
+import { sitePath } from '../../lib/routes';
+
+const baseUrl = sitePath();
+const bundlePath = sitePath('pagefind/');
+---
+
+<div class="global-search" data-pagefind-ignore>
+    <pagefind-config
+        base-url={baseUrl}
+        bundle-path={bundlePath}
+        excerpt-length="22"
+    ></pagefind-config>
+    <pagefind-modal-trigger
+        placeholder="Search"
+        shortcut="mod+k"
+    ></pagefind-modal-trigger>
+    <pagefind-modal></pagefind-modal>
+</div>
