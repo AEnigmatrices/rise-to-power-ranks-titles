@@ -782,3 +782,40 @@ html {
         text-transform: uppercase;
     }
 }
+
+
+/* ---------- Rendered-site visual audit ---------- */
+
+/* The generic search sentence is redundant once the mobile search field is visible. */
+@media (max-width: 720px) {
+    .explorer__legend-search {
+        display: none !important;
+    }
+
+    .explorer__legend {
+        gap: 5px;
+        padding-block: 9px;
+    }
+}
+
+/* A two-column area index is materially easier to scan than eight full-width buttons. */
+@media (max-width: 440px) {
+    .region-map__index {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px;
+    }
+
+    .region-map__area {
+        min-width: 0;
+        padding-inline: 8px;
+        font-size: 0.72rem;
+    }
+
+    .region-map__area strong {
+        font-size: 0.68rem;
+    }
+
+    .region-map__clear {
+        grid-column: 1 / -1;
+    }
+}
