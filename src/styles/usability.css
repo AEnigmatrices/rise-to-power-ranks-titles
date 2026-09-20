@@ -1,3 +1,48 @@
+
+/* Native cross-document transitions keep navigation multi-page and progressive. */
+@view-transition {
+    navigation: auto;
+}
+
+.section-nav {
+    view-transition-name: site-navigation;
+}
+
+::view-transition-old(root) {
+    animation: 120ms ease both site-page-out;
+}
+
+::view-transition-new(root) {
+    animation: 180ms ease both site-page-in;
+}
+
+::view-transition-old(site-navigation),
+::view-transition-new(site-navigation) {
+    animation-duration: 150ms;
+}
+
+@keyframes site-page-out {
+    to {
+        opacity: 0;
+        transform: translateY(-3px);
+    }
+}
+
+@keyframes site-page-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation-duration: 0.001ms !important;
+    }
+}
+
 /* Shared interaction and layout rules over the lacquer / parchment theme. */
 :root {
     --text-on-dark: #f5e8c8;
@@ -508,11 +553,20 @@ html {
     }
 
     .section-nav__links a {
+        min-width: 0;
         justify-content: center;
-        padding-inline: 10px;
+        padding-inline: 8px;
         font-size: 0.78rem;
-        flex: 1;
+        flex: 1 1 0;
         white-space: nowrap;
+    }
+
+    .global-search {
+        flex: 0 0 44px;
+    }
+
+    .section-nav__guide-label--short {
+        display: none;
     }
 
     .hero {
@@ -641,5 +695,21 @@ html {
 
     .intro-overview__logic article {
         padding: 24px 18px;
+    }
+}
+
+
+@media (max-width: 440px) {
+    .section-nav__guide-label--full {
+        display: none;
+    }
+
+    .section-nav__guide-label--short {
+        display: inline;
+    }
+
+    .section-nav__links a {
+        padding-inline: 5px;
+        font-size: 0.72rem;
     }
 }

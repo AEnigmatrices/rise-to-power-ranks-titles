@@ -182,17 +182,5 @@ test('reference entries expose notable holder context', async ({ page }) => {
     await expect(holderDetails.getByText(/Red Devils/i)).toBeVisible();
 
     const unseededRow = page.locator('#rank-tachihaki-senjo');
-    const unseededDetails = unseededRow.locator('.holder-details');
-    const unseededSummary = unseededDetails.locator('summary');
-
-    await expect(async () => {
-        if (!(await unseededDetails.evaluate((details) => (details as HTMLDetailsElement).open))) {
-            await unseededSummary.click();
-        }
-        await expect(unseededDetails).toHaveAttribute('open', '');
-    }).toPass();
-
-    await expect(
-        unseededDetails.getByText(/No famous exact holder has been highlighted/i),
-    ).toBeVisible();
+    await expect(unseededRow.locator('.holder-details')).toHaveCount(0);
 });

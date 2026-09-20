@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { validateStaticData } from '../../src/data/validation';
+import { notableHoldersByAppointment } from '../../src/data/holders';
+import { featuredTrivia, officeTrivia } from '../../src/data/trivia';
 import {
     getAppointmentBonus,
     getAppointmentClassName,
     getAppointmentEffect,
 } from '../../src/lib/appointments';
 import { getEntryRegion } from '../../src/lib/geography';
+import { getEntryTrivia } from '../../src/lib/trivia';
 
 const data = validateStaticData();
 
@@ -59,4 +62,44 @@ describe('authored reference data', () => {
 
         expect(regionalAppointments.every((entry) => getEntryRegion(entry))).toBe(true);
     });
+
+    it('keeps notable holder keys attached to real catalogue appointments', () => {
+        const appointmentIds = new Set(data.appointments.map((entry) => entry.id));
+
+        expect(
+            Object.keys(notableHoldersByAppointment).every((id) => appointmentIds.has(id)),
+        ).toBe(true);
+    });
+
+    it('keeps historical trivia backed by reference sources', () => {
+        expect(officeTrivia.every((item) => item.source)).toBe(true);
+        expect(featuredTrivia.every((item) => item.source)).toBe(true);
+    });
+
+    it('attaches institutional trivia to representative court bureaus', () => {
+        const expectedTrivia = new Map([
+            ['内蔵頭', 'inner-treasury'],
+            ['内匠頭', 'court-artisans'],
+            ['修理大夫', 'repairs-office'],
+            ['兵庫頭', 'arsenal'],
+            ['縫殿頭', 'wardrobe'],
+            ['大膳大夫', 'imperial-banquet-kitchen'],
+            ['大炊頭', 'grain-bureau'],
+            ['主殿頭', 'palace-maintenance'],
+            ['掃部頭', 'palace-housekeeping'],
+            ['東市正', 'capital-markets'],
+            ['造酒正', 'sake-office'],
+            ['図書頭', 'bureau-of-books'],
+            ['大舎人頭', 'imperial-attendants'],
+        ]);
+
+        for (const [japanese, triviaId] of expectedTrivia) {
+            const entry = data.appointments.find((appointment) => appointment.japanese === japanese);
+            expect(entry, japanese).toBeDefined();
+            if (!entry) continue;
+
+            expect(getEntryTrivia(entry).map((item) => item.id), japanese).toContain(triviaId);
+        }
+    });
+
 });

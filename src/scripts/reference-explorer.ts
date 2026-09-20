@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js';
+import { animate } from 'motion/mini';
 import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
 import type { ReferenceKind } from '../lib/appointments';
 import {
@@ -33,6 +34,7 @@ type SearchRecord = {
     const resultCount = root.querySelector<HTMLElement>('[data-result-count]');
     const triviaAnchors = Array.from(root.querySelectorAll<HTMLElement>('[data-trivia-anchor]'));
     const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const floatingCleanups = new WeakMap<HTMLElement, () => void>();
     const searchers = new Map<ReferenceKind, Fuse<SearchRecord>>();
 
@@ -116,8 +118,17 @@ type SearchRecord = {
         if (pinned) anchor.dataset.pinned = 'true';
 
         const trigger = anchor.querySelector<HTMLButtonElement>('[data-trivia-trigger]');
+        const popover = anchor.querySelector<HTMLElement>('[data-trivia-popover]');
         trigger?.setAttribute('aria-expanded', 'true');
         startTriviaPositioning(anchor);
+
+        if (popover && !reducedMotion.matches) {
+            animate(
+                popover,
+                { opacity: [0, 1], transform: ['translateY(-4px) scale(0.985)', 'translateY(0) scale(1)'] },
+                { duration: 0.16, ease: 'easeOut' },
+            );
+        }
     };
 
     triviaAnchors.forEach((anchor) => {
@@ -346,6 +357,17 @@ type SearchRecord = {
             ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} occurrences${relevanceNote}`
             : `${totalEntries} unique ${noun} · ${totalRecords} occurrences`;
 
+        if (!restoringUrlState && !reducedMotion.matches) {
+            matches.slice(0, 18).forEach((row, index) => {
+                animate(
+                    row,
+                    { opacity: [0.55, 1] },
+                    { duration: 0.14, delay: Math.min(index * 0.008, 0.08), ease: 'easeOut' },
+                );
+            });
+            animate(resultCount, { opacity: [0.45, 1] }, { duration: 0.16 });
+        }
+
         syncUrlState();
     };
 
@@ -363,6 +385,15 @@ type SearchRecord = {
         panels.forEach((panel) => {
             panel.hidden = panel.dataset.panel !== activeKind;
         });
+
+        const activePanel = getActivePanel();
+        if (activePanel && !restoringUrlState && !reducedMotion.matches) {
+            animate(
+                activePanel,
+                { opacity: [0.65, 1], transform: ['translateY(3px)', 'translateY(0)'] },
+                { duration: 0.16, ease: 'easeOut' },
+            );
+        }
 
         searchInput.placeholder = 'Name, Japanese office, or meaning…';
 
@@ -408,6 +439,19 @@ type SearchRecord = {
     searchInput.addEventListener('input', updateResults);
     classFilter.addEventListener('change', updateResults);
     categoryFilter.addEventListener('change', updateResults);
+
+    root.querySelectorAll<HTMLDetailsElement>('.holder-details').forEach((details) => {
+        details.addEventListener('toggle', () => {
+            if (!details.open || reducedMotion.matches) return;
+            const content = details.querySelector<HTMLElement>('.holder-details__list');
+            if (!content) return;
+            animate(
+                content,
+                { opacity: [0, 1], transform: ['translateY(-3px)', 'translateY(0)'] },
+                { duration: 0.16, ease: 'easeOut' },
+            );
+        });
+    });
 
     resetButtons.forEach((button) =>
         button.addEventListener('click', () => {

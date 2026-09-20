@@ -29,12 +29,33 @@ export const getEntryTrivia = (
         if (/^[左右]馬/.test(japanese)) keys.push('stables');
         if (japanese.startsWith('大学')) keys.push('university');
         if (japanese.startsWith('雅楽')) keys.push('music');
+        if (/^[左右]衛門/.test(japanese)) keys.push('palace-gate-guards');
+        if (/^[左右]兵衛/.test(japanese)) keys.push('military-guards');
+        if (japanese.startsWith('内蔵')) keys.push('inner-treasury');
+        if (japanese.startsWith('内匠')) keys.push('court-artisans');
+        if (japanese.startsWith('木工')) keys.push('palace-construction');
+        if (japanese.startsWith('修理')) keys.push('repairs-office');
+        if (japanese.startsWith('兵庫')) keys.push('arsenal');
+        if (japanese.startsWith('縫殿')) keys.push('wardrobe');
+        if (japanese.startsWith('大膳')) keys.push('imperial-banquet-kitchen');
+        if (japanese.startsWith('内膳')) keys.push('imperial-private-kitchen');
+        if (japanese.startsWith('主膳')) keys.push('crown-prince-kitchen');
+        if (japanese.startsWith('大炊')) keys.push('grain-bureau');
+        if (japanese.startsWith('主殿')) keys.push('palace-maintenance');
+        if (japanese.startsWith('掃部')) keys.push('palace-housekeeping');
+        if (/^[東西]市/.test(japanese)) keys.push('capital-markets');
+        if (japanese.startsWith('造酒')) keys.push('sake-office');
+        if (japanese.startsWith('図書')) keys.push('bureau-of-books');
+        if (japanese.startsWith('大舎人')) keys.push('imperial-attendants');
         if (/^主計|^主税/.test(japanese)) keys.push('accounts');
         if (japanese.startsWith('勘解由')) keys.push('audit');
+        if (entry.category === 'provincial-office') keys.push('provincial-office');
         if (['上総介', '常陸介', '上野介'].includes(japanese)) keys.push('three-suke');
         if (japanese.includes('権')) keys.push('gon');
         if (japanese.includes('蔵人')) keys.push('kuroudo');
         if (japanese.startsWith('太宰')) keys.push('dazaifu');
+        if (japanese === '太宰少弐') keys.push('shoni-clan');
+        if (japanese === '秋田城介') keys.push('akita-jo-no-suke');
         if (ministryPrefixes.some((prefix) => japanese.startsWith(prefix))) keys.push('ministries');
         if (['中務少輔', '中務大輔'].includes(japanese)) keys.push('drifters-toyohisa');
         if (japanese === '兵部少輔') keys.push('drifters-naomasa');
@@ -63,7 +84,11 @@ export const getEntryTrivia = (
 
         const exactKey = exact[japanese];
         if (exactKey) keys.push(exactKey);
+        if (entry.category === 'shugo') keys.push('shugo');
         if (japanese.endsWith('探題')) keys.push('tandai');
+        if (japanese === '九州探題') keys.push('kyushu-tandai');
+        if (japanese === '奥州探題') keys.push('oshu-tandai-context');
+        if (japanese === '羽州探題') keys.push('ushu-tandai-context');
     }
 
     const region = getEntryRegion(entry);
