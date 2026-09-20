@@ -123,7 +123,16 @@ const searchableText = (
                     placeholder="Name, Japanese office, or meaning…"
                     data-search
                 />
-                <kbd aria-hidden="true">/</kbd>
+                <button
+                    class="control-clear"
+                    type="button"
+                    aria-label="Clear appointment search"
+                    data-search-clear
+                    hidden
+                >
+                    <X size={15} stroke-width={2} aria-hidden="true" />
+                </button>
+                <kbd aria-hidden="true" data-search-shortcut>/</kbd>
             </div>
         </div>
 
