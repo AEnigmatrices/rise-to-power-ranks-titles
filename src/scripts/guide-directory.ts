@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js';
+import { animate } from 'motion/mini';
 import { isSingleCharacterQuery, normalizeSearchText } from '../lib/search';
 
 type DirectoryRecord = {
@@ -21,6 +22,8 @@ type DirectoryRecord = {
         root.querySelectorAll<HTMLButtonElement>('[data-map-area-button]'),
     );
     const mapClear = root.querySelector<HTMLButtonElement>('[data-map-area-clear]');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let initialized = false;
 
     if (!search || !count || !empty) return;
 
@@ -101,8 +104,20 @@ type DirectoryRecord = {
         empty.hidden = matches.length > 0;
         count.textContent = `${matches.length} ${matches.length === 1 ? 'entry' : 'entries'}${query || area?.value ? ` of ${cards.length}` : ''}`;
 
+        if (initialized && !reducedMotion.matches) {
+            matches.slice(0, 18).forEach((card, index) => {
+                animate(
+                    card,
+                    { opacity: [0.5, 1], transform: ['translateY(5px)', 'translateY(0)'] },
+                    { duration: 0.16, delay: Math.min(index * 0.01, 0.09), ease: 'ease-out' },
+                );
+            });
+            animate(count, { opacity: [0.45, 1] }, { duration: 0.16 });
+        }
+
         syncMap();
         syncUrl();
+        initialized = true;
     };
 
     const chooseArea = (areaName: string) => {
