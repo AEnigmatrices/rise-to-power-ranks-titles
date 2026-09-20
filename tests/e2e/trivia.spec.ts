@@ -126,19 +126,23 @@ test('historical guide directories retain the global site navigation', async ({ 
 });
 
 
-test('Drifters trivia connects Toyohisa and Naomasa to their court-rank entries', async ({ page }) => {
+test('Drifters trivia distinguishes Toyohisa’s anime title from the historical office', async ({ page }) => {
     await page.goto('./reference/#rank-nakatsukasa-no-sho');
 
-    const toyohisaRow = page.locator('#rank-nakatsukasa-no-sho');
-    await expect(toyohisaRow).toBeVisible();
-    await toyohisaRow.locator('[data-trivia-trigger]').click();
-    await expect(page.getByText('You heard these titles in Drifters')).toBeVisible();
+    const animeToyohisaRow = page.locator('#rank-nakatsukasa-no-sho');
+    await expect(animeToyohisaRow).toBeVisible();
+    await animeToyohisaRow.locator('[data-trivia-trigger]').click();
+    await expect(page.getByText('Drifters changes Toyohisa’s court office')).toBeVisible();
 
-    await page.goto('./trivia/offices/drifters-court-ranks/');
-    await expect(page.getByRole('heading', { name: 'You heard these titles in Drifters' })).toBeVisible();
+    await page.goto('./trivia/offices/drifters-toyohisa/');
+    await expect(page.getByRole('heading', { name: 'Drifters changes Toyohisa’s court office' })).toBeVisible();
 
-    const related = page.locator('.related-appointment');
-    await expect(related).toHaveCount(2);
+    const toyohisaRelated = page.locator('.related-appointment');
+    await expect(toyohisaRelated).toHaveCount(2);
     await expect(page.getByRole('link', { name: /Scribe Captain/ })).toBeVisible();
+    await expect(page.getByRole('link', { name: /Central General/ })).toBeVisible();
+
+    await page.goto('./trivia/offices/drifters-naomasa/');
+    await expect(page.getByRole('heading', { name: 'Drifters gets Naomasa’s title right' })).toBeVisible();
     await expect(page.getByRole('link', { name: /Defense Supervisor/ })).toBeVisible();
 });
