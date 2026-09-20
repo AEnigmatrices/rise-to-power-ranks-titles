@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { stderr, stdout } from 'node:process';
+import process, { stderr, stdout } from 'node:process';
 
 const files = [
     'src/data/trivia/items.ts',
