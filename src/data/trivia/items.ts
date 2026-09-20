@@ -55,30 +55,47 @@ export const triviaById = {
         body: 'The Kageyushi examined the transfer of accounts and public property when officials changed posts. Created outside the original ritsuryō offices, it helped check the conduct of provincial administration.',
         source: 'https://www.japanesewiki.com/title/Kageyushi.html',
     },
+    'provincial-office': {
+        id: 'provincial-office',
+        label: 'A provincial office could become a warrior title',
+        body: 'Names such as 武蔵守 (Musashi no Kami) and 上総介 (Kazusa no Suke) originated as kokushi provincial offices. By the medieval and Sengoku periods, warriors also used these “jūryō names” as status-bearing titles: some followed formal court appointment, while others were granted by a daimyō or simply self-assumed. The province in the title therefore does not prove that its bearer governed that province.',
+        source: 'https://ndlsearch.ndl.go.jp/rnavi/humanities/post_101126',
+    },
     'three-suke': {
         id: 'three-suke',
         label: 'One of the “Three Suke” provinces',
         body: 'Kazusa, Hitachi, and Kōzuke became princely provinces whose nominal governor (kami) was an imperial prince who did not take up provincial administration. Their deputy governor, the suke, therefore functioned as the practical head of the provincial government.',
+        source: 'https://kotobank.jp/word/%E4%B8%89%E4%BB%8B-513908',
     },
     gon: {
         id: 'gon',
         label: 'What 権 (gon) means',
         body: '権 marks a provisional or additional appointment outside the normal statutory complement of an office. Thus 権大納言 is conventionally rendered “Provisional Great Councillor,” rather than a lower grade of 大納言.',
+        source: 'https://kotobank.jp/word/%E6%A8%A9%E5%AE%98-67134',
     },
     kuroudo: {
         id: 'kuroudo',
         label: 'The emperor’s chamberlain office',
         body: 'The Kurōdo-dokoro (蔵人所) was created in 810 under Emperor Saga. It handled confidential documents, transmitted imperial orders, and became an important institution working directly around the emperor.',
+        source: 'https://kotobank.jp/word/%E8%94%B5%E4%BA%BA%E6%89%80-57801',
     },
     dazaifu: {
         id: 'dazaifu',
         label: 'The “Distant Court” in Kyūshū',
         body: 'Dazaifu was much more than a local office: it was the great western regional headquarters for Kyūshū, handling politics, military affairs, and foreign relations. Contemporary tradition called it the “Distant Court” (遠の朝廷).',
+        source: 'https://www.city.dazaifu.lg.jp/site/bunkazai/11930.html',
+    },
+    'shoni-clan': {
+        id: 'shoni-clan',
+        label: 'An office title became the Shōni clan name',
+        body: 'The medieval Shōni family had originally been the Mutō. After Mutō Sukeyori and his descendants repeatedly held the Dazai no Shōni office in Kyūshū, the office name 少弐 became the family name by which the lineage is remembered.',
+        source: 'https://kotobank.jp/word/%E5%B0%91%E5%BC%90%E6%B0%8F-79659',
     },
     ministries: {
         id: 'ministries',
         label: 'Part of the Eight Ministries',
         body: 'Nakatsukasa, Shikibu, Jibu, Minbu, Hyōbu, Gyōbu, Ōkura, and Kunai were the Eight Ministries of the ritsuryō state. Many ranks in this table are different grades within those ministry hierarchies.',
+        source: 'https://kotobank.jp/word/%E5%85%AB%E7%9C%81-602639',
     },
     'drifters-toyohisa': {
         id: 'drifters-toyohisa',
@@ -91,6 +108,12 @@ export const triviaById = {
         label: 'Drifters gets Naomasa’s office right',
         body: 'Ii Naomasa’s 兵部少輔 (Hyōbu no Shō) is strongly attested near Sekigahara: surviving documents from 1599, 1600, and 1601 repeatedly style him 井伊兵部少輔直政, and Hikone Castle Museum identifies 兵部少輔 as his customary title. A much later genealogical compilation, Keizu Sanyō, instead gives 兵部大輔 for 1588; the contemporary documentary evidence therefore favors 少輔 for how Naomasa was actually styled around Sekigahara.',
         source: 'https://dcollections.lib.keio.ac.jp/ja/sagara/003-095',
+    },
+    'akita-jo-no-suke': {
+        id: 'akita-jo-no-suke',
+        label: 'Akita Castle outlived its walls as a warrior title',
+        body: 'Akita Castle ceased functioning as an ancient fortified government center by the late tenth century, but 秋田城介 survived in historical records. From the Kamakura period onward the title was associated with guarding the northern frontier and became an honor among warrior families.',
+        source: 'https://www.city.akita.lg.jp/kanko/kanrenshisetsu/1003616/1002306.html',
     },
     danjo: {
         id: 'danjo',
@@ -126,6 +149,7 @@ export const triviaById = {
         id: 'kanrei',
         label: 'The Muromachi shogun’s chief deputy',
         body: 'The Kanrei was the leading deputy of the Muromachi shogun. The office became especially associated with three houses—Hosokawa, Shiba, and Hatakeyama—remembered collectively as the Three Kanrei houses.',
+        source: 'https://kotobank.jp/word/%E7%AE%A1%E9%A0%98-49775',
     },
     'kanto-kanrei': {
         id: 'kanto-kanrei',
@@ -136,11 +160,13 @@ export const triviaById = {
         id: 'samurai-dokoro',
         label: 'One of the shogunate’s central offices',
         body: 'The Samurai-dokoro handled warrior discipline and policing. In the Muromachi period its commissioner (所司) became associated with the “Four Shiki” houses; together with the Three Kanrei houses they formed the celebrated 三管四職 hierarchy.',
+        source: 'https://kotobank.jp/word/%E4%BE%8D%E6%89%80-69804',
     },
     mandokoro: {
         id: 'mandokoro',
         label: 'Finance and household administration',
         body: 'The Muromachi Mandokoro managed shogunate and shogunal-household finance and also handled some civil disputes. Its chief stewardship later became hereditary in the Ise family.',
+        source: 'https://kotobank.jp/word/%E6%94%BF%E6%89%80-138082',
     },
     monchujo: {
         id: 'monchujo',
@@ -156,6 +182,13 @@ export const triviaById = {
         id: 'hyojoshu',
         label: 'A council inherited from Kamakura',
         body: 'Hyōjōshū were councillors of the shogunate’s deliberative and judicial system. The institution originated in the Kamakura shogunate and continued in Muromachi government, although its practical importance changed over time.',
+        source: 'https://kotobank.jp/word/%E8%A9%95%E5%AE%9A%E8%A1%86-121326',
+    },
+    shugo: {
+        id: 'shugo',
+        label: 'Shugo belonged to the warrior government',
+        body: 'Shugo were military-governor appointments of the shogunate, not the same institution as the Imperial Court’s kokushi offices such as 武蔵守. Their powers expanded greatly during the Muromachi period, and many developed into the regional lords historians call shugo daimyō.',
+        source: 'https://kotobank.jp/word/%E5%AE%88%E8%AD%B7-77664',
     },
     tandai: {
         id: 'tandai',
