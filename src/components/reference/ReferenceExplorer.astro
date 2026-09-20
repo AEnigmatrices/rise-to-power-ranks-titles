@@ -1,6 +1,7 @@
 ---
 import { RotateCcw, Search, Sparkles, X } from '@lucide/astro';
 import { rankAppointments, titleAppointments } from '../../data/appointments';
+import { getNotableHolders } from '../../data/holders';
 import type { TriviaItem } from '../../data/schema/trivia';
 import { getEntryTrivia } from '../../lib/trivia';
 import { sitePath } from '../../lib/routes';
@@ -24,7 +25,11 @@ const triviaHref = (item: TriviaItem) =>
         ? sitePath(`trivia/regions/${item.id.slice('region-'.length)}/`)
         : sitePath(`trivia/offices/${item.id}/`);
 
-const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
+const searchableText = (
+    entry: ReferenceEntry,
+    trivia: TriviaItem[],
+    holders = getNotableHolders(entry.id),
+) =>
     [
         entry.gameName,
         entry.japanese,
@@ -34,6 +39,11 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
         entry.effect,
         entry.categoryLabel,
         ...trivia.flatMap((item) => [item.label, item.body]),
+        ...holders.flatMap((holder) => [
+            holder.name,
+            holder.japanese ?? '',
+            holder.description,
+        ]),
     ].join(' ');
 ---
 
@@ -182,6 +192,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                         {entries.map((entry, index) => {
                             const pronunciation = entry.reading;
                             const trivia = getEntryTrivia(entry);
+                            const holders = getNotableHolders(entry.id);
                             const triviaId = `trivia-${entry.id}`;
 
                             return (
@@ -198,7 +209,7 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                     data-search-japanese={entry.japanese}
                                     data-search-pronunciation={pronunciation}
                                     data-search-translation={entry.meaning}
-                                    data-search-text={searchableText(entry, trivia)}
+                                    data-search-text={searchableText(entry, trivia, holders)}
                                     class:list={[
                                         entry.category === 'shugo' && 'is-shugo',
                                         entry.category === 'provincial-office' && 'is-provincial',
@@ -294,7 +305,39 @@ const searchableText = (entry: ReferenceEntry, trivia: TriviaItem[]) =>
                                         </span>
                                     </td>
                                     <td data-label="Historical meaning" class="translation">
-                                        {entry.meaning}
+                                        <span class="translation__meaning">{entry.meaning}</span>
+                                        <details class="holder-details">
+                                            <summary>
+                                                {holders.length > 0
+                                                    ? `Notable ${holders.length === 1 ? 'holder' : 'holders'}`
+                                                    : 'Notable holders'}
+                                            </summary>
+                                            {
+                                                holders.length > 0 ? (
+                                                    <span class="holder-details__list">
+                                                        {holders.map((holder) => (
+                                                            <span class="holder-details__item">
+                                                                <span class="holder-details__name">
+                                                                    <strong>{holder.name}</strong>
+                                                                    {holder.japanese && (
+                                                                        <span lang="ja">{holder.japanese}</span>
+                                                                    )}
+                                                                </span>
+                                                                <span>{holder.description}</span>
+                                                                <a href={holder.source}>
+                                                                    Source →
+                                                                </a>
+                                                            </span>
+                                                        ))}
+                                                    </span>
+                                                ) : (
+                                                    <span class="holder-details__empty">
+                                                        No famous exact holder has been highlighted
+                                                        for this appointment yet.
+                                                    </span>
+                                                )
+                                            }
+                                        </details>
                                     </td>
                                     <td data-label="Effect" class="effect-cell">
                                         <span
