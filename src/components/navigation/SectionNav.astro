@@ -17,8 +17,12 @@ const { current } = Astro.props;
     <div class="section-nav__links">
         <a href={sitePath()} aria-current={current === 'home' ? 'page' : undefined}>Overview</a>
         <a href={sitePath('reference/')} aria-current={current === 'reference' ? 'page' : undefined}>Reference</a>
-        <a href={sitePath('trivia/')} aria-current={current === 'guide' ? 'page' : undefined}>
-            <span class="section-nav__guide-label section-nav__guide-label--full">Historical Guide</span>
+        <a
+            href={sitePath('trivia/')}
+            aria-label="Historical Guide"
+            aria-current={current === 'guide' ? 'page' : undefined}
+        >
+            <span class="section-nav__guide-label section-nav__guide-label--full" aria-hidden="true">Historical Guide</span>
             <span class="section-nav__guide-label section-nav__guide-label--short" aria-hidden="true">Guide</span>
         </a>
         <GlobalSearch />
