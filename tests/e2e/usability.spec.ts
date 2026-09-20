@@ -111,21 +111,31 @@ const narrowLayoutRoutes = [
     './trivia/offices/danjo/',
 ] as const;
 
-test.describe('narrow layout overflow', () => {
+test('core page layouts fit a narrow phone without horizontal overflow', async ({
+    context,
+}) => {
+    test.setTimeout(60_000);
+
     for (const path of narrowLayoutRoutes) {
-        test(`${path} fits a narrow phone without horizontal overflow`, async ({ page }) => {
-            await page.setViewportSize({ width: 320, height: 780 });
-            await page.goto(path);
+        await test.step(path, async () => {
+            const page = await context.newPage();
 
-            const width = await page.evaluate(() => ({
-                content: document.documentElement.scrollWidth,
-                viewport: document.documentElement.clientWidth,
-            }));
+            try {
+                await page.setViewportSize({ width: 320, height: 780 });
+                await page.goto(path);
 
-            expect(
-                width.content,
-                `Horizontal overflow on ${path}`,
-            ).toBeLessThanOrEqual(width.viewport);
+                const width = await page.evaluate(() => ({
+                    content: document.documentElement.scrollWidth,
+                    viewport: document.documentElement.clientWidth,
+                }));
+
+                expect(
+                    width.content,
+                    `Horizontal overflow on ${path}`,
+                ).toBeLessThanOrEqual(width.viewport);
+            } finally {
+                await page.close();
+            }
         });
     }
 });
