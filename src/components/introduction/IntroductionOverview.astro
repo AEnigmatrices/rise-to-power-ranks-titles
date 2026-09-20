@@ -6,70 +6,120 @@ import { sitePath } from '../../lib/routes';
 <section class="intro-overview" aria-labelledby="intro-overview-heading">
     <div class="intro-overview__heading">
         <div>
-            <p class="section-kicker">Why two systems?</p>
-            <h2 id="intro-overview-heading">Two old authorities. One age of warlords.</h2>
+            <p class="section-kicker">How the game organizes status</p>
+            <h2 id="intro-overview-heading">Ranks and Titles are two different appointment tracks.</h2>
         </div>
         <p>
-            By the Sengoku period, Japan still recognized both the ancient Imperial
-            Court and the Muromachi warrior government even as regional daimyo held
-            increasing military and territorial power.
+            <em>Rise to Power</em> lets an officer hold a Rank and a Title at the same
+            time. The two systems come from different political traditions, represent
+            different kinds of recognition, and improve different character stats.
         </p>
+    </div>
+
+    <div
+        class="intro-overview__logic"
+        aria-label="How Ranks and Titles work in Rise to Power"
+    >
+        <article>
+            <span class="intro-overview__seal" aria-hidden="true">官</span>
+            <p class="section-kicker">Imperial Court track</p>
+            <h3>Rank <small>(game term)</small></h3>
+            <p>
+                The game groups court-derived appointments under <strong>Rank</strong>:
+                great ministers, ministries and bureaus, palace guards, provincial
+                offices, and other positions rooted in the Imperial Court system.
+            </p>
+            <strong>Raises Politics ↑</strong>
+        </article>
+
+        <span class="intro-overview__plus" aria-hidden="true">+</span>
+
+        <article>
+            <span class="intro-overview__seal" aria-hidden="true">将</span>
+            <p class="section-kicker">Warrior-government track</p>
+            <h3>Title</h3>
+            <p>
+                Titles come from the warrior-government side: offices and appointments
+                such as Shōgun, Kanrei, Tandai, and Shugo associated with the
+                Muromachi shogunate and its regional administration.
+            </p>
+            <strong>Raises Leadership ↑</strong>
+        </article>
+    </div>
+
+    <p class="intro-overview__coexistence">
+        These are parallel systems, not upgrades from one into the other. An officer may
+        hold both at once.
+    </p>
+
+    <div class="intro-overview__clarification">
+        <div class="intro-overview__clarification-copy">
+            <p class="section-kicker">The important historical correction</p>
+            <h3>“Rank” is a game label, not the literal historical category.</h3>
+            <p>
+                Historically, <strong lang="ja">位階</strong> (<em>ikai</em>, court rank)
+                and <strong lang="ja">官職</strong> (<em>kanshoku</em>, court office)
+                were distinct. A court rank was a person’s formal grade in the hierarchy;
+                a court office was the post that person held.
+            </p>
+            <p>
+                The classical system associated offices with expected ranks through
+                <strong lang="ja">官位相当</strong>, but the two were not identical.
+                <em>Rise to Power</em> simplifies that history by placing court offices
+                and related court status together in one gameplay category called
+                <strong>Ranks</strong>.
+            </p>
+        </div>
+
+        <div class="intro-overview__terms" aria-label="Court rank and court office distinction">
+            <div>
+                <span lang="ja">位階</span>
+                <strong>Court rank</strong>
+                <small>A person’s formal grade and precedence.</small>
+            </div>
+            <div>
+                <span lang="ja">官職</span>
+                <strong>Court office</strong>
+                <small>A specific post, duty, or title within government.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="intro-overview__example">
+        <div>
+            <p class="section-kicker">One province, two systems</p>
+            <h3>Mutsu makes the distinction visible.</h3>
+            <p>
+                Similar English translations can make the two traditions look alike.
+                The Japanese names show that these are different appointments issued
+                through different political systems.
+            </p>
+        </div>
+
+        <div class="intro-overview__comparison">
+            <div>
+                <strong>Governor of Mutsu</strong>
+                <span lang="ja">陸奥守</span>
+                <small>Imperial Court office → Rank → Politics</small>
+            </div>
+            <div>
+                <strong>Shugo of Mutsu</strong>
+                <span lang="ja">陸奥守護</span>
+                <small>Shogunate appointment → Title → Leadership</small>
+            </div>
+        </div>
     </div>
 
     <div class="intro-overview__title-note">
         <p class="intro-overview__jp" lang="ja">信長の野望・天下創世</p>
         <div>
-            <p class="section-kicker">The Japanese title</p>
-            <h3><em>Tenka Sōsei</em> — “Genesis of the Realm”</h3>
+            <p class="section-kicker">Name note</p>
+            <h3><em>Tenka Sōsei</em> and <em>Rise to Power</em></h3>
             <p>
-                <em>Rise to Power</em> is the English release title. “Genesis of the
-                Realm” is a contextual rendering of <em>Tenka Sōsei</em>: <em>tenka</em>
-                evokes the realm or “all under heaven,” while <em>sōsei</em> means
-                creation or genesis.
+                <em>Rise to Power</em> is the English release title. <em>Tenka Sōsei</em>
+                is the Japanese subtitle; <em>tenka</em> evokes the realm or “all under
+                heaven,” while <em>sōsei</em> means creation or genesis.
             </p>
-        </div>
-    </div>
-
-    <div class="intro-overview__logic" aria-label="How the two game systems relate to historical authority">
-        <article>
-            <span class="intro-overview__seal" aria-hidden="true">官</span>
-            <p class="section-kicker">Imperial recognition</p>
-            <h3>Ranks <small>(game term)</small></h3>
-            <p>
-                <em>Rise to Power</em> folds two historical concepts into one gameplay
-                ladder: <strong>位階</strong> (court rank) and <strong>官職</strong>
-                (court office). Historically they were distinct. Offices had a
-                conventional corresponding rank, but an individual holder’s actual
-                位階 did not have to match the office’s nominal place in that scheme.
-            </p>
-            <strong>Politics ↑</strong>
-        </article>
-        <span class="intro-overview__plus" aria-hidden="true">+</span>
-        <article>
-            <span class="intro-overview__seal" aria-hidden="true">将</span>
-            <p class="section-kicker">Shogunal recognition</p>
-            <h3>Titles</h3>
-            <p>Offices and appointments associated with the warrior government.</p>
-            <strong>Leadership ↑</strong>
-        </article>
-    </div>
-
-    <div class="intro-overview__example">
-        <div>
-            <p class="section-kicker">One province, two appointments</p>
-            <h3>Mutsu makes the distinction visible.</h3>
-        </div>
-        <div class="intro-overview__comparison">
-            <div>
-                <strong>Governor of Mutsu</strong>
-                <span lang="ja">陸奥守</span>
-                <small>Imperial Court office → Rank</small>
-            </div>
-            <div>
-                <strong>Shugo of Mutsu</strong>
-                <span lang="ja">陸奥守護</span>
-                <small>Shogunate appointment → Title</small>
-            </div>
         </div>
     </div>
 

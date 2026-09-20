@@ -29,12 +29,78 @@
     line-height: 1.78;
 }
 
+.intro-overview__coexistence {
+    margin: 14px 0 0;
+    padding: 13px 16px;
+    border-left: 3px solid var(--gold);
+    color: var(--muted);
+    background: rgb(251 248 241 / 0.66);
+    line-height: 1.65;
+}
+
+.intro-overview__clarification {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+    gap: clamp(24px, 4vw, 52px);
+    align-items: center;
+    margin-top: 18px;
+    padding: clamp(24px, 4vw, 38px);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--paper-2);
+    box-shadow: var(--shadow-sm);
+}
+
+.intro-overview__clarification h3 {
+    margin: 8px 0 0;
+    font-family: var(--serif);
+    font-size: clamp(1.85rem, 2.8vw, 3rem);
+    font-weight: 540;
+    letter-spacing: -0.035em;
+    line-height: 1.03;
+}
+
+.intro-overview__clarification-copy > p:not(.section-kicker) {
+    margin: 14px 0 0;
+    color: var(--muted);
+    line-height: 1.76;
+}
+
+.intro-overview__terms {
+    display: grid;
+    gap: 8px;
+}
+
+.intro-overview__terms div {
+    display: grid;
+    gap: 3px;
+    padding: 17px 18px;
+    border-left: 3px solid var(--gold);
+    background: rgb(251 248 241 / 0.72);
+}
+
+.intro-overview__terms span {
+    color: var(--gold-text);
+    font-family: var(--jp-serif);
+    font-size: 1.15rem;
+}
+
+.intro-overview__terms strong {
+    color: var(--ink);
+    font-size: 0.84rem;
+}
+
+.intro-overview__terms small {
+    color: var(--muted);
+    line-height: 1.45;
+}
+
 .intro-overview__title-note {
     display: grid;
     grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.2fr);
     gap: clamp(24px, 5vw, 70px);
     align-items: center;
-    margin-top: 42px;
+    margin-top: 18px;
     padding: clamp(24px, 4vw, 42px);
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
@@ -150,6 +216,12 @@
 }
 
 .intro-overview__comparison small { color: var(--muted); }
+
+.intro-overview__example > div:first-child > p:last-child {
+    margin: 12px 0 0;
+    color: var(--muted);
+    line-height: 1.65;
+}
 
 .intro-overview__more {
     display: inline-flex;
@@ -295,6 +367,7 @@
     .intro-overview__heading,
     .context-section__heading,
     .intro-overview__title-note,
+    .intro-overview__clarification,
     .intro-overview__example {
         grid-template-columns: 1fr;
     }
