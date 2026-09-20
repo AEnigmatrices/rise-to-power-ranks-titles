@@ -216,3 +216,13 @@
 .reference-table tr {
     scroll-margin-top: 150px;
 }
+
+.holder-details__sources {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+}
+
+.holder-details__sources a {
+    font-size: 0.68rem;
+}
