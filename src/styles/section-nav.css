@@ -53,6 +53,10 @@
     gap: 3px;
 }
 
+.section-nav__guide-label--short {
+    display: none;
+}
+
 .section-nav__links a {
     display: inline-flex;
     min-height: 36px;
