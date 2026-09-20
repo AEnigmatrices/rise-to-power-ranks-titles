@@ -3,7 +3,6 @@
 @import './hero.css';
 @import './section-nav.css';
 @import './introduction.css';
-@import './systems.css';
 @import './shared.css';
 @import './reference.css';
 @import './table.css';
@@ -12,3 +11,5 @@
 @import './guide.css';
 @import './footer.css';
 @import './responsive.css';
+
+@import './game-theme.css';

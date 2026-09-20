@@ -21,7 +21,14 @@ import { sitePath } from '../../../lib/routes';
             backLabel="Back to the Historical Guide"
         />
 
-        <section class="context-section" aria-labelledby="court-heading">
+        <nav class="context-jump-nav" aria-label="Political context sections">
+            <a href="#imperial-court">Imperial Court</a>
+            <a href="#muromachi-shogunate">Muromachi Shogunate</a>
+            <a href="#sengoku-paradox">Sengoku Paradox</a>
+            <a href="#game-model">Game Model</a>
+        </nav>
+
+        <section id="imperial-court" class="context-section" aria-labelledby="court-heading">
             <div class="context-profile">
                 <header class="context-profile__header">
                     <div>
@@ -75,7 +82,7 @@ import { sitePath } from '../../../lib/routes';
             </div>
         </section>
 
-        <section class="context-section" aria-labelledby="shogunate-heading">
+        <section id="muromachi-shogunate" class="context-section" aria-labelledby="shogunate-heading">
             <div class="context-profile">
                 <header class="context-profile__header">
                     <div>
@@ -128,7 +135,7 @@ import { sitePath } from '../../../lib/routes';
             </div>
         </section>
 
-        <section class="context-section" aria-labelledby="paradox-heading">
+        <section id="sengoku-paradox" class="context-section" aria-labelledby="paradox-heading">
             <div class="context-section__heading">
                 <div>
                     <p class="section-kicker">The Sengoku paradox</p>
@@ -160,7 +167,7 @@ import { sitePath } from '../../../lib/routes';
             </div>
         </section>
 
-        <section class="context-section" aria-labelledby="game-model-heading">
+        <section id="game-model" class="context-section" aria-labelledby="game-model-heading">
             <div class="context-section__heading">
                 <div>
                     <p class="section-kicker">How Tenka Sōsei models it</p>

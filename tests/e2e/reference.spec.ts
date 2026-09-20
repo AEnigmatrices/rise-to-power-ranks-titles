@@ -6,7 +6,7 @@ test('catalogue search, keyboard shortcut, and tab switching work together', asy
     const search = page.getByRole('searchbox', { name: 'Search appointments' });
     const resultCount = page.locator('[data-result-count]');
 
-    await expect(page.getByRole('heading', { name: 'Browse every appointment' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Ranks & Titles Reference' })).toBeVisible();
     await expect(resultCount).toContainText('295 unique ranks');
 
     await page.keyboard.press('/');
@@ -64,4 +64,16 @@ test('homepage remains an overview rather than embedding the catalogue', async (
 
     await page.getByRole('link', { name: /Browse the reference/ }).click();
     await expect(page).toHaveURL(/\/reference\/$/);
+});
+
+
+test('reference controls remain the first interactive catalogue surface after the page header', async ({ page }) => {
+    await page.goto('./reference/');
+
+    const tabs = page.getByRole('tablist', { name: 'Appointment system' });
+    const search = page.getByRole('searchbox', { name: 'Search appointments' });
+
+    await expect(tabs).toBeVisible();
+    await expect(search).toBeVisible();
+    await expect(page.locator('.explorer__intro')).toHaveCount(0);
 });

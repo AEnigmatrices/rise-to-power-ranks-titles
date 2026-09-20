@@ -1,6 +1,6 @@
 # Rise to Power — Ranks & Titles
 
-An Astro reference for the **Rank** and **Title** appointment systems in *Nobunaga's Ambition: Rise to Power* (*Tenka Sōsei*), with a concise historical overview, a dedicated searchable catalogue, and a statically generated Historical Guide for political context, offices, titles, regions, and provinces.
+An Astro reference for the **Rank** and **Title** appointment systems in *Nobunaga's Ambition: Rise to Power* (*Tenka Sōsei*), with a concise historical overview, a dedicated searchable catalogue, and a statically generated Historical Guide for political context, offices, titles, regions, and provinces. The visual system deliberately echoes the game's bronze, lacquer, muted-teal, parchment, and strategic-map interface language without reusing proprietary screenshot assets.
 
 The catalogue preserves the game's English-localized appointment names alongside Japanese office names, readings, historical/literal meanings, class, stat effect, appointment type, and exact duplicate-source occurrence counts. Historical context is available both as compact inline notes and as dedicated guide pages.
 
@@ -220,7 +220,7 @@ src/
     hero.css
     section-nav.css
     introduction.css
-    systems.css
+    game-theme.css
     shared.css
     reference.css
     table.css

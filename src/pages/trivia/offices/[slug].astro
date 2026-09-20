@@ -2,6 +2,7 @@
 import { ExternalLink } from '@lucide/astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import SectionNav from '../../../components/navigation/SectionNav.astro';
 import RelatedAppointments from '../../../components/trivia/RelatedAppointments.astro';
 import { appointments } from '../../../data/appointments';
 import { officeTrivia, type TriviaItem } from '../../../data/trivia';
@@ -31,6 +32,7 @@ const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 4
     description={item.body}
 >
     <main id="top" class="guide-shell">
+        <SectionNav current="guide" />
         <GuideHeader
             kicker="Historical Guide · Offices & Titles"
             japanese={japanese || undefined}

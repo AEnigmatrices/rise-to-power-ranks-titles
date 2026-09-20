@@ -2,6 +2,7 @@
 import { ExternalLink, MapPinned } from '@lucide/astro';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import SectionNav from '../../../components/navigation/SectionNav.astro';
 import RelatedAppointments from '../../../components/trivia/RelatedAppointments.astro';
 import { appointments } from '../../../data/appointments';
 import { regions, type Region } from '../../../data/geography';
@@ -28,6 +29,7 @@ const related = appointments.filter((entry) => getEntryRegion(entry)?.id === reg
     description={`${region.name} (${region.japanese}): ${region.body}`}
 >
     <main id="top" class="guide-shell">
+        <SectionNav current="guide" />
         <GuideHeader
             kicker={`Historical Guide · ${region.type}`}
             japanese={region.japanese}

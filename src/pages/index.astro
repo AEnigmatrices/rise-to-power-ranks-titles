@@ -2,7 +2,6 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/hero/Hero.astro';
 import SectionNav from '../components/navigation/SectionNav.astro';
-import SystemOverview from '../components/reference/SystemOverview.astro';
 import IntroductionOverview from '../components/introduction/IntroductionOverview.astro';
 import HistoricalGuideTeaser from '../components/trivia/HistoricalGuideTeaser.astro';
 import { rankAppointments, titleAppointments } from '../data/appointments';
@@ -29,7 +28,6 @@ const titleRecords = totalRecords(titleAppointments);
 
         <SectionNav current="home" />
         <IntroductionOverview />
-        <SystemOverview />
         <HistoricalGuideTeaser />
 
         <footer class="site-footer">

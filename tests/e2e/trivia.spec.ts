@@ -101,3 +101,26 @@ test('rendered internal links retain the GitHub Pages base path', async ({ page 
         '/rise-to-power-ranks-titles/favicon.svg',
     );
 });
+
+
+test('political context provides in-page navigation for the long-form history', async ({ page }) => {
+    await page.goto('./trivia/context/');
+
+    const jumpNav = page.getByRole('navigation', { name: 'Political context sections' });
+    await expect(jumpNav).toBeVisible();
+
+    await jumpNav.getByRole('link', { name: 'Muromachi Shogunate' }).click();
+    await expect(page).toHaveURL(/#muromachi-shogunate$/);
+    await expect(page.locator('#muromachi-shogunate')).toBeVisible();
+});
+
+test('historical guide directories retain the global site navigation', async ({ page }) => {
+    await page.goto('./trivia/regions/');
+
+    const siteNav = page.getByRole('navigation', { name: 'Site navigation' });
+    await expect(siteNav).toBeVisible();
+    await expect(siteNav.getByRole('link', { name: 'Historical Guide' })).toHaveAttribute('aria-current', 'page');
+
+    await page.goto('./trivia/offices/danjo/');
+    await expect(page.getByRole('navigation', { name: 'Site navigation' })).toBeVisible();
+});
