@@ -72,8 +72,18 @@ describe('authored reference data', () => {
     });
 
     it('keeps historical trivia backed by reference sources', () => {
-        expect(officeTrivia.every((item) => item.source)).toBe(true);
-        expect(featuredTrivia.every((item) => item.source)).toBe(true);
+        expect(officeTrivia.every((item) => item.sources.length > 0)).toBe(true);
+        expect(featuredTrivia.every((item) => item.sources.length > 0)).toBe(true);
+    });
+
+    it('keeps every notable holder backed by at least one source', () => {
+        const holders = Object.values(notableHoldersByAppointment).flatMap((items) => items ?? []);
+        expect(holders.length).toBeGreaterThan(0);
+        expect(holders.every((holder) => holder.sources.length > 0)).toBe(true);
+    });
+
+    it('keeps geography backed by reference sources', () => {
+        expect(data.regions.every((region) => region.sources.length > 0)).toBe(true);
     });
 
     it('attaches institutional trivia to representative court bureaus', () => {
