@@ -5,8 +5,8 @@ import GuideHeader from '../../../components/trivia/GuideHeader.astro';
 import GuideCard from '../../../components/trivia/GuideCard.astro';
 import RegionMap from '../../../components/trivia/RegionMap.astro';
 import { regions } from '../../../data/geography';
+import { sitePath } from '../../../lib/routes';
 
-const base = import.meta.env.BASE_URL;
 const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => a.localeCompare(b));
 ---
 
@@ -19,7 +19,7 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
             kicker="Historical Guide · Geography"
             title="Regions & Provinces"
             lede="Historic provinces are the geography behind provincial court offices and Shugo titles. Modern prefectures below are only an orientation aid."
-            backHref={`${base}trivia/`}
+            backHref={sitePath('trivia/')}
             backLabel="Back to the Historical Guide"
         />
 
@@ -58,7 +58,7 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
                         title={region.name}
                         meta={region.location}
                         body={region.body}
-                        href={`${base}trivia/regions/${region.id}/`}
+                        href={sitePath(`trivia/regions/${region.id}/`)}
                         search={[region.name, region.japanese, region.location, region.body, ...(region.aliases ?? [])].join(' ')}
                         area={region.area}
                     />
@@ -69,8 +69,8 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
         </section>
 
         <footer class="guide-footer">
-            <a href={`${base}trivia/`}>← Historical Guide</a>
-            <a href={base}>Ranks &amp; Titles catalogue →</a>
+            <a href={sitePath('trivia/')}>← Historical Guide</a>
+            <a href={sitePath()}>Ranks &amp; Titles catalogue →</a>
         </footer>
     </main>
 </BaseLayout>

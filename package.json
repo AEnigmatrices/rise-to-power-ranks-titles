@@ -1,9 +1,9 @@
 {
-  "name": "rise-to-power-ranks-and-titles",
+  "name": "rise-to-power-ranks-titles",
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "One-page reference for Ranks and Titles in Nobunaga's Ambition: Rise to Power.",
+  "description": "Interactive ranks, titles, and historical reference for Nobunaga's Ambition: Rise to Power.",
   "engines": {
     "node": "^22.22.3 || ^24.16.0 || >=26.3.0"
   },

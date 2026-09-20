@@ -2,12 +2,11 @@
 
 @media (max-width: 1180px) {
     .hero__content { width: 72%; }
-    .trivia-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 980px) {
     .hero {
-        min-height: 610px;
+        min-height: 0;
         align-items: center;
     }
 
@@ -45,7 +44,6 @@
     .systems__heading { max-width: 690px; }
 
     .explorer__intro,
-    .trivia-guide__heading,
     .region-map__heading {
         grid-template-columns: 1fr;
     }
@@ -263,15 +261,6 @@
 
     .results-line__hint { display: none; }
 
-    .trivia-guide {
-        margin-top: 54px;
-        padding: 34px 3px 0;
-    }
-
-    .trivia-guide__controls {
-        padding: 12px;
-    }
-
     .region-map__body {
         grid-template-columns: 1fr;
     }
@@ -292,14 +281,6 @@
     .region-map__clear { grid-column: 1 / -1; }
     .region-map__credit { padding-inline: 16px; }
 
-    .trivia-grid { grid-template-columns: 1fr; }
-
-    .trivia-card {
-        min-height: 0;
-        padding: 19px 17px;
-    }
-
-    .trivia-toolbar .field:has(select) { flex: 1 1 200px; }
     .trivia-popover__hint { display: block; }
 }
 
@@ -316,11 +297,6 @@
     }
 
     .switcher__tab > .effect-chip { display: none; }
-
-    .trivia-card {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
 
     .region-map__heading { padding: 18px 16px 15px; }
     .region-map__index { grid-template-columns: 1fr; }

@@ -69,15 +69,7 @@ kbd {
     flex-direction: column;
 }
 
-/* Reference-first source order is mirrored here for the existing static build. */
-.hero { order: 1; }
-.systems { order: 2; }
-.explorer { order: 3; }
-.trivia-guide { order: 4; }
-.site-footer { order: 5; }
-
-#trivia,
-#regions,
+#guide,
 #reference,
 #ranks,
 #titles {

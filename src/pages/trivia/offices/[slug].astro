@@ -6,6 +6,7 @@ import RelatedAppointments from '../../../components/trivia/RelatedAppointments.
 import { appointments } from '../../../data/appointments';
 import { officeTrivia, type TriviaItem } from '../../../data/trivia';
 import { getEntryTrivia } from '../../../lib/trivia';
+import { sitePath } from '../../../lib/routes';
 
 export function getStaticPaths() {
     return officeTrivia.map((item) => ({
@@ -19,7 +20,6 @@ interface Props {
 }
 
 const { item } = Astro.props;
-const base = import.meta.env.BASE_URL;
 const related = appointments.filter((entry) =>
     getEntryTrivia(entry).some((note) => note.id === item.id),
 );
@@ -36,11 +36,11 @@ const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 4
             japanese={japanese || undefined}
             title={item.label}
             lede={item.body}
-            backHref={`${base}trivia/offices/`}
+            backHref={sitePath('trivia/offices/')}
             backLabel="Back to Offices & Titles"
         />
 
-        <section class="guide-detail guide-detail--single">
+        <section class:list={['guide-detail', 'guide-detail--single', !item.source && 'guide-detail--no-source']}>
             <div class="guide-detail__main">
                 <p class="guide-section__kicker">Why this note appears</p>
                 <h2>Context shared across the catalogue</h2>
@@ -66,8 +66,8 @@ const japanese = [...new Set(related.map((entry) => entry.japanese))].slice(0, 4
         <RelatedAppointments entries={related} />
 
         <nav class="guide-detail__nav" aria-label="Historical guide navigation">
-            <a href={`${base}trivia/offices/`}>← All offices &amp; titles</a>
-            <a href={`${base}trivia/regions/`}>Regions &amp; provinces →</a>
+            <a href={sitePath('trivia/offices/')}>← All offices &amp; titles</a>
+            <a href={sitePath('trivia/regions/')}>Regions &amp; provinces →</a>
         </nav>
     </main>
 </BaseLayout>

@@ -3,7 +3,7 @@ import { BookOpen, Landmark, MapPinned } from '@lucide/astro';
 import { officeTrivia } from '../../data/trivia';
 import { provinces, regions } from '../../data/geography';
 
-const base = import.meta.env.BASE_URL;
+import { sitePath } from '../../lib/routes';
 ---
 
 <section id="guide" class="guide-teaser" aria-labelledby="guide-teaser-heading">
@@ -20,7 +20,7 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <div class="guide-teaser__cards">
-        <a class="guide-teaser__card" href={`${base}trivia/`}>
+        <a class="guide-teaser__card" href={sitePath('trivia/')}>
             <span class="guide-teaser__icon" aria-hidden="true"><BookOpen size={21} stroke-width={1.7} /></span>
             <span class="guide-teaser__copy">
                 <strong>Historical Guide</strong>
@@ -29,7 +29,7 @@ const base = import.meta.env.BASE_URL;
             <span class="guide-teaser__arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="guide-teaser__card" href={`${base}trivia/regions/`}>
+        <a class="guide-teaser__card" href={sitePath('trivia/regions/')}>
             <span class="guide-teaser__icon" aria-hidden="true"><MapPinned size={21} stroke-width={1.7} /></span>
             <span class="guide-teaser__copy">
                 <strong>Regions &amp; Provinces</strong>
@@ -38,7 +38,7 @@ const base = import.meta.env.BASE_URL;
             <span class="guide-teaser__arrow" aria-hidden="true">→</span>
         </a>
 
-        <a class="guide-teaser__card" href={`${base}trivia/offices/`}>
+        <a class="guide-teaser__card" href={sitePath('trivia/offices/')}>
             <span class="guide-teaser__icon" aria-hidden="true"><Landmark size={21} stroke-width={1.7} /></span>
             <span class="guide-teaser__copy">
                 <strong>Offices &amp; Titles</strong>

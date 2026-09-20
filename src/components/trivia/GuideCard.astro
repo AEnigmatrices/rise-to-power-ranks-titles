@@ -27,28 +27,42 @@ const {
 ---
 
 <article
-    class="guide-card"
+    class:list={['guide-card', href && 'guide-card--linked']}
     data-guide-card
     data-search={search}
     data-area={area}
 >
-    <p class="guide-card__kicker">{kicker}</p>
-    {japanese && <p class="guide-card__japanese" lang="ja">{japanese}</p>}
-    <h2 class="guide-card__title">{title}</h2>
-    {meta && <p class="guide-card__meta">{meta}</p>}
-    <p class="guide-card__body">{body}</p>
-    <div class="guide-card__actions">
-        {href && (
-            <a class="guide-card__link" href={href}>
-                <span>Open entry</span>
-                <ArrowRight size={14} stroke-width={1.9} aria-hidden="true" />
+    {
+        href ? (
+            <a class="guide-card__primary" href={href}>
+                <span class="guide-card__content">
+                    <span class="guide-card__kicker">{kicker}</span>
+                    {japanese && <span class="guide-card__japanese" lang="ja">{japanese}</span>}
+                    <h3 class="guide-card__title">{title}</h3>
+                    {meta && <span class="guide-card__meta">{meta}</span>}
+                    <span class="guide-card__body">{body}</span>
+                </span>
+                <span class="guide-card__actions" aria-hidden="true">
+                    <span>Open entry</span>
+                    <ArrowRight size={14} stroke-width={1.9} />
+                </span>
             </a>
-        )}
-        {source && !href && (
-            <a class="guide-card__source" href={source}>
-                <span>Source</span>
-                <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
-            </a>
-        )}
-    </div>
+        ) : (
+            <>
+                <p class="guide-card__kicker">{kicker}</p>
+                {japanese && <p class="guide-card__japanese" lang="ja">{japanese}</p>}
+                <h3 class="guide-card__title">{title}</h3>
+                {meta && <p class="guide-card__meta">{meta}</p>}
+                <p class="guide-card__body">{body}</p>
+                <div class="guide-card__actions">
+                    {source && (
+                        <a class="guide-card__source" href={source}>
+                            <span>Source for {title}</span>
+                            <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
+                        </a>
+                    )}
+                </div>
+            </>
+        )
+    }
 </article>

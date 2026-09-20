@@ -6,6 +6,7 @@ import RelatedAppointments from '../../../components/trivia/RelatedAppointments.
 import { appointments } from '../../../data/appointments';
 import { regions, type Region } from '../../../data/geography';
 import { getEntryRegion } from '../../../lib/geography';
+import { sitePath } from '../../../lib/routes';
 
 export function getStaticPaths() {
     return regions.map((region) => ({
@@ -19,7 +20,6 @@ interface Props {
 }
 
 const { region } = Astro.props;
-const base = import.meta.env.BASE_URL;
 const related = appointments.filter((entry) => getEntryRegion(entry)?.id === region.id);
 ---
 
@@ -33,7 +33,7 @@ const related = appointments.filter((entry) => getEntryRegion(entry)?.id === reg
             japanese={region.japanese}
             title={region.name}
             lede={region.body}
-            backHref={`${base}trivia/regions/`}
+            backHref={sitePath('trivia/regions/')}
             backLabel="Back to Regions & Provinces"
         />
 
@@ -70,8 +70,8 @@ const related = appointments.filter((entry) => getEntryRegion(entry)?.id === reg
         <RelatedAppointments entries={related} />
 
         <nav class="guide-detail__nav" aria-label="Historical guide navigation">
-            <a href={`${base}trivia/regions/`}>← All regions &amp; provinces</a>
-            <a href={`${base}trivia/offices/`}>Offices &amp; titles →</a>
+            <a href={sitePath('trivia/regions/')}>← All regions &amp; provinces</a>
+            <a href={sitePath('trivia/offices/')}>Offices &amp; titles →</a>
         </nav>
     </main>
 </BaseLayout>
