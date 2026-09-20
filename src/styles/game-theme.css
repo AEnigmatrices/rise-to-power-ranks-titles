@@ -1141,3 +1141,44 @@ body::before {
         font-size: 0.61rem;
     }
 }
+
+
+/* Accessibility: preserve the game palette with stable contrast, even during interaction. */
+.count-badge {
+    color: #3f382c;
+}
+
+.count-badge--multiple {
+    color: #43330f;
+    background: #c9ab5f;
+}
+
+.class-chip {
+    color: #3f3218;
+    background: #c9b274;
+}
+
+.class-chip--upper {
+    color: #4a3108;
+    background: #d9bc63;
+}
+
+.effect-value--politics {
+    color: #29422f;
+}
+
+.effect-value--leadership {
+    color: #294155;
+}
+
+.effect-chip--politics,
+.effect-value--politics .effect-chip {
+    color: #29422f;
+    background: #cad6b8;
+}
+
+.effect-chip--leadership,
+.effect-value--leadership .effect-chip {
+    color: #294155;
+    background: #bbc9d3;
+}

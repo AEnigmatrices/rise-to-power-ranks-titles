@@ -253,7 +253,7 @@ type SearchRecord = {
     const animateVisibleRows = (rows: HTMLTableRowElement[]) => {
         if (reducedMotion.matches || rows.length === 0) return;
         animate(rows.slice(0, 18), {
-            opacity: [0.48, 1],
+            y: [2, 0],
         }, {
             duration: 0.16,
             delay: stagger(0.008),
@@ -366,7 +366,7 @@ type SearchRecord = {
 
         const panel = getActivePanel();
         if (!reducedMotion.matches && panel) {
-            animate(panel, { opacity: [0.7, 1], y: [6, 0] }, { duration: 0.2, ease: 'easeOut' });
+            animate(panel, { y: [6, 0] }, { duration: 0.2, ease: 'easeOut' });
         }
 
         if (updateHash && (location.hash === '#ranks' || location.hash === '#titles')) {
