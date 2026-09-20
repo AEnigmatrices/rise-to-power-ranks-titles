@@ -338,6 +338,10 @@
     font-weight: 720;
 }
 
+.guide-source-card {
+    align-self: start;
+}
+
 .guide-source-card h2 { font-size: 1.65rem; }
 
 .guide-source-card a {
