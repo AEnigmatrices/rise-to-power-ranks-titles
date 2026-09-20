@@ -1,28 +1,30 @@
 /* ---------- Tenka Sousei-inspired presentation layer ---------- */
 
 :root {
-    --ink: #2b2417;
-    --ink-2: #4c3b24;
-    --muted: #6d624f;
-    --faint: #8e8168;
-    --gold-text: #8c651d;
-    --paper: #c9b77f;
-    --paper-2: #e4d5a7;
-    --paper-3: #b9a36d;
-    --line: #8c7848;
-    --line-strong: #66562e;
-    --night: #17130d;
-    --night-2: #241d12;
-    --night-3: #332817;
-    --vermilion: #9d2e21;
-    --vermilion-soft: #d7a184;
-    --gold: #b88b2f;
-    --gold-bright: #e4c05a;
-    --gold-soft: #d6bb73;
-    --politics: #617f64;
-    --politics-soft: #cad6b8;
-    --leadership: #56728b;
-    --leadership-soft: #bbc9d3;
+    --ink: #21180c;
+    --ink-2: #39280f;
+    --muted: #56462d;
+    --faint: #746349;
+    --gold-text: #75500f;
+    --paper: #e0ca8f;
+    --paper-2: #f1dfaa;
+    --paper-3: #c8ae68;
+    --line: #94773a;
+    --line-strong: #664f24;
+    --night: #0f120f;
+    --night-2: #171b16;
+    --night-3: #252a22;
+    --vermilion: #842018;
+    --vermilion-soft: #e3b39c;
+    --gold: #ad7b20;
+    --gold-bright: #f1cf69;
+    --gold-soft: #e1c775;
+    --politics: #315a3b;
+    --politics-soft: #d4e3c8;
+    --leadership: #315575;
+    --leadership-soft: #c9d9e7;
+    --serif: "Noto Serif JP Variable", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
     --shadow-sm: 0 4px 10px rgb(34 24 10 / 0.25);
     --shadow-md: 0 8px 24px rgb(31 21 8 / 0.34);
     --shadow-dark: 0 14px 34px rgb(0 0 0 / 0.48);
@@ -32,7 +34,7 @@
 }
 
 html {
-    background: #17130d;
+    background: #0f120f;
 }
 
 body {
@@ -41,7 +43,7 @@ body {
         radial-gradient(circle at 15% 8%, rgb(224 185 91 / 0.11), transparent 30rem),
         linear-gradient(rgb(34 28 16 / 0.22), rgb(22 18 11 / 0.5)),
         repeating-linear-gradient(0deg, rgb(255 255 255 / 0.018) 0 1px, transparent 1px 4px),
-        #40351d;
+        #332b1b;
 }
 
 body::before {
@@ -72,7 +74,7 @@ body::before {
 .guide-card__kicker,
 .guide-header__kicker,
 .region-map__eyebrow {
-    color: #8f2519;
+    color: #842018;
     letter-spacing: 0.12em;
     text-shadow: 0 1px 0 rgb(255 255 255 / 0.25);
 }
@@ -212,7 +214,7 @@ body::before {
 }
 
 .hero__lede {
-    color: #d1c5a5;
+    color: #e2d8bc;
     text-shadow: 0 1px 2px #000;
 }
 
@@ -270,8 +272,8 @@ body::before {
     border: 2px solid #80662f;
     border-radius: 5px;
     background:
-        linear-gradient(rgb(224 208 158 / 0.94), rgb(198 179 123 / 0.95)),
-        #d1bc7f;
+        linear-gradient(rgb(244 229 184 / 0.97), rgb(224 202 145 / 0.97)),
+        #e4cf93;
     box-shadow:
         inset 0 0 0 1px rgb(255 243 196 / 0.55),
         inset 0 0 28px rgb(99 70 23 / 0.2),
@@ -280,7 +282,7 @@ body::before {
 
 .intro-overview__heading h2,
 .context-section__heading h2 {
-    color: #332613;
+    color: #24180b;
     font-family: var(--jp-serif);
     font-weight: 650;
     text-shadow: 0 1px 0 rgb(255 255 255 / 0.3);
@@ -288,7 +290,7 @@ body::before {
 
 .intro-overview__heading > p,
 .context-section__heading > p {
-    color: #5a4b31;
+    color: #4e3f28;
 }
 
 .intro-overview__title-note,
@@ -304,7 +306,7 @@ body::before {
     border-color: #927a43;
     border-radius: 4px;
     background:
-        linear-gradient(180deg, rgb(241 226 181 / 0.88), rgb(215 195 139 / 0.9));
+        linear-gradient(180deg, rgb(250 236 194 / 0.96), rgb(232 211 157 / 0.96));
     box-shadow:
         inset 0 1px 0 rgb(255 248 214 / 0.55),
         inset 0 -2px 0 rgb(90 62 18 / 0.14),
@@ -342,7 +344,7 @@ body::before {
 .context-paradox p,
 .guide-card__body,
 .guide-detail__main > p:not(.guide-section__kicker) {
-    color: #594b32;
+    color: #4d3f29;
 }
 
 .intro-overview__plus {
@@ -393,7 +395,7 @@ body::before {
 }
 
 .guide-teaser__heading > p {
-    color: #bcb292;
+    color: #d7ceb4;
 }
 
 .guide-teaser__cards {
@@ -405,7 +407,7 @@ body::before {
     min-height: 84px;
     border: 1px solid #856b31;
     border-radius: 3px;
-    color: #eadbb0;
+    color: #f1e2b9;
     background:
         linear-gradient(180deg, rgb(87 78 49 / 0.7), rgb(34 31 20 / 0.82));
     box-shadow:
@@ -450,7 +452,7 @@ body::before {
 }
 
 .guide-header__back {
-    color: #c6b995;
+    color: #e0d5b7;
 }
 
 .guide-header__japanese,
@@ -468,7 +470,7 @@ body::before {
 }
 
 .guide-header__lede {
-    color: #c3b99c;
+    color: #ddd3b8;
 }
 
 /* Political context command strip */
@@ -588,7 +590,7 @@ body::before {
     padding: 9px 12px;
     border: 1px solid #5e512d;
     border-bottom: 0;
-    color: #aaa187;
+    color: #c9bea2;
     background: #1d201a;
     font-size: 0.68rem;
     line-height: 1.5;
@@ -598,7 +600,7 @@ body::before {
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    color: #d2c39a;
+    color: #f0dfb0;
     white-space: nowrap;
 }
 
@@ -611,7 +613,7 @@ body::before {
 .switcher__tab {
     min-height: 64px;
     padding: 10px 15px;
-    color: #9a957f;
+    color: #bcb39a;
 }
 
 .switcher__tab + .switcher__tab {
@@ -682,7 +684,7 @@ body::before {
 
 .results-line {
     min-height: 40px;
-    color: #aaa38e;
+    color: #c8bea3;
 }
 
 .results-line [data-result-count] { color: #d6caa7; }
@@ -691,23 +693,23 @@ body::before {
 .table-shell {
     border: 1px solid #7a6538;
     border-radius: 2px;
-    background: #d6c38e;
+    background: #ead79d;
     box-shadow: inset 0 0 16px rgb(95 67 20 / 0.16);
 }
 
 .reference-table {
-    color: #2e2515;
+    color: #21180c;
     background:
         repeating-linear-gradient(0deg, rgb(91 67 27 / 0.025) 0 1px, transparent 1px 4px),
-        #d6c38e;
+        #ead79d;
 }
 
 .reference-table th {
     padding: 10px 12px;
     border-bottom-color: #755f32;
-    color: #eadcaf;
+    color: #f5e8c4;
     background:
-        linear-gradient(180deg, #514a31, #2d2e24);
+        linear-gradient(180deg, #3f4237, #20231d);
     box-shadow:
         inset 0 1px 0 rgb(244 216 137 / 0.15),
         inset 0 -2px 0 rgb(0 0 0 / 0.36);
@@ -717,15 +719,15 @@ body::before {
 
 .reference-table td {
     padding: 11px 12px;
-    border-bottom-color: #ab9460;
+    border-bottom-color: #b49a5c;
 }
 
 .reference-table tbody tr:nth-child(even) {
-    background: rgb(236 219 166 / 0.34);
+    background: rgb(255 246 216 / 0.34);
 }
 
 .reference-table tbody tr:hover {
-    background: #e8d49b;
+    background: #f4dfa6;
     box-shadow: inset 4px 0 0 #9a2e21;
 }
 
@@ -784,7 +786,7 @@ body::before {
 .guide-section__heading > p,
 .guide-directory__intro > p,
 .related-appointments__heading > p {
-    color: #66583d;
+    color: #55462f;
 }
 
 .guide-route-grid,
@@ -848,8 +850,8 @@ body::before {
 .guide-empty-note {
     border-color: #8b7441;
     border-radius: 3px;
-    color: #65583e;
-    background: #d9c893;
+    color: #4f412a;
+    background: #f0dfaa;
 }
 
 /* Map as strategic map panel */
@@ -930,7 +932,7 @@ body::before {
 
 .region-map__area {
     border-color: #665730;
-    color: #c8bb96;
+    color: #e4d7b4;
     background: linear-gradient(180deg, #3b3f31, #26291f);
 }
 
@@ -955,7 +957,7 @@ body::before {
 
 .region-map__credit {
     border-top-color: #5e4f2b;
-    color: #938a74;
+    color: #b8ae96;
     background: #171a15;
 }
 
@@ -970,7 +972,7 @@ body::before {
 .trivia-popover {
     border: 2px solid #8c6e2d;
     border-radius: 4px;
-    color: #eadfbf;
+    color: #f4e8c8;
     background:
         linear-gradient(180deg, #494331, #211f18 72%);
     box-shadow:
@@ -992,7 +994,7 @@ body::before {
 /* Footer */
 .site-footer,
 .guide-footer {
-    color: #b4a98c;
+    color: #d1c6aa;
 }
 
 .site-footer {
@@ -1145,30 +1147,30 @@ body::before {
 
 /* Accessibility: preserve the game palette with stable contrast, even during interaction. */
 .count-badge {
-    color: #3f382c;
+    color: #2d261b;
 }
 
 .count-badge--multiple {
-    color: #43330f;
+    color: #332309;
     background: #c9ab5f;
 }
 
 .class-chip {
-    color: #3f3218;
+    color: #35270e;
     background: #c9b274;
 }
 
 .class-chip--upper {
-    color: #4a3108;
+    color: #3c2605;
     background: #d9bc63;
 }
 
 .effect-value--politics {
-    color: #29422f;
+    color: #24482f;
 }
 
 .effect-value--leadership {
-    color: #294155;
+    color: #264966;
 }
 
 .effect-chip--politics,
@@ -1236,13 +1238,13 @@ body {
 
 .explorer__legend {
     padding: 11px 14px;
-    color: #c0b69a;
+    color: #d8ceb0;
     font-size: 0.74rem;
     line-height: 1.6;
 }
 
 .explorer__legend span {
-    color: #e0d2ab;
+    color: #f0deb0;
 }
 
 .switcher__tab {
@@ -1255,7 +1257,7 @@ body {
 }
 
 .switcher__copy small {
-    color: #aaa188;
+    color: #c0b59a;
     font-size: 0.72rem;
 }
 
@@ -1274,17 +1276,17 @@ body {
 .field input::placeholder,
 .field__icon,
 .field kbd {
-    color: #b1a68d;
+    color: #c8bda2;
 }
 
 .results-line {
     min-height: 44px;
-    color: #c0b69b;
+    color: #d8ceb0;
     font-size: 0.78rem;
 }
 
 .results-line__hint {
-    color: #a9a087;
+    color: #bfb49a;
 }
 
 .reference-table {
@@ -1310,7 +1312,7 @@ body {
 
 .entry-type {
     margin-top: 4px;
-    color: #685d48;
+    color: #574933;
     font-size: 0.68rem;
 }
 
@@ -1321,13 +1323,13 @@ body {
 
 .japanese__main .pronunciation {
     margin-top: 1px;
-    color: #5d523d;
+    color: #4d402b;
     font-size: 0.7rem;
     line-height: 1.4;
 }
 
 .translation {
-    color: #51452f;
+    color: #443620;
     line-height: 1.58;
 }
 
@@ -1349,7 +1351,7 @@ body {
 .guide-detail__aliases,
 .related-appointment__meta,
 .related-appointment__reading {
-    color: #62563f;
+    color: #52452e;
 }
 
 .site-footer,
@@ -1494,4 +1496,131 @@ body {
     .count-cell::before {
         font-size: 0.52rem;
     }
+}
+
+/* ---------- Contrast and typography pass ---------- */
+
+/* Stronger separation between light reading surfaces and dark command surfaces. */
+.hero,
+.guide-header,
+.guide-teaser,
+.explorer,
+.region-map {
+    color: #f4e8c4;
+}
+
+.hero,
+.guide-header {
+    background:
+        linear-gradient(90deg, rgb(11 13 11 / 0.12), rgb(8 10 8 / 0.92) 72%),
+        radial-gradient(circle at 16% 18%, rgb(241 207 105 / 0.14), transparent 28rem),
+        linear-gradient(135deg, #34382e 0%, #1c211b 44%, #0d100d 100%);
+}
+
+.section-nav {
+    color: #f0e2bd;
+    background:
+        linear-gradient(180deg, rgb(58 66 54 / 0.98), rgb(31 37 30 / 0.99) 48%, rgb(12 15 12 / 0.99) 100%);
+}
+
+.section-nav__links a {
+    color: #d8ceb0;
+}
+
+.guide-teaser {
+    background:
+        linear-gradient(180deg, rgb(40 45 37 / 0.98), rgb(13 16 13 / 0.99));
+}
+
+.explorer {
+    background:
+        linear-gradient(180deg, #282e26, #141814 46%, #090c09);
+}
+
+.switcher,
+.toolbar,
+.explorer__legend {
+    background-color: #121612;
+}
+
+.field input,
+.field select,
+.reset-button,
+.guide-directory__search input,
+.guide-directory__select select {
+    color: #f4e8c4;
+    background:
+        linear-gradient(180deg, #353b31, #1b201a);
+}
+
+.intro-overview__heading h2,
+.context-section__heading h2,
+.intro-overview__logic h3,
+.intro-overview__title-note h3,
+.intro-overview__example h3,
+.context-profile__part h3,
+.context-paradox h3,
+.guide-card__title,
+.guide-section__heading h2,
+.guide-directory__intro h2,
+.related-appointments__heading h2,
+.guide-detail h2,
+.guide-source-card h2 {
+    color: #24180b;
+}
+
+.intro-overview__title-note,
+.intro-overview__logic article,
+.intro-overview__example,
+.context-profile,
+.context-chain,
+.context-paradox article,
+.guide-card,
+.guide-detail__main,
+.guide-source-card,
+.related-appointment {
+    background:
+        linear-gradient(180deg, rgb(249 235 193 / 0.98), rgb(230 209 156 / 0.98));
+}
+
+.reference-table {
+    background:
+        repeating-linear-gradient(0deg, rgb(91 67 27 / 0.018) 0 1px, transparent 1px 4px),
+        #ead79d;
+}
+
+.reference-table tbody tr:nth-child(even) {
+    background: rgb(255 247 219 / 0.38);
+}
+
+.reference-table tbody tr:hover {
+    background: #f4dfa6;
+}
+
+.entry-name,
+.japanese,
+.translation {
+    text-shadow: none;
+}
+
+.hero h1,
+.guide-header h1,
+.intro-overview__heading h2,
+.context-section__heading h2,
+.guide-section__heading h2,
+.guide-directory__intro h2,
+.related-appointments__heading h2,
+.guide-detail h2,
+.guide-source-card h2 {
+    font-family: var(--serif);
+}
+
+.reference-table,
+.field input,
+.field select,
+.reset-button,
+.section-nav__links a,
+.guide-directory__search input,
+.guide-directory__select select {
+    font-family: var(--sans);
 }
