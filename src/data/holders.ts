@@ -9,8 +9,8 @@ export type NotableHolder = {
  * Verified notable holders keyed to the exact catalogue appointment.
  *
  * Not every historical office has a famous, easily verifiable Sengoku-era holder.
- * The UI therefore distinguishes between verified examples and entries for which
- * this reference has not yet highlighted a holder rather than guessing.
+ * The UI only renders this material when an exact holder has been verified rather
+ * than showing speculative or placeholder examples.
  */
 export const notableHoldersByAppointment: Partial<Record<string, NotableHolder[]>> = {
     'rank-kanpaku': [
@@ -52,6 +52,20 @@ export const notableHoldersByAppointment: Partial<Record<string, NotableHolder[]
             description: 'A leading Heian statesman whose career included the councillorate before he dominated court politics.',
             source: 'https://www.britannica.com/biography/Fujiwara-Michinaga',
         },
+        {
+            name: 'Hosokawa Tadaoki',
+            japanese: '細川忠興',
+            description: 'Promoted to Sangi in 1596 while serving Toyotomi Hideyoshi, alongside appointment as Etchū no Kami.',
+            source: 'https://crd.ndl.go.jp/reference/entry/index.php?id=1000222581&page=ref_view',
+        },
+    ],
+    'rank-sakon-e-no-shosho': [
+        {
+            name: 'Hosokawa Tadaoki',
+            japanese: '細川忠興',
+            description: 'Appointed Minor Captain of the Left Inner Palace Guard in 1588 during his rise under Hideyoshi.',
+            source: 'https://crd.ndl.go.jp/reference/entry/index.php?id=1000222581&page=ref_view',
+        },
     ],
     'rank-nakatsukasa-no-taifu': [
         {
@@ -69,12 +83,64 @@ export const notableHoldersByAppointment: Partial<Record<string, NotableHolder[]
             source: 'https://dcollections.lib.keio.ac.jp/ja/sagara/003-095',
         },
     ],
+    'rank-jibu-no-sho': [
+        {
+            name: 'Ishida Mitsunari',
+            japanese: '石田三成',
+            description: 'Appointed Jibu no Shō at age twenty-five and later became one of the leading administrators of the Toyotomi government.',
+            source: 'https://www.city.nagahama.lg.jp/cmsfiles/contents/0000001/1238/R7rekimachikeikaku_1_compressed-cleaned.pdf',
+        },
+    ],
+    'rank-gyobu-no-sho': [
+        {
+            name: 'Ōtani Yoshitsugu',
+            japanese: '大谷吉継',
+            description: 'Contemporary documents identify the Sekigahara commander by the office title Gyōbu no Shō.',
+            source: 'https://ndlsearch.ndl.go.jp/books/R100000100-Isagara007_279',
+        },
+    ],
+    'rank-saemon-no-suke': [
+        {
+            name: 'Sanada Nobushige',
+            japanese: '真田信繁',
+            description: 'Better known later as Yukimura, Nobushige was historically styled Saemon no Suke.',
+            source: 'https://museum.umic.jp/jinbutu/data/052.html',
+        },
+    ],
     'rank-jiju': [
         {
             name: 'Ii Naomasa',
             japanese: '井伊直政',
             description: 'A leading Tokugawa commander who also held the court office of chamberlain.',
             source: 'https://crd.ndl.go.jp/reference/entry/reference/show?id=1000195934',
+        },
+        {
+            name: 'Hosokawa Tadaoki',
+            japanese: '細川忠興',
+            description: 'Appointed Chamberlain in 1585 before receiving higher court offices under the Toyotomi regime.',
+            source: 'https://crd.ndl.go.jp/reference/entry/index.php?id=1000222581&page=ref_view',
+        },
+        {
+            name: 'Date Masamune',
+            japanese: '伊達政宗',
+            description: 'Masamune was appointed Chamberlain in 1591 and appears in contemporary correspondence under that court title.',
+            source: 'https://lib-www.smt.city.sendai.jp/wysiwyg/file/download/1/604',
+        },
+    ],
+    'rank-mutsu-no-kami': [
+        {
+            name: 'Date Masamune',
+            japanese: '伊達政宗',
+            description: 'The founder of the Sendai domain was transferred to the court title Mutsu no Kami in 1608.',
+            source: 'https://lib-www.smt.city.sendai.jp/wysiwyg/file/download/1/604',
+        },
+    ],
+    'rank-echizen-no-kami': [
+        {
+            name: 'Date Masamune',
+            japanese: '伊達政宗',
+            description: 'Masamune used the court title Echizen no Kami from 1591 until his transfer to Mutsu no Kami in 1608.',
+            source: 'https://lib-www.smt.city.sendai.jp/wysiwyg/file/download/1/604',
         },
     ],
     'rank-musashi-no-kami': [
@@ -91,6 +157,30 @@ export const notableHoldersByAppointment: Partial<Record<string, NotableHolder[]
             japanese: '織田信長',
             description: 'In his youth Nobunaga famously styled himself Kazusa no Suke before later receiving higher court offices.',
             source: 'https://kotobank.jp/word/%E7%B9%94%E7%94%B0%E4%BF%A1%E9%95%B7-17429',
+        },
+    ],
+    'rank-etchu-no-kami': [
+        {
+            name: 'Hosokawa Tadaoki',
+            japanese: '細川忠興',
+            description: 'Appointed Etchū no Kami in 1596 at the same time he was promoted to Sangi.',
+            source: 'https://crd.ndl.go.jp/reference/entry/index.php?id=1000222581&page=ref_view',
+        },
+    ],
+    'rank-awa-no-kami-boso': [
+        {
+            name: 'Sanada Masayuki',
+            japanese: '真田昌幸',
+            description: 'The builder of Ueda Castle is recorded under the court-style title Awa no Kami.',
+            source: 'https://sitereports.nabunken.go.jp/files/attach/0/789/610_1_%E5%8F%B2%E8%B7%A1%E4%B8%8A%E7%94%B0%E5%9F%8E%E8%B7%A1.pdf',
+        },
+    ],
+    'rank-izu-no-kami': [
+        {
+            name: 'Sanada Nobuyuki',
+            japanese: '真田信之',
+            description: 'Sanada Nobuyuki, elder brother of Nobushige, was widely styled Izu no Kami.',
+            source: 'https://museum.umic.jp/jinbutu/data/053.html',
         },
     ],
     'rank-bizen-no-kami': [
