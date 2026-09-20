@@ -1,6 +1,65 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#171915"/>
-  <circle cx="32" cy="32" r="21" fill="none" stroke="#b9954f" stroke-width="2"/>
-  <path d="M19 32h26M32 19v26" stroke="#a94435" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="32" cy="32" r="5" fill="#f1eadc"/>
+    <title>Oda mokkō crest</title>
+
+    <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e93621" />
+            <stop offset="1" stop-color="#b91615" />
+        </linearGradient>
+
+        <radialGradient id="sun" cx="42%" cy="38%" r="68%">
+            <stop offset="0" stop-color="#fff16c" />
+            <stop offset="1" stop-color="#ffc928" />
+        </radialGradient>
+
+        <path
+            id="outer-lobe"
+            d="M24 5.2C22.7 9.4 23.6 15.5 26.6 19.5 28.1 21.5 30 22.4 32 22.4s3.9-.9 5.4-2.9c3-4 3.9-10.1 2.6-14.3C36.6 2.4 27.4 2.4 24 5.2Z"
+        />
+
+        <ellipse id="inner-petal" cx="32" cy="24.7" rx="4.5" ry="6.1" />
+    </defs>
+
+    <rect width="64" height="64" rx="14" fill="url(#sky)" />
+    <circle cx="32" cy="32" r="25.5" fill="url(#sun)" />
+
+    <g fill="#171915">
+        <use href="#outer-lobe" />
+        <use href="#outer-lobe" transform="rotate(72 32 32)" />
+        <use href="#outer-lobe" transform="rotate(144 32 32)" />
+        <use href="#outer-lobe" transform="rotate(216 32 32)" />
+        <use href="#outer-lobe" transform="rotate(288 32 32)" />
+
+        <circle
+            cx="32"
+            cy="32"
+            r="13.2"
+            fill="none"
+            stroke="#171915"
+            stroke-width="2.1"
+        />
+
+        <use href="#inner-petal" />
+        <use href="#inner-petal" transform="rotate(72 32 32)" />
+        <use href="#inner-petal" transform="rotate(144 32 32)" />
+        <use href="#inner-petal" transform="rotate(216 32 32)" />
+        <use href="#inner-petal" transform="rotate(288 32 32)" />
+    </g>
+
+    <g stroke="#ffd43d" stroke-width="1.8" stroke-linecap="round">
+        <path d="M32 31V23" />
+        <path d="M32 31V23" transform="rotate(72 32 32)" />
+        <path d="M32 31V23" transform="rotate(144 32 32)" />
+        <path d="M32 31V23" transform="rotate(216 32 32)" />
+        <path d="M32 31V23" transform="rotate(288 32 32)" />
+    </g>
+
+    <circle
+        cx="32"
+        cy="32"
+        r="3.3"
+        fill="#ffd43d"
+        stroke="#171915"
+        stroke-width="1.9"
+    />
 </svg>
