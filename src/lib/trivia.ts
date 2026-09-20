@@ -36,6 +36,7 @@ export const getEntryTrivia = (
         if (japanese.includes('蔵人')) keys.push('kuroudo');
         if (japanese.startsWith('太宰')) keys.push('dazaifu');
         if (ministryPrefixes.some((prefix) => japanese.startsWith(prefix))) keys.push('ministries');
+        if (['中務少輔', '兵部少輔'].includes(japanese)) keys.push('drifters-court-ranks');
         if (japanese.startsWith('弾正')) keys.push('danjo');
         if (japanese.startsWith('玄蕃')) keys.push('genba');
         if (japanese.startsWith('隼人')) keys.push('hayato');
