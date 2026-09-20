@@ -132,7 +132,11 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
     const animeToyohisaRow = page.locator('#rank-nakatsukasa-no-sho');
     await expect(animeToyohisaRow).toBeVisible();
     await animeToyohisaRow.locator('[data-trivia-trigger]').click();
-    await expect(page.getByText('Drifters changes Toyohisa’s court office')).toBeVisible();
+    await expect(
+        animeToyohisaRow
+            .locator('[data-trivia-popover]')
+            .getByText('Drifters changes Toyohisa’s court office'),
+    ).toBeVisible();
 
     await page.goto('./trivia/offices/drifters-toyohisa/');
     await expect(page.getByRole('heading', { name: 'Drifters changes Toyohisa’s court office' })).toBeVisible();
@@ -151,9 +155,10 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
 test('region detail pages surface what the place is known for', async ({ page }) => {
     await page.goto('./trivia/regions/owari/');
 
-    await expect(page.getByText('Known for')).toBeVisible();
+    const knownFor = page.locator('.guide-detail__known-for');
+    await expect(knownFor.getByText('Known for')).toBeVisible();
     await expect(
-        page.getByText(/Oda Nobunaga’s home province/i),
+        knownFor.getByText(/Oda Nobunaga’s home province/i),
     ).toBeVisible();
 });
 
