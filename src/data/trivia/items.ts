@@ -80,11 +80,17 @@ export const triviaById = {
         label: 'Part of the Eight Ministries',
         body: 'Nakatsukasa, Shikibu, Jibu, Minbu, Hyōbu, Gyōbu, Ōkura, and Kunai were the Eight Ministries of the ritsuryō state. Many ranks in this table are different grades within those ministry hierarchies.',
     },
-    'drifters-court-ranks': {
-        id: 'drifters-court-ranks',
-        label: 'You heard these titles in Drifters',
-        body: 'In episode 1, “FIGHT SONG,” Shimazu Toyohisa introduces himself as 島津中務少輔豊久 (Shimazu Nakatsukasa no Shō Toyohisa), while Ii Naomasa answers as 井伊兵部少輔直政 (Ii Hyōbu no Shō Naomasa). Those are not middle names: 中務少輔 and 兵部少輔 are the same Imperial Court offices listed in this catalogue.',
-        source: 'https://www.nbcuni.co.jp/rondorobe/anime/drifters/story/01.html',
+    'drifters-toyohisa': {
+        id: 'drifters-toyohisa',
+        label: 'Drifters changes Toyohisa’s court office',
+        body: 'Drifters styles Shimazu Toyohisa as 島津中務少輔豊久 (Nakatsukasa no Shō), but historical records around Sekigahara identify him as 島津中務大輔豊久 (Nakatsukasa no Taifu). The anime’s 少輔 is therefore a fictional variation; the historically attested office corresponds to the catalogue’s 中務大輔 entry.',
+        source: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf',
+    },
+    'drifters-naomasa': {
+        id: 'drifters-naomasa',
+        label: 'Drifters gets Naomasa’s title right',
+        body: 'Ii Naomasa’s 兵部少輔 (Hyōbu no Shō) is historically attested. Documents from the Sekigahara campaign use the name 井伊兵部少輔直政, and Hikone Castle Museum likewise identifies 兵部少輔 as Naomasa’s customary title.',
+        source: 'https://hikone-castle-museum.jp/history/faq.php',
     },
     danjo: {
         id: 'danjo',
