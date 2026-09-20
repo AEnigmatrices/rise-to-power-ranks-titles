@@ -241,4 +241,6 @@ Two workflows are included:
 - `.github/workflows/deploy.yml` builds and deploys the static site to GitHub Pages.
 - `.github/workflows/quality.yml` runs static validation plus production-build Playwright and accessibility tests on pushes, pull requests, and manual dispatches.
 
-The quality workflow uses the committed pnpm lockfile. Run `pnpm install` locally whenever dependencies change and commit the updated lockfile.
+The quality workflow runs static validation and browser validation as separate jobs. The browser job uses the Playwright image matching `@playwright/test`, so Chromium, Firefox, WebKit, and their Linux dependencies are preinstalled instead of downloaded on every run. CI uses two Playwright workers; benchmarking this configuration on GitHub Actions reduced total wall-clock time compared with the single-job, single-worker variant while preserving all browser/device and accessibility coverage.
+
+The workflow uses the committed pnpm lockfile. Run `pnpm install` locally whenever dependencies change and commit the updated lockfile.
