@@ -3,10 +3,9 @@ import type { FeaturedTrivia } from '../schema/trivia';
 export const featuredTrivia: FeaturedTrivia[] = [
     {
         kicker: 'Anime recognition hook',
-        japanese: '中務少輔・兵部少輔',
-        title: 'That formal introduction in Drifters is one of these court ranks',
-        body: 'In episode 1, Shimazu Toyohisa identifies himself with 中務少輔 (Nakatsukasa no Shō), and Ii Naomasa answers with 兵部少輔 (Hyōbu no Shō). They are not middle names: both are Imperial Court offices, and both appear as Rank entries in this catalogue.',
-        source: 'https://www.nbcuni.co.jp/rondorobe/anime/drifters/story/01.html',
+        japanese: '中務少輔 → 中務大輔 · 兵部少輔',
+        title: 'Drifters gets one court title right—and changes another',
+        body: 'The Sekigahara opening uses real court-office language, but not with equal historical accuracy. Ii Naomasa’s 兵部少輔 is attested in period documents. Shimazu Toyohisa, however, is historically recorded as 中務大輔 rather than the anime’s 中務少輔.',
     },
     {
         kicker: 'Do not confuse these',
