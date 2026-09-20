@@ -1,4 +1,5 @@
 import { z } from 'astro/zod';
+import { historicalSourceSchema } from './sources';
 
 const nonEmptyString = z.string().trim().min(1);
 const slugSchema = nonEmptyString.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
@@ -7,7 +8,7 @@ export const triviaItemSchema = z.object({
     id: slugSchema,
     label: nonEmptyString,
     body: nonEmptyString,
-    source: z.url().optional(),
+    sources: z.array(historicalSourceSchema).min(1),
 });
 
 export const featuredTriviaSchema = z.object({
@@ -15,7 +16,7 @@ export const featuredTriviaSchema = z.object({
     japanese: nonEmptyString,
     title: nonEmptyString,
     body: nonEmptyString,
-    source: z.url().optional(),
+    sources: z.array(historicalSourceSchema).min(1),
 });
 
 export type TriviaItem = z.infer<typeof triviaItemSchema>;
