@@ -101,3 +101,9 @@
     .section-nav__brand { display: none; }
     .section-nav { justify-content: center; }
 }
+
+
+.section-nav__links a[aria-current='page'] {
+    color: #fffaf0;
+    background: rgb(213 189 120 / 0.12);
+}

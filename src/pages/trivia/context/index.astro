@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import GuideHeader from '../../../components/trivia/GuideHeader.astro';
+import SectionNav from '../../../components/navigation/SectionNav.astro';
+import { sitePath } from '../../../lib/routes';
+---
+
+<BaseLayout
+    title="Political Context — Historical Guide · Rise to Power"
+    description="How the Imperial Court, Muromachi Shogunate, and rising Sengoku daimyo created the overlapping systems represented as Ranks and Titles in Nobunaga's Ambition: Rise to Power."
+>
+    <main id="top" class="context-shell">
+        <SectionNav current="guide" />
+
+        <GuideHeader
+            kicker="Historical Guide · Political Context"
+            japanese="朝廷・幕府・大名"
+            title="Two authorities in an age of warlords"
+            lede="The game’s Rank and Title systems make more sense once the political layers behind them are separated: an ancient imperial order, a later warrior government, and the increasingly autonomous daimyo of the Sengoku period."
+            backHref={sitePath('trivia/')}
+            backLabel="Back to the Historical Guide"
+        />
+
+        <section class="context-section" aria-labelledby="court-heading">
+            <div class="context-profile">
+                <header class="context-profile__header">
+                    <div>
+                        <p class="guide-section__kicker">Authority I</p>
+                        <h2 id="court-heading">The Imperial Court</h2>
+                    </div>
+                    <span class="context-profile__header-jp" lang="ja">朝廷</span>
+                </header>
+
+                <div class="context-profile__grid">
+                    <article class="context-profile__part">
+                        <p class="section-kicker">Origin</p>
+                        <h3>From kingship to imperial state</h3>
+                        <p>
+                            Japanese imperial tradition reaches back into legendary antiquity, while the
+                            historically visible monarchy developed from the Yamato polity. By the seventh
+                            and eighth centuries, the ritsuryō state formalized a court-centered bureaucracy
+                            with graded ranks, ministries, offices, and provincial governors.
+                        </p>
+                    </article>
+
+                    <article class="context-profile__part">
+                        <p class="section-kicker">Structure</p>
+                        <h3>Rank and office around the throne</h3>
+                        <p>
+                            The emperor stood at the apex of a court order populated by regents, senior
+                            aristocrats, great ministers, ministries and bureaus, court ranks, and provincial
+                            offices. Rank established precedence; office defined a post and its institutional
+                            place.
+                        </p>
+                    </article>
+
+                    <article class="context-profile__part">
+                        <p class="section-kicker">Decline</p>
+                        <h3>Power shifted, the institution survived</h3>
+                        <p>
+                            Court government changed long before the Sengoku period. Aristocratic regents,
+                            retired emperors, warrior houses, and eventually separate warrior governments
+                            acquired increasing practical authority. Yet the court retained prestige,
+                            ritual importance, and the power to confer ranks and offices.
+                        </p>
+                    </article>
+                </div>
+            </div>
+
+            <div class="context-chain" aria-label="Long development of the Imperial Court">
+                <div class="context-chain__step"><strong>Yamato polity</strong><span>Formation and consolidation of the monarchy.</span></div>
+                <div class="context-chain__step"><strong>Ritsuryō state</strong><span>Ranks, ministries, court offices, and provincial administration are systematized.</span></div>
+                <div class="context-chain__step"><strong>Medieval court</strong><span>The old office system persists even as its practical substance changes.</span></div>
+                <div class="context-chain__step"><strong>Sengoku era</strong><span>The court commands little military force but remains a potent source of status and legitimacy.</span></div>
+            </div>
+        </section>
+
+        <section class="context-section" aria-labelledby="shogunate-heading">
+            <div class="context-profile">
+                <header class="context-profile__header">
+                    <div>
+                        <p class="guide-section__kicker">Authority II</p>
+                        <h2 id="shogunate-heading">The Muromachi Shogunate</h2>
+                    </div>
+                    <span class="context-profile__header-jp" lang="ja">室町幕府</span>
+                </header>
+
+                <div class="context-profile__grid">
+                    <article class="context-profile__part">
+                        <p class="section-kicker">Origin</p>
+                        <h3>A military office becomes a government</h3>
+                        <p>
+                            <em>Shōgun</em> began as an imperial military commission rather than a rival
+                            kingship. The decisive change came when Minamoto no Yoritomo built a durable
+                            warrior government at Kamakura. Later, the Ashikaga established the Muromachi
+                            bakufu in Kyoto.
+                        </p>
+                    </article>
+
+                    <article class="context-profile__part">
+                        <p class="section-kicker">Structure</p>
+                        <h3>Rule through warrior offices</h3>
+                        <p>
+                            The Ashikaga shogun stood at the center of the bakufu, supported by offices
+                            such as the Kanrei and by regional institutions. Shugo exercised military and
+                            administrative authority in the provinces, while regional headquarters extended
+                            shogunal authority over larger zones.
+                        </p>
+                    </article>
+
+                    <article class="context-profile__part">
+                        <p class="section-kicker">Decline</p>
+                        <h3>Provincial power slips away</h3>
+                        <p>
+                            The shogunate increasingly depended on powerful warrior houses. The Ōnin War
+                            of 1467–1477 accelerated decentralization, and provincial authority fragmented
+                            among shugo, deputies, local warriors, and the emerging Sengoku daimyo.
+                        </p>
+                    </article>
+                </div>
+            </div>
+
+            <div class="context-chain" aria-label="Development of warrior government">
+                <div class="context-chain__step"><strong>Imperial commission</strong><span><em>Seii Taishōgun</em> is a military title granted under imperial authority.</span></div>
+                <div class="context-chain__step"><strong>Kamakura bakufu</strong><span>Warrior government becomes a durable political institution.</span></div>
+                <div class="context-chain__step"><strong>Muromachi bakufu</strong><span>Ashikaga rule relies on shogunal offices, regional organs, and provincial shugo.</span></div>
+                <div class="context-chain__step"><strong>After the Ōnin War</strong><span>Local and regional warrior power becomes increasingly autonomous.</span></div>
+            </div>
+        </section>
+
+        <section class="context-section" aria-labelledby="paradox-heading">
+            <div class="context-section__heading">
+                <div>
+                    <p class="section-kicker">The Sengoku paradox</p>
+                    <h2 id="paradox-heading">Power moved downward. Legitimacy did not disappear.</h2>
+                </div>
+                <p>
+                    By the sixteenth century, neither Kyoto institution exercised the kind of nationwide
+                    coercive control its formal status might suggest. Yet both still mattered to warlords
+                    who increasingly controlled territory, taxation, castles, armies, and diplomacy.
+                </p>
+            </div>
+
+            <div class="context-paradox">
+                <article>
+                    <p class="section-kicker">Imperial Court</p>
+                    <h3>Ancient legitimacy</h3>
+                    <p>Limited military power, but enduring prestige and a functioning system of court rank and office.</p>
+                </article>
+                <article>
+                    <p class="section-kicker">Muromachi Shogunate</p>
+                    <h3>Warrior legitimacy</h3>
+                    <p>Weakened provincial control, but shogunal offices and appointments still carried political meaning.</p>
+                </article>
+                <article>
+                    <p class="section-kicker">Sengoku Daimyo</p>
+                    <h3>Material power</h3>
+                    <p>Growing control of land and armed force, while still seeking recognition through inherited institutions.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="context-section" aria-labelledby="game-model-heading">
+            <div class="context-section__heading">
+                <div>
+                    <p class="section-kicker">How Tenka Sōsei models it</p>
+                    <h2 id="game-model-heading">Parallel recognition becomes parallel mechanics.</h2>
+                </div>
+                <p>
+                    The game compresses a complicated history into a useful distinction:
+                    Court recognition appears as <strong>Ranks</strong>, while Shogunate
+                    recognition appears as <strong>Titles</strong>. Because the systems are
+                    parallel, one officer may hold both.
+                </p>
+            </div>
+
+            <div class="intro-overview__example">
+                <div>
+                    <p class="section-kicker">One province, two offices</p>
+                    <h3>Governor and Shugo are not duplicates.</h3>
+                </div>
+                <div class="intro-overview__comparison">
+                    <div>
+                        <strong>Governor of Mutsu</strong>
+                        <span lang="ja">陸奥守</span>
+                        <small>Imperial Court tradition → Rank → Politics</small>
+                    </div>
+                    <div>
+                        <strong>Shugo of Mutsu</strong>
+                        <span lang="ja">陸奥守護</span>
+                        <small>Muromachi warrior government → Title → Leadership</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="context-sources">
+            <strong>Further reading:</strong>
+            National Diet Library guides to historical court ranks and offices,
+            including their changing medieval substance,
+            <a href="https://ndlsearch.ndl.go.jp/rnavi/humanities/kansyoku">官職・位階を調べる</a>;
+            and the <em>Cambridge History of Japan</em> chapter
+            <a href="https://www.cambridge.org/core/books/abs/cambridge-history-of-japan/muromachi-local-government-shugo-and-kokujin/2C7AE60F634305049BE5683C5155B229">“Muromachi local government: shugo and kokujin.”</a>
+        </aside>
+
+        <nav class="guide-detail__nav" aria-label="Continue exploring">
+            <a href={sitePath('trivia/')}>← Historical Guide</a>
+            <a href={sitePath('reference/')}>Browse the full Ranks &amp; Titles reference →</a>
+        </nav>
+    </main>
+</BaseLayout>

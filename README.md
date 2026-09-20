@@ -1,6 +1,6 @@
 # Rise to Power — Ranks & Titles
 
-An Astro reference for the **Rank** and **Title** appointment systems in *Nobunaga's Ambition: Rise to Power*, with a statically generated Historical Guide for offices, titles, regions, and provinces.
+An Astro reference for the **Rank** and **Title** appointment systems in *Nobunaga's Ambition: Rise to Power* (*Tenka Sōsei*), with a concise historical overview, a dedicated searchable catalogue, and a statically generated Historical Guide for political context, offices, titles, regions, and provinces.
 
 The catalogue preserves the game's English-localized appointment names alongside Japanese office names, readings, historical/literal meanings, class, stat effect, appointment type, and exact duplicate-source occurrence counts. Historical context is available both as compact inline notes and as dedicated guide pages.
 
@@ -60,13 +60,19 @@ Internal links must be generated through `src/lib/routes.ts` rather than concate
 
 ```text
 /
-├── searchable Ranks & Titles catalogue
-└── Historical Guide gateway
+└── concise Tenka Sōsei / Ranks & Titles overview
+
+/reference/
+└── complete searchable 365-appointment catalogue
 
 /trivia/
-├── curated historical highlights
+├── Political Context
+├── curated historical notes
 ├── Regions & Provinces
 └── Offices & Titles
+
+/trivia/context/
+└── Imperial Court, Muromachi Shogunate, and Sengoku daimyo overview
 
 /trivia/regions/
 └── searchable geography directory + orientation map
@@ -81,7 +87,7 @@ Internal links must be generated through `src/lib/routes.ts` rather than concate
 └── statically generated historical-context pages
 ```
 
-All detail pages are generated at build time with Astro `getStaticPaths()`.
+Region and office detail pages are generated at build time with Astro `getStaticPaths()`. Legacy root catalogue query/hash URLs are forwarded client-side to `/reference/` so existing appointment permalinks remain usable.
 
 ## Validation and tests
 
@@ -123,7 +129,7 @@ Then run:
 pnpm test:e2e
 ```
 
-Playwright builds the production Astro output first and tests the preview server rather than the dev server. The suite covers catalogue search, keyboard behavior, Rank/Title switching, responsive cards, Historical Guide click-through routing, region-map filtering, detail-page cross-links, GitHub Pages base-path integrity, and automated accessibility checks.
+Playwright builds the production Astro output first and tests the preview server rather than the dev server. The suite covers overview-to-reference navigation, legacy catalogue redirects, catalogue search, keyboard behavior, Rank/Title switching, responsive cards, Political Context and Historical Guide routing, region-map filtering, detail-page cross-links, GitHub Pages base-path integrity, and automated accessibility checks.
 
 ## Production build
 
@@ -176,6 +182,7 @@ Route-backed geography and trivia IDs are validated as URL-safe slugs. Cross-dat
 src/
   components/
     hero/
+    introduction/
     navigation/
     reference/
     trivia/
@@ -190,8 +197,12 @@ src/
     trivia.ts
   pages/
     index.astro
+    reference/
+      index.astro
     trivia/
       index.astro
+      context/
+        index.astro
       regions/
         index.astro
         [slug].astro
@@ -201,12 +212,14 @@ src/
   scripts/
     reference-explorer.ts
     guide-directory.ts
+    legacy-reference-redirect.ts
   styles/
     global.css
     tokens.css
     base.css
     hero.css
     section-nav.css
+    introduction.css
     systems.css
     shared.css
     reference.css

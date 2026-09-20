@@ -3,13 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/hero/Hero.astro';
 import SectionNav from '../components/navigation/SectionNav.astro';
 import SystemOverview from '../components/reference/SystemOverview.astro';
+import IntroductionOverview from '../components/introduction/IntroductionOverview.astro';
 import HistoricalGuideTeaser from '../components/trivia/HistoricalGuideTeaser.astro';
-import ReferenceExplorer from '../components/reference/ReferenceExplorer.astro';
 import { rankAppointments, titleAppointments } from '../data/appointments';
 import { totalRecords } from '../lib/appointments';
 import { validateStaticData } from '../data/validation';
 
-// Fail the build early if authored reference data violates the shared schema.
 validateStaticData();
 
 const rankRecords = totalRecords(rankAppointments);
@@ -18,7 +17,7 @@ const titleRecords = totalRecords(titleAppointments);
 
 <BaseLayout
     title="Ranks & Titles — Nobunaga's Ambition: Rise to Power"
-    description="A searchable reference for Imperial Court Ranks and Shogunate Titles in Nobunaga's Ambition: Rise to Power, including Japanese offices and pronunciations, historical translations and trivia, classes, repeated source rows, and stat bonuses."
+    description="An introduction to the Imperial Court Ranks and Shogunate Titles represented in Nobunaga's Ambition: Rise to Power (Tenka Sōsei), with links to the full game reference and historical guide."
 >
     <main id="top" class="page-shell">
         <Hero
@@ -28,17 +27,21 @@ const titleRecords = totalRecords(titleAppointments);
             titleEntries={titleAppointments.length}
         />
 
-        <SectionNav />
+        <SectionNav current="home" />
+        <IntroductionOverview />
         <SystemOverview />
-        <ReferenceExplorer />
         <HistoricalGuideTeaser />
 
         <footer class="site-footer">
             <p>
-                Unofficial reference for <em>Nobunaga's Ambition: Rise to Power</em>.
-                Game-localized names are preserved for lookup; historical translations,
-                readings, and contextual trivia are presented separately.
+                Unofficial reference for <em>Nobunaga's Ambition: Rise to Power</em>
+                (<em>Tenka Sōsei</em>). Game-localized names are preserved for lookup;
+                historical readings and context are presented separately.
             </p>
         </footer>
     </main>
 </BaseLayout>
+
+<script>
+    import '../scripts/legacy-reference-redirect';
+</script>

@@ -1,11 +1,21 @@
 import { expect, test } from '@playwright/test';
 
-test('homepage navigation reaches the historical guide and region directory', async ({ page }) => {
+test('homepage navigation reaches the historical guide and political context', async ({ page }) => {
     await page.goto('./');
 
     await page.getByRole('link', { name: /Historical Guide/ }).first().click();
     await expect(page).toHaveURL(/\/trivia\/$/);
     await expect(page.getByRole('heading', { name: 'The stories behind the appointments' })).toBeVisible();
+
+    await page.getByRole('link', { name: /Political Context/ }).click();
+    await expect(page).toHaveURL(/\/trivia\/context\/$/);
+    await expect(page.getByRole('heading', { name: 'Two authorities in an age of warlords' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The Imperial Court' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'The Muromachi Shogunate' })).toBeVisible();
+});
+
+test('historical guide reaches the region directory', async ({ page }) => {
+    await page.goto('./trivia/');
 
     await page.getByRole('link', { name: /Regions & Provinces/ }).click();
     await expect(page).toHaveURL(/\/trivia\/regions\/$/);
@@ -25,10 +35,10 @@ test('region directory navigation reaches a detail page and returns to a catalog
     const related = page.locator('.related-appointment').first();
     await expect(related).toBeVisible();
     const href = await related.getAttribute('href');
-    expect(href).toMatch(/^\/rise-to-power-ranks-titles\/#(?:rank|title)-/);
+    expect(href).toMatch(/^\/rise-to-power-ranks-titles\/reference\/#(?:rank|title)-/);
 
     await related.click();
-    await expect(page).toHaveURL(/\/rise-to-power-ranks-titles\/#(?:rank|title)-/);
+    await expect(page).toHaveURL(/\/rise-to-power-ranks-titles\/reference\/#(?:rank|title)-/);
     await expect(page.locator('[data-reference-row]:target')).toBeVisible();
 });
 
@@ -62,24 +72,30 @@ test('office directory links use descriptive names and detail pages link back to
     await expect(page.getByRole('heading', { name: 'A censor and policing office' })).toBeVisible();
 
     const related = page.getByRole('link', { name: /Supreme Commander/ });
-    await expect(related).toHaveAttribute('href', '/rise-to-power-ranks-titles/#rank-danjo-no-kami');
+    await expect(related).toHaveAttribute(
+        'href',
+        '/rise-to-power-ranks-titles/reference/#rank-danjo-no-kami',
+    );
 });
 
 test('rendered internal links retain the GitHub Pages base path', async ({ page }) => {
+    for (const path of ['./', './reference/', './trivia/', './trivia/context/']) {
+        await page.goto(path);
+
+        const hrefs = await page.locator('a[href]').evaluateAll((anchors) =>
+            anchors.map((anchor) => anchor.getAttribute('href')).filter(Boolean),
+        );
+
+        const malformed = hrefs.filter((href) =>
+            href?.startsWith('/rise-to-power-ranks-titles') &&
+            !href.startsWith('/rise-to-power-ranks-titles/') &&
+            href !== '/rise-to-power-ranks-titles',
+        );
+
+        expect(malformed, `Malformed internal links on ${path}`).toEqual([]);
+    }
+
     await page.goto('./');
-
-    const hrefs = await page.locator('a[href]').evaluateAll((anchors) =>
-        anchors.map((anchor) => anchor.getAttribute('href')).filter(Boolean),
-    );
-
-    const malformed = hrefs.filter((href) =>
-        href?.startsWith('/rise-to-power-ranks-titles') &&
-        !href.startsWith('/rise-to-power-ranks-titles/') &&
-        href !== '/rise-to-power-ranks-titles',
-    );
-
-    expect(malformed).toEqual([]);
-
     await expect(page.locator('link[rel="icon"]')).toHaveAttribute(
         'href',
         '/rise-to-power-ranks-titles/favicon.svg',

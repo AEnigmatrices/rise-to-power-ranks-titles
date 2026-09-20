@@ -1,17 +1,22 @@
 ---
 import { sitePath } from '../../lib/routes';
+
+interface Props {
+    current?: 'home' | 'reference' | 'guide';
+}
+
+const { current } = Astro.props;
 ---
 
-<nav class="section-nav" aria-label="Reference sections">
-    <a class="section-nav__brand" href="#top">
-        <span>Rise to Power</span>
+<nav class="section-nav" aria-label="Site navigation">
+    <a class="section-nav__brand" href={sitePath()}>
+        <span>Tenka Sōsei</span>
         <strong>Ranks &amp; Titles</strong>
     </a>
     <div class="section-nav__links">
-        <a href="#reference">Reference</a>
-        <a href={sitePath('trivia/')}>Guide</a>
-        <a href={sitePath('trivia/regions/')}>Regions</a>
+        <a href={sitePath()} aria-current={current === 'home' ? 'page' : undefined}>Overview</a>
+        <a href={sitePath('reference/')} aria-current={current === 'reference' ? 'page' : undefined}>Reference</a>
+        <a href={sitePath('trivia/')} aria-current={current === 'guide' ? 'page' : undefined}>Historical Guide</a>
         <a href="#top" class="section-nav__top">↑ Top</a>
     </div>
 </nav>
-

@@ -1,0 +1,74 @@
+---
+import { ArrowRight } from '@lucide/astro';
+import { sitePath } from '../../lib/routes';
+---
+
+<section class="intro-overview" aria-labelledby="intro-overview-heading">
+    <div class="intro-overview__heading">
+        <div>
+            <p class="section-kicker">Why two systems?</p>
+            <h2 id="intro-overview-heading">Two old authorities. One age of warlords.</h2>
+        </div>
+        <p>
+            By the Sengoku period, Japan still recognized both the ancient Imperial
+            Court and the Muromachi warrior government even as regional daimyo held
+            increasing military and territorial power.
+        </p>
+    </div>
+
+    <div class="intro-overview__title-note">
+        <p class="intro-overview__jp" lang="ja">信長の野望・天下創世</p>
+        <div>
+            <p class="section-kicker">The Japanese title</p>
+            <h3><em>Tenka Sōsei</em> — “Genesis of the Realm”</h3>
+            <p>
+                <em>Rise to Power</em> is the English release title. “Genesis of the
+                Realm” is a contextual rendering of <em>Tenka Sōsei</em>: <em>tenka</em>
+                evokes the realm or “all under heaven,” while <em>sōsei</em> means
+                creation or genesis.
+            </p>
+        </div>
+    </div>
+
+    <div class="intro-overview__logic" aria-label="How the two game systems relate to historical authority">
+        <article>
+            <span class="intro-overview__seal" aria-hidden="true">官</span>
+            <p class="section-kicker">Imperial recognition</p>
+            <h3>Ranks</h3>
+            <p>Court rank and offices inherited from the older imperial order.</p>
+            <strong>Politics ↑</strong>
+        </article>
+        <span class="intro-overview__plus" aria-hidden="true">+</span>
+        <article>
+            <span class="intro-overview__seal" aria-hidden="true">将</span>
+            <p class="section-kicker">Shogunal recognition</p>
+            <h3>Titles</h3>
+            <p>Offices and appointments associated with the warrior government.</p>
+            <strong>Leadership ↑</strong>
+        </article>
+    </div>
+
+    <div class="intro-overview__example">
+        <div>
+            <p class="section-kicker">One province, two appointments</p>
+            <h3>Mutsu makes the distinction visible.</h3>
+        </div>
+        <div class="intro-overview__comparison">
+            <div>
+                <strong>Governor of Mutsu</strong>
+                <span lang="ja">陸奥守</span>
+                <small>Imperial Court office → Rank</small>
+            </div>
+            <div>
+                <strong>Shugo of Mutsu</strong>
+                <span lang="ja">陸奥守護</span>
+                <small>Shogunate appointment → Title</small>
+            </div>
+        </div>
+    </div>
+
+    <a class="intro-overview__more" href={sitePath('trivia/context/')}>
+        <span>Read the full political context</span>
+        <ArrowRight size={15} stroke-width={1.9} aria-hidden="true" />
+    </a>
+</section>

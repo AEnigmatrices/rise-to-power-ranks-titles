@@ -156,3 +156,15 @@
     font-size: 0.82rem;
     font-weight: 780;
 }
+
+
+.systems__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 18px;
+    color: var(--vermilion);
+    font-size: 0.76rem;
+    font-weight: 780;
+    text-decoration: none;
+}

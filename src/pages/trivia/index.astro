@@ -2,23 +2,25 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GuideHeader from '../../components/trivia/GuideHeader.astro';
 import GuideCard from '../../components/trivia/GuideCard.astro';
+import SectionNav from '../../components/navigation/SectionNav.astro';
 import { featuredTrivia, officeTrivia } from '../../data/trivia';
 import { provinces, regions } from '../../data/geography';
 import { sitePath } from '../../lib/routes';
-
 ---
 
 <BaseLayout
     title="Historical Guide — Nobunaga's Ambition: Rise to Power"
-    description="Historical context for the ranks, titles, offices, provinces, and terminology found in Nobunaga's Ambition: Rise to Power."
+    description="Historical context for the political institutions, ranks, titles, offices, provinces, and terminology found in Nobunaga's Ambition: Rise to Power."
 >
     <main id="top" class="guide-shell">
+        <SectionNav current="guide" />
+
         <GuideHeader
             kicker="Historical Guide"
             title="The stories behind the appointments"
-            lede="Explore the historical geography, institutions, terminology, and status culture behind the names used in Rise to Power."
+            lede="Explore the political order, geography, institutions, terminology, and status culture behind the names used in Rise to Power."
             backHref={sitePath()}
-            backLabel="Back to the Ranks & Titles catalogue"
+            backLabel="Back to the overview"
         />
 
         <section class="guide-section" aria-labelledby="guide-paths-heading">
@@ -27,10 +29,18 @@ import { sitePath } from '../../lib/routes';
                     <p class="guide-section__kicker">Browse the guide</p>
                     <h2 id="guide-paths-heading">Choose a path</h2>
                 </div>
-                <p>The game mixes court offices, warrior-government titles, historic provinces, and regional names. These directories keep those contexts separate.</p>
+                <p>The game mixes two political traditions with old provinces, warrior offices, court titles, and regional institutions. These guides separate the layers.</p>
             </div>
 
-            <div class="guide-route-grid">
+            <div class="guide-route-grid guide-route-grid--three">
+                <GuideCard
+                    kicker="Political history"
+                    japanese="朝廷・幕府・大名"
+                    title="Political Context"
+                    meta="Court · Shogunate · Daimyo"
+                    body="Follow the origins, structures, and decline of the Imperial Court and Muromachi Shogunate, then see why both still mattered as Sengoku daimyo rose."
+                    href={sitePath('trivia/context/')}
+                />
                 <GuideCard
                     kicker="Historical geography"
                     japanese="国・地域"
@@ -44,7 +54,7 @@ import { sitePath } from '../../lib/routes';
                     japanese="官職・役職"
                     title="Offices & Titles"
                     meta={`${officeTrivia.length} historical topics`}
-                    body="Read about court institutions, shogunate offices, status groups, title prefixes, and other terminology that appears across multiple appointments."
+                    body="Read about court institutions, shogunate offices, status groups, title prefixes, and terminology that appears across multiple appointments."
                     href={sitePath('trivia/offices/')}
                 />
             </div>
@@ -53,10 +63,10 @@ import { sitePath } from '../../lib/routes';
         <section class="guide-section guide-section--highlights" aria-labelledby="guide-highlights-heading">
             <div class="guide-section__heading">
                 <div>
-                    <p class="guide-section__kicker">Start here</p>
+                    <p class="guide-section__kicker">Historical notes</p>
                     <h2 id="guide-highlights-heading">Eight useful distinctions</h2>
                 </div>
-                <p>Broad notes that help make sense of the catalogue before diving into individual places or institutions.</p>
+                <p>Shorter notes that help make sense of individual labels before diving into a full directory entry.</p>
             </div>
 
             <div class="guide-card-grid">
@@ -73,8 +83,8 @@ import { sitePath } from '../../lib/routes';
         </section>
 
         <footer class="guide-footer">
-            <a href={sitePath()}>← Return to the appointment catalogue</a>
-            <p>Modern geography is used only for orientation; historical province boundaries and political institutions changed over time.</p>
+            <a href={sitePath()}>← Overview</a>
+            <a href={sitePath('reference/')}>Ranks &amp; Titles reference →</a>
         </footer>
     </main>
 </BaseLayout>
