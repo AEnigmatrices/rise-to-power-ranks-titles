@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { validateStaticData } from '../../src/data/validation';
+import { notableHoldersByAppointment } from '../../src/data/holders';
 import {
     getAppointmentBonus,
     getAppointmentClassName,
@@ -59,6 +60,14 @@ describe('authored reference data', () => {
         );
 
         expect(regionalAppointments.every((entry) => getEntryRegion(entry))).toBe(true);
+    });
+
+    it('keeps notable holder keys attached to real catalogue appointments', () => {
+        const appointmentIds = new Set(data.appointments.map((entry) => entry.id));
+
+        expect(
+            Object.keys(notableHoldersByAppointment).every((id) => appointmentIds.has(id)),
+        ).toBe(true);
     });
 
     it('attaches institutional trivia to representative court bureaus', () => {
