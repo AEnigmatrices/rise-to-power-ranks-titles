@@ -15,7 +15,10 @@ const province = (
     location,
     body,
     knownFor: options.knownFor ?? body.split('.')[0],
-    source: `https://en.wikipedia.org/wiki/${encodeURIComponent(options.page ?? `${name}_Province`)}`,
+    sources: [{
+        url: `https://en.wikipedia.org/wiki/${encodeURIComponent(options.page ?? `${name}_Province`)}`,
+        publisher: 'Wikipedia',
+    }],
     aliases: options.aliases,
     type: 'Province',
 });
