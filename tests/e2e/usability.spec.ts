@@ -139,3 +139,35 @@ test('core page layouts fit a narrow phone without horizontal overflow', async (
         });
     }
 });
+
+
+test('global Pagefind search opens from the navigation and returns guide pages', async ({ page }) => {
+    await page.goto('./');
+
+    await page.getByRole('button', { name: 'Search' }).click();
+
+    const dialog = page.getByRole('dialog', { name: /Search the reference & historical guide/ });
+    await expect(dialog).toBeVisible();
+
+    const search = dialog.getByRole('searchbox', { name: 'Search the site' });
+    await search.fill('Kantō Kanrei');
+
+    const result = dialog.locator('.global-search__result').filter({ hasText: /Kantō Kanrei/i }).first();
+    await expect(result).toBeVisible();
+    await expect(result).toHaveAttribute(
+        'href',
+        /\/rise-to-power-ranks-titles\/trivia\/offices\/kanto-kanrei\//,
+    );
+});
+
+test('global Pagefind search supports the keyboard shortcut and closes with Escape', async ({ page }) => {
+    await page.goto('./trivia/');
+
+    await page.keyboard.press('Control+K');
+
+    const dialog = page.getByRole('dialog', { name: /Search the reference & historical guide/ });
+    await expect(dialog).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+});
