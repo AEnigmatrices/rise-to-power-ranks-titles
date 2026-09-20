@@ -306,38 +306,29 @@ const searchableText = (
                                     </td>
                                     <td data-label="Historical meaning" class="translation">
                                         <span class="translation__meaning">{entry.meaning}</span>
-                                        <details class="holder-details">
-                                            <summary>
-                                                {holders.length > 0
-                                                    ? `Notable ${holders.length === 1 ? 'holder' : 'holders'}`
-                                                    : 'Notable holders'}
-                                            </summary>
-                                            {
-                                                holders.length > 0 ? (
-                                                    <span class="holder-details__list">
-                                                        {holders.map((holder) => (
-                                                            <span class="holder-details__item">
-                                                                <span class="holder-details__name">
-                                                                    <strong>{holder.name}</strong>
-                                                                    {holder.japanese && (
-                                                                        <span lang="ja">{holder.japanese}</span>
-                                                                    )}
-                                                                </span>
-                                                                <span>{holder.description}</span>
-                                                                <a href={holder.source}>
-                                                                    Source →
-                                                                </a>
+                                        {holders.length > 0 && (
+                                            <details class="holder-details">
+                                                <summary>
+                                                    Notable {holders.length === 1 ? 'holder' : 'holders'}
+                                                </summary>
+                                                <span class="holder-details__list">
+                                                    {holders.map((holder) => (
+                                                        <span class="holder-details__item">
+                                                            <span class="holder-details__name">
+                                                                <strong>{holder.name}</strong>
+                                                                {holder.japanese && (
+                                                                    <span lang="ja">{holder.japanese}</span>
+                                                                )}
                                                             </span>
-                                                        ))}
-                                                    </span>
-                                                ) : (
-                                                    <span class="holder-details__empty">
-                                                        No famous exact holder has been highlighted
-                                                        for this appointment yet.
-                                                    </span>
-                                                )
-                                            }
-                                        </details>
+                                                            <span>{holder.description}</span>
+                                                            <a href={holder.source}>
+                                                                Source →
+                                                            </a>
+                                                        </span>
+                                                    ))}
+                                                </span>
+                                            </details>
+                                        )}
                                     </td>
                                     <td data-label="Effect" class="effect-cell">
                                         <span
