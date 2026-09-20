@@ -88,9 +88,9 @@ export const triviaById = {
     },
     'drifters-naomasa': {
         id: 'drifters-naomasa',
-        label: 'Drifters gets Naomasa’s title right',
-        body: 'Ii Naomasa’s 兵部少輔 (Hyōbu no Shō) is historically attested. Documents from the Sekigahara campaign use the name 井伊兵部少輔直政, and Hikone Castle Museum likewise identifies 兵部少輔 as Naomasa’s customary title.',
-        source: 'https://hikone-castle-museum.jp/history/faq.php',
+        label: 'Drifters gets Naomasa’s office right',
+        body: 'Ii Naomasa’s 兵部少輔 (Hyōbu no Shō) is strongly attested near Sekigahara: surviving documents from 1599, 1600, and 1601 repeatedly style him 井伊兵部少輔直政, and Hikone Castle Museum identifies 兵部少輔 as his customary title. A much later genealogical compilation, Keizu Sanyō, instead gives 兵部大輔 for 1588; the contemporary documentary evidence therefore favors 少輔 for how Naomasa was actually styled around Sekigahara.',
+        source: 'https://dcollections.lib.keio.ac.jp/ja/sagara/003-095',
     },
     danjo: {
         id: 'danjo',
