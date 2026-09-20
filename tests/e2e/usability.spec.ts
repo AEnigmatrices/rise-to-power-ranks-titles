@@ -152,12 +152,11 @@ test('global Pagefind search opens from the navigation and returns guide pages',
     const search = dialog.getByRole('searchbox', { name: 'Search the site' });
     await search.fill('Kantō Kanrei');
 
-    const result = dialog.locator('.global-search__result').filter({ hasText: /Kantō Kanrei/i }).first();
-    await expect(result).toBeVisible();
-    await expect(result).toHaveAttribute(
-        'href',
-        /\/rise-to-power-ranks-titles\/trivia\/offices\/kanto-kanrei\//,
+    const result = dialog.locator(
+        '.global-search__result[href="/rise-to-power-ranks-titles/trivia/offices/kanto-kanrei/"]',
     );
+    await expect(result).toBeVisible();
+    await expect(result).toContainText(/Kantō Kanrei/i);
 });
 
 test('global Pagefind search supports the keyboard shortcut and closes with Escape', async ({ page }) => {
