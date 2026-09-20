@@ -8,7 +8,7 @@
     "node": "^22.22.3 || ^24.16.0 || >=26.3.0"
   },
   "scripts": {
-    "dev": "astro dev",
+    "dev": "pnpm run generate:favicons && astro dev",
     "check": "astro check --minimumFailingSeverity warning",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -23,8 +23,9 @@
     "build": "pnpm run validate && pnpm run build:site && pnpm run index:search",
     "preview": "astro preview",
     "astro": "astro",
-    "build:site": "astro build",
-    "index:search": "pnpm dlx pagefind@1.5.2 --site dist"
+    "build:site": "pnpm run generate:favicons && astro build",
+    "index:search": "pnpm dlx pagefind@1.5.2 --site dist",
+    "generate:favicons": "node scripts/generate-favicons.mjs"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
@@ -55,6 +56,7 @@
     "prettier-plugin-astro": "1.0.1",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.70.0",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.1",
+    "sharp": "^0.35.4"
   }
 }
