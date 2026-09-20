@@ -96,7 +96,7 @@ export const getEntryTrivia = (
         id: `region-${region.id}`,
         label: `${region.name} · ${region.type}`,
         body: `${region.location}. ${region.body}`,
-        source: region.source,
+        sources: region.source,
     }] : [];
 
     return [...regionalTrivia, ...[...new Set(keys)].map((key) => triviaById[key])];
