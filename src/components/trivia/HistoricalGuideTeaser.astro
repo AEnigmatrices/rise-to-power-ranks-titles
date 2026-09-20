@@ -1,8 +1,7 @@
 ---
-import { BookOpen, Landmark, MapPinned } from '@lucide/astro';
+import { BookOpen, Landmark, MapPinned, Scale } from '@lucide/astro';
 import { officeTrivia } from '../../data/trivia';
 import { provinces, regions } from '../../data/geography';
-
 import { sitePath } from '../../lib/routes';
 ---
 
@@ -13,13 +12,21 @@ import { sitePath } from '../../lib/routes';
             <h2 id="guide-teaser-heading">Go beyond the game labels.</h2>
         </div>
         <p>
-            The catalogue stays focused on lookup. The Historical Guide gives the
-            places, institutions, terminology, and political context room to breathe
-            on dedicated pages.
+            The homepage gives the premise. The Historical Guide gives the political
+            institutions, geography, terminology, and individual offices room to breathe.
         </p>
     </div>
 
-    <div class="guide-teaser__cards">
+    <div class="guide-teaser__cards guide-teaser__cards--four">
+        <a class="guide-teaser__card" href={sitePath('trivia/context/')}>
+            <span class="guide-teaser__icon" aria-hidden="true"><Scale size={21} stroke-width={1.7} /></span>
+            <span class="guide-teaser__copy">
+                <strong>Political Context</strong>
+                <small>Court, shogunate, and the rise of the daimyo</small>
+            </span>
+            <span class="guide-teaser__arrow" aria-hidden="true">→</span>
+        </a>
+
         <a class="guide-teaser__card" href={sitePath('trivia/')}>
             <span class="guide-teaser__icon" aria-hidden="true"><BookOpen size={21} stroke-width={1.7} /></span>
             <span class="guide-teaser__copy">

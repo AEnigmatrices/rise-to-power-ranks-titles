@@ -12,15 +12,15 @@ const { rankRecords, rankEntries, titleRecords, titleEntries } = Astro.props;
 ---
 
 <header class="hero">
-    <div class="hero__ornament hero__ornament--left" aria-hidden="true">官</div>
-    <div class="hero__ornament hero__ornament--right" aria-hidden="true">将</div>
+    <div class="hero__ornament hero__ornament--left" aria-hidden="true">天</div>
+    <div class="hero__ornament hero__ornament--right" aria-hidden="true">創</div>
 
     <div class="hero__content">
         <p class="hero__eyebrow">Nobunaga's Ambition · Rise to Power</p>
         <h1>Ranks <span>&</span> Titles</h1>
         <p class="hero__lede">
-            A compact reference to the game's two appointment systems: Imperial
-            Court <strong>Ranks</strong> that raise Politics and Shogunate
+            <em>Tenka Sōsei</em> models two overlapping traditions of authority:
+            Imperial Court <strong>Ranks</strong> that raise Politics and Shogunate
             <strong>Titles</strong> that raise Leadership.
         </p>
 
@@ -37,10 +37,11 @@ const { rankRecords, rankEntries, titleRecords, titleEntries } = Astro.props;
                 <span class="hero__fact-detail">{titleEntries} unique entries</span>
             </div>
         </div>
-        <nav class="hero__nav" aria-label="Page sections">
-            <a href="#reference">Appointment tables <span aria-hidden="true">↓</span></a>
+
+        <nav class="hero__nav" aria-label="Explore the site">
+            <a href={sitePath('reference/')}>Browse the reference <span aria-hidden="true">→</span></a>
+            <a href={sitePath('trivia/context/')}>Political context <span aria-hidden="true">→</span></a>
             <a href={sitePath('trivia/')}>Historical Guide <span aria-hidden="true">→</span></a>
-            <a href={sitePath('trivia/regions/')}>Regions & provinces <span aria-hidden="true">→</span></a>
         </nav>
     </div>
 </header>

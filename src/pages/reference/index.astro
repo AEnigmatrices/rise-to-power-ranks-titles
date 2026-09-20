@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GuideHeader from '../../components/trivia/GuideHeader.astro';
+import SectionNav from '../../components/navigation/SectionNav.astro';
+import ReferenceExplorer from '../../components/reference/ReferenceExplorer.astro';
+import { sitePath } from '../../lib/routes';
+---
+
+<BaseLayout
+    title="Ranks & Titles Reference — Nobunaga's Ambition: Rise to Power"
+    description="Search all Imperial Court Ranks and Shogunate Titles in Nobunaga's Ambition: Rise to Power, including Japanese offices, readings, meanings, classes, occurrences, and stat bonuses."
+>
+    <main id="top" class="guide-shell">
+        <SectionNav current="reference" />
+
+        <GuideHeader
+            kicker="Game reference"
+            japanese="官位・役職"
+            title="Ranks & Titles Reference"
+            lede="Search the complete appointment catalogue. Ranks represent the Imperial Court system and raise Politics; Titles represent Shogunate appointments and raise Leadership."
+            backHref={sitePath()}
+            backLabel="Back to the overview"
+        />
+
+        <ReferenceExplorer />
+
+        <footer class="guide-footer">
+            <a href={sitePath()}>← Overview</a>
+            <a href={sitePath('trivia/context/')}>Why are Ranks and Titles separate? →</a>
+        </footer>
+    </main>
+</BaseLayout>
