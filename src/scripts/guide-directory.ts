@@ -22,6 +22,8 @@ type DirectoryRecord = {
         root.querySelectorAll<HTMLButtonElement>('[data-map-area-button]'),
     );
     const mapClear = root.querySelector<HTMLButtonElement>('[data-map-area-clear]');
+    const searchClear = root.querySelector<HTMLButtonElement>('[data-guide-search-clear]');
+    const resetButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-guide-reset]'));
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let initialized = false;
 
@@ -104,6 +106,12 @@ type DirectoryRecord = {
         empty.hidden = matches.length > 0;
         count.textContent = `${matches.length} ${matches.length === 1 ? 'entry' : 'entries'}${query || area?.value ? ` of ${cards.length}` : ''}`;
 
+        const hasFilters = Boolean(search.value.trim() || area?.value);
+        resetButtons.forEach((button) => {
+            button.disabled = !hasFilters;
+        });
+        if (searchClear) searchClear.hidden = !search.value;
+
         if (initialized && !reducedMotion.matches) {
             matches.slice(0, 18).forEach((card, index) => {
                 animate(
@@ -135,7 +143,13 @@ type DirectoryRecord = {
     });
     area?.addEventListener('change', update);
 
-    root.querySelectorAll<HTMLButtonElement>('[data-guide-reset]').forEach((button) => {
+    searchClear?.addEventListener('click', () => {
+        search.value = '';
+        update();
+        search.focus();
+    });
+
+    resetButtons.forEach((button) => {
         button.addEventListener('click', () => {
             search.value = '';
             if (area) area.value = '';

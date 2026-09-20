@@ -37,9 +37,15 @@ test('region directory navigation reaches a detail page and returns to a catalog
     const href = await related.getAttribute('href');
     expect(href).toMatch(/^\/rise-to-power-ranks-titles\/reference\/#(?:rank|title)-/);
 
+    const targetId = href?.split('#')[1] ?? '';
+    expect(targetId).toMatch(/^(?:rank|title)-/);
+
     await related.click();
     await expect(page).toHaveURL(/\/rise-to-power-ranks-titles\/reference\/#(?:rank|title)-/);
-    await expect(page.locator('[data-reference-row]:target')).toBeVisible();
+
+    // WebKit can expose the new URL hash before recalculating the :target pseudo-class
+    // after a cross-document view transition. Verify the hashed catalogue row directly.
+    await expect(page.locator(`#${targetId}`)).toBeVisible();
 });
 
 test('region directory map filters place cards by area', async ({ page }) => {

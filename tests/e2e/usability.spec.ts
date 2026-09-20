@@ -170,3 +170,65 @@ test('global Pagefind search supports the keyboard shortcut and closes with Esca
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
 });
+
+
+test('reference search exposes clear and reset states only when useful', async ({ page }) => {
+    await page.goto('./reference/');
+
+    const search = page.getByRole('searchbox', { name: 'Search appointments' });
+    const clear = page.getByRole('button', { name: 'Clear appointment search' });
+    const reset = page.locator('.toolbar').getByRole('button', { name: 'Reset' });
+
+    await expect(clear).toBeHidden();
+    await expect(reset).toBeDisabled();
+
+    await search.fill('Mutsu');
+    await expect(clear).toBeVisible();
+    await expect(reset).toBeEnabled();
+
+    await clear.click();
+    await expect(search).toHaveValue('');
+    await expect(search).toBeFocused();
+    await expect(clear).toBeHidden();
+    await expect(reset).toBeDisabled();
+});
+
+test('guide directory clear controls preserve keyboard focus and reset state', async ({ page }) => {
+    await page.goto('./trivia/offices/');
+
+    const search = page.getByRole('searchbox', { name: 'Search offices and titles' });
+    const clear = page.getByRole('button', { name: 'Clear office search' });
+    const reset = page.locator('.guide-directory__controls').getByRole('button', { name: 'Reset' });
+
+    await expect(clear).toBeHidden();
+    await expect(reset).toBeDisabled();
+
+    await search.fill('Kanrei');
+    await expect(clear).toBeVisible();
+    await expect(reset).toBeEnabled();
+
+    await clear.click();
+    await expect(search).toBeFocused();
+    await expect(search).toHaveValue('');
+    await expect(reset).toBeDisabled();
+});
+
+test('global search supports arrow-key result navigation and restores focus', async ({ page }) => {
+    await page.goto('./');
+    const trigger = page.getByRole('button', { name: 'Search site' });
+
+    await trigger.focus();
+    await trigger.click();
+
+    const dialog = page.getByRole('dialog', { name: /Search the reference & historical guide/ });
+    const search = dialog.getByRole('searchbox', { name: 'Search the site' });
+    await search.fill('Kantō Kanrei');
+
+    await expect(dialog.locator('.global-search__result').first()).toBeVisible();
+    await search.press('ArrowDown');
+    await expect(dialog.locator('.global-search__result').first()).toBeFocused();
+
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
+});

@@ -713,3 +713,72 @@ html {
         font-size: 0.72rem;
     }
 }
+
+
+/* Clear actions and disabled filter states should read immediately. */
+.control-clear {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    right: 9px;
+    display: grid;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    color: #b8beb8;
+    background: #303631;
+    transform: translateY(-50%);
+}
+
+.control-clear:hover,
+.control-clear:focus-visible {
+    color: #fffaf0;
+    background: #3b433c;
+}
+
+.control-input:has(.control-clear:not([hidden])) input {
+    padding-right: 48px;
+}
+
+.control-input:has(.control-clear:not([hidden])) kbd {
+    display: none;
+}
+
+.reset-button:disabled {
+    cursor: default;
+    opacity: 0.45;
+    border-color: #343a35;
+    color: #8f958f;
+    background: #202420;
+}
+
+.reset-button:disabled:hover {
+    border-color: #343a35;
+    background: #202420;
+}
+
+/* Hover and keyboard focus receive equal card emphasis. */
+.guide-card--linked:has(.guide-card__primary:focus-visible),
+.guide-card--linked:hover,
+.related-appointment:focus-visible,
+.guide-teaser__card:focus-visible {
+    border-color: #c2b493;
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.guide-card__primary:focus-visible {
+    outline-offset: -5px;
+}
+
+@media (max-width: 860px) {
+    .reference-table td:is(.class-cell, .effect-cell, .count-cell)::before {
+        content: attr(data-label);
+        color: #7a7d77;
+        font-weight: 760;
+        text-transform: uppercase;
+    }
+}

@@ -31,6 +31,8 @@ type SearchRecord = {
     const classFilter = root.querySelector<HTMLSelectElement>('[data-class-filter]');
     const categoryFilter = root.querySelector<HTMLSelectElement>('[data-category-filter]');
     const resetButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-reset]'));
+    const searchClear = root.querySelector<HTMLButtonElement>('[data-search-clear]');
+    const searchShortcut = root.querySelector<HTMLElement>('[data-search-shortcut]');
     const resultCount = root.querySelector<HTMLElement>('[data-result-count]');
     const triviaAnchors = Array.from(root.querySelectorAll<HTMLElement>('[data-trivia-anchor]'));
     const hoverCapable = window.matchMedia('(hover: hover) and (pointer: fine)');
@@ -54,6 +56,10 @@ type SearchRecord = {
     let restoringUrlState = true;
 
     searchInput.value = initialParams.get('q') ?? '';
+
+    if (searchShortcut) {
+        searchShortcut.textContent = '/';
+    }
 
     const closeTrivia = (anchor: HTMLElement) => {
         const cleanup = floatingCleanups.get(anchor);
@@ -357,6 +363,14 @@ type SearchRecord = {
             ? `Showing ${matches.length} of ${totalEntries} unique ${noun} · ${visibleRecords} occurrences${relevanceNote}`
             : `${totalEntries} unique ${noun} · ${totalRecords} occurrences`;
 
+        const hasActiveFilters = Boolean(
+            searchInput.value.trim() || classFilter.value || categoryFilter.value,
+        );
+        resetButtons.forEach((button) => {
+            button.disabled = !hasActiveFilters;
+        });
+        if (searchClear) searchClear.hidden = !searchInput.value;
+
         if (!restoringUrlState && !reducedMotion.matches) {
             matches.slice(0, 18).forEach((row, index) => {
                 animate(
@@ -437,6 +451,11 @@ type SearchRecord = {
     });
 
     searchInput.addEventListener('input', updateResults);
+    searchClear?.addEventListener('click', () => {
+        searchInput.value = '';
+        updateResults();
+        searchInput.focus();
+    });
     classFilter.addEventListener('change', updateResults);
     categoryFilter.addEventListener('change', updateResults);
 

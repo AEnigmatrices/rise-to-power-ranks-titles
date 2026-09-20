@@ -52,6 +52,15 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
                             placeholder="Name, Japanese, or location…"
                             data-guide-search
                         />
+                        <button
+                            class="control-clear"
+                            type="button"
+                            aria-label="Clear region search"
+                            data-guide-search-clear
+                            hidden
+                        >
+                            ×
+                        </button>
                     </div>
                 </div>
                 <div class="guide-directory__select">
