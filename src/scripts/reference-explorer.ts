@@ -361,7 +361,7 @@ type SearchRecord = {
             matches.slice(0, 18).forEach((row, index) => {
                 animate(
                     row,
-                    { opacity: [0.55, 1], transform: ['translateY(4px)', 'translateY(0)'] },
+                    { opacity: [0.55, 1] },
                     { duration: 0.14, delay: Math.min(index * 0.008, 0.08), ease: 'easeOut' },
                 );
             });
