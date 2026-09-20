@@ -1,0 +1,30 @@
+---
+import { ExternalLink } from '@lucide/astro';
+import type { HistoricalSource } from '../../data/schema/sources';
+import { getSourceLabel, getSourcePublisher } from '../../lib/sources';
+
+interface Props {
+    sources: HistoricalSource[];
+    compact?: boolean;
+}
+
+const { sources, compact = false } = Astro.props;
+---
+
+<ul class:list={['source-list', compact && 'source-list--compact']}>
+    {sources.map((source) => (
+        <li>
+            <a href={source.url}>
+                <span>
+                    <strong>{getSourceLabel(source)}</strong>
+                    {source.title && source.publisher && (
+                        <small>{getSourcePublisher(source)}</small>
+                    )}
+                    {source.year && <small>{source.year}</small>}
+                    {source.note && <small>{source.note}</small>}
+                </span>
+                <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
+            </a>
+        </li>
+    ))}
+</ul>
