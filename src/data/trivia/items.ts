@@ -5,37 +5,37 @@ export const triviaById = {
         id: 'kanpaku',
         label: 'Hideyoshi’s route into court society',
         body: 'Toyotomi Hideyoshi became Kanpaku after adoption into the aristocratic Konoe family. A retired Kanpaku was called Taikō, the title so often associated with Hideyoshi.',
-        source: 'https://en.wikipedia.org/wiki/Sessh%C5%8D_and_Kampaku',
+        source: 'https://kotobank.jp/word/%E9%96%A2%E7%99%BD-49466',
     },
     council: {
         id: 'council',
         label: 'The Great Council of State',
         body: 'The Daijō-kan stood at the head of the classical civil administration. Its ministers and councillors oversaw the ministries; the separate Jingi-kan handled affairs of Shinto worship.',
-        source: 'https://en.wikipedia.org/wiki/Daij%C5%8D-kan',
+        source: 'https://kotobank.jp/word/%E5%A4%AA%E6%94%BF%E5%AE%98-91319',
     },
     'left-minister': {
         id: 'left-minister',
         label: 'Left and right were not equal',
         body: 'The Minister of the Left ranked above the Minister of the Right in the court hierarchy. The paired names therefore describe different positions in an order of precedence, even when the game assigns them the same class.',
-        source: 'https://en.wikipedia.org/wiki/Minister_of_the_Left',
+        source: 'https://kotobank.jp/word/%E5%B7%A6%E5%A4%A7%E8%87%A3-69083',
     },
     guards: {
         id: 'guards',
         label: 'The guards closest to the emperor',
         body: 'The left and right Konoe guards protected the inner palace and escorted the emperor. Their prestigious captaincies could be held alongside other high court offices.',
-        source: 'https://www.japanesewiki.com/title/Konoefu%20(Headquarters%20of%20the%20Inner%20Palace%20Guards).html',
+        source: 'https://kotobank.jp/word/%E8%BF%91%E8%A1%9B%E5%BA%9C-65731',
     },
     stables: {
         id: 'stables',
         label: 'More than keeping the imperial stables',
         body: 'The left and right horse bureaus raised and trained horses supplied by the provinces. They managed pastures and provided horses for both military use and court ceremonies.',
-        source: 'https://www.japanesewiki.com/history/Meryo%20(Bureau%20of%20Horses).html',
+        source: 'https://kotobank.jp/word/%E5%B7%A6%E3%81%AE%E9%A6%AC%E5%AF%AE-2077463',
     },
     university: {
         id: 'university',
         label: 'The court had its own university',
         body: 'The Daigaku-ryō educated future officials in subjects including the Chinese classics, law, and mathematics. Its director’s title was Daigaku no Kami, the office behind 大学頭.',
-        source: 'https://en.wikipedia.org/wiki/Daigaku-ry%C5%8D',
+        source: 'https://kotobank.jp/word/%E5%A4%A7%E5%AD%A6%E5%AF%AE-90900',
     },
     music: {
         id: 'music',
@@ -47,13 +47,13 @@ export const triviaById = {
         id: 'accounts',
         label: 'Two bureaus, different kinds of tax',
         body: 'The Kazue bureau dealt with goods and labor-related taxes, while the Chikara bureau handled the land tax paid in rice. Both belonged to the Ministry of Popular Affairs.',
-        source: 'https://en.wikipedia.org/wiki/Ministry_of_Popular_Affairs',
+        source: 'https://kotobank.jp/word/%E4%B8%BB%E8%A8%88%E5%AF%AE-462533',
     },
     audit: {
         id: 'audit',
         label: 'Checking a governor’s handover',
         body: 'The Kageyushi examined the transfer of accounts and public property when officials changed posts. Created outside the original ritsuryō offices, it helped check the conduct of provincial administration.',
-        source: 'https://www.japanesewiki.com/title/Kageyushi.html',
+        source: 'https://kotobank.jp/word/%E5%8B%98%E8%A7%A3%E7%94%B1%E4%BD%BF-43946',
     },
     'provincial-office': {
         id: 'provincial-office',
@@ -118,27 +118,32 @@ export const triviaById = {
     danjo: {
         id: 'danjo',
         label: 'A censor and policing office',
-        body: 'The Danjō-dai (弾正台) was a ritsuryō censorial and policing institution charged with correcting official misconduct. Much of its practical policing role was later overtaken by the Kebiishi.',
+        body: 'The Danjō-dai (弾正台) was an independent ritsuryō body for exposing official misconduct and policing breaches of law and public order. It could report serious wrongdoing directly to the throne, but much of its practical policing role was later absorbed by the Kebiishi.',
+        source: 'https://kotobank.jp/word/%E5%BC%BE%E6%AD%A3%E5%8F%B0-95122',
     },
     genba: {
         id: 'genba',
         label: 'Religion and foreign guests',
-        body: 'The Genba-ryō (玄蕃寮) sat under the Ministry of Ceremonial Affairs. Its unusual portfolio included Buddhist temples and clergy as well as the reception and accommodation of foreign envoys.',
+        body: 'The Genba-ryō (玄蕃寮) sat under the Ministry of Civil Administration. Its unusual portfolio combined records and supervision of Buddhist temples and clergy with the reception, lodging, banquets, and departure of foreign envoys.',
+        source: 'https://kotobank.jp/word/%E7%8E%84%E8%95%83%E5%AF%AE-61002',
     },
     hayato: {
         id: 'hayato',
         label: 'The Hayato office',
-        body: 'The Hayato no Tsukasa (隼人司) administered Hayato serving at court, including palace-gate guard duty, ceremonial song and dance, and the production of certain bamboo goods.',
+        body: 'The Hayato no Tsukasa (隼人司) administered Hayato serving at court, including palace-gate guard duty, ceremonial song and dance, and the production of bamboo goods. The office was first attached to the Emon guards and later moved under the Ministry of Military Affairs.',
+        source: 'https://kotobank.jp/word/%E9%9A%BC%E4%BA%BA%E5%8F%B8-116451',
     },
     uneme: {
         id: 'uneme',
         label: 'The Uneme office',
-        body: 'The Uneme no Tsukasa (采女司; the game data uses the variant 釆) administered uneme, female attendants drawn from provincial elite families for service in the imperial court.',
+        body: 'The Uneme no Tsukasa (采女司; the game data uses the variant 釆) belonged to the Ministry of the Imperial Household and administered uneme, female attendants assigned to service in the palace from provincial elite families.',
+        source: 'https://kotobank.jp/word/%E9%87%87%E5%A5%B3%E5%8F%B8-441129',
     },
     'traditional-reading': {
         id: 'traditional-reading',
         label: 'A traditional office reading',
-        body: 'Several court offices use inherited title readings that are not obvious from modern character-by-character pronunciation. That is why this reference lists the office reading separately instead of mechanically romanizing the kanji.',
+        body: 'Several court offices use inherited Japanese office names and readings that are not obvious from modern character-by-character pronunciation. That is why this reference lists the reading separately instead of mechanically romanizing the kanji.',
+        source: 'https://ndlsearch.ndl.go.jp/rnavi/humanities/kansyoku',
     },
     'palace-gate-guards': {
         id: 'palace-gate-guards',
@@ -251,7 +256,8 @@ export const triviaById = {
     shogun: {
         id: 'shogun',
         label: 'The full title behind “Shōgun”',
-        body: 'Shōgun is the familiar shortened form of Sei-i Taishōgun (征夷大将軍). The title long predates the Muromachi shogunate, but in medieval warrior government it became the defining title of the shogunate’s head.',
+        body: 'Shōgun is the familiar shortened form of Sei-i Taishōgun (征夷大将軍). It began as a command for campaigns against the Emishi, long before the Muromachi shogunate; from the Kamakura period onward it became the title of the head of a warrior government.',
+        source: 'https://kotobank.jp/word/%E5%BE%81%E5%A4%B7%E5%A4%A7%E5%B0%86%E8%BB%8D-85499',
     },
     kanrei: {
         id: 'kanrei',
@@ -262,7 +268,8 @@ export const triviaById = {
     'kanto-kanrei': {
         id: 'kanto-kanrei',
         label: 'Deputy of the Kamakura government',
-        body: 'Despite the similar name, the Kantō Kanrei belonged to the Kamakura-fu in eastern Japan and served as deputy to the Kamakura Kubō. From Uesugi Noriaki onward the office became closely associated with branches of the Uesugi family.',
+        body: 'Despite the similar name, the Kantō Kanrei belonged to the Kamakura-fu in eastern Japan and served as deputy to the Kamakura Kubō. Uesugi branches initially shared access to the office; after the Uesugi Zenshū Rebellion it became effectively monopolized by the Yamanouchi Uesugi.',
+        source: 'https://kotobank.jp/word/%E9%96%A2%E6%9D%B1%E7%AE%A1%E9%A0%98-49342',
     },
     'samurai-dokoro': {
         id: 'samurai-dokoro',
@@ -279,12 +286,14 @@ export const triviaById = {
     monchujo: {
         id: 'monchujo',
         label: 'From lawsuits to records',
-        body: 'The Monchūjo began in the Kamakura shogunate as an institution dealing with litigation and documents. Under the Muromachi shogunate its role shifted largely toward custody of documents and records.',
+        body: 'The Monchūjo began in the Kamakura shogunate as an institution dealing with litigation and documents. Its chief was the Monchūjo Shitsuji; from the first steward Miyoshi Yasunobu onward the office became closely associated with the Miyoshi lineage and its descendants.',
+        source: 'https://kotobank.jp/word/%E5%95%8F%E6%B3%A8%E6%89%80%E5%9F%B7%E4%BA%8B-399306',
     },
     hikitsuke: {
         id: 'hikitsuke',
-        label: 'A specialist appeals court',
-        body: 'The Hikitsuke was a specialist judicial body for land and other disputes. Each panel was headed by a Hikitsuke Tōnin, who directed the officials preparing cases and draft judgments.',
+        label: 'A specialist litigation panel',
+        body: 'The Hikitsuke was a specialist judicial body for land and other disputes inherited by the Muromachi shogunate from Kamakura practice. Each panel was headed by a Hikitsuke Tōnin, under whom councillors and judicial officials examined cases and prepared judgments.',
+        source: 'https://kotobank.jp/word/%E5%BC%95%E4%BB%98%E8%A1%86-119303',
     },
     hyojoshu: {
         id: 'hyojoshu',
@@ -301,27 +310,50 @@ export const triviaById = {
     tandai: {
         id: 'tandai',
         label: 'A regional shogunate command',
-        body: 'Tandai was used for important regional shogunate headquarters and deputies. Muromachi government established such offices for major outlying regions, including Kyūshū and Ōshū.',
+        body: 'Tandai was a medieval label for offices exercising broad military, judicial, and administrative authority over distant regions. Under the Muromachi shogunate it was applied to regional commands such as Kyūshū, Ōshū, and Ushū rather than to one standardized office with identical powers everywhere.',
+        source: 'https://kotobank.jp/word/%E6%8E%A2%E9%A1%8C-95248',
+    },
+    'kyushu-tandai': {
+        id: 'kyushu-tandai',
+        label: 'The Kyūshū Tandai governed from a difficult frontier',
+        body: 'The Kyūshū Tandai was the Muromachi shogunate’s principal command for Kyūshū, combining military leadership with judicial and administrative work. Its authority depended heavily on cooperation with powerful local houses; under Imagawa Ryōshun it became an especially active regional government before later declining into largely nominal authority.',
+        source: 'https://kotobank.jp/word/%E4%B9%9D%E5%B7%9E%E6%8E%A2%E9%A1%8C-52057',
+    },
+    'oshu-tandai-context': {
+        id: 'oshu-tandai-context',
+        label: 'Ōshū Tandai governed Mutsu',
+        body: 'The Ōshū Tandai was a Muromachi regional office charged with military and civil authority in Mutsu. It emerged from northern shogunate administration and became closely associated with the Ōsaki house.',
+        source: 'https://kotobank.jp/word/%E5%A5%A5%E5%B7%9E%E6%8E%A2%E9%A1%8C-38707',
+    },
+    'ushu-tandai-context': {
+        id: 'ushu-tandai-context',
+        label: 'Ushū Tandai governed Dewa',
+        body: 'The Ushū Tandai tradition concerned Dewa rather than Mutsu. It was associated with the descendants of Shiba Kaneyori, who established themselves around Yamagata and developed into the Mogami house; the exact early institutional form is less securely documented than the later tradition suggests.',
+        source: 'https://kotobank.jp/word/%E7%BE%BD%E5%B7%9E%E6%8E%A2%E9%A1%8C-34532',
     },
     oshoban: {
         id: 'oshoban',
         label: 'Prestige through proximity to the shogun',
-        body: 'The Oshōban-shū accompanied the shogun at visits and shared his ceremonial banquets. Because only powerful houses received the privilege, the duty developed into a high-status rank within Muromachi society.',
+        body: 'The Oshōban-shū accompanied the shogun on formal visits and shared his ceremonial drinking and banquets. Institutionalized under Ashikaga Yoshinori, membership was drawn from powerful shugo houses and became a mark of elite house status, above the lower attendance groups around the shogun.',
+        source: 'https://kotobank.jp/word/%E5%BE%A1%E7%9B%B8%E4%BC%B4%E8%A1%86-2016322',
     },
     kunimochi: {
         id: 'kunimochi',
         label: 'A status group, not simply an office',
-        body: 'Kunimochi-shū referred to great lords of province-holding stature. In Muromachi court society the label functioned as a house-status category within the ceremonial ordering of daimyō around the shogun.',
+        body: 'Kunimochi-shū was a Muromachi status designation for major shugo houses of province-holding stature that were not counted among the Kanrei or Oshōban-shū. The category helped determine ceremonial precedence and access around the shogun rather than describing one administrative job.',
+        source: 'https://kotobank.jp/word/%E5%9B%BD%E6%8C%81%E8%A1%86-55746',
     },
     tozama: {
         id: 'tozama',
         label: '“Tozama” predates the Edo classification',
-        body: 'Muromachi Tozama-shū denoted a status category for lords outside the Ashikaga lineage and its original retainers. This usage predates the better-known Edo-period distinction between fudai and tozama daimyō.',
+        body: 'Muromachi Tozama-shū was a house-status label used from the middle Muromachi period for daimyō who were not Ashikaga kin or members of the shogunate’s original hereditary retainer circle. It therefore predates—and should not be collapsed into—the better-known Edo-period fudai/tozama division.',
+        source: 'https://kotobank.jp/word/%E5%A4%96%E6%A7%98%E8%A1%86-583320',
     },
     otomo: {
         id: 'otomo',
         label: 'The shogun’s attendants',
-        body: 'The Otomo-shū served in close attendance on the Muromachi shogun, accompanying outings and participating in ceremonial hospitality. Like several other “-shū” titles, it could denote both a duty and a recognized house status.',
+        body: 'The Otomo-shū served in close attendance on the Muromachi shogun, accompanying his outings and taking part in ceremonial hospitality. The category was simultaneously an active attendance duty and a hereditary house status; in ceremonial precedence it stood below the Oshōban-shū, Kunimochi-shū, and Tozama-shū.',
+        source: 'https://kotobank.jp/word/%E5%BE%A1%E4%BE%9B%E8%A1%86-453526',
     },
 } satisfies Record<string, TriviaItem>;
 
