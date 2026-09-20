@@ -1,19 +1,175 @@
 ---
+import { Search, X } from '@lucide/astro';
 import { sitePath } from '../../lib/routes';
 
-const baseUrl = sitePath();
-const bundlePath = sitePath('pagefind/');
+const pagefindPath = sitePath('pagefind/pagefind.js');
 ---
 
-<div class="global-search" data-pagefind-ignore>
-    <pagefind-config
-        base-url={baseUrl}
-        bundle-path={bundlePath}
-        excerpt-length="22"
-    ></pagefind-config>
-    <pagefind-modal-trigger
-        placeholder="Search"
-        shortcut="mod+k"
-    ></pagefind-modal-trigger>
-    <pagefind-modal></pagefind-modal>
+<div class="global-search" data-global-search data-pagefind-ignore>
+    <button
+        class="global-search__trigger"
+        type="button"
+        aria-haspopup="dialog"
+        data-global-search-open
+    >
+        <Search size={15} stroke-width={1.9} aria-hidden="true" />
+        <span>Search</span>
+        <kbd aria-hidden="true">⌘K</kbd>
+    </button>
+
+    <dialog class="global-search__dialog" aria-labelledby="global-search-title" data-global-search-dialog>
+        <div class="global-search__panel">
+            <div class="global-search__heading">
+                <div>
+                    <p class="global-search__eyebrow">Site search</p>
+                    <h2 id="global-search-title">Search the reference &amp; historical guide</h2>
+                </div>
+                <button
+                    class="global-search__close"
+                    type="button"
+                    aria-label="Close site search"
+                    data-global-search-close
+                >
+                    <X size={18} aria-hidden="true" />
+                </button>
+            </div>
+
+            <label class="global-search__field">
+                <Search size={18} stroke-width={1.8} aria-hidden="true" />
+                <span class="sr-only">Search the site</span>
+                <input
+                    type="search"
+                    autocomplete="off"
+                    spellcheck="false"
+                    placeholder="Try a title, province, holder, office, or Japanese term…"
+                    data-global-search-input
+                />
+            </label>
+
+            <p class="global-search__status" role="status" aria-live="polite" data-global-search-status>
+                Start typing to search the whole site.
+            </p>
+
+            <div class="global-search__results" data-global-search-results></div>
+        </div>
+    </dialog>
 </div>
+
+<script define:vars={{ pagefindPath }}>
+    const root = document.querySelector('[data-global-search]');
+    const dialog = root?.querySelector('[data-global-search-dialog]');
+    const openButton = root?.querySelector('[data-global-search-open]');
+    const closeButton = root?.querySelector('[data-global-search-close]');
+    const input = root?.querySelector('[data-global-search-input]');
+    const results = root?.querySelector('[data-global-search-results]');
+    const status = root?.querySelector('[data-global-search-status]');
+
+    if (
+        root instanceof HTMLElement &&
+        dialog instanceof HTMLDialogElement &&
+        openButton instanceof HTMLButtonElement &&
+        closeButton instanceof HTMLButtonElement &&
+        input instanceof HTMLInputElement &&
+        results instanceof HTMLElement &&
+        status instanceof HTMLElement
+    ) {
+        let pagefindPromise;
+        let searchRun = 0;
+
+        const getPagefind = async () => {
+            pagefindPromise ??= import(pagefindPath).then(async (pagefind) => {
+                await pagefind.init();
+                return pagefind;
+            });
+            return pagefindPromise;
+        };
+
+        const close = () => {
+            dialog.close();
+            openButton.focus();
+        };
+
+        const open = () => {
+            if (!dialog.open) dialog.showModal();
+            requestAnimationFrame(() => input.focus());
+        };
+
+        const renderResults = async () => {
+            const query = input.value.trim();
+            const run = ++searchRun;
+
+            if (!query) {
+                results.replaceChildren();
+                status.textContent = 'Start typing to search the whole site.';
+                return;
+            }
+
+            status.textContent = 'Searching…';
+
+            try {
+                const pagefind = await getPagefind();
+                const search = await pagefind.search(query);
+                const items = await Promise.all(
+                    search.results.slice(0, 8).map((result) => result.data()),
+                );
+
+                if (run !== searchRun) return;
+
+                results.replaceChildren();
+
+                if (!items.length) {
+                    status.textContent = `No results for “${query}”.`;
+                    return;
+                }
+
+                status.textContent = `${search.results.length} ${search.results.length === 1 ? 'result' : 'results'} for “${query}”.`;
+
+                items.forEach((item) => {
+                    const link = document.createElement('a');
+                    link.className = 'global-search__result';
+                    link.href = item.url;
+
+                    const title = document.createElement('strong');
+                    title.textContent = item.meta?.title || item.url;
+
+                    const excerpt = document.createElement('span');
+                    excerpt.className = 'global-search__excerpt';
+                    excerpt.innerHTML = item.excerpt || '';
+
+                    const route = document.createElement('small');
+                    route.textContent = new URL(item.url, location.href).pathname
+                        .replace('/rise-to-power-ranks-titles/', '/')
+                        .replace(/\/$/, '') || '/';
+
+                    link.append(title, excerpt, route);
+                    results.append(link);
+                });
+            } catch {
+                if (run !== searchRun) return;
+                results.replaceChildren();
+                status.textContent = 'Site search is unavailable in this preview. The reference search still works normally.';
+            }
+        };
+
+        let searchTimer;
+        input.addEventListener('input', () => {
+            window.clearTimeout(searchTimer);
+            searchTimer = window.setTimeout(renderResults, 90);
+        });
+
+        openButton.addEventListener('click', open);
+        closeButton.addEventListener('click', close);
+
+        dialog.addEventListener('click', (event) => {
+            if (event.target === dialog) close();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            const modifier = event.metaKey || event.ctrlKey;
+            if (modifier && event.key.toLowerCase() === 'k') {
+                event.preventDefault();
+                open();
+            }
+        });
+    }
+</script>
