@@ -47,6 +47,9 @@ test('catalogue uses compact appointment cards at tablet widths', async ({ page 
     await expect(row).toBeVisible();
     await expect(row.locator('.name-cell')).toBeVisible();
     await expect(row.locator('.japanese .pronunciation')).toBeVisible();
+    await expect(row.locator('.class-cell')).toHaveCSS('display', 'flex');
+    await expect(row.locator('.effect-cell')).toHaveCSS('display', 'flex');
+    await expect(row.locator('.count-cell')).toHaveCSS('display', 'flex');
 });
 
 test('legacy root catalogue URLs forward to the reference page', async ({ page }) => {
