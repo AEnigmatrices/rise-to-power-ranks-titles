@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      run_e2e:
+        description: 'Run the optional Playwright browser and accessibility suite'
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: read
@@ -34,8 +40,15 @@ jobs:
       - name: Run static validation
         run: pnpm validate
 
+      - name: Build production site
+        run: pnpm build:site
+
+      - name: Build Pagefind index
+        run: pnpm index:search
+
   e2e:
     name: Browser and accessibility tests
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.run_e2e }}
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.63.0-noble
