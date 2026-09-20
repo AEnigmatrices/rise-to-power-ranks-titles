@@ -109,7 +109,7 @@ type DirectoryRecord = {
                 animate(
                     card,
                     { opacity: [0.5, 1], transform: ['translateY(5px)', 'translateY(0)'] },
-                    { duration: 0.16, delay: Math.min(index * 0.01, 0.09), ease: 'ease-out' },
+                    { duration: 0.16, delay: Math.min(index * 0.01, 0.09), ease: 'easeOut' },
                 );
             });
             animate(count, { opacity: [0.45, 1] }, { duration: 0.16 });
