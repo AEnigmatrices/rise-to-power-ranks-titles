@@ -1,17 +1,12 @@
 /* global document, SVGElement, HTMLElement, location */
 import { hierarchy, tree } from 'd3-hierarchy';
-
-const SVG_NS = 'http://www.w3.org/2000/svg';
-
-const svgElement = (name, attrs = {}) => {
-    const node = document.createElementNS(SVG_NS, name);
-    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
-    return node;
-};
-
-const clear = (node) => {
-    while (node.firstChild) node.firstChild.remove();
-};
+import {
+    activateSvgNode,
+    appendMultilineText,
+    bindVizTooltip,
+    clearElement,
+    svgElement,
+} from '../lib/visualization/svg.js';
 
 const buildTreeData = (ministry) => ({
     name: ministry.meaning,
@@ -26,32 +21,11 @@ const buildTreeData = (ministry) => ({
     })),
 });
 
-const appendMultilineText = (parent, lines, x, y, className) => {
-    const text = svgElement('text', {
-        x,
-        y,
-        class: className,
-        'text-anchor': 'middle',
-    });
-
-    lines.forEach((line, index) => {
-        const tspan = svgElement('tspan', {
-            x,
-            dy: index === 0 ? 0 : 15,
-        });
-        tspan.textContent = line;
-        text.append(tspan);
-    });
-
-    parent.append(text);
-    return text;
-};
-
 const render = (root, ministry, referenceBase) => {
     const svg = root.querySelector('[data-office-hierarchy-chart]');
     if (!(svg instanceof SVGElement)) return;
 
-    clear(svg);
+    clearElement(svg);
 
     const width = 1040;
     const height = 470;
@@ -106,12 +80,13 @@ const render = (root, ministry, referenceBase) => {
                 location.href = `${referenceBase}#${item.id}`;
             };
 
-            group.addEventListener('click', open);
-            group.addEventListener('keydown', (event) => {
-                if (event.key !== 'Enter' && event.key !== ' ') return;
-                event.preventDefault();
-                open();
-            });
+            activateSvgNode(group, open);
+            bindVizTooltip(root, group, [
+                item.reading,
+                item.meaning,
+                `Grade ${item.grade} · ${item.effect}`,
+                item.gameName,
+            ]);
 
             appendMultilineText(
                 group,
@@ -119,6 +94,7 @@ const render = (root, ministry, referenceBase) => {
                 0,
                 -8,
                 'office-hierarchy__node-title',
+                { lineHeight: 15 },
             );
 
             const meta = svgElement('text', {
