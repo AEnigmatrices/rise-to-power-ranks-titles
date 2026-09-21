@@ -25,6 +25,7 @@ const hierarchyJson = JSON.stringify(ministryHierarchies).replace(/</g, '\\u003c
         <div class="office-hierarchy__current" aria-live="polite">
             <span lang="ja" data-hierarchy-current-japanese>{ministryHierarchies[0].japanese}</span>
             <strong data-hierarchy-current-label>{ministryHierarchies[0].meaning}</strong>
+            <a href={sitePath('reference/?type=Imperial%20Court')}>View Imperial Court ranks →</a>
         </div>
     </header>
 
