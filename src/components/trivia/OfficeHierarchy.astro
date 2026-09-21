@@ -1,0 +1,75 @@
+---
+import { ministryHierarchies } from '../../data/office-hierarchies';
+import { sitePath } from '../../lib/routes';
+
+const hierarchyJson = JSON.stringify(ministryHierarchies).replace(/</g, '\\u003c');
+---
+
+<section
+    id="ministry-hierarchy"
+    class="office-hierarchy"
+    aria-labelledby="ministry-hierarchy-heading"
+    data-office-hierarchy
+    data-reference-base={sitePath('reference/')}
+>
+    <header class="office-hierarchy__header">
+        <div>
+            <p class="guide-section__kicker">Institutional structure</p>
+            <h3 id="ministry-hierarchy-heading">The Eight Ministries as an office hierarchy</h3>
+            <p>
+                The game preserves a repeating ladder inside the classical ministries. Choose a ministry
+                to see the offices represented in the Rank catalogue and follow any office back to its
+                reference entry.
+            </p>
+        </div>
+        <div class="office-hierarchy__current" aria-live="polite">
+            <span lang="ja" data-hierarchy-current-japanese>{ministryHierarchies[0].japanese}</span>
+            <strong data-hierarchy-current-label>{ministryHierarchies[0].meaning}</strong>
+        </div>
+    </header>
+
+    <div class="office-hierarchy__tabs" role="tablist" aria-label="Choose a ministry">
+        {ministryHierarchies.map((ministry, index) => (
+            <button
+                type="button"
+                role="tab"
+                class:list={['office-hierarchy__tab', index === 0 && 'is-active']}
+                aria-selected={index === 0 ? 'true' : 'false'}
+                tabindex={index === 0 ? '0' : '-1'}
+                data-ministry={ministry.id}
+            >
+                <span lang="ja">{ministry.japanese}</span>
+                <small>{ministry.label}</small>
+            </button>
+        ))}
+    </div>
+
+    <div class="office-hierarchy__canvas">
+        <svg
+            class="office-hierarchy__chart"
+            viewBox="0 0 1040 470"
+            role="group"
+            aria-label="Eight Ministries office hierarchy"
+            data-office-hierarchy-chart
+        ></svg>
+    </div>
+
+    <div class="office-hierarchy__notes">
+        <p>
+            <strong>How to read it:</strong> the diagram groups offices by institutional tier; it is not
+            a promotion path. <span lang="ja">大</span> and <span lang="ja">少</span> distinguish senior
+            and junior offices within the same tier.
+        </p>
+        <p>
+            <strong>Scope:</strong> this shows the ministry offices represented in <em>Rise to Power</em>.
+            The classical bureaucracy continued below the <span lang="ja">丞</span> secretary tier to
+            recorder offices, which are not represented here as ministry entries.
+        </p>
+    </div>
+
+    <script type="application/json" data-office-hierarchy-data set:html={hierarchyJson}></script>
+</section>
+
+<script>
+    import '../../scripts/office-hierarchy';
+</script>
