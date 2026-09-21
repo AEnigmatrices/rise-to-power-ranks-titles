@@ -156,7 +156,7 @@ test('historical guide directories retain the global site navigation', async ({ 
     await expect(page.getByRole('navigation', { name: 'Site navigation' })).toBeVisible();
 });
 
-test('Drifters trivia distinguishes Toyohisa’s anime title from the historical office', async ({
+test('Toyohisa trivia explains both Nakatsukasa attributions', async ({
     page,
 }) => {
     await page.goto('./reference/#rank-nakatsukasa-no-sho');
@@ -167,12 +167,12 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
     await expect(
         animeToyohisaRow
             .locator('[data-trivia-popover]')
-            .getByText('Drifters changes Toyohisa’s court office'),
+            .getByText('Toyohisa is transmitted under two Nakatsukasa titles'),
     ).toBeVisible();
 
     await page.goto('./trivia/offices/drifters-toyohisa/');
     await expect(
-        page.getByRole('heading', { name: 'Drifters changes Toyohisa’s court office' }),
+        page.getByRole('heading', { name: 'Toyohisa is transmitted under two Nakatsukasa titles' }),
     ).toBeVisible();
 
     const toyohisaRelated = page.locator('.related-appointment');
@@ -185,6 +185,20 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
         page.getByRole('heading', { name: 'Drifters gets Naomasa’s office right' }),
     ).toBeVisible();
     await expect(page.getByRole('link', { name: /Defense Supervisor/ })).toBeVisible();
+});
+
+test('Toyohisa appears as a notable holder under both Nakatsukasa attributions', async ({
+    page,
+}) => {
+    await page.goto('./reference/#rank-nakatsukasa-no-taifu');
+    await expect(page.locator('#rank-nakatsukasa-no-taifu .holder-details')).toContainText(
+        'Shimazu Toyohisa',
+    );
+
+    await page.goto('./reference/#rank-nakatsukasa-no-sho');
+    await expect(page.locator('#rank-nakatsukasa-no-sho .holder-details')).toContainText(
+        'Shimazu Toyohisa',
+    );
 });
 
 test('region detail pages surface what the place is known for', async ({ page }) => {
