@@ -23,6 +23,8 @@ type DirectoryRecord = {
     );
     const mapClear = root.querySelector<HTMLButtonElement>('[data-map-area-clear]');
     const searchClear = root.querySelector<HTMLButtonElement>('[data-guide-search-clear]');
+    const provinceComparison = root.querySelector<HTMLElement>('[data-province-office-comparison]');
+    const provinceSelect = root.querySelector<HTMLSelectElement>('[data-province-office-select]');
     const resetButtons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-guide-reset]'));
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let initialized = false;
@@ -31,7 +33,10 @@ type DirectoryRecord = {
 
     const params = new URLSearchParams(location.search);
     search.value = params.get('q') ?? '';
-    if (area) area.value = params.get('area') ?? '';
+    if (provinceSelect) provinceSelect.value = params.get('province') ?? '';
+    const initialProvinceArea =
+        provinceSelect?.selectedOptions[0]?.dataset.provinceArea ?? '';
+    if (area) area.value = params.get('area') ?? initialProvinceArea;
 
     const records: DirectoryRecord[] = cards.map((card) => ({
         card,
@@ -76,6 +81,9 @@ type DirectoryRecord = {
 
         if (area?.value) url.searchParams.set('area', area.value);
         else url.searchParams.delete('area');
+
+        if (provinceSelect?.value) url.searchParams.set('province', provinceSelect.value);
+        else url.searchParams.delete('province');
 
         history.replaceState(null, '', url);
     };
@@ -124,6 +132,11 @@ type DirectoryRecord = {
         }
 
         syncMap();
+        provinceComparison?.dispatchEvent(
+            new CustomEvent('guide-area-change', {
+                detail: { area: area?.value ?? '' },
+            }),
+        );
         syncUrl();
         initialized = true;
     };
@@ -143,6 +156,13 @@ type DirectoryRecord = {
     });
     area?.addEventListener('change', update);
 
+    provinceComparison?.addEventListener('province-office-change', (event) => {
+        if (!area || !(event instanceof CustomEvent)) return;
+        const nextArea = String(event.detail?.area ?? '');
+        area.value = nextArea;
+        update();
+    });
+
     searchClear?.addEventListener('click', () => {
         search.value = '';
         update();
@@ -153,6 +173,7 @@ type DirectoryRecord = {
         button.addEventListener('click', () => {
             search.value = '';
             if (area) area.value = '';
+            if (provinceSelect) provinceSelect.value = '';
             update();
             search.focus();
         });
@@ -161,7 +182,10 @@ type DirectoryRecord = {
     window.addEventListener('popstate', () => {
         const current = new URLSearchParams(location.search);
         search.value = current.get('q') ?? '';
-        if (area) area.value = current.get('area') ?? '';
+        if (provinceSelect) provinceSelect.value = current.get('province') ?? '';
+        const restoredProvinceArea =
+            provinceSelect?.selectedOptions[0]?.dataset.provinceArea ?? '';
+        if (area) area.value = current.get('area') ?? restoredProvinceArea;
         update();
     });
 
