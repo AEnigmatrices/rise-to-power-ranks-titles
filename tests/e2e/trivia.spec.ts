@@ -156,7 +156,7 @@ test('historical guide directories retain the global site navigation', async ({ 
     await expect(page.getByRole('navigation', { name: 'Site navigation' })).toBeVisible();
 });
 
-test('Drifters trivia distinguishes Toyohisa’s anime title from the historical office', async ({
+test('Toyohisa trivia explains both Nakatsukasa attributions', async ({
     page,
 }) => {
     await page.goto('./reference/#rank-nakatsukasa-no-sho');
@@ -167,12 +167,12 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
     await expect(
         animeToyohisaRow
             .locator('[data-trivia-popover]')
-            .getByText('Drifters changes Toyohisa’s court office'),
+            .getByText('Toyohisa is transmitted under two Nakatsukasa titles'),
     ).toBeVisible();
 
     await page.goto('./trivia/offices/drifters-toyohisa/');
     await expect(
-        page.getByRole('heading', { name: 'Drifters changes Toyohisa’s court office' }),
+        page.getByRole('heading', { name: 'Toyohisa is transmitted under two Nakatsukasa titles' }),
     ).toBeVisible();
 
     const toyohisaRelated = page.locator('.related-appointment');
@@ -185,6 +185,102 @@ test('Drifters trivia distinguishes Toyohisa’s anime title from the historical
         page.getByRole('heading', { name: 'Drifters gets Naomasa’s office right' }),
     ).toBeVisible();
     await expect(page.getByRole('link', { name: /Defense Supervisor/ })).toBeVisible();
+});
+
+test('Toyohisa appears as a notable holder under both Nakatsukasa attributions', async ({
+    page,
+}) => {
+    await page.goto('./reference/#rank-nakatsukasa-no-taifu');
+    await expect(page.locator('#rank-nakatsukasa-no-taifu .holder-details')).toContainText(
+        'Shimazu Toyohisa',
+    );
+
+    await page.goto('./reference/#rank-nakatsukasa-no-sho');
+    await expect(page.locator('#rank-nakatsukasa-no-sho .holder-details')).toContainText(
+        'Shimazu Toyohisa',
+    );
+});
+
+test('province office comparison synchronizes with geography filters', async ({ page }) => {
+    await page.goto('./trivia/regions/');
+
+    const comparison = page.locator('[data-province-office-comparison]');
+    const provinceSelect = comparison.locator('[data-province-office-select]');
+    const areaSelect = page.locator('[data-guide-area]');
+
+    await provinceSelect.selectOption('musashi');
+    await expect(page).toHaveURL(/province=musashi/);
+    await expect(page).toHaveURL(/area=Kant%C5%8D|area=Kant%C5%8D/);
+    await expect(areaSelect).toHaveValue('Kantō');
+
+    const chart = comparison.locator('[data-province-office-chart]');
+    await expect(chart.getByRole('link', { name: /Musashi no Kami/ })).toBeVisible();
+    await expect(chart.getByRole('link', { name: /Musashi Shugo/ })).toBeVisible();
+
+    await chart.getByRole('link', { name: /Musashi Shugo/ }).click();
+    await expect(page).toHaveURL(/reference\/#title-musashi-shugo$/);
+});
+
+test('province office comparison shows rank-only provinces explicitly', async ({ page }) => {
+    await page.goto('./trivia/regions/');
+
+    const comparison = page.locator('[data-province-office-comparison]');
+    await comparison.locator('[data-province-office-select]').selectOption('izumi');
+
+    await expect(comparison.locator('[data-province-office-note]')).toContainText(
+        'no Shugo title is represented',
+    );
+    await expect(
+        comparison.locator('.province-office-comparison__node.is-missing'),
+    ).toBeVisible();
+});
+
+test('Eight Ministries hierarchy switches ministries and links offices to the reference', async ({
+    page,
+}) => {
+    await page.goto('./trivia/context/#imperial-court');
+
+    const hierarchy = page.locator('[data-office-hierarchy]');
+    await expect(hierarchy).toBeVisible();
+    await expect(hierarchy.locator('[data-hierarchy-current-japanese]')).toHaveText('中務省');
+
+    const chart = hierarchy.locator('[data-office-hierarchy-chart]');
+    await expect(chart.getByRole('link', { name: /Nakatsukasa no Taifu/ })).toBeVisible();
+    await expect(chart.getByRole('link', { name: /Nakatsukasa no Shō/ })).toBeVisible();
+
+    await hierarchy.locator('[data-ministry="hyobu"]').click();
+    await expect(hierarchy.locator('[data-hierarchy-current-japanese]')).toHaveText('兵部省');
+    await expect(chart.getByRole('link', { name: /Hyōbu no Shō/ })).toBeVisible();
+
+    await chart.getByRole('link', { name: /Hyōbu no Shō/ }).click();
+    await expect(page).toHaveURL(/reference\/#rank-hyobu-no-sho$/);
+    await expect(page.locator('#rank-hyobu-no-sho')).toBeVisible();
+});
+
+test('reference charts filter the ledger by grade and institutional type', async ({ page }) => {
+    await page.goto('./reference/');
+
+    const gradeChart = page.locator('[data-grade-chart]');
+    const compositionChart = page.locator('[data-composition-chart]');
+    await expect(gradeChart).toBeVisible();
+    await expect(compositionChart).toBeVisible();
+
+    await gradeChart.locator('[data-chart-grade="7"]').click();
+    await expect(page).toHaveURL(/grade=7/);
+    await expect(page.locator('[data-grade-clear]')).toBeVisible();
+
+    const visibleRanks = page.locator('#rank-panel [data-reference-row]:visible');
+    await expect(visibleRanks.first()).toHaveAttribute('data-grade', '7');
+    expect(await visibleRanks.count()).toBeGreaterThan(0);
+
+    await compositionChart
+        .locator('[data-chart-grade="7"][data-chart-category="Imperial Court"]')
+        .click();
+    await expect(page).toHaveURL(/type=Imperial\+Court/);
+    await expect(page.locator('[data-category-filter]')).toHaveValue('Imperial Court');
+
+    await page.locator('[data-grade-clear]').click();
+    await expect(page).not.toHaveURL(/grade=/);
 });
 
 test('region detail pages surface what the place is known for', async ({ page }) => {

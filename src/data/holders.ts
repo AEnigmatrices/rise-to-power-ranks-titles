@@ -154,7 +154,7 @@ export const notableHoldersByAppointment: Partial<Record<string, NotableHolder[]
         {
             name: 'Shimazu Toyohisa',
             japanese: '島津豊久',
-            description: 'Shimazu commander killed during the Sekigahara retreat; historical sources style him Nakatsukasa no Taifu.',
+            description: 'Shimazu commander killed during the Sekigahara retreat; contemporary Shimazu records and late-1599 correspondence style him Nakatsukasa no Taifu, while later tradition also transmits Nakatsukasa no Shō.',
             sources: [{ url: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf' }],
         },
         {
@@ -165,6 +165,12 @@ export const notableHoldersByAppointment: Partial<Record<string, NotableHolder[]
         },
     ],
     'rank-nakatsukasa-no-sho': [
+        {
+            name: 'Shimazu Toyohisa',
+            japanese: '島津豊久',
+            description: 'Later Japanese historical tradition, including the Satsuma biwa narrative Katami no Sakura, styles Toyohisa Nakatsukasa no Shō; contemporary Shimazu evidence instead attests Nakatsukasa no Taifu.',
+            sources: [{ url: 'https://k-kentan.repo.nii.ac.jp/record/152/files/KJ00001015102.pdf' }],
+        },
         {
             name: 'Wakisaka Yasuharu',
             japanese: '脇坂安治',

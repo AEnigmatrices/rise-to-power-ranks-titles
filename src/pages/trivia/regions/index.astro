@@ -5,6 +5,7 @@ import GuideHeader from '../../../components/trivia/GuideHeader.astro';
 import SectionNav from '../../../components/navigation/SectionNav.astro';
 import GuideCard from '../../../components/trivia/GuideCard.astro';
 import RegionMap from '../../../components/trivia/RegionMap.astro';
+import ProvinceOfficeComparison from '../../../components/trivia/ProvinceOfficeComparison.astro';
 import { regions } from '../../../data/geography';
 import { sitePath } from '../../../lib/routes';
 
@@ -87,6 +88,8 @@ const areas = [...new Set(regions.map((region) => region.area))].sort((a, b) => 
             </div>
 
             <RegionMap />
+
+            <ProvinceOfficeComparison />
 
             <div id="directory-results" class="guide-card-grid" data-guide-grid tabindex="-1">
                 {regions.map((region) => (

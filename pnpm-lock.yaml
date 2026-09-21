@@ -178,9 +178,15 @@ importers:
       astro:
         specifier: ^7.3.3
         version: 7.3.3(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)(@types/node@24.13.5)(yaml@2.9.1)
+      d3-array:
+        specifier: ^3.2.4
+        version: 3.2.4
       d3-geo:
         specifier: ^3.1.1
         version: 3.1.1
+      d3-hierarchy:
+        specifier: ^3.1.2
+        version: 3.1.2
       fuse.js:
         specifier: ^7.5.0
         version: 7.5.0
@@ -1395,6 +1401,10 @@ packages:
 
   d3-geo@3.1.1:
     resolution: {integrity: sha512-637ln3gXKXOwhalDzinUgY83KzNWZRKbYubaG+fGVuc/dxO64RRljtCTnf5ecMyE1RIdtqpkVcq0IbtU2S8j2Q==}
+    engines: {node: '>=12'}
+
+  d3-hierarchy@3.1.2:
+    resolution: {integrity: sha512-FX/9frcub54beBdugHjDCdikxThEqjnR93Qt7PvQTOHxyiNCAlvMrHhclk3cD5VeAaq9fxmfRp+CnWw9rEMBuA==}
     engines: {node: '>=12'}
 
   debug@4.4.3:
@@ -3723,6 +3733,8 @@ snapshots:
   d3-geo@3.1.1:
     dependencies:
       d3-array: 3.2.4
+
+  d3-hierarchy@3.1.2: {}
 
   debug@4.4.3:
     dependencies:

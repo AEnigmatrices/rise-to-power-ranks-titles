@@ -16,4 +16,8 @@
 
 /* The redesigned ledger owns its final component styling after the global theme layer. */
 @import './table.css';
+@import './charts.css';
+@import './hierarchy.css';
+@import './province-office.css';
+@import './visualization.css';
 @import './usability.css';

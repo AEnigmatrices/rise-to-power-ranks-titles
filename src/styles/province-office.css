@@ -1,0 +1,251 @@
+/* ---------- Province Court office vs. Shugo comparison ---------- */
+
+.province-office-comparison {
+    margin: 0 0 24px;
+    padding: clamp(20px, 3vw, 30px);
+    border: 1px solid rgb(232 201 104 / 0.18);
+    border-radius: var(--radius-md);
+    color: #ece7dc;
+    background:
+        radial-gradient(circle at 88% 0%, rgb(232 201 104 / 0.07), transparent 26rem),
+        linear-gradient(145deg, #202820 0%, #171e18 58%, #111612 100%);
+    box-shadow: var(--shadow-md);
+}
+
+.province-office-comparison__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 300px);
+    gap: 26px;
+    align-items: end;
+}
+
+.province-office-comparison__header h3 {
+    margin: 8px 0 0;
+    color: #f5eddb;
+    font-family: var(--serif);
+    font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+    font-weight: 610;
+    letter-spacing: -0.025em;
+}
+
+.province-office-comparison__header > div > p:last-child {
+    max-width: 72ch;
+    margin: 10px 0 0;
+    color: #aeb7ad;
+    font-size: 0.82rem;
+    line-height: 1.65;
+}
+
+.province-office-comparison__picker {
+    display: grid;
+    gap: 7px;
+}
+
+.province-office-comparison__picker > span {
+    color: #cabc91;
+    font-size: 0.67rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.province-office-comparison__picker select {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 36px 0 12px;
+    border: 1px solid rgb(232 201 104 / 0.24);
+    border-radius: 8px;
+    color: #f3ead5;
+    background: #252d26;
+    font: inherit;
+}
+
+.province-office-comparison__status,
+.province-office-comparison__current {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px 17px;
+    border: 1px solid rgb(255 255 255 / 0.065);
+    border-radius: 9px;
+    background: rgb(255 255 255 / 0.018);
+}
+
+.province-office-comparison__status > span,
+.province-office-comparison__current > span {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1px solid rgb(232 201 104 / 0.24);
+    border-radius: 50%;
+    color: var(--gold-bright);
+    font-family: var(--jp-serif);
+    font-size: 1.1rem;
+    background: rgb(232 201 104 / 0.05);
+}
+
+.province-office-comparison__status div,
+.province-office-comparison__current div {
+    display: grid;
+    gap: 3px;
+}
+
+.province-office-comparison__status strong,
+.province-office-comparison__current strong {
+    color: #eee7d7;
+    font-size: 0.82rem;
+}
+
+.province-office-comparison__status small,
+.province-office-comparison__current small {
+    color: #929d93;
+    font-size: 0.69rem;
+    line-height: 1.45;
+}
+
+.province-office-comparison__current a {
+    margin-left: auto;
+    color: #d8c276;
+    font-size: 0.7rem;
+    font-weight: 740;
+    text-underline-offset: 3px;
+}
+
+.province-office-comparison__canvas {
+    margin-top: 12px;
+    overflow-x: auto;
+    border: 1px solid rgb(255 255 255 / 0.055);
+    border-radius: 10px;
+    background:
+        linear-gradient(180deg, rgb(255 255 255 / 0.015), transparent 45%),
+        rgb(0 0 0 / 0.1);
+}
+
+.province-office-comparison__chart {
+    display: block;
+    width: 100%;
+    min-width: 700px;
+    height: auto;
+}
+
+.province-office-comparison__link {
+    fill: none;
+    stroke: rgb(232 201 104 / 0.2);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+}
+
+.province-office-comparison__node {
+    outline: none;
+}
+
+.province-office-comparison__node-box {
+    fill: #1e261f;
+    stroke: rgb(232 201 104 / 0.2);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+    transition: 120ms ease;
+    transition-property: fill, stroke, filter;
+}
+
+.province-office-comparison__node.is-province .province-office-comparison__node-box {
+    fill: #2a332b;
+    stroke: rgb(232 201 104 / 0.36);
+}
+
+.province-office-comparison__node.is-court .province-office-comparison__node-box {
+    stroke: rgb(193 153 77 / 0.52);
+}
+
+.province-office-comparison__node.is-shugo .province-office-comparison__node-box {
+    stroke: rgb(102 139 173 / 0.58);
+}
+
+.province-office-comparison__node.is-missing .province-office-comparison__node-box {
+    fill: rgb(255 255 255 / 0.015);
+    stroke: rgb(255 255 255 / 0.11);
+    stroke-dasharray: 5 4;
+}
+
+.province-office-comparison__node.is-court,
+.province-office-comparison__node.is-shugo {
+    cursor: pointer;
+}
+
+.province-office-comparison__node.is-court:hover .province-office-comparison__node-box,
+.province-office-comparison__node.is-shugo:hover .province-office-comparison__node-box,
+.province-office-comparison__node.is-court:focus-visible .province-office-comparison__node-box,
+.province-office-comparison__node.is-shugo:focus-visible .province-office-comparison__node-box {
+    fill: #333b32;
+    stroke: #ead277;
+    filter: drop-shadow(0 5px 10px rgb(0 0 0 / 0.2));
+}
+
+.province-office-comparison__node-title {
+    fill: #eee8da;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 760;
+    pointer-events: none;
+}
+
+.province-office-comparison__node-title tspan:first-child {
+    fill: #e1cd91;
+    font-family: var(--jp-serif);
+    font-size: 18px;
+}
+
+.province-office-comparison__node.is-missing .province-office-comparison__node-title,
+.province-office-comparison__node.is-missing .province-office-comparison__node-title tspan:first-child {
+    fill: #858e86;
+}
+
+.province-office-comparison__node-institution {
+    fill: #bbc3ba;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 760;
+    pointer-events: none;
+}
+
+.province-office-comparison__node-meta {
+    fill: #8f9a91;
+    font-family: var(--sans);
+    font-size: 10px;
+    font-weight: 680;
+    pointer-events: none;
+}
+
+.province-office-comparison__note {
+    margin: 12px 0 0;
+    padding: 11px 13px;
+    border-left: 2px solid rgb(232 201 104 / 0.28);
+    color: #9fa99f;
+    background: rgb(255 255 255 / 0.018);
+    font-size: 0.72rem;
+    line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+    .province-office-comparison__current {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .province-office-comparison__current a {
+        width: 100%;
+        margin-left: 58px;
+    }
+
+    .province-office-comparison__header {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .province-office-comparison__chart {
+        min-width: 680px;
+    }
+}

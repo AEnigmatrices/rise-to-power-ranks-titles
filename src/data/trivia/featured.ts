@@ -9,11 +9,14 @@ export const featuredTrivia: FeaturedTrivia[] = [
         sources: [{ url: 'https://ndlsearch.ndl.go.jp/rnavi/humanities/kansyoku' }],
     },
     {
-        kicker: 'Anime recognition hook',
-        japanese: '中務少輔 → 中務大輔 · 兵部少輔',
-        title: 'Drifters uses real court offices—but changes Toyohisa’s',
-        body: 'The Sekigahara opening uses real court-office language, not personal court ranks. Ii Naomasa’s 兵部少輔 is attested in contemporary documents, while Shimazu Toyohisa is historically recorded as 中務大輔 rather than the anime’s 中務少輔. Toyohisa’s office was the more senior office in the classical hierarchy, but that does not by itself mean Toyohisa personally held the higher 位階.',
-        sources: [{ url: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf' }],
+        kicker: 'Conflicting historical attributions',
+        japanese: '中務大輔 / 中務少輔',
+        title: 'Toyohisa appears under two Nakatsukasa titles',
+        body: 'Shimazu Toyohisa is transmitted under both 中務大輔 and 中務少輔. Contemporary Shimazu records and late-1599 correspondence support 中務大輔, while later Japanese historical tradition also uses 中務少輔—the form familiar from Drifters. The catalogue therefore lists Toyohisa under both appointments rather than treating 少輔 as a fictional invention.',
+        sources: [
+            { url: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf' },
+            { url: 'https://k-kentan.repo.nii.ac.jp/record/152/files/KJ00001015102.pdf' },
+        ],
     },
     {
         kicker: 'Do not confuse these',

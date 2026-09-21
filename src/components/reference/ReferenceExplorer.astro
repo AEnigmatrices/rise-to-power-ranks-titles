@@ -125,6 +125,65 @@ const searchableText = (
         </button>
     </div>
 
+    <section class="reference-viz" aria-labelledby="reference-viz-heading" data-reference-charts>
+        <div class="reference-viz__header">
+            <div>
+                <span class="reference-viz__kicker">Visual overview</span>
+                <h3 id="reference-viz-heading">See the appointment structure before the ledger</h3>
+                <p data-chart-summary>
+                    Grade distribution and institutional composition for the currently selected system.
+                </p>
+            </div>
+            <button
+                class="reference-viz__clear"
+                type="button"
+                data-grade-clear
+                hidden
+            >
+                <RotateCcw size={14} stroke-width={1.9} aria-hidden="true" />
+                Clear grade
+            </button>
+        </div>
+
+        <div class="reference-viz__grid">
+            <figure class="reference-chart-card">
+                <figcaption>
+                    <strong>Appointments by grade</strong>
+                    <span>Each bar is a game grade. Select one to filter the ledger.</span>
+                </figcaption>
+                <div class="reference-chart__viewport">
+                    <svg
+                        class="reference-chart"
+                        viewBox="0 0 720 280"
+                        role="group"
+                        aria-label="Appointments by grade"
+                        data-grade-chart
+                    ></svg>
+                </div>
+            </figure>
+
+            <figure class="reference-chart-card">
+                <figcaption>
+                    <strong>Institutional composition</strong>
+                    <span>See which historical appointment families create each grade.</span>
+                </figcaption>
+                <div class="reference-chart__viewport">
+                    <svg
+                        class="reference-chart"
+                        viewBox="0 0 720 280"
+                        role="group"
+                        aria-label="Institutional composition by grade"
+                        data-composition-chart
+                    ></svg>
+                </div>
+                <div class="reference-chart__legend" data-chart-legend></div>
+            </figure>
+        </div>
+        <p class="viz-scroll-hint">Swipe or scroll horizontally to inspect all grades.</p>
+
+        <p class="sr-only" role="status" aria-live="polite" data-chart-live></p>
+    </section>
+
     <div class="toolbar">
         <div class="toolbar__search field">
             <label class="control-label" for="reference-search">
@@ -294,6 +353,8 @@ const searchableText = (
                                             data-kind={kind}
                                             data-class={entry.className}
                                             data-category={entry.categoryLabel}
+                                            data-category-key={entry.category}
+                                            data-grade={entry.grade}
                                             data-bonus={entry.bonus}
                                             data-count={entry.count}
                                             data-order={entry.sourceOrder ?? index}

@@ -3,6 +3,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import GuideHeader from '../../../components/trivia/GuideHeader.astro';
 import SectionNav from '../../../components/navigation/SectionNav.astro';
 import SourceLinks from '../../../components/trivia/SourceLinks.astro';
+import OfficeHierarchy from '../../../components/trivia/OfficeHierarchy.astro';
 import { politicalContextSources } from '../../../data/provenance/context';
 import { sitePath } from '../../../lib/routes';
 ---
@@ -25,6 +26,7 @@ import { sitePath } from '../../../lib/routes';
 
         <nav class="context-jump-nav" aria-label="Political context sections">
             <a href="#imperial-court">Imperial Court</a>
+            <a href="#ministry-hierarchy">Ministry Hierarchy</a>
             <a href="#muromachi-shogunate">Muromachi Shogunate</a>
             <a href="#sengoku-paradox">Sengoku Paradox</a>
             <a href="#game-model">Game Model</a>
@@ -75,6 +77,8 @@ import { sitePath } from '../../../lib/routes';
                     </article>
                 </div>
             </div>
+
+            <OfficeHierarchy />
 
             <div class="context-chain" aria-label="Long development of the Imperial Court">
                 <div class="context-chain__step"><strong>Yamato polity</strong><span>Formation and consolidation of the monarchy.</span></div>

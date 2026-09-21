@@ -99,9 +99,12 @@ export const triviaById = {
     },
     'drifters-toyohisa': {
         id: 'drifters-toyohisa',
-        label: 'Drifters changes Toyohisa’s court office',
-        body: 'Drifters styles Shimazu Toyohisa as 島津中務少輔豊久 (Nakatsukasa no Shō), but historical records around Sekigahara identify him as 島津中務大輔豊久 (Nakatsukasa no Taifu). The anime’s 少輔 is therefore a fictional variation; the historically attested office corresponds to the catalogue’s 中務大輔 entry.',
-        sources: [{ url: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf' }],
+        label: 'Toyohisa is transmitted under two Nakatsukasa titles',
+        body: 'Shimazu Toyohisa appears in Japanese tradition under both 中務大輔 (Nakatsukasa no Taifu) and 中務少輔 (Nakatsukasa no Shō). Contemporary Shimazu records and late-1599 correspondence support 大輔, while later historical tradition also uses 少輔; Drifters therefore inherited an existing 少輔 tradition rather than inventing it. The catalogue lists Toyohisa under both appointments while noting the stronger contemporary evidence for 大輔.',
+        sources: [
+            { url: 'https://www.pref.kagoshima.jp/ab23/reimeikan/siroyu/documents/6757_20230324134328-1.pdf' },
+            { url: 'https://k-kentan.repo.nii.ac.jp/record/152/files/KJ00001015102.pdf' },
+        ],
     },
     'drifters-naomasa': {
         id: 'drifters-naomasa',
