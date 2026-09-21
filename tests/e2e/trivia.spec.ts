@@ -201,6 +201,40 @@ test('Toyohisa appears as a notable holder under both Nakatsukasa attributions',
     );
 });
 
+test('province office comparison synchronizes with geography filters', async ({ page }) => {
+    await page.goto('./trivia/regions/');
+
+    const comparison = page.locator('[data-province-office-comparison]');
+    const provinceSelect = comparison.locator('[data-province-office-select]');
+    const areaSelect = page.locator('[data-guide-area]');
+
+    await provinceSelect.selectOption('musashi');
+    await expect(page).toHaveURL(/province=musashi/);
+    await expect(page).toHaveURL(/area=Kant%C5%8D|area=Kant%C5%8D/);
+    await expect(areaSelect).toHaveValue('Kantō');
+
+    const chart = comparison.locator('[data-province-office-chart]');
+    await expect(chart.getByRole('link', { name: /Musashi no Kami/ })).toBeVisible();
+    await expect(chart.getByRole('link', { name: /Musashi Shugo/ })).toBeVisible();
+
+    await chart.getByRole('link', { name: /Musashi Shugo/ }).click();
+    await expect(page).toHaveURL(/reference\/#title-musashi-shugo$/);
+});
+
+test('province office comparison shows rank-only provinces explicitly', async ({ page }) => {
+    await page.goto('./trivia/regions/');
+
+    const comparison = page.locator('[data-province-office-comparison]');
+    await comparison.locator('[data-province-office-select]').selectOption('izumi');
+
+    await expect(comparison.locator('[data-province-office-note]')).toContainText(
+        'no Shugo title is represented',
+    );
+    await expect(
+        comparison.locator('.province-office-comparison__node.is-missing'),
+    ).toBeVisible();
+});
+
 test('Eight Ministries hierarchy switches ministries and links offices to the reference', async ({
     page,
 }) => {
