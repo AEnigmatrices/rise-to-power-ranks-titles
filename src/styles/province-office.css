@@ -106,6 +106,14 @@
     line-height: 1.45;
 }
 
+.province-office-comparison__current a {
+    margin-left: auto;
+    color: #d8c276;
+    font-size: 0.7rem;
+    font-weight: 740;
+    text-underline-offset: 3px;
+}
+
 .province-office-comparison__canvas {
     margin-top: 12px;
     overflow-x: auto;
@@ -222,6 +230,16 @@
 }
 
 @media (max-width: 760px) {
+    .province-office-comparison__current {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .province-office-comparison__current a {
+        width: 100%;
+        margin-left: 58px;
+    }
+
     .province-office-comparison__header {
         grid-template-columns: 1fr;
         gap: 16px;
