@@ -1,35 +1,13 @@
 /* global document, CustomEvent, SVGElement, HTMLElement, HTMLSelectElement, URLSearchParams, location */
 
 import { hierarchy, tree } from 'd3-hierarchy';
-
-const SVG_NS = 'http://www.w3.org/2000/svg';
-
-const svgElement = (name, attrs = {}) => {
-    const node = document.createElementNS(SVG_NS, name);
-    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
-    return node;
-};
-
-const clear = (node) => {
-    while (node.firstChild) node.firstChild.remove();
-};
-
-const textLines = (parent, lines, x, y, className) => {
-    const text = svgElement('text', {
-        x,
-        y,
-        class: className,
-        'text-anchor': 'middle',
-    });
-
-    lines.forEach((line, index) => {
-        const tspan = svgElement('tspan', { x, dy: index === 0 ? 0 : 17 });
-        tspan.textContent = line;
-        text.append(tspan);
-    });
-
-    parent.append(text);
-};
+import {
+    activateSvgNode,
+    appendMultilineText,
+    bindVizTooltip,
+    clearElement,
+    svgElement,
+} from '../lib/visualization/svg.js';
 
 const chartData = (pair) => ({
     type: 'province',
@@ -60,7 +38,7 @@ const render = (root, pair) => {
     const svg = root.querySelector('[data-province-office-chart]');
     if (!(svg instanceof SVGElement)) return;
 
-    clear(svg);
+    clearElement(svg);
 
     const layout = tree().size([620, 185]);
     const data = hierarchy(chartData(pair));
@@ -101,20 +79,22 @@ const render = (root, pair) => {
         );
 
         if (rootNode) {
-            textLines(
+            appendMultilineText(
                 group,
                 [item.japanese, item.label],
                 0,
                 -4,
                 'province-office-comparison__node-title',
+                { lineHeight: 17 },
             );
         } else if (missing) {
-            textLines(
+            appendMultilineText(
                 group,
                 [item.japanese, item.label],
                 0,
                 -14,
                 'province-office-comparison__node-title',
+                { lineHeight: 17 },
             );
             const institution = svgElement('text', {
                 x: 0,
@@ -136,19 +116,21 @@ const render = (root, pair) => {
             const open = () => {
                 location.href = `${root.dataset.referenceBase}#${appointment.id}`;
             };
-            group.addEventListener('click', open);
-            group.addEventListener('keydown', (event) => {
-                if (event.key !== 'Enter' && event.key !== ' ') return;
-                event.preventDefault();
-                open();
-            });
+            activateSvgNode(group, open);
+            bindVizTooltip(root, group, [
+                appointment.reading,
+                appointment.meaning,
+                item.institution,
+                `Grade ${appointment.grade} · ${appointment.effect}`,
+            ]);
 
-            textLines(
+            appendMultilineText(
                 group,
                 [appointment.japanese, appointment.reading],
                 0,
                 -25,
                 'province-office-comparison__node-title',
+                { lineHeight: 17 },
             );
 
             const institution = svgElement('text', {
