@@ -2,6 +2,7 @@ import Fuse from 'fuse.js';
 import { animate } from 'motion/mini';
 import { autoUpdate, computePosition, flip, offset, shift, size } from '@floating-ui/dom';
 import type { ReferenceKind } from '../lib/appointments';
+import { renderReferenceCharts } from './reference-charts.js';
 import {
     isSingleCharacterQuery,
     normalizeSearchText,
@@ -54,6 +55,10 @@ type SearchRecord = {
         (initialParams.get('view') === 'title' || location.hash === '#titles' ? 'title' : 'rank');
     let restoreInitialFilters = true;
     let restoringUrlState = true;
+    let selectedGrade: number | null = (() => {
+        const value = Number(initialParams.get('grade'));
+        return value >= 1 && value <= 12 ? value : null;
+    })();
 
     searchInput.value = initialParams.get('q') ?? '';
 
@@ -305,6 +310,9 @@ type SearchRecord = {
         if (categoryFilter.value) url.searchParams.set('type', categoryFilter.value);
         else url.searchParams.delete('type');
 
+        if (selectedGrade) url.searchParams.set('grade', String(selectedGrade));
+        else url.searchParams.delete('grade');
+
         // A filtered-out appointment must not override the selected system on reload.
         const target = document.getElementById(url.hash.slice(1));
         if (
@@ -326,10 +334,13 @@ type SearchRecord = {
         const selectedCategory = categoryFilter.value;
         const rows = getActiveRows();
         const ranked = rankedRows(rows, query);
-        const matches = ranked.filter(
+        const chartRows = ranked.filter(
+            (row) => !selectedClass || row.dataset.class === selectedClass,
+        );
+        const matches = chartRows.filter(
             (row) =>
-                (!selectedClass || row.dataset.class === selectedClass) &&
-                (!selectedCategory || row.dataset.category === selectedCategory),
+                (!selectedCategory || row.dataset.category === selectedCategory) &&
+                (!selectedGrade || Number(row.dataset.grade) === selectedGrade),
         );
 
         const visible = new Set(matches);
@@ -393,6 +404,24 @@ type SearchRecord = {
             button.disabled = !hasActiveFilters;
         });
         if (searchClear) searchClear.hidden = !searchInput.value;
+
+        renderReferenceCharts({
+            root,
+            rows: chartRows,
+            activeKind,
+            selectedGrade,
+            selectedCategory,
+            onGrade: (grade: number) => {
+                selectedGrade = selectedGrade === grade ? null : grade;
+                updateResults();
+            },
+            onComposition: (grade: number, category: string) => {
+                const sameSelection = selectedGrade === grade && selectedCategory === category;
+                selectedGrade = grade;
+                categoryFilter.value = sameSelection ? '' : category;
+                updateResults();
+            },
+        });
 
         if (!restoringUrlState && !reducedMotion.matches) {
             matches.slice(0, 18).forEach((row, index) => {
@@ -479,6 +508,10 @@ type SearchRecord = {
     });
     classFilter.addEventListener('change', updateResults);
     categoryFilter.addEventListener('change', updateResults);
+    root.querySelector<HTMLButtonElement>('[data-grade-clear]')?.addEventListener('click', () => {
+        selectedGrade = null;
+        updateResults();
+    });
 
     root.querySelectorAll<HTMLDetailsElement>('.holder-details').forEach((details) => {
         details.addEventListener('toggle', () => {
@@ -498,6 +531,7 @@ type SearchRecord = {
             searchInput.value = '';
             classFilter.value = '';
             categoryFilter.value = '';
+            selectedGrade = null;
             updateResults();
             searchInput.focus();
         }),
@@ -563,6 +597,7 @@ type SearchRecord = {
             searchInput.value = '';
             classFilter.value = '';
             categoryFilter.value = '';
+            selectedGrade = null;
             updateResults();
         }
 
@@ -574,6 +609,8 @@ type SearchRecord = {
         restoringUrlState = true;
         initialParams = new URLSearchParams(location.search);
         searchInput.value = initialParams.get('q') ?? '';
+        const restoredGrade = Number(initialParams.get('grade'));
+        selectedGrade = restoredGrade >= 1 && restoredGrade <= 12 ? restoredGrade : null;
         restoreInitialFilters = true;
         setKind(
             location.hash.startsWith('#title-')
