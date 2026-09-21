@@ -1,4 +1,4 @@
-/* global document, CustomEvent, SVGElement, HTMLElement, HTMLSelectElement, location */
+/* global document, CustomEvent, SVGElement, HTMLElement, HTMLSelectElement, URLSearchParams, location */
 
 import { hierarchy, tree } from 'd3-hierarchy';
 
@@ -62,8 +62,6 @@ const render = (root, pair) => {
 
     clear(svg);
 
-    const width = 900;
-    const height = 350;
     const layout = tree().size([620, 185]);
     const data = hierarchy(chartData(pair));
     layout(data);
