@@ -201,6 +201,28 @@ test('Toyohisa appears as a notable holder under both Nakatsukasa attributions',
     );
 });
 
+test('Eight Ministries hierarchy switches ministries and links offices to the reference', async ({
+    page,
+}) => {
+    await page.goto('./trivia/context/#imperial-court');
+
+    const hierarchy = page.locator('[data-office-hierarchy]');
+    await expect(hierarchy).toBeVisible();
+    await expect(hierarchy.locator('[data-hierarchy-current-japanese]')).toHaveText('中務省');
+
+    const chart = hierarchy.locator('[data-office-hierarchy-chart]');
+    await expect(chart.getByRole('link', { name: /Nakatsukasa no Taifu/ })).toBeVisible();
+    await expect(chart.getByRole('link', { name: /Nakatsukasa no Shō/ })).toBeVisible();
+
+    await hierarchy.locator('[data-ministry="hyobu"]').click();
+    await expect(hierarchy.locator('[data-hierarchy-current-japanese]')).toHaveText('兵部省');
+    await expect(chart.getByRole('link', { name: /Hyōbu no Shō/ })).toBeVisible();
+
+    await chart.getByRole('link', { name: /Hyōbu no Shō/ }).click();
+    await expect(page).toHaveURL(/reference\/#rank-hyobu-no-sho$/);
+    await expect(page.locator('#rank-hyobu-no-sho')).toBeVisible();
+});
+
 test('reference charts filter the ledger by grade and institutional type', async ({ page }) => {
     await page.goto('./reference/');
 
