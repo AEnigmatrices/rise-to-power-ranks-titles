@@ -1,0 +1,66 @@
+---
+import { provinceOfficePairs } from '../../data/province-office-pairs';
+
+const dataJson = JSON.stringify(provinceOfficePairs).replace(/</g, '\\u003c');
+---
+
+<section
+    class="province-office-comparison"
+    aria-labelledby="province-office-heading"
+    data-province-office-comparison
+>
+    <header class="province-office-comparison__header">
+        <div>
+            <p class="guide-section__kicker">One province, two institutions</p>
+            <h3 id="province-office-heading"><span lang="ja">守</span> and <span lang="ja">守護</span> are not the same office</h3>
+            <p>
+                Select a historical province to compare its Imperial Court provincial office with the
+                corresponding Muromachi Shogunate Shugo title represented by the game.
+            </p>
+        </div>
+
+        <label class="province-office-comparison__picker">
+            <span>Historical province</span>
+            <select data-province-office-select>
+                <option value="">Choose a province…</option>
+                {provinceOfficePairs.map(({ province }) => (
+                    <option value={province.id} data-province-area={province.area}>
+                        {province.name} · {province.japanese}
+                    </option>
+                ))}
+            </select>
+        </label>
+    </header>
+
+    <div class="province-office-comparison__status" data-province-office-empty>
+        <span lang="ja">国</span>
+        <div>
+            <strong>Choose a province to compare its appointments.</strong>
+            <small>The area map will highlight the province’s broad modern orientation region.</small>
+        </div>
+    </div>
+
+    <div class="province-office-comparison__selection" data-province-office-selection hidden>
+        <div class="province-office-comparison__current">
+            <span lang="ja" data-province-office-japanese></span>
+            <div>
+                <strong data-province-office-name></strong>
+                <small data-province-office-location></small>
+            </div>
+        </div>
+
+        <div class="province-office-comparison__canvas">
+            <svg
+                class="province-office-comparison__chart"
+                viewBox="0 0 900 350"
+                role="group"
+                aria-label="Comparison of provincial Court office and Shugo title"
+                data-province-office-chart
+            ></svg>
+        </div>
+
+        <p class="province-office-comparison__note" data-province-office-note></p>
+    </div>
+
+    <script type="application/json" data-province-office-data set:html={dataJson}></script>
+</section>
