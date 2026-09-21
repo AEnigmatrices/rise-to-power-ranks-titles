@@ -1,5 +1,6 @@
 ---
 import { provinceOfficePairs } from '../../data/province-office-pairs';
+import { sitePath } from '../../lib/routes';
 
 const dataJson = JSON.stringify(provinceOfficePairs).replace(/</g, '\\u003c');
 ---
@@ -8,6 +9,7 @@ const dataJson = JSON.stringify(provinceOfficePairs).replace(/</g, '\\u003c');
     class="province-office-comparison"
     aria-labelledby="province-office-heading"
     data-province-office-comparison
+    data-reference-base={sitePath('reference/')}
 >
     <header class="province-office-comparison__header">
         <div>
@@ -64,3 +66,8 @@ const dataJson = JSON.stringify(provinceOfficePairs).replace(/</g, '\\u003c');
 
     <script type="application/json" data-province-office-data set:html={dataJson}></script>
 </section>
+
+
+<script>
+    import '../../scripts/province-office-comparison';
+</script>
