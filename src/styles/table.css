@@ -37,6 +37,7 @@
     border-collapse: separate;
     border-spacing: 0;
     color: #ecebe6;
+    background: transparent;
     font-size: 0.86rem;
 }
 
@@ -132,8 +133,17 @@
 }
 
 .reference-table tbody tr[data-reference-row] {
+    background: transparent;
+    box-shadow: none;
     transition: 120ms ease;
     transition-property: background-color, box-shadow;
+}
+
+.reference-table tbody tr[data-reference-row]:nth-child(even),
+.reference-table tbody tr[data-reference-row].is-shugo,
+.reference-table tbody tr[data-reference-row].is-provincial {
+    background: transparent;
+    background-image: none;
 }
 
 .reference-table tbody tr[data-reference-row]:hover td {
@@ -350,7 +360,8 @@
         margin-bottom: 18px;
     }
 
-    .reference-group__heading {
+    .reference-group__heading,
+    .reference-group__heading th {
         display: none;
     }
 
