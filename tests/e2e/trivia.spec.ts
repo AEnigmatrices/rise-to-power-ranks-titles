@@ -201,6 +201,32 @@ test('Toyohisa appears as a notable holder under both Nakatsukasa attributions',
     );
 });
 
+test('reference charts filter the ledger by grade and institutional type', async ({ page }) => {
+    await page.goto('./reference/');
+
+    const gradeChart = page.locator('[data-grade-chart]');
+    const compositionChart = page.locator('[data-composition-chart]');
+    await expect(gradeChart).toBeVisible();
+    await expect(compositionChart).toBeVisible();
+
+    await gradeChart.locator('[data-chart-grade="7"]').click();
+    await expect(page).toHaveURL(/grade=7/);
+    await expect(page.locator('[data-grade-clear]')).toBeVisible();
+
+    const visibleRanks = page.locator('#rank-panel [data-reference-row]:visible');
+    await expect(visibleRanks.first()).toHaveAttribute('data-grade', '7');
+    expect(await visibleRanks.count()).toBeGreaterThan(0);
+
+    await compositionChart
+        .locator('[data-chart-grade="7"][data-chart-category="Imperial Court"]')
+        .click();
+    await expect(page).toHaveURL(/type=Imperial\+Court/);
+    await expect(page.locator('[data-category-filter]')).toHaveValue('Imperial Court');
+
+    await page.locator('[data-grade-clear]').click();
+    await expect(page).not.toHaveURL(/grade=/);
+});
+
 test('region detail pages surface what the place is known for', async ({ page }) => {
     await page.goto('./trivia/regions/owari/');
 
