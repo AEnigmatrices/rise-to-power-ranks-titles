@@ -1,0 +1,124 @@
+/* ---------- Shared visualization interaction language ---------- */
+
+.reference-viz,
+.reference-chart-card,
+.office-hierarchy,
+.province-office-comparison {
+    position: relative;
+}
+
+.viz-tooltip {
+    position: absolute;
+    z-index: 40;
+    display: grid;
+    min-width: 150px;
+    max-width: min(260px, calc(100vw - 40px));
+    gap: 3px;
+    padding: 9px 11px;
+    border: 1px solid rgb(232 201 104 / 0.3);
+    border-radius: 7px;
+    color: #ded8ca;
+    background: rgb(18 24 19 / 0.97);
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.28);
+    font-size: 0.68rem;
+    line-height: 1.4;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+}
+
+.viz-tooltip strong {
+    color: #fff0c5;
+    font-size: 0.74rem;
+}
+
+.viz-tooltip span {
+    color: #aeb8ae;
+}
+
+.viz-tooltip[hidden] {
+    display: none;
+}
+
+.reference-chart__grade,
+.reference-chart__segment,
+.office-hierarchy__node--depth-2,
+.province-office-comparison__node.is-court,
+.province-office-comparison__node.is-shugo {
+    transition: opacity 120ms ease;
+}
+
+.reference-viz:has(.is-muted) .reference-chart__grade.is-muted,
+.reference-viz:has(.is-muted) .reference-chart__segment.is-muted {
+    opacity: 0.26;
+}
+
+.reference-chart__grade.is-related .reference-chart__bar,
+.reference-chart__segment.is-related .reference-chart__segment-rect {
+    opacity: 1;
+    filter: brightness(1.16);
+}
+
+.reference-chart__grade.is-related .reference-chart__axis-label,
+.reference-chart__segment.is-related + .reference-chart__axis-label {
+    fill: #f0d881;
+}
+
+.office-hierarchy__node--depth-2 .office-hierarchy__node-box,
+.province-office-comparison__node.is-court .province-office-comparison__node-box,
+.province-office-comparison__node.is-shugo .province-office-comparison__node-box {
+    transition:
+        fill 120ms ease,
+        stroke 120ms ease,
+        filter 120ms ease,
+        transform 120ms ease;
+}
+
+.province-office-comparison__node.is-court .province-office-comparison__node-institution {
+    fill: #d8bd78;
+}
+
+.province-office-comparison__node.is-shugo .province-office-comparison__node-institution {
+    fill: #9fc0dc;
+}
+
+.viz-scroll-hint {
+    display: none;
+    margin: 8px 0 0;
+    color: #89958b;
+    font-size: 0.66rem;
+}
+
+@media (max-width: 760px) {
+    .viz-scroll-hint {
+        display: block;
+    }
+
+    .reference-chart__viewport,
+    .office-hierarchy__canvas,
+    .province-office-comparison__canvas {
+        scrollbar-width: thin;
+        scroll-snap-type: x proximity;
+    }
+
+    .reference-chart,
+    .office-hierarchy__chart,
+    .province-office-comparison__chart {
+        scroll-snap-align: start;
+    }
+
+    .viz-tooltip {
+        display: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reference-chart__bar,
+    .reference-chart__segment-rect,
+    .reference-chart__grade,
+    .reference-chart__segment,
+    .office-hierarchy__tab,
+    .office-hierarchy__node-box,
+    .province-office-comparison__node-box {
+        transition: none !important;
+    }
+}
