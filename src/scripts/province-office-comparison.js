@@ -170,6 +170,7 @@ const render = (root, pair) => {
     const name = root.querySelector('[data-province-office-name]');
     const locationNode = root.querySelector('[data-province-office-location]');
     const note = root.querySelector('[data-province-office-note]');
+    const guideLink = root.querySelector('[data-province-office-guide]');
 
     if (!(select instanceof HTMLSelectElement) || !dataNode?.textContent) return;
 
@@ -192,6 +193,7 @@ const render = (root, pair) => {
         if (japanese) japanese.textContent = pair.province.japanese;
         if (name) name.textContent = pair.province.name;
         if (locationNode) locationNode.textContent = pair.province.location;
+        if (guideLink) guideLink.setAttribute('href', `${root.dataset.regionsBase}${pair.province.id}/`);
 
         if (note) {
             note.textContent = pair.shugo
