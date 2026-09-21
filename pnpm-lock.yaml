@@ -184,6 +184,9 @@ importers:
       d3-geo:
         specifier: ^3.1.1
         version: 3.1.1
+      d3-hierarchy:
+        specifier: ^3.1.2
+        version: 3.1.2
       fuse.js:
         specifier: ^7.5.0
         version: 7.5.0
@@ -1398,6 +1401,10 @@ packages:
 
   d3-geo@3.1.1:
     resolution: {integrity: sha512-637ln3gXKXOwhalDzinUgY83KzNWZRKbYubaG+fGVuc/dxO64RRljtCTnf5ecMyE1RIdtqpkVcq0IbtU2S8j2Q==}
+    engines: {node: '>=12'}
+
+  d3-hierarchy@3.1.2:
+    resolution: {integrity: sha512-6qVhWJmyFcpTUqTzWfRNdRNfFDSs+M7c2+qYxYkSxZl8P4L+we2bdf6q36NZVQUfNd1zlfodzkE5l1zFZs9K2A==}
     engines: {node: '>=12'}
 
   debug@4.4.3:
@@ -3726,6 +3733,8 @@ snapshots:
   d3-geo@3.1.1:
     dependencies:
       d3-array: 3.2.4
+
+  d3-hierarchy@3.1.2: {}
 
   debug@4.4.3:
     dependencies:
