@@ -49,6 +49,7 @@ const dataJson = JSON.stringify(provinceOfficePairs).replace(/</g, '\\u003c');
                 <strong data-province-office-name></strong>
                 <small data-province-office-location></small>
             </div>
+            <a href={sitePath('trivia/regions/')} data-province-office-guide>Open province guide →</a>
         </div>
 
         <div class="province-office-comparison__canvas">
@@ -60,6 +61,7 @@ const dataJson = JSON.stringify(provinceOfficePairs).replace(/</g, '\\u003c');
                 data-province-office-chart
             ></svg>
         </div>
+        <p class="viz-scroll-hint">Swipe or scroll horizontally to compare both institutions.</p>
 
         <p class="province-office-comparison__note" data-province-office-note></p>
     </div>
