@@ -1,7 +1,12 @@
 /* global document, SVGElement, HTMLButtonElement */
 import { max, rollups, sum } from 'd3-array';
-
-const SVG_NS = 'http://www.w3.org/2000/svg';
+import {
+    activateSvgNode,
+    bindRelatedHighlight,
+    bindVizTooltip,
+    clearElement,
+    svgElement,
+} from '../lib/visualization/svg.js';
 const GRADE_COUNT = 12;
 
 const categoryMeta = {
@@ -11,28 +16,9 @@ const categoryMeta = {
     shugo: { label: 'Shugo', className: 'is-shugo' },
 };
 
-const svgElement = (name, attrs = {}) => {
-    const node = document.createElementNS(SVG_NS, name);
-    Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, String(value)));
-    return node;
-};
-
-const clear = (node) => {
-    while (node.firstChild) node.firstChild.remove();
-};
-
 const rowGrade = (row) => Number(row.dataset.grade ?? 0);
 const rowCount = (row) => Number(row.dataset.count ?? 1);
 const rowCategory = (row) => row.dataset.categoryKey ?? '';
-
-const activate = (node, handler) => {
-    node.addEventListener('click', handler);
-    node.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') return;
-        event.preventDefault();
-        handler();
-    });
-};
 
 const gradeRows = (rows) =>
     Array.from({ length: GRADE_COUNT }, (_, index) => {
@@ -69,7 +55,7 @@ const categoryRows = (rows) => {
 };
 
 const renderGradeChart = (svg, rows, selectedGrade, onGrade) => {
-    clear(svg);
+    clearElement(svg);
 
     const width = 720;
     const height = 280;
@@ -113,7 +99,18 @@ const renderGradeChart = (svg, rows, selectedGrade, onGrade) => {
             'aria-label': `Grade ${item.grade}: ${item.entries} appointments, ${item.occurrences} occurrences. ${selectedGrade === item.grade ? 'Selected.' : 'Select to filter.'}`,
             'data-chart-grade': item.grade,
         });
-        activate(group, () => onGrade(item.grade));
+        activateSvgNode(group, () => onGrade(item.grade));
+        bindVizTooltip(svg.closest('.reference-chart-card') ?? svg.parentElement, group, [
+            `Grade ${item.grade}`,
+            `${item.entries} appointments · ${item.occurrences} occurrences`,
+            `Bonus +${13 - item.grade}`,
+        ]);
+        bindRelatedHighlight(
+            svg.closest('[data-reference-charts]') ?? svg.parentElement,
+            group,
+            '[data-chart-grade]',
+            (node) => Number(node.dataset.chartGrade) === item.grade,
+        );
 
         const hit = svgElement('rect', {
             class: 'reference-chart__hit',
@@ -176,7 +173,7 @@ const renderCompositionChart = (
     selectedCategory,
     onComposition,
 ) => {
-    clear(svg);
+    clearElement(svg);
     legend.replaceChildren();
 
     const width = 720;
@@ -223,7 +220,18 @@ const renderCompositionChart = (
                 'data-chart-grade': item.grade,
                 'data-chart-category': meta.label,
             });
-            activate(group, () => onComposition(item.grade, meta.label));
+            activateSvgNode(group, () => onComposition(item.grade, meta.label));
+            bindVizTooltip(svg.closest('.reference-chart-card') ?? svg.parentElement, group, [
+                `Grade ${item.grade} · ${meta.label}`,
+                `${category.entries} appointments`,
+                `Bonus +${13 - item.grade}`,
+            ]);
+            bindRelatedHighlight(
+                svg.closest('[data-reference-charts]') ?? svg.parentElement,
+                group,
+                '[data-chart-grade]',
+                (node) => Number(node.dataset.chartGrade) === item.grade,
+            );
 
             group.append(
                 svgElement('rect', {
