@@ -130,7 +130,7 @@ type DirectoryRecord = {
 
     const chooseArea = (areaName: string) => {
         if (!area || !areaName) return;
-        area.value = areaName;
+        area.value = area.value === areaName ? '' : areaName;
         update();
     };
 
@@ -179,6 +179,7 @@ type DirectoryRecord = {
         if (!area) return;
         area.value = '';
         update();
+        area.focus();
     });
 
     update();

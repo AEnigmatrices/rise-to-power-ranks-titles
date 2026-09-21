@@ -131,7 +131,10 @@ type SearchRecord = {
         if (popover && !reducedMotion.matches) {
             animate(
                 popover,
-                { opacity: [0, 1], transform: ['translateY(-4px) scale(0.985)', 'translateY(0) scale(1)'] },
+                {
+                    opacity: [0, 1],
+                    transform: ['translateY(-4px) scale(0.985)', 'translateY(0) scale(1)'],
+                },
                 { duration: 0.16, ease: 'easeOut' },
             );
         }
@@ -352,12 +355,22 @@ type SearchRecord = {
             groupMatches.forEach((row) => group.append(row));
             hiddenRows.forEach((row) => group.append(row));
             group.hidden = groupMatches.length === 0;
+            const groupCount = group.querySelector<HTMLElement>('.reference-group__count');
+            if (groupCount) {
+                const occurrences = groupMatches.reduce(
+                    (sum, row) => sum + Number(row.dataset.count ?? 1),
+                    0,
+                );
+                groupCount.textContent = `${groupMatches.length} ${groupMatches.length === 1 ? 'appointment' : 'appointments'}${occurrences !== groupMatches.length ? ` · ${occurrences} occurrences` : ''}`;
+            }
         });
 
         const empty = panel?.querySelector<HTMLElement>('[data-empty]');
         const table = panel?.querySelector<HTMLTableElement>('table');
+        const columns = panel?.querySelector<HTMLElement>('.reference-ledger__columns');
         if (empty) empty.hidden = matches.length !== 0;
         if (table) table.hidden = matches.length === 0;
+        if (columns) columns.hidden = matches.length === 0;
 
         const noun = activeKind === 'rank' ? 'ranks' : 'titles';
         const totalEntries = rows.length;
@@ -418,8 +431,6 @@ type SearchRecord = {
                 { duration: 0.16, ease: 'easeOut' },
             );
         }
-
-        searchInput.placeholder = 'Name, Japanese office, or meaning…';
 
         classFilter.value = '';
         categoryFilter.value = '';
@@ -505,6 +516,7 @@ type SearchRecord = {
     });
 
     document.addEventListener('keydown', (event) => {
+        if (document.querySelector('dialog[open]')) return;
         const target = event.target;
         const isEditing =
             target instanceof HTMLInputElement ||

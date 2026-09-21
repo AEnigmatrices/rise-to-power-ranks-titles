@@ -15,17 +15,7 @@ interface Props {
     area?: string;
 }
 
-const {
-    title,
-    body,
-    kicker,
-    japanese,
-    meta,
-    href,
-    sources,
-    search = '',
-    area = '',
-} = Astro.props;
+const { title, body, kicker, japanese, meta, href, sources, search = '', area = '' } = Astro.props;
 ---
 
 <article
@@ -34,41 +24,47 @@ const {
     data-search={search}
     data-area={area}
 >
-    {
-        href ? (
-            <a class="guide-card__primary" href={href}>
-                <span class="guide-card__content">
-                    <span class="guide-card__kicker">{kicker}</span>
-                    {japanese && <span class="guide-card__japanese" lang="ja">{japanese}</span>}
-                    <h3 class="guide-card__title">{title}</h3>
-                    {meta && <span class="guide-card__meta">{meta}</span>}
-                    <span class="guide-card__body">{body}</span>
-                </span>
-                <span class="guide-card__actions" aria-hidden="true">
-                    <span>Open entry</span>
-                    <ArrowRight size={14} stroke-width={1.9} />
-                </span>
-            </a>
-        ) : (
-            <>
-                <p class="guide-card__kicker">{kicker}</p>
-                {japanese && <p class="guide-card__japanese" lang="ja">{japanese}</p>}
+    {href ? (
+        <a class="guide-card__primary" href={href}>
+            <div class="guide-card__content">
+                <span class="guide-card__kicker">{kicker}</span>
+                {japanese && (
+                    <span class="guide-card__japanese" lang="ja">
+                        {japanese}
+                    </span>
+                )}
                 <h3 class="guide-card__title">{title}</h3>
-                {meta && <p class="guide-card__meta">{meta}</p>}
-                <p class="guide-card__body">{body}</p>
-                <div class="guide-card__actions">
-                    {sources && sources.length > 0 && (
-                        <a
-                            class="guide-card__source"
-                            href={sources[0].url}
-                            aria-label={`Source for ${title}: ${getSourceLabel(sources[0])}`}
-                        >
-                            <span>{sources.length > 1 ? `${sources.length} sources` : 'Source'}</span>
-                            <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
-                        </a>
-                    )}
-                </div>
-            </>
-        )
-    }
+                {meta && <span class="guide-card__meta">{meta}</span>}
+                <span class="guide-card__body">{body}</span>
+            </div>
+            <span class="guide-card__actions" aria-hidden="true">
+                <span>Open entry</span>
+                <ArrowRight size={14} stroke-width={1.9} />
+            </span>
+        </a>
+    ) : (
+        <>
+            <p class="guide-card__kicker">{kicker}</p>
+            {japanese && (
+                <p class="guide-card__japanese" lang="ja">
+                    {japanese}
+                </p>
+            )}
+            <h3 class="guide-card__title">{title}</h3>
+            {meta && <p class="guide-card__meta">{meta}</p>}
+            <p class="guide-card__body">{body}</p>
+            <div class="guide-card__actions">
+                {sources && sources.length > 0 && (
+                    <a
+                        class="guide-card__source"
+                        href={sources[0].url}
+                        aria-label={`Source for ${title}: ${getSourceLabel(sources[0])}`}
+                    >
+                        <span>{sources.length > 1 ? `${sources.length} sources` : 'Source'}</span>
+                        <ExternalLink size={13} stroke-width={1.9} aria-hidden="true" />
+                    </a>
+                )}
+            </div>
+        </>
+    )}
 </article>

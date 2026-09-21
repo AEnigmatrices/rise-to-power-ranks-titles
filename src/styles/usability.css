@@ -1,4 +1,3 @@
-
 /* Native cross-document transitions keep navigation multi-page and progressive. */
 @view-transition {
     navigation: auto;
@@ -47,13 +46,32 @@
 :root {
     --text-on-dark: #f5e8c8;
     --muted-on-dark: #d0c6af;
+    --page-width: 1280px;
+    --paper-2: #f7f0df;
+    --line: #c9b991;
+    --shadow-sm: 0 3px 12px rgb(0 0 0 / 0.08);
+    --shadow-md: 0 8px 24px rgb(0 0 0 / 0.12);
+    --shadow-dark: 0 12px 36px rgb(0 0 0 / 0.18);
 }
 
 html {
     scroll-padding-top: 88px;
+    scrollbar-gutter: stable;
 }
 
-:is(a, button, input, select, [tabindex]):focus-visible {
+body {
+    background:
+        radial-gradient(ellipse at 10% 0%, rgb(192 160 85 / 0.08), transparent 50rem), #171c18;
+}
+
+.page-shell,
+.guide-shell,
+.context-shell {
+    width: min(calc(100% - 48px), var(--page-width));
+    padding-top: 20px;
+}
+
+:is(a, button, input, select, summary, [tabindex]):focus-visible {
     outline: 3px solid #e8c968;
     outline-offset: 3px;
     box-shadow: 0 0 0 6px #1b241d;
@@ -83,15 +101,17 @@ html {
 
 .section-nav {
     width: 100%;
-    margin: 0 auto 12px;
+    margin: 0 auto 16px;
+    top: 8px;
+    border-color: rgb(232 201 104 / 0.22);
 }
 
-.section-nav__links a {
+.section-nav__links > a {
     min-height: 44px;
     font-size: 0.8rem;
 }
 
-.section-nav__links a[aria-current='page'] {
+.section-nav__links > a[aria-current='page'] {
     box-shadow: inset 0 -2px 0 var(--gold-bright);
 }
 
@@ -108,7 +128,7 @@ html {
 }
 
 .hero h1 {
-    font-size: clamp(3rem, 6.6vw, 6.4rem);
+    font-size: clamp(3rem, 6.6vw, 5.8rem);
     line-height: 1.08;
 }
 
@@ -161,8 +181,8 @@ html {
 }
 
 .guide-header h1 {
-    font-size: clamp(2.4rem, 4.6vw, 4.8rem);
-    line-height: 1.1;
+    font-size: clamp(2.2rem, 4.2vw, 4rem);
+    line-height: 1.14;
     overflow-wrap: anywhere;
 }
 
@@ -171,8 +191,8 @@ html {
 }
 
 .guide-header--compact {
-    padding: 20px 28px 26px;
-    margin-bottom: 14px;
+    padding: 16px 28px 24px;
+    margin-bottom: 20px;
 }
 
 .guide-header--compact .guide-header__copy {
@@ -181,7 +201,7 @@ html {
 }
 
 .guide-header--compact h1 {
-    font-size: clamp(2rem, 3.6vw, 3.5rem);
+    font-size: clamp(2rem, 3.6vw, 3rem);
     text-wrap: initial;
 }
 
@@ -233,7 +253,7 @@ html {
 }
 
 .guide-card__body {
-    font-size: 0.9rem;
+    font-size: 0.94rem;
 }
 
 .guide-card__meta,
@@ -280,7 +300,7 @@ html {
     display: block;
     margin: 0 0 6px 2px;
     color: var(--muted-on-dark);
-    font-size: 0.76rem;
+    font-size: 0.8rem;
     font-weight: 700;
 }
 
@@ -383,7 +403,6 @@ html {
     margin-top: 18px;
 }
 
-
 /* Raise the open note above sticky controls without trapping it in a hovered row. */
 .reference-table tbody tr:has(.trivia-anchor.is-open) {
     position: relative;
@@ -391,8 +410,8 @@ html {
 }
 
 .trivia-trigger {
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 36px;
 }
 
 .trivia-popover__eyebrow {
@@ -420,6 +439,21 @@ html {
 }
 
 @media (min-width: 981px) {
+    .table-shell {
+        overflow: visible;
+    }
+}
+
+@media (min-width: 861px) and (max-width: 980px) {
+    .reference-table {
+        min-width: 0;
+        table-layout: fixed;
+    }
+
+    .reference-table td {
+        overflow-wrap: anywhere;
+    }
+
     .table-shell {
         overflow: visible;
     }
@@ -493,7 +527,7 @@ html {
         justify-content: space-between;
     }
 
-    .section-nav__links a {
+    .section-nav__links > a {
         min-width: 0;
         justify-content: center;
         padding-inline: 8px;
@@ -548,7 +582,7 @@ html {
     }
 
     .guide-header--compact .guide-header__japanese {
-        font-size: 0.9rem;
+        font-size: 0.84rem;
     }
 
     .guide-header--compact h1 {
@@ -587,20 +621,30 @@ html {
     }
 
     .toolbar {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        padding: 12px 8px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        padding: 12px;
         gap: 10px;
     }
 
-    .toolbar__search,
-    .toolbar > .reset-button {
-        grid-column: 1 / -1;
+    .toolbar__search {
+        grid-column: 1 / 6;
+    }
+
+    .toolbar > .field:not(.toolbar__search) {
+        grid-column: span 3;
     }
 
     .toolbar > .reset-button {
-        justify-self: end;
-        width: auto;
+        grid-column: 6;
+        grid-row: 1;
+        min-width: 44px;
+        width: 100%;
         min-height: 44px;
+        padding: 0;
+    }
+
+    .toolbar > .reset-button span {
+        display: none;
     }
 
     .explorer__legend {
@@ -618,6 +662,11 @@ html {
 
     .guide-directory__controls--search-only .reset-button {
         grid-column: 2;
+        grid-row: 1;
+    }
+
+    .guide-directory__controls--search-only .guide-directory__search {
+        grid-column: 1;
     }
 
     .context-jump-nav {
@@ -630,15 +679,14 @@ html {
     }
 
     .intro-overview__heading h2 {
-        font-size: 2.2rem;
-        line-height: 1.12;
+        font-size: 2rem;
+        line-height: 1.2;
     }
 
     .intro-overview__logic article {
         padding: 24px 18px;
     }
 }
-
 
 @media (max-width: 440px) {
     .section-nav__guide-label--full {
@@ -649,12 +697,11 @@ html {
         display: inline;
     }
 
-    .section-nav__links a {
+    .section-nav__links > a {
         padding-inline: 5px;
         font-size: 0.72rem;
     }
 }
-
 
 /* Clear actions and disabled filter states should read immediately. */
 .control-clear {
@@ -715,18 +762,369 @@ html {
     outline-offset: -5px;
 }
 
+/* Consistent reading surfaces and a quieter heading scale. */
+.hero,
+.guide-header,
+.guide-teaser,
+.explorer,
+.region-map {
+    border-color: rgb(232 201 104 / 0.25);
+}
 
-/* ---------- Rendered-site visual audit ---------- */
+.intro-overview {
+    margin-top: 20px;
+    padding: clamp(28px, 4vw, 52px);
+    background: #eee3c9;
+    border-color: #c9b991;
+}
 
-/* The generic search sentence is redundant once the mobile search field is visible. */
-@media (max-width: 720px) {
-    .explorer__legend-search {
-        display: none !important;
+.intro-overview__heading h2 {
+    font-size: clamp(2rem, 3.5vw, 3.2rem);
+    line-height: 1.15;
+}
+
+.intro-overview__logic {
+    margin-top: 28px;
+}
+
+.intro-overview__logic h3 small {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.intro-overview__logic article > .section-kicker {
+    padding-right: 24px;
+}
+
+.intro-overview__logic article > strong {
+    padding: 6px 10px;
+    border-radius: 6px;
+    color: #294b37;
+    background: #dce8d7;
+}
+
+.intro-overview__logic article:last-child > strong {
+    color: #2f4c65;
+    background: #dfe8ee;
+}
+
+.intro-overview__title-note,
+.intro-overview__logic article,
+.intro-overview__clarification,
+.intro-overview__example,
+.context-profile,
+.context-chain,
+.context-paradox article,
+.guide-card,
+.guide-detail__main,
+.guide-source-card,
+.related-appointment {
+    border-color: #d0c1a0;
+    border-radius: 12px;
+    background: var(--paper-2);
+    box-shadow: var(--shadow-sm);
+}
+
+.intro-overview__clarification h3 {
+    font-size: clamp(1.6rem, 2.7vw, 2.3rem);
+    line-height: 1.2;
+}
+
+.intro-overview__title-note {
+    padding: 24px;
+    grid-template-columns: minmax(160px, 0.55fr) minmax(0, 1.2fr);
+}
+
+.intro-overview__jp {
+    font-size: clamp(1.4rem, 2.8vw, 2.6rem);
+    line-height: 1.5;
+}
+
+.guide-teaser {
+    margin-top: 20px;
+}
+
+.guide-section__heading h2,
+.guide-directory__intro h2,
+.related-appointments__heading h2,
+.context-section__heading h2,
+.guide-teaser h2 {
+    font-size: clamp(1.85rem, 3.2vw, 2.75rem);
+    line-height: 1.2;
+}
+
+.guide-detail__main h2 {
+    font-size: clamp(1.65rem, 2.8vw, 2.4rem);
+    line-height: 1.2;
+}
+
+.guide-card__title {
+    font-size: 1.5rem;
+    line-height: 1.3;
+}
+
+.guide-card__primary {
+    padding: 24px;
+}
+
+.guide-card__source,
+.source-list a,
+.guide-detail__nav a {
+    min-height: 44px;
+}
+
+.source-list strong {
+    font-size: 0.84rem;
+}
+
+.source-list small {
+    font-size: 0.78rem;
+}
+
+.guide-directory__controls {
+    top: 82px;
+}
+
+.guide-detail,
+.context-section {
+    padding-top: clamp(28px, 4vw, 48px);
+}
+
+.context-profile__header {
+    background: #28322a;
+}
+
+.context-profile__header h2 {
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    line-height: 1.15;
+    text-shadow: none;
+}
+
+.context-profile__part {
+    background: var(--paper-2);
+}
+
+.context-jump-nav {
+    border-color: rgb(232 201 104 / 0.22);
+    background: #1d251f;
+    box-shadow: var(--shadow-sm);
+}
+
+.context-jump-nav a {
+    background: transparent;
+    border-color: transparent;
+}
+
+.context-sources {
+    color: var(--muted-on-dark);
+    border-color: rgb(232 201 104 / 0.22);
+}
+
+.context-sources .source-list a {
+    color: #ecd59c;
+    background: #242d26;
+    border-color: #465044;
+}
+
+.context-sources .source-list small {
+    color: #cec9bb;
+}
+
+.guide-footer a,
+.guide-detail__nav a {
+    padding: 8px 12px;
+    color: var(--text-on-dark);
+    border-color: rgb(232 201 104 / 0.25);
+    background: #252e26;
+    box-shadow: none;
+}
+
+.guide-footer a:hover,
+.guide-detail__nav a:hover {
+    color: #fff5da;
+    background: #354036;
+}
+
+.site-footer {
+    font-size: 0.8rem;
+    color: var(--muted-on-dark);
+    text-shadow: none;
+}
+
+/* Keep the reference focused on finding appointments. */
+.explorer {
+    overflow: visible;
+    background: #1d261f;
+}
+
+.explorer::before {
+    display: none;
+}
+
+.explorer__help {
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgb(232 201 104 / 0.12);
+    color: var(--muted-on-dark);
+    font-size: 0.82rem;
+}
+
+.explorer__help summary {
+    width: fit-content;
+    min-height: 44px;
+    padding: 10px 6px;
+    color: #dfca91;
+    cursor: pointer;
+}
+
+.explorer__help-copy {
+    max-width: 84ch;
+    padding: 0 8px 14px;
+}
+
+.explorer__help-copy p {
+    margin: 0 0 10px;
+}
+
+.explorer__help-copy svg {
+    vertical-align: -2px;
+}
+
+.reference-ledger__columns {
+    color: #b7c0b7;
+    font-size: 0.7rem;
+}
+
+.reference-group__heading th {
+    padding-top: 26px;
+}
+
+.reference-group__count,
+.entry-type,
+.japanese__main .pronunciation,
+.count-badge {
+    font-size: 0.78rem;
+}
+
+.entry-permalink {
+    width: 32px;
+    height: 32px;
+    opacity: 1;
+    color: #c5b378;
+}
+
+.reference-table tbody tr[data-reference-row]:focus-within td {
+    background: rgb(232 201 104 / 0.045);
+}
+
+.holder-details summary {
+    min-height: 36px;
+    padding-block: 6px;
+    font-size: 0.8rem;
+}
+
+.trivia-popover {
+    overscroll-behavior: contain;
+}
+
+.region-map__canvas {
+    background-color: #b1aa85;
+}
+
+@media (max-width: 860px) {
+    .reference-table tbody tr[data-reference-row],
+    .reference-table tbody tr[data-reference-row]:nth-child(even),
+    .reference-table tbody tr[data-reference-row].is-shugo,
+    .reference-table tbody tr[data-reference-row].is-provincial {
+        overflow: visible;
+        background: var(--paper-2);
+        border-color: #d0c1a0;
     }
 
-    .explorer__legend {
-        gap: 5px;
-        padding-block: 9px;
+    .reference-table tbody tr[data-reference-row]:focus-within td {
+        background: transparent;
+    }
+
+    .entry-name-line {
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .entry-permalink,
+    .trivia-trigger {
+        min-width: 44px;
+        min-height: 44px;
+    }
+
+    .entry-permalink,
+    .holder-details summary {
+        color: #765515;
+    }
+
+    .japanese__main .pronunciation,
+    .entry-type,
+    .entry-mobile-meta,
+    .count-badge {
+        color: #645c4b;
+    }
+
+    .holder-details__name span {
+        color: #755717;
+    }
+
+    .guide-directory__controls {
+        position: static;
+    }
+}
+
+@media (max-width: 720px) {
+    .intro-overview,
+    .guide-teaser {
+        padding: 28px 20px;
+    }
+
+    .intro-overview__title-note {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .guide-header--compact {
+        padding: 12px 20px 22px;
+    }
+
+    .guide-header--compact h1 {
+        font-size: clamp(1.8rem, 7.5vw, 2.6rem);
+    }
+
+    .field kbd,
+    .results-line__hint {
+        display: none;
+    }
+
+    .field input:placeholder-shown {
+        padding-right: 12px;
+    }
+
+    .explorer {
+        padding: 8px;
+    }
+
+    .switcher__copy strong {
+        font-size: 0.88rem;
+        line-height: 1.4;
+    }
+
+    .switcher__copy small {
+        font-size: 0.72rem;
+    }
+
+    .switcher__occurrences {
+        display: none;
+    }
+
+    .hero__facts {
+        grid-row: auto;
     }
 }
 

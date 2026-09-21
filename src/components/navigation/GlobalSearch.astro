@@ -18,10 +18,16 @@ const baseUrl = sitePath();
     >
         <Search size={15} stroke-width={1.9} aria-hidden="true" />
         <span>Search</span>
-        <kbd aria-hidden="true" data-global-search-shortcut>⌘K</kbd>
+        <kbd aria-hidden="true" data-global-search-shortcut>
+            ⌘K
+        </kbd>
     </button>
 
-    <dialog class="global-search__dialog" aria-labelledby="global-search-title" data-global-search-dialog>
+    <dialog
+        class="global-search__dialog"
+        aria-labelledby="global-search-title"
+        data-global-search-dialog
+    >
         <div class="global-search__panel">
             <div class="global-search__heading">
                 <div>
@@ -45,16 +51,58 @@ const baseUrl = sitePath();
                     type="search"
                     autocomplete="off"
                     spellcheck="false"
-                    placeholder="Try a title, province, holder, office, or Japanese term…"
+                    aria-describedby="global-search-status"
+                    placeholder="Search names, places, or offices…"
                     data-global-search-input
                 />
+                <button
+                    class="global-search__clear"
+                    type="button"
+                    aria-label="Clear site search"
+                    data-global-search-clear
+                    hidden
+                >
+                    <X size={16} aria-hidden="true" />
+                </button>
             </label>
 
-            <p class="global-search__status" role="status" aria-live="polite" data-global-search-status>
+            <p
+                id="global-search-status"
+                class="global-search__status"
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                data-global-search-status
+            >
                 Start typing to search the whole site.
             </p>
 
+            <div class="global-search__suggestions" data-global-search-suggestions>
+                <span>Try a search</span>
+                {['Shōgun', 'Mutsu', 'Kantō Kanrei'].map((query) => (
+                    <button type="button" data-global-search-example={query}>
+                        {query}
+                    </button>
+                ))}
+            </div>
+            <a
+                class="global-search__fallback"
+                href={sitePath('reference/')}
+                data-global-search-fallback
+                hidden
+            >
+                Browse and filter all appointments <span aria-hidden="true">→</span>
+            </a>
             <div class="global-search__results" aria-busy="false" data-global-search-results></div>
+            <p class="global-search__keyboard" aria-hidden="true">
+                <kbd>↑</kbd> <kbd>↓</kbd> navigate{' '}
+                <span>
+                    <kbd>Enter</kbd> open
+                </span>{' '}
+                <span>
+                    <kbd>Esc</kbd> close
+                </span>
+            </p>
         </div>
     </dialog>
 </div>
@@ -68,6 +116,9 @@ const baseUrl = sitePath();
     const results = root?.querySelector('[data-global-search-results]');
     const status = root?.querySelector('[data-global-search-status]');
     const shortcut = root?.querySelector('[data-global-search-shortcut]');
+    const clearButton = root?.querySelector('[data-global-search-clear]');
+    const suggestions = root?.querySelector('[data-global-search-suggestions]');
+    const fallback = root?.querySelector('[data-global-search-fallback]');
 
     if (
         root instanceof HTMLElement &&
@@ -88,32 +139,42 @@ const baseUrl = sitePath();
         }
 
         const getPagefind = async () => {
-            pagefindPromise ??= import(pagefindPath).then(async (pagefind) => {
-                await pagefind.init();
-                await pagefind.options({
-                    baseUrl,
-                    excerptLength: 24,
+            pagefindPromise ??= import(pagefindPath)
+                .then(async (pagefind) => {
+                    await pagefind.init();
+                    await pagefind.options({
+                        baseUrl,
+                        excerptLength: 24,
+                    });
+                    return pagefind;
+                })
+                .catch((error) => {
+                    pagefindPromise = undefined;
+                    throw error;
                 });
-                return pagefind;
-            });
             return pagefindPromise;
         };
 
         const close = () => {
             if (dialog.open) dialog.close();
+        };
+
+        dialog.addEventListener('close', () => {
             openButton.setAttribute('aria-expanded', 'false');
+            document.documentElement.classList.remove('has-search-dialog');
 
             const target = returnFocus instanceof HTMLElement ? returnFocus : openButton;
             target.focus();
             returnFocus = null;
-        };
+        });
 
-        const open = () => {
+        const open = (invoker = document.activeElement) => {
             if (dialog.open) return;
 
             returnFocus =
-                document.activeElement instanceof HTMLElement ? document.activeElement : openButton;
+                invoker instanceof HTMLElement && invoker !== document.body ? invoker : openButton;
             dialog.showModal();
+            document.documentElement.classList.add('has-search-dialog');
             openButton.setAttribute('aria-expanded', 'true');
             requestAnimationFrame(() => input.focus());
         };
@@ -124,6 +185,7 @@ const baseUrl = sitePath();
 
             if (!query) {
                 results.replaceChildren();
+                results.setAttribute('aria-busy', 'false');
                 status.textContent = 'Start typing to search the whole site.';
                 return;
             }
@@ -143,11 +205,12 @@ const baseUrl = sitePath();
                 results.replaceChildren();
 
                 if (!items.length) {
-                    status.textContent = `No results for “${query}”.`;
+                    status.textContent = `No results for “${query}”. Try a shorter name or a different spelling.`;
+                    if (fallback) fallback.hidden = false;
                     return;
                 }
 
-                status.textContent = `${search.results.length} ${search.results.length === 1 ? 'result' : 'results'} for “${query}”.`;
+                status.textContent = `${search.results.length} ${search.results.length === 1 ? 'result' : 'results'} for “${query}”.${search.results.length > items.length ? ` Showing the first ${items.length}.` : ''}`;
 
                 items.forEach((item) => {
                     const link = document.createElement('a');
@@ -172,16 +235,40 @@ const baseUrl = sitePath();
             } catch {
                 if (run !== searchRun) return;
                 results.replaceChildren();
-                status.textContent = 'Site search is unavailable in this preview. The reference search still works normally.';
+                status.textContent =
+                    'Site search is unavailable right now. You can still search appointments in the reference.';
+                if (fallback) fallback.hidden = false;
             } finally {
                 if (run === searchRun) results.setAttribute('aria-busy', 'false');
             }
         };
 
         let searchTimer;
-        input.addEventListener('input', () => {
+        const scheduleSearch = () => {
             window.clearTimeout(searchTimer);
-            searchTimer = window.setTimeout(renderResults, 90);
+            searchRun++;
+            const hasQuery = Boolean(input.value.trim());
+            results.replaceChildren();
+            results.setAttribute('aria-busy', String(hasQuery));
+            if (clearButton) clearButton.hidden = !input.value;
+            if (suggestions) suggestions.hidden = hasQuery;
+            if (fallback) fallback.hidden = true;
+            status.textContent = hasQuery ? 'Searching…' : 'Start typing to search the whole site.';
+            if (hasQuery) searchTimer = window.setTimeout(renderResults, 120);
+        };
+
+        input.addEventListener('input', scheduleSearch);
+        clearButton?.addEventListener('click', () => {
+            input.value = '';
+            scheduleSearch();
+            input.focus();
+        });
+        root.querySelectorAll('[data-global-search-example]').forEach((button) => {
+            button.addEventListener('click', () => {
+                input.value = button.dataset.globalSearchExample;
+                scheduleSearch();
+                input.focus();
+            });
         });
 
         input.addEventListener('keydown', (event) => {
@@ -201,12 +288,16 @@ const baseUrl = sitePath();
             if (currentIndex < 0) return;
 
             event.preventDefault();
+            if (event.key === 'ArrowUp' && currentIndex === 0) {
+                input.focus();
+                return;
+            }
             const direction = event.key === 'ArrowDown' ? 1 : -1;
             const nextIndex = (currentIndex + direction + links.length) % links.length;
             links[nextIndex]?.focus();
         });
 
-        openButton.addEventListener('click', open);
+        openButton.addEventListener('click', () => open(openButton));
         closeButton.addEventListener('click', close);
 
         dialog.addEventListener('click', (event) => {

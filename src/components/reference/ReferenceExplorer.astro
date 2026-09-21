@@ -66,11 +66,7 @@ const searchableText = (
         entry.effect,
         entry.categoryLabel,
         ...trivia.flatMap((item) => [item.label, item.body]),
-        ...holders.flatMap((holder) => [
-            holder.name,
-            holder.japanese ?? '',
-            holder.description,
-        ]),
+        ...holders.flatMap((holder) => [holder.name, holder.japanese ?? '', holder.description]),
     ].join(' ');
 ---
 
@@ -78,17 +74,8 @@ const searchableText = (
     <h2 id="explorer-heading" class="sr-only">
         Browse every appointment
     </h2>
-    <p class="explorer__legend" id="reference-search-help">
-        <span class="explorer__legend-search">
-            Search English or Japanese names, readings, and historical meanings.
-        </span>
-        <span class="explorer__legend-rank">
-            <strong>“Rank” is the game category:</strong> historically, personal court rank
-            (位階) and court office (官職) were distinct.
-        </span>
-        <span class="explorer__legend-trivia">
-            <Sparkles size={12} stroke-width={2} aria-hidden="true" /> opens a historical note.
-        </span>
+    <p class="sr-only" id="reference-search-help">
+        Search English or Japanese names, readings, and historical meanings in the selected system.
     </p>
 
     <div class="switcher" role="tablist" aria-label="Appointment system">
@@ -107,7 +94,8 @@ const searchableText = (
             <span class="switcher__copy">
                 <strong>Imperial Court Ranks</strong>
                 <small>
-                    {ranks.length} unique · {totalRecords(ranks)} occurrences
+                    {ranks.length} appointments{' '}
+                    <span class="switcher__occurrences">· {totalRecords(ranks)} occurrences</span>
                 </small>
             </span>
             <span class="effect-chip effect-chip--politics">Politics ↑</span>
@@ -129,7 +117,8 @@ const searchableText = (
             <span class="switcher__copy">
                 <strong>Shogunate Titles</strong>
                 <small>
-                    {titles.length} unique · {totalRecords(titles)} occurrences
+                    {titles.length} appointments{' '}
+                    <span class="switcher__occurrences">· {totalRecords(titles)} occurrences</span>
                 </small>
             </span>
             <span class="effect-chip effect-chip--leadership">Leadership ↑</span>
@@ -149,7 +138,7 @@ const searchableText = (
                     autocomplete="off"
                     spellcheck="false"
                     aria-describedby="reference-search-help"
-                    placeholder="Name, Japanese office, or meaning…"
+                    placeholder="Name, office, or meaning…"
                     data-search
                 />
                 <button
@@ -161,7 +150,9 @@ const searchableText = (
                 >
                     <X size={15} stroke-width={2} aria-hidden="true" />
                 </button>
-                <kbd aria-hidden="true" data-search-shortcut>/</kbd>
+                <kbd aria-hidden="true" data-search-shortcut>
+                    /
+                </kbd>
             </div>
         </div>
 
@@ -183,7 +174,13 @@ const searchableText = (
             </select>
         </div>
 
-        <button class="reset-button reset-button--icon" type="button" data-reset>
+        <button
+            class="reset-button reset-button--icon"
+            type="button"
+            aria-label="Reset filters"
+            title="Reset search and filters"
+            data-reset
+        >
             <RotateCcw size={15} stroke-width={1.9} aria-hidden="true" />
             <span>Reset</span>
         </button>
@@ -197,6 +194,26 @@ const searchableText = (
             <strong>×N</strong> marks repeated source occurrences · Press <kbd>/</kbd> to search
         </p>
     </div>
+
+    <details class="explorer__help">
+        <summary>How to read this reference</summary>
+        <div class="explorer__help-copy">
+            <p>
+                <strong>Ranks and Titles:</strong> choose a system above, then search or filter its
+                appointments. Ranks raise Politics; Titles raise Leadership.
+            </p>
+            <p>
+                <strong>Historical context:</strong> “Rank” is the game category. Historically,
+                personal court rank (<span lang="ja">位階</span>) and court office (
+                <span lang="ja">官職</span>) were distinct.
+            </p>
+            <p>
+                <Sparkles size={14} aria-hidden="true" /> opens a historical note.{' '}
+                <strong>×N</strong> shows repeated source occurrences. Use <strong>#</strong> to
+                link to an appointment.
+            </p>
+        </div>
+    </details>
 
     {(Object.entries(groupsByKind) as [ReferenceKind, ReferenceGroup[]][]).map(([kind, groups]) => (
         <section
@@ -253,7 +270,10 @@ const searchableText = (
                                             </span>
                                         </span>
                                         <span class="reference-group__count">
-                                            {group.entries.length} appointments
+                                            {group.entries.length}{' '}
+                                            {group.entries.length === 1
+                                                ? 'appointment'
+                                                : 'appointments'}
                                             {groupRecords !== group.entries.length && (
                                                 <> · {groupRecords} occurrences</>
                                             )}
@@ -281,10 +301,15 @@ const searchableText = (
                                             data-search-japanese={entry.japanese}
                                             data-search-pronunciation={pronunciation}
                                             data-search-translation={entry.meaning}
-                                            data-search-text={searchableText(entry, trivia, holders)}
+                                            data-search-text={searchableText(
+                                                entry,
+                                                trivia,
+                                                holders,
+                                            )}
                                             class:list={[
                                                 entry.category === 'shugo' && 'is-shugo',
-                                                entry.category === 'provincial-office' && 'is-provincial',
+                                                entry.category === 'provincial-office' &&
+                                                    'is-provincial',
                                             ]}
                                         >
                                             <td data-label="Appointment" class="name-cell">
@@ -299,7 +324,9 @@ const searchableText = (
                                                     </a>
                                                 </span>
                                                 <span class="entry-meta">
-                                                    <span class="entry-type">{entry.categoryLabel}</span>
+                                                    <span class="entry-type">
+                                                        {entry.categoryLabel}
+                                                    </span>
                                                     {entry.count > 1 && (
                                                         <span
                                                             class="count-badge count-badge--multiple"
@@ -312,7 +339,9 @@ const searchableText = (
                                                 <span class="entry-mobile-meta" aria-hidden="true">
                                                     <span>{entry.className}</span>
                                                     <span>·</span>
-                                                    <span>{stat} +{entry.bonus}</span>
+                                                    <span>
+                                                        {stat} +{entry.bonus}
+                                                    </span>
                                                 </span>
                                             </td>
 
@@ -321,7 +350,10 @@ const searchableText = (
                                                     <span class="japanese__line">
                                                         <span lang="ja">{entry.japanese}</span>
                                                         {trivia.length > 0 && (
-                                                            <span class="trivia-anchor" data-trivia-anchor>
+                                                            <span
+                                                                class="trivia-anchor"
+                                                                data-trivia-anchor
+                                                            >
                                                                 <button
                                                                     class="trivia-trigger"
                                                                     type="button"
@@ -356,54 +388,85 @@ const searchableText = (
                                                                         aria-label="Close historical note"
                                                                         data-trivia-close
                                                                     >
-                                                                        <X size={16} aria-hidden="true" />
+                                                                        <X
+                                                                            size={16}
+                                                                            aria-hidden="true"
+                                                                        />
                                                                     </button>
                                                                     {trivia.map((item) => (
                                                                         <span class="trivia-popover__item">
-                                                                            <strong>{item.label}</strong>
+                                                                            <strong>
+                                                                                {item.label}
+                                                                            </strong>
                                                                             <span>{item.body}</span>
                                                                             <a
                                                                                 class="trivia-popover__more"
-                                                                                href={triviaHref(item)}
+                                                                                href={triviaHref(
+                                                                                    item,
+                                                                                )}
                                                                             >
-                                                                                Open full historical note →
+                                                                                Open full historical
+                                                                                note →
                                                                             </a>
                                                                         </span>
                                                                     ))}
                                                                     <span class="trivia-popover__hint">
-                                                                        Tap outside or press Esc to close.
+                                                                        Tap outside or press Esc to
+                                                                        close.
                                                                     </span>
                                                                 </span>
                                                             </span>
                                                         )}
                                                     </span>
-                                                    <span class="pronunciation">{pronunciation}</span>
+                                                    <span class="pronunciation">
+                                                        {pronunciation}
+                                                    </span>
                                                 </span>
                                             </td>
 
                                             <td data-label="Historical meaning" class="translation">
-                                                <span class="translation__meaning">{entry.meaning}</span>
+                                                <span class="translation__meaning">
+                                                    {entry.meaning}
+                                                </span>
                                                 {holders.length > 0 && (
                                                     <details class="holder-details">
                                                         <summary>
-                                                            Notable {holders.length === 1 ? 'holder' : 'holders'}
+                                                            Notable{' '}
+                                                            {holders.length === 1
+                                                                ? 'holder'
+                                                                : 'holders'}
                                                         </summary>
                                                         <span class="holder-details__list">
                                                             {holders.map((holder) => (
                                                                 <span class="holder-details__item">
                                                                     <span class="holder-details__name">
-                                                                        <strong>{holder.name}</strong>
+                                                                        <strong>
+                                                                            {holder.name}
+                                                                        </strong>
                                                                         {holder.japanese && (
-                                                                            <span lang="ja">{holder.japanese}</span>
+                                                                            <span lang="ja">
+                                                                                {holder.japanese}
+                                                                            </span>
                                                                         )}
                                                                     </span>
-                                                                    <span>{holder.description}</span>
+                                                                    <span>
+                                                                        {holder.description}
+                                                                    </span>
                                                                     <span class="holder-details__sources">
-                                                                        {holder.sources.map((source) => (
-                                                                            <a href={source.url}>
-                                                                                {getSourceLabel(source)} →
-                                                                            </a>
-                                                                        ))}
+                                                                        {holder.sources.map(
+                                                                            (source) => (
+                                                                                <a
+                                                                                    href={
+                                                                                        source.url
+                                                                                    }
+                                                                                >
+                                                                                    {getSourceLabel(
+                                                                                        source,
+                                                                                    )}{' '}
+                                                                                    →
+                                                                                </a>
+                                                                            ),
+                                                                        )}
                                                                     </span>
                                                                 </span>
                                                             ))}
@@ -432,7 +495,6 @@ const searchableText = (
             </div>
         </section>
     ))}
-
 </section>
 
 <script>
