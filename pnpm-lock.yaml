@@ -1404,7 +1404,7 @@ packages:
     engines: {node: '>=12'}
 
   d3-hierarchy@3.1.2:
-    resolution: {integrity: sha512-6qVhWJmyFcpTUqTzWfRNdRNfFDSs+M7c2+qYxYkSxZl8P4L+we2bdf6q36NZVQUfNd1zlfodzkE5l1zFZs9K2A==}
+    resolution: {integrity: sha512-FX/9frcub54beBdugHjDCdikxThEqjnR93Qt7PvQTOHxyiNCAlvMrHhclk3cD5VeAaq9fxmfRp+CnWw9rEMBuA==}
     engines: {node: '>=12'}
 
   debug@4.4.3:
