@@ -183,11 +183,14 @@ const render = (root, ministry, referenceBase) => {
             if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
             event.preventDefault();
 
-            let next = index;
-            if (event.key === 'Home') next = 0;
-            else if (event.key === 'End') next = tabs.length - 1;
-            else if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-            else next = (index - 1 + tabs.length) % tabs.length;
+            const next =
+                event.key === 'Home'
+                    ? 0
+                    : event.key === 'End'
+                      ? tabs.length - 1
+                      : event.key === 'ArrowRight'
+                        ? (index + 1) % tabs.length
+                        : (index - 1 + tabs.length) % tabs.length;
 
             const nextTab = tabs[next];
             setActive(nextTab.dataset.ministry);
