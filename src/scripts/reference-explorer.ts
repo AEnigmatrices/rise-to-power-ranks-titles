@@ -398,7 +398,7 @@ type SearchRecord = {
             : `${totalEntries} unique ${noun} · ${totalRecords} occurrences`;
 
         const hasActiveFilters = Boolean(
-            searchInput.value.trim() || classFilter.value || categoryFilter.value,
+            searchInput.value.trim() || classFilter.value || categoryFilter.value || selectedGrade,
         );
         resetButtons.forEach((button) => {
             button.disabled = !hasActiveFilters;
