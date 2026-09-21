@@ -59,6 +59,17 @@
     font-weight: 760;
 }
 
+.office-hierarchy__current a {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    margin-top: 4px;
+    color: #d8c276;
+    font-size: 0.7rem;
+    font-weight: 740;
+    text-underline-offset: 3px;
+}
+
 .office-hierarchy__tabs {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
