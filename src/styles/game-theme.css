@@ -689,83 +689,6 @@ body::before {
 
 .results-line [data-result-count] { color: #d6caa7; }
 
-/* Catalogue parchment ledger */
-.table-shell {
-    border: 1px solid #7a6538;
-    border-radius: 2px;
-    background: #ead79d;
-    box-shadow: inset 0 0 16px rgb(95 67 20 / 0.16);
-}
-
-.reference-table {
-    color: #21180c;
-    background:
-        repeating-linear-gradient(0deg, rgb(91 67 27 / 0.025) 0 1px, transparent 1px 4px),
-        #ead79d;
-}
-
-.reference-table th {
-    padding: 10px 12px;
-    border-bottom-color: #755f32;
-    color: #f5e8c4;
-    background:
-        linear-gradient(180deg, #3f4237, #20231d);
-    box-shadow:
-        inset 0 1px 0 rgb(244 216 137 / 0.15),
-        inset 0 -2px 0 rgb(0 0 0 / 0.36);
-    font-size: 0.62rem;
-    text-shadow: 0 1px 1px #000;
-}
-
-.reference-table td {
-    padding: 11px 12px;
-    border-bottom-color: #b49a5c;
-}
-
-.reference-table tbody tr:nth-child(even) {
-    background: rgb(255 246 216 / 0.34);
-}
-
-.reference-table tbody tr:hover {
-    background: #f4dfa6;
-    box-shadow: inset 4px 0 0 #9a2e21;
-}
-
-.reference-table tbody tr.is-shugo,
-.reference-table tbody tr.is-provincial {
-    background-image: linear-gradient(90deg, rgb(124 94 38 / 0.09), transparent 30%);
-}
-
-.entry-name { color: #2d2415; }
-.entry-type { color: #776b51; }
-.japanese { color: #342818; }
-.pronunciation,
-.japanese__main .pronunciation,
-.translation { color: #66583d; }
-
-.class-chip,
-.count-badge--multiple {
-    border: 1px solid #9a814b;
-    border-radius: 2px;
-    color: #54421e;
-    background: #c9b274;
-}
-
-.class-chip--upper {
-    border-color: #9a7226;
-    color: #6d4b0c;
-    background: #d9bc63;
-}
-
-.effect-chip {
-    border-radius: 2px;
-}
-
-.reference-table tr:target {
-    background: #f0d98e;
-    box-shadow: inset 5px 0 0 #9e261b;
-}
-
 /* Guide directories */
 .guide-section,
 .guide-directory,
@@ -1094,26 +1017,6 @@ body::before {
         border-radius: 2px 2px 0 0;
     }
 
-    .reference-table tbody tr,
-    .reference-table tbody tr:nth-child(even),
-    .reference-table tbody tr.is-shugo,
-    .reference-table tbody tr.is-provincial {
-        border-color: #887342;
-        border-radius: 3px;
-        background:
-            linear-gradient(180deg, #ddca94, #c9b57c);
-        box-shadow:
-            inset 0 1px 0 rgb(255 244 204 / 0.42),
-            0 3px 8px rgb(0 0 0 / 0.2);
-    }
-
-    .reference-table tbody tr:hover {
-        background: #e4ce91;
-    }
-
-    .japanese {
-        border-top-color: #a48d58 !important;
-    }
 
     .guide-card,
     .related-appointment,
@@ -1289,60 +1192,6 @@ body {
     color: #bfb49a;
 }
 
-.reference-table {
-    font-size: 0.84rem;
-    line-height: 1.5;
-}
-
-.reference-table th {
-    padding: 11px 13px;
-    color: #f0e3bc;
-    font-size: 0.66rem;
-    letter-spacing: 0.075em;
-}
-
-.reference-table td {
-    padding: 12px 13px;
-}
-
-.entry-name {
-    font-size: 0.88rem;
-    line-height: 1.35;
-}
-
-.entry-type {
-    margin-top: 4px;
-    color: #574933;
-    font-size: 0.68rem;
-}
-
-.japanese {
-    font-size: 1rem;
-    line-height: 1.45;
-}
-
-.japanese__main .pronunciation {
-    margin-top: 1px;
-    color: #4d402b;
-    font-size: 0.7rem;
-    line-height: 1.4;
-}
-
-.translation {
-    color: #443620;
-    line-height: 1.58;
-}
-
-.class-chip,
-.count-badge--multiple {
-    min-height: 27px;
-    padding: 4px 8px;
-}
-
-.effect-value {
-    gap: 8px;
-}
-
 .guide-card__body {
     color: #51452f;
 }
@@ -1359,117 +1208,6 @@ body {
     line-height: 1.75;
 }
 
-/*
- * At the existing card breakpoint, keep the same historical/game treatment.
- * The base responsive layer previously showed modern white cards from
- * 721–860px before the game-theme override took over below 720px.
- */
-@media (max-width: 860px) {
-    .reference-table tbody {
-        gap: 9px;
-    }
-
-    .reference-table tbody tr,
-    .reference-table tbody tr:nth-child(even),
-    .reference-table tbody tr.is-shugo,
-    .reference-table tbody tr.is-provincial {
-        grid-template-columns: minmax(0, 1fr) auto auto;
-        gap: 10px 12px;
-        padding: 16px;
-        border: 1px solid #887342;
-        border-radius: 3px;
-        background:
-            linear-gradient(180deg, #e4d39e, #cbb77e);
-        background-image: none;
-        box-shadow:
-            inset 0 1px 0 rgb(255 247 214 / 0.48),
-            0 3px 8px rgb(0 0 0 / 0.2);
-    }
-
-    .reference-table tbody tr:hover {
-        background: #ead79f;
-        box-shadow:
-            inset 4px 0 0 #9a2e21,
-            0 4px 10px rgb(0 0 0 / 0.22);
-    }
-
-    .name-cell {
-        grid-column: 1 / -1;
-        grid-row: 1;
-    }
-
-    .entry-name {
-        font-size: 0.96rem;
-    }
-
-    .japanese {
-        grid-column: 1 / -1;
-        grid-row: 2;
-        padding-top: 8px !important;
-        border-top: 1px solid #a48d58 !important;
-        font-size: 1.03rem;
-    }
-
-    .translation {
-        grid-column: 1 / -1;
-        grid-row: 3;
-        padding: 2px 0 4px !important;
-        color: #4e422d;
-        font-size: 0.82rem;
-        line-height: 1.58;
-    }
-
-    .class-cell {
-        grid-column: 1;
-        grid-row: 4;
-        align-self: end;
-    }
-
-    .effect-cell {
-        grid-column: 2;
-        grid-row: 4;
-        align-self: end;
-    }
-
-    .count-cell {
-        grid-column: 3;
-        grid-row: 4;
-        align-self: end;
-        text-align: right;
-    }
-
-    .class-cell,
-    .effect-cell,
-    .count-cell {
-        display: flex;
-        min-width: 0;
-        flex-direction: column;
-        gap: 4px;
-    }
-
-    .effect-cell,
-    .count-cell {
-        align-items: flex-end;
-    }
-
-    .class-cell::before,
-    .effect-cell::before,
-    .count-cell::before {
-        display: block;
-        color: #6c5b39;
-        content: attr(data-label);
-        font-size: 0.55rem;
-        font-weight: 800;
-        letter-spacing: 0.08em;
-        line-height: 1;
-        text-transform: uppercase;
-    }
-
-    .entry-permalink {
-        opacity: 1;
-    }
-}
-
 @media (max-width: 540px) {
     .explorer__legend {
         padding: 10px 11px;
@@ -1481,20 +1219,6 @@ body {
 
     .switcher__copy small {
         font-size: 0.68rem;
-    }
-
-    .reference-table tbody tr,
-    .reference-table tbody tr:nth-child(even),
-    .reference-table tbody tr.is-shugo,
-    .reference-table tbody tr.is-provincial {
-        gap: 9px 10px;
-        padding: 14px;
-    }
-
-    .class-cell::before,
-    .effect-cell::before,
-    .count-cell::before {
-        font-size: 0.52rem;
     }
 }
 
@@ -1583,25 +1307,7 @@ body {
         linear-gradient(180deg, rgb(249 235 193 / 0.98), rgb(230 209 156 / 0.98));
 }
 
-.reference-table {
-    background:
-        repeating-linear-gradient(0deg, rgb(91 67 27 / 0.018) 0 1px, transparent 1px 4px),
-        #ead79d;
-}
 
-.reference-table tbody tr:nth-child(even) {
-    background: rgb(255 247 219 / 0.38);
-}
-
-.reference-table tbody tr:hover {
-    background: #f4dfa6;
-}
-
-.entry-name,
-.japanese,
-.translation {
-    text-shadow: none;
-}
 
 .hero h1,
 .guide-header h1,
@@ -1615,7 +1321,6 @@ body {
     font-family: var(--serif);
 }
 
-.reference-table,
 .field input,
 .field select,
 .reset-button,
@@ -1937,86 +1642,9 @@ body {
     background: #2b342c;
 }
 
-/* Catalogue: cleaner data-grid treatment */
-.table-shell {
-    border: 1px solid #ad9152;
-    border-radius: 10px;
-    background: #f0e2bb;
-    box-shadow: var(--shadow-sm);
-}
-
-.reference-table {
-    color: var(--ink);
-    background: #f0e2bb;
-}
-
-.reference-table th {
-    padding: 12px 14px;
-    border-bottom-color: #8e7337;
-    color: #f7edcf;
-    background: #2a312a;
-    box-shadow: none;
-    text-shadow: none;
-}
-
-.reference-table td {
-    padding: 13px 14px;
-    border-bottom-color: #c8b37d;
-}
-
-.reference-table tbody tr:nth-child(even) {
-    background: #f7ecd2;
-}
-
-.reference-table tbody tr:hover {
-    background: #fff4d9;
-    box-shadow: inset 3px 0 0 var(--vermilion);
-}
-
-.entry-name {
-    color: #1f1a12;
-    font-weight: 800;
-}
-
-.entry-type {
-    color: #655c4d;
-}
-
-.japanese {
-    color: #261e13;
-}
-
-.japanese__main .pronunciation,
-.pronunciation {
-    color: #615746;
-}
-
-/* Historical meaning is a primary reference field, not secondary copy. */
-.translation {
-    color: #342b1f;
-    font-weight: 700;
-    line-height: 1.55;
-}
-
-.class-chip,
-.count-badge--multiple {
-    border-color: #b59650;
-    border-radius: 6px;
-    background: #e5ce93;
-}
-
-.class-chip--upper {
-    border-color: #af812a;
-    background: #efd47f;
-}
-
+/* Reference-independent chip finish */
 .effect-chip {
     border-radius: 6px;
-}
-
-.reference-table tr:target {
-    background: #ffe8ae;
-    box-shadow: inset 4px 0 0 var(--vermilion);
 }
 
 /* Guide cards and controls */
@@ -2080,35 +1708,6 @@ body {
     box-shadow: 0 18px 42px rgb(0 0 0 / 0.38);
 }
 
-/* Keep mobile/tablet cards visually consistent with the modern treatment. */
-@media (max-width: 860px) {
-    .reference-table tbody tr,
-    .reference-table tbody tr:nth-child(even),
-    .reference-table tbody tr.is-shugo,
-    .reference-table tbody tr.is-provincial {
-        border-color: #b29961;
-        border-radius: 10px;
-        background: #f2e3bd;
-        box-shadow: var(--shadow-sm);
-    }
-
-    .reference-table tbody tr:hover {
-        background: #f9eccd;
-        box-shadow:
-            inset 3px 0 0 var(--vermilion),
-            var(--shadow-sm);
-    }
-
-    .japanese {
-        border-top-color: #c7b078 !important;
-    }
-
-    .translation {
-        color: #342b1f;
-        font-weight: 700;
-    }
-}
-
 @media (max-width: 720px) {
     .hero,
     .guide-header,
@@ -2128,80 +1727,4 @@ body {
     .guide-source-card {
         border-radius: 9px;
     }
-}
-
-
-/* ---------- Notable holders ---------- */
-
-.translation__meaning {
-    display: block;
-}
-
-.holder-details {
-    margin-top: 8px;
-    border-top: 1px solid rgb(128 102 47 / 0.28);
-    padding-top: 7px;
-    font-size: 0.72rem;
-    font-weight: 500;
-}
-
-.holder-details summary {
-    width: fit-content;
-    cursor: pointer;
-    color: #755719;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-}
-
-.holder-details summary:hover,
-.holder-details summary:focus-visible {
-    color: #9d372b;
-}
-
-.holder-details__list {
-    display: grid;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.holder-details__item {
-    display: grid;
-    gap: 3px;
-    padding-left: 9px;
-    border-left: 2px solid #b4862e;
-    color: #514839;
-    line-height: 1.5;
-}
-
-.holder-details__name {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px 8px;
-    align-items: baseline;
-    color: #24180b;
-}
-
-.holder-details__name [lang='ja'] {
-    color: #625849;
-    font-family: "Noto Serif JP Variable", serif;
-}
-
-.holder-details__item a {
-    width: fit-content;
-    color: #755719;
-    font-weight: 700;
-    text-decoration: none;
-}
-
-.holder-details__item a:hover,
-.holder-details__item a:focus-visible {
-    text-decoration: underline;
-}
-
-.holder-details__empty {
-    display: block;
-    margin-top: 6px;
-    color: #746b5d;
-    font-style: italic;
-    line-height: 1.45;
 }
