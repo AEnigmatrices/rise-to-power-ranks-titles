@@ -3,10 +3,15 @@
 .table-shell {
     overflow: visible;
     padding: 0 6px 8px;
-    border: 0;
+    border: 1px solid rgb(232 201 104 / 0.14);
+    border-top-color: rgb(232 201 104 / 0.2);
     border-radius: 0 0 12px 12px;
-    background: rgb(0 0 0 / 0.08);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.025);
+    background:
+        linear-gradient(180deg, rgb(255 255 255 / 0.025), transparent 9rem),
+        linear-gradient(135deg, #171e18 0%, #111712 52%, #0d120e 100%);
+    box-shadow:
+        0 14px 34px rgb(0 0 0 / 0.18),
+        inset 0 1px 0 rgb(255 255 255 / 0.035);
 }
 
 .reference-ledger__columns {
@@ -14,9 +19,11 @@
     grid-template-columns: 31% 26% 43%;
     margin: 0 -6px;
     padding: 10px 18px 9px;
-    border-top: 1px solid rgb(232 201 104 / 0.08);
-    border-bottom: 1px solid rgb(232 201 104 / 0.13);
+    border-top: 1px solid rgb(232 201 104 / 0.12);
+    border-bottom: 1px solid rgb(232 201 104 / 0.16);
     color: #7f887f;
+    background: linear-gradient(90deg, rgb(232 201 104 / 0.045), rgb(255 255 255 / 0.012) 55%, transparent);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.018);
     font-size: 0.62rem;
     font-weight: 760;
     letter-spacing: 0.08em;
@@ -56,9 +63,11 @@
 
 .reference-group__heading th {
     padding: 34px 12px 12px;
-    border-bottom: 1px solid rgb(232 201 104 / 0.22);
+    border-bottom: 1px solid rgb(232 201 104 / 0.24);
     color: #f5f1e8;
-    background: transparent;
+    background:
+        linear-gradient(90deg, rgb(232 201 104 / 0.065), rgb(232 201 104 / 0.018) 48%, transparent 82%);
+    box-shadow: inset 0 -1px 0 rgb(0 0 0 / 0.24);
     text-align: left;
 }
 
@@ -109,9 +118,14 @@
 
 .reference-table td {
     padding: 17px 18px;
-    border-bottom: 1px solid rgb(255 255 255 / 0.07);
+    border-bottom: 1px solid rgb(255 255 255 / 0.065);
     vertical-align: top;
-    transition: background-color 120ms ease;
+    transition: 120ms ease;
+    transition-property: background-color, box-shadow, border-color;
+}
+
+.reference-table td + td {
+    border-left: 1px solid rgb(255 255 255 / 0.035);
 }
 
 .reference-table td:first-child {
@@ -133,21 +147,25 @@
 }
 
 .reference-table tbody tr[data-reference-row] {
-    background: transparent;
-    box-shadow: none;
+    background: rgb(255 255 255 / 0.012);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.008);
     transition: 120ms ease;
     transition-property: background-color, box-shadow;
 }
 
-.reference-table tbody tr[data-reference-row]:nth-child(even),
+.reference-table tbody tr[data-reference-row]:nth-child(even) {
+    background: rgb(255 255 255 / 0.025);
+}
+
 .reference-table tbody tr[data-reference-row].is-shugo,
 .reference-table tbody tr[data-reference-row].is-provincial {
-    background: transparent;
-    background-image: none;
+    background-image: linear-gradient(90deg, rgb(68 91 72 / 0.08), transparent 42%);
 }
 
 .reference-table tbody tr[data-reference-row]:hover td {
-    background: rgb(232 201 104 / 0.045);
+    border-bottom-color: rgb(232 201 104 / 0.12);
+    background: rgb(232 201 104 / 0.055);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.018);
 }
 
 .reference-table tbody tr[data-reference-row]:hover td:first-child {
