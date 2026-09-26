@@ -13,6 +13,8 @@ import {
     type ReferenceKind,
 } from '../../lib/appointments';
 
+interface Props { kind?: ReferenceKind; }
+const { kind: fixedKind } = Astro.props;
 const ranks = toReferenceEntries(rankAppointments);
 const titles = toReferenceEntries(titleAppointments);
 
@@ -70,7 +72,7 @@ const searchableText = (
     ].join(' ');
 ---
 
-<section id="reference" class="explorer" aria-labelledby="explorer-heading" data-reference-explorer>
+<section id="reference" class="explorer" aria-labelledby="explorer-heading" data-reference-explorer data-fixed-kind={fixedKind}>
     <h2 id="explorer-heading" class="sr-only">
         Browse every appointment
     </h2>
@@ -78,7 +80,7 @@ const searchableText = (
         Search English or Japanese names, readings, and historical meanings in the selected system.
     </p>
 
-    <div class="switcher" role="tablist" aria-label="Appointment system">
+    {!fixedKind && <div class="switcher" role="tablist" aria-label="Appointment system">
         <button
             class="switcher__tab is-active"
             type="button"
@@ -123,7 +125,7 @@ const searchableText = (
             </span>
             <span class="effect-chip effect-chip--leadership">Leadership ↑</span>
         </button>
-    </div>
+    </div>}
 
     <section class="reference-viz" aria-labelledby="reference-viz-heading" data-reference-charts>
         <div class="reference-viz__header">
@@ -247,7 +249,7 @@ const searchableText = (
 
     <div class="results-line">
         <p data-result-count role="status" aria-atomic="true">
-            {ranks.length} unique ranks · {totalRecords(ranks)} occurrences
+            {fixedKind === 'title' ? titles.length : ranks.length} unique {fixedKind === 'title' ? 'titles' : 'ranks'} · {totalRecords(fixedKind === 'title' ? titles : ranks)} occurrences
         </p>
         <p class="results-line__hint">
             <strong>×N</strong> marks repeated source occurrences · Press <kbd>/</kbd> to search
@@ -258,7 +260,7 @@ const searchableText = (
         <summary>How to read this reference</summary>
         <div class="explorer__help-copy">
             <p>
-                <strong>Ranks and Titles:</strong> choose a system above, then search or filter its
+                <strong>Ranks and Titles:</strong> search or filter the
                 appointments. Ranks raise Politics; Titles raise Leadership.
             </p>
             <p>
@@ -274,14 +276,14 @@ const searchableText = (
         </div>
     </details>
 
-    {(Object.entries(groupsByKind) as [ReferenceKind, ReferenceGroup[]][]).map(([kind, groups]) => (
+    {(Object.entries(groupsByKind) as [ReferenceKind, ReferenceGroup[]][]).filter(([kind]) => !fixedKind || kind === fixedKind).map(([kind, groups]) => (
         <section
             class="reference-panel"
             id={`${kind}-panel`}
-            role="tabpanel"
-            aria-labelledby={`${kind}-tab`}
+            role={fixedKind ? undefined : 'tabpanel'}
+            aria-labelledby={fixedKind ? undefined : `${kind}-tab`}
             data-panel={kind}
-            hidden={kind !== 'rank'}
+            hidden={kind !== (fixedKind ?? 'rank')}
         >
             <div class="table-shell">
                 <div class="reference-ledger__columns" aria-hidden="true">
