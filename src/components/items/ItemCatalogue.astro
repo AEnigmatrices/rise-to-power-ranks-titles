@@ -43,8 +43,7 @@ const origins = [...new Set(collection.items.map((item) => item.origin))].sort()
                     <span data-section-count>{category.items.length} items</span>
                 </div>
                 <div class="items-table-wrap">
-                    <table class="items-table">
-                        <caption>{category.label} in Nobunaga’s Ambition: Rise to Power</caption>
+                    <table class="items-table" aria-label={`${category.label} items`}>
                         <thead><tr><th scope="col">Item</th><th scope="col">Japanese name</th><th scope="col">Quality</th><th scope="col">Origin</th><th scope="col">Effect</th></tr></thead>
                         <tbody>
                             {category.items.map((item) => (
