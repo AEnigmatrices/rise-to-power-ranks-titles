@@ -29,6 +29,7 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
                 const text = normalizeSearchText([
                     row.dataset.name,
                     row.dataset.japanese,
+                    row.dataset.english,
                     row.dataset.type,
                     row.dataset.effect,
                     row.dataset.origin,
@@ -79,7 +80,7 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
     if (target?.matches('[data-item-row]') && (search.value || quality.value || origin.value)) {
         const item = target as HTMLTableRowElement;
         const query = normalizeSearchText(search.value.trim());
-        const text = normalizeSearchText([item.dataset.name, item.dataset.japanese, item.dataset.type, item.dataset.effect, item.dataset.origin].join(' '));
+        const text = normalizeSearchText([item.dataset.name, item.dataset.japanese, item.dataset.english, item.dataset.type, item.dataset.effect, item.dataset.origin].join(' '));
         if ((query && !text.includes(query)) || (quality.value && Number(item.dataset.quality) < Number(quality.value)) || (origin.value && item.dataset.origin !== origin.value)) {
             search.value = '';
             quality.value = '';

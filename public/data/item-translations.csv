@@ -1,0 +1,431 @@
+Collection,Type,Original English label,Japanese,English translation,Quality,Origin,Effect,Translation status,Audit note,Source order
+arms,Sword,Opus Blade,童子切安綱,Dōjigiri Yasutsuna (Dōji Cutter),10,Japan,Leadership + 10,interpretive,,0
+arms,Sword,Crescent Edge,三日月宗近,Mikazuki Munechika (Crescent Moon),10,Japan,Leadership + 10,interpretive,,1
+arms,Sword,Peacebringer,大包平,Ōkanehira,9,Japan,Leadership + 9,interpretive,,2
+arms,Sword,Moonlight Blade,数珠丸恒次,Juzumaru Tsunetsugu (Rosary Sword),9,Japan,Leadership + 9,interpretive,,3
+arms,Sword,Exquisite Blade,大典太光世,Ōtenta Mitsuyo,8,Japan,Leadership + 8,interpretive,,4
+arms,Sword,Onimaru Blade,鬼丸国綱,Onimaru Kunitsuna (Demon Sword),8,Japan,Leadership + 8,interpretive,,5
+arms,Sword,Flawless Blade,大般若長光,Daihannya Nagamitsu,7,Japan,Leadership + 7,interpretive,,6
+arms,Sword,Aurora Edge,日光一文字,Nikkō Ichimonji,7,Japan,Leadership + 7,interpretive,,7
+arms,Sword,Military Edge,宗三左文字,Sōza Samonji,6,Japan,Leadership + 6,interpretive,,8
+arms,Sword,Bone Eater,骨喰吉光,Honebami Yoshimitsu (Bone Devourer),6,Japan,Leadership + 6,interpretive,,9
+arms,Sword,Demon Cutter,鬼切安綱,Onikiri Yasutsuna (Demon Cutter),5,Japan,Leadership + 5,interpretive,,10
+arms,Sword,Lotus Sutra,妙法蓮華経,Lotus Sutra,5,Japan,Leadership + 5,needs-review,The Japanese text is a Buddhist scripture title although the source places it among swords.,11
+arms,Sword,Sunlight Blade,日光助真,Nikkō Sukezane,4,Japan,Leadership + 4,interpretive,,12
+arms,Sword,Great Sword,へし切長谷部,Heshikiri Hasebe (Press-Cutter),4,Japan,Leadership + 4,interpretive,,13
+arms,Sword,Avatar's Edge,熊野三所権現,Three Kumano Manifestations (Kumano Sansho Gongen),3,Japan,Leadership + 3,needs-review,A religious title rather than an identifiable sword name in the supplied text.,14
+arms,Sword,Thunder Blade,妙見大菩薩,Great Bodhisattva Myōken,3,Japan,Leadership + 3,needs-review,A religious title rather than an identifiable sword name in the supplied text.,15
+arms,Sword,Ceremonial Sword,鞍切景秀,Kuragiri Kagehide (Saddle Cutter),2,Japan,Leadership + 2,interpretive,,16
+arms,Sword,Forged Blade,雷切,Raikiri (Lightning Cutter),2,Japan,Leadership + 2,interpretive,,17
+arms,Sword,Steel Blade,生駒光忠,Ikoma Mitsutada,1,Japan,Leadership + 1,interpretive,,18
+arms,Sword,Iron Sword,稲葉江,Inaba Gō,1,Japan,Leadership + 1,interpretive,,19
+arms,Spear,Tonbogiri,蜻蛉切,Tonbogiri (Dragonfly Cutter),10,Japan,Skill[Counter 1],interpretive,,20
+arms,Spear,Magnum Spear,呑取,Nomitori (Swallowing/Capturing),10,Japan,Skill[Counter 1],needs-review,The proper name 呑取 has an uncertain reading and meaning.,21
+arms,Spear,Hachiman,皆朱槍,All-Vermilion Spear,9,Japan,Skill[Counter 1],interpretive,,22
+arms,Spear,Hero's Spear,助光銘薙刀,Sukemitsu-Inscribed Naginata,9,Japan,Skill[Counter 1],interpretive,,23
+arms,Spear,Sunset Spear,片鎌槍,Single-Sickle Spear,8,Japan,Skill[Counter 1],interpretive,,24
+arms,Spear,Vanguard's Spear,瓶通槍,Bottle-Piercing Spear,8,Japan,Skill[Counter 1],needs-review,The name 瓶通槍 is obscure; literal reading only.,25
+arms,Spear,Cross Spear,十文字槍,Cross-Shaped Spear,7,Japan,Skill[Counter 1],interpretive,,26
+arms,Spear,Inscribed Spear,長光銘薙刀,Nagamitsu-Inscribed Naginata,7,Japan,Skill[Counter 1],interpretive,,27
+arms,Spear,Vinewrap Spear,笹穂槍,Bamboo-Leaf Spear,6,Japan,Skill[Counter 1],interpretive,,28
+arms,Spear,Genius' Spear,来国俊銘薙刀,Rai Kunitoshi-Inscribed Naginata,6,Japan,Skill[Counter 1],interpretive,,29
+arms,Spear,Vigilant Spear,景光銘薙刀,Kagemitsu-Inscribed Naginata,5,Japan,Skill[Counter 1],interpretive,,30
+arms,Spear,Grassland Spear,菊地槍,Kikuchi Spear,5,Japan,Skill[Counter 1],interpretive,,31
+arms,Spear,Plover Spear,千鳥槍,Plover Spear,4,Japan,Skill[Counter 1],interpretive,,32
+arms,Spear,Stalwart Spear,八幡大菩薩,Great Bodhisattva Hachiman,4,Japan,Skill[Counter 1],needs-review,A religious title; spear identification is not independently established.,33
+arms,Spear,Watchman's Spear,沢瀉槍,Arrowhead-Plant Spear,3,Japan,Skill[Counter 1],interpretive,,34
+arms,Spear,Ceremonial Spear,片山一文字,Katayama Ichimonji,3,Japan,Skill[Counter 1],needs-review,This looks like a sword name; its identification as a spear needs checking.,35
+arms,Spear,Tribal Spear,当麻銘薙刀,Taima-Inscribed Naginata,2,Japan,Skill[Counter 1],interpretive,,36
+arms,Spear,Nameless Spear,法城寺,Hōjōji,2,Japan,Skill[Counter 1],interpretive,,37
+arms,Spear,Warrior's Spear,黒漆柄薙刀,Black-Lacquered-Haft Naginata,1,Japan,Skill[Counter 1],interpretive,,38
+arms,Spear,Iron Spear,無銘長巻,Unsigned Nagamaki,1,Japan,Skill[Counter 1],interpretive,,39
+arms,Musket,Matchlock,種子島筒,Tanegashima Matchlock,10,Japan,can useDragoon troops,interpretive,,40
+arms,Musket,Echo Musket,堺筒,Sakai Musket,9,Japan,can useDragoon troops,interpretive,,41
+arms,Musket,Quickfire Musket,国友筒,Kunitomo Musket,8,Japan,can useDragoon troops,interpretive,,42
+arms,Musket,Flawless Musket,紀州筒,Kishū Musket,7,Japan,can useDragoon troops,interpretive,,43
+arms,Musket,Lucky Musket,薩摩筒,Satsuma Musket,6,Japan,can useDragoon troops,interpretive,,44
+arms,Musket,Imported Musket,備前筒,Bizen Musket,5,Japan,can useDragoon troops,interpretive,,45
+arms,Musket,Polished Musket,日野筒,Hino Musket,4,Japan,can useDragoon troops,interpretive,,46
+arms,Musket,Arquebus,仙台筒,Sendai Musket,3,Japan,can useDragoon troops,interpretive,,47
+arms,Musket,Steel Musket,阿波筒,Awa Musket,2,Japan,can useDragoon troops,interpretive,,48
+arms,Musket,Simple Musket,米沢筒,Yonezawa Musket,1,Japan,can useDragoon troops,interpretive,,49
+arms,Rifle,Masterwork Rifle,管打式銃,Tube-Primed Gun,10,Europe,can useDragoon troops,needs-review,The historical firing mechanism implied by 管打式 needs checking.,50
+arms,Rifle,Resounding Rifle,雷管式銃,Percussion-Cap Gun,10,Europe,can useDragoon troops,interpretive,,51
+arms,Rifle,Flawless Rifle,燧石式銃,Flintlock Gun,9,Europe,can useDragoon troops,interpretive,,52
+arms,Rifle,Recoilless Rifle,雷粉式銃,Flash-Powder Gun,9,Europe,can useDragoon troops,needs-review,The mechanism 雷粉式銃 is uncertain.,53
+arms,Rifle,Fortune Rifle,ピン打式銃,Pin-Fire Gun,8,Europe,can useDragoon troops,interpretive,,54
+arms,Rifle,Western Rifle,洋式銃,Western-Style Firearm,8,Europe,can useDragoon troops,interpretive,,55
+arms,Rifle,Korean Rifle,朝鮮短筒,Korean Short Gun,7,Europe,can useDragoon troops,interpretive,,56
+arms,Rifle,Twin-barrel Rifle,二連発手中筒,Double-Shot Handgun,7,Europe,can useDragoon troops,interpretive,,57
+arms,Rifle,Dirk Rifle,匕首鉄砲,Dagger Gun,6,Europe,can useDragoon troops,interpretive,,58
+arms,Rifle,Short Rifle,脇差鉄砲,Wakizashi Gun,6,Europe,can useDragoon troops,interpretive,,59
+arms,Pistol,Horseback Pistol,馬上筒,Mounted Gun,10,Europe,can useDragoon troops,interpretive,,60
+arms,Pistol,Pocket Pistol,懐鉄砲,Pocket Pistol,9,Europe,can useDragoon troops,interpretive,,61
+arms,Pistol,Holstered Pistol,腰指筒,Waist-Carried Pistol,8,Europe,can useDragoon troops,interpretive,,62
+arms,Pistol,Swanky Pistol,籠筒,Basket-Pattern Gun,7,Europe,can useDragoon troops,needs-review,籠筒 is obscure; do not assume the source's Swanky Pistol is a literal translation.,63
+arms,Pistol,Short Pistol,十手鉄砲,Jitte Gun,6,Europe,can useDragoon troops,interpretive,,64
+arms,Cannon,Culverin,カルバリン砲,Culverin,10,Europe,can useFieldguns,interpretive,,65
+arms,Cannon,Merciful Wolf,仏狼機,Folangji Breech-Loading Gun,10,Europe,can useFieldguns,interpretive,,66
+arms,Cannon,Thunderous Cannon,ランタカ砲,Lantaka Cannon,9,Europe,can useFieldguns,interpretive,,67
+arms,Cannon,Saker Cannon,セーカー砲,Saker Cannon,9,Europe,can useFieldguns,interpretive,,68
+arms,Cannon,Faithful Cannon,雷破山,Thunder-Mountain Breaker,8,Europe,can useFieldguns,needs-review,雷破山 appears to be a named cannon; reading and identification need checking.,69
+arms,Cannon,Patriot's Cannon,国崩し,Province Destroyer,8,Europe,can useFieldguns,interpretive,,70
+arms,Cannon,Trusty Ordnance,台車砲,Carriage-Mounted Cannon,7,Europe,can useFieldguns,interpretive,,71
+arms,Cannon,Heavy Artillery,芝辻砲,Shibatsuji Cannon,7,Europe,can useFieldguns,interpretive,,72
+arms,Cannon,Burning Arrow,火矢筒,Fire-Arrow Launcher,6,Europe,can useFieldguns,interpretive,,73
+arms,Cannon,Mortar,臼砲,Mortar,6,Europe,can useFieldguns,interpretive,,74
+arms,Armor,Talisman Armor,金小札色々威,Gilt Small-Scale Multicolored-Laced Armor,10,Japan,Skill[Block],interpretive,,75
+arms,Armor,Solar Armor,小桜韋威鎧,Small-Cherry-Blossom Leather-Laced Armor,10,Japan,Skill[Block],interpretive,,76
+arms,Armor,Charm Armor,黒漆塗五枚胴,Black-Lacquered Five-Plate Cuirass,9,Japan,Skill[Block],interpretive,,77
+arms,Armor,Barbaric Armor,南蛮胴具足,European-Style Cuirass Armor,9,Europe,Skill[Block],interpretive,,78
+arms,Armor,Shifting Armor,藍韋威肩赤鎧,Indigo-Leather-Laced Armor with Red Shoulders,8,Japan,Skill[Block],interpretive,,79
+arms,Armor,Fern Armor,片肌脱二枚胴,Bare-Shoulder Two-Plate Cuirass,8,Japan,Skill[Block],interpretive,,80
+arms,Armor,Skyfire Armor,金白檀鉄腹巻,Gold Byakudan-Finished Iron Haramaki,7,Japan,Skill[Block],interpretive,,81
+arms,Armor,Violet Armor,歯朶具足,Fern Armor,7,Japan,Skill[Block],interpretive,,82
+arms,Armor,Fish Scale Armor,金箔置色々威,Gold-Leaf Multicolored-Laced Armor,6,Japan,Skill[Block],interpretive,,83
+arms,Armor,Lacquered Armor,紫糸威最上胴,Purple-Cord-Laced Mogami Cuirass,6,Japan,Skill[Block],interpretive,,84
+arms,Armor,Shimmering Armor,魚鱗札二枚胴,Fish-Scale Two-Plate Cuirass,5,Japan,Skill[Block],interpretive,,85
+arms,Armor,Sapling Armor,熏韋素懸威,Smoked-Leather Simple-Laced Armor,5,Japan,Skill[Block],interpretive,,86
+arms,Armor,Scarlet Armor,金陀美具足,Gilded Kindami Armor,4,Japan,Skill[Block],needs-review,金陀美 is a specialized armor finish; gloss is provisional.,87
+arms,Armor,Black Bear Armor,萌葱糸素懸威,Bright-Green-Cord Simple-Laced Armor,4,Japan,Skill[Block],interpretive,,88
+arms,Armor,Evergreen Armor,朱漆塗桶側胴,Vermilion-Lacquered Tub-Sided Cuirass,3,Japan,Skill[Block],interpretive,,89
+arms,Armor,Ebony Armor,惣黒熊毛具足,All-Black Bear-Fur Armor,3,Japan,Skill[Block],interpretive,,90
+arms,Armor,Chestnut Armor,樫鳥糸肩赤威,Kashidori-Colored Cord with Red-Shoulder Lacing,2,Japan,Skill[Block],needs-review,The specialist color name 樫鳥 is not confidently identified.,91
+arms,Armor,Earthen Armor,黒糸威二枚胴,Black-Cord-Laced Two-Plate Cuirass,2,Japan,Skill[Block],interpretive,,92
+arms,Armor,Leather Armor,栗色革仏丸胴,Chestnut-Leather Hotoke-Maru Cuirass,1,Japan,Skill[Block],interpretive,,93
+arms,Armor,Simple Armor,鉄地二枚胴,Iron Two-Plate Cuirass,1,Japan,Skill[Block],interpretive,,94
+arms,Helmet,Mastercraft Helmet,鹿角脇立兜,Antler Side-Crest Helmet,10,Japan,Skill[Rally],interpretive,,95
+arms,Helmet,Corona Helmet,馬藺後立付兜,Iris-Grass Rear-Crest Helmet,10,Japan,Skill[Rally],interpretive,,96
+arms,Helmet,Gold Rim Helmet,金銀象嵌兜,Gold-and-Silver-Inlaid Helmet,9,Japan,Skill[Rally],interpretive,,97
+arms,Helmet,Gilted Helmet,金覆輪筋兜,Gold-Rimmed Ridged Helmet,9,Japan,Skill[Rally],interpretive,,98
+arms,Helmet,Eyeline Helmet,一の谷兜,Ichinotani Helmet,8,Japan,Skill[Rally],interpretive,,99
+arms,Helmet,Crescent Helmet,三日月兜,Crescent-Moon Helmet,8,Japan,Skill[Rally],interpretive,,100
+arms,Helmet,Silver Inlay Helmet,銀白檀塗兜,Silver Byakudan-Finished Helmet,7,Japan,Skill[Rally],interpretive,,101
+arms,Helmet,Water Buffalo Helmet,大水牛脇立兜,Large Water-Buffalo-Horn Helmet,7,Japan,Skill[Rally],interpretive,,102
+arms,Helmet,Rival's Helmet,飯綱権現付兜,Iizuna Gongen-Crested Helmet,6,Japan,Skill[Rally],interpretive,,103
+arms,Helmet,Peerless Helmet,唐冠形兜,Chinese-Crown-Shaped Helmet,6,Japan,Skill[Rally],interpretive,,104
+arms,Helmet,Warlord's Helmet,大釘後立兜,Large-Nail Rear-Crest Helmet,5,Japan,Skill[Rally],interpretive,,105
+arms,Helmet,Chief's Helmet,長烏帽子形兜,Tall Eboshi-Shaped Helmet,5,Japan,Skill[Rally],interpretive,,106
+arms,Helmet,Swallow's Helmet,燕尾形兜,Swallowtail Helmet,4,Japan,Skill[Rally],interpretive,,107
+arms,Helmet,62 Point Helmet,帆立貝前立兜,Scallop Front-Crest Helmet,4,Japan,Skill[Rally],interpretive,,108
+arms,Helmet,Hardened Helmet,鯰尾兜,Catfish-Tail Helmet,3,Japan,Skill[Rally],interpretive,,109
+arms,Helmet,22 Point Helmet,六十二間筋兜,62-Plate Ridged Helmet,3,Japan,Skill[Rally],interpretive,,110
+arms,Helmet,12 Point Helmet,十二間筋兜,12-Plate Ridged Helmet,2,Japan,Skill[Rally],interpretive,,111
+arms,Helmet,Smithy's Helmet,二十二間筋兜,22-Plate Ridged Helmet,2,Japan,Skill[Rally],interpretive,,112
+arms,Helmet,Leather Helmet,椎実形兜,Chinquapin-Nut-Shaped Helmet,1,Japan,Skill[Rally],interpretive,,113
+arms,Helmet,Kabuto Helmet,鉄錆地筋兜,Rust-Finished Iron Ridged Helmet,1,Japan,Skill[Rally],interpretive,,114
+arms,Horse,Matsukaze,松風,Matsukaze (Pine Wind),10,Japan,retreats always succeed,interpretive,,115
+arms,Horse,Vermillion Horse,帝釈栗毛,Taishaku Chestnut Horse,10,Japan,retreats always succeed,interpretive,,116
+arms,Horse,Dark Cloud,黒雲,Black Cloud,9,Japan,retreats always succeed,interpretive,,117
+arms,Horse,Moon Child,放生月毛,Hōjō Tsukige (Pale-Cream Horse),9,Japan,retreats always succeed,needs-review,The compound 放生月毛 may be a proper horse name; literal interpretation is uncertain.,118
+arms,Horse,Arabian Horse,アラブ馬,Arabian Horse,8,Europe,retreats always succeed,interpretive,,119
+arms,Horse,3 Kingdom Horse,三国黒,Three-Kingdom Black,8,Japan,retreats always succeed,interpretive,,120
+arms,Horse,Palomino,鬼芦毛,Demon Dapple-Gray,7,Japan,retreats always succeed,interpretive,,121
+arms,Horse,Onikage,鬼鹿毛,Onikage (Demon Bay),7,Japan,retreats always succeed,interpretive,,122
+arms,Horse,Go-Lucky Horse,小鹿毛,Light Bay,6,Japan,retreats always succeed,interpretive,,123
+arms,Horse,Obsidian,百里黒,Hundred-League Black,6,Japan,retreats always succeed,interpretive,,124
+arms,Horse,Alabaster Horse,大芦毛,Large Dapple-Gray,5,Japan,retreats always succeed,interpretive,,125
+arms,Horse,Stary Horse,星河原毛,Starry Dun Horse,5,Japan,retreats always succeed,interpretive,,126
+arms,Horse,Ebony Horse,白石,White Stone,4,Japan,retreats always succeed,interpretive,,127
+arms,Horse,Crimson Horse,遠江鹿毛,Tōtōmi Bay,4,Japan,retreats always succeed,interpretive,,128
+arms,Horse,Beige Horse,大鹿毛,Dark Bay,3,Japan,retreats always succeed,interpretive,,129
+arms,Horse,Ivory Horse,小雲雀,Little Skylark,3,Japan,retreats always succeed,interpretive,,130
+arms,Horse,White Horse,桜野,Cherry-Blossom Field,2,Japan,retreats always succeed,interpretive,,131
+arms,Horse,Black Horse,太平楽,Taiheiraku (Peaceful Pleasure),2,Japan,retreats always succeed,interpretive,,132
+arms,Horse,Pale Horse,粕毛,Kasuge (Pale/Dappled Coat),1,Japan,retreats always succeed,needs-review,The exact coat-color terminology of 粕毛 should be verified.,133
+arms,Horse,Ginger Horse,星崎,Hoshizaki (Star Cape),1,Japan,retreats always succeed,interpretive,,134
+art,Painting,8 Fold Painting,瀟湘八景図,Eight Views of Xiaoxiang,10,China,Charm + 10,interpretive,,0
+art,Painting,Famous Painting,破墨山水図,Splashed-Ink Landscape,9,Japan,Charm + 9,interpretive,,1
+art,Painting,Cloth Bag Painting,布袋図,Budai (Cloth-Sack Monk),8,China,Charm + 8,interpretive,,2
+art,Painting,Daruma Painting,松下達磨図,Daruma Beneath the Pine,7,China,Charm + 7,interpretive,,3
+art,Painting,Landscape Painting,松鷹図,Pine and Hawk,6,Japan,Charm + 6,interpretive,,4
+art,Painting,Mercy Painting,観音図,Kannon (Bodhisattva of Compassion),5,China,Charm + 5,interpretive,,5
+art,Painting,Stone Iris Painting,石菖蒲図,Sweet Flag (Stone Iris),4,China,Charm + 4,interpretive,,6
+art,Painting,Night Dew Painting,芭蕉夜雨図,Banana Plant in Night Rain,3,Japan,Charm + 3,interpretive,,7
+art,Painting,Reader's Painting,竹斎読書図,Reading in the Bamboo Study,2,China,Charm + 2,interpretive,,8
+art,Painting,Chestnut Painting,栗柿図,Chestnuts and Persimmons,1,China,Charm + 1,interpretive,,9
+art,Art,Heron Art,白鷺図,White Heron,10,China,Charm + 10,interpretive,,10
+art,Art,Four Petal Art,四季花鳥図,Birds and Flowers of the Four Seasons,9,Japan,Charm + 9,interpretive,,11
+art,Art,Pastry Art,菓子図,Confectionery,8,China,Charm + 8,interpretive,,12
+art,Art,Buddhist Tome Art,釈迦説法図,The Buddha Preaching,7,Japan,Charm + 7,interpretive,,13
+art,Art,Rice Art,網干図,Drying Fishing Nets,6,Japan,Charm + 6,interpretive,,14
+art,Art,Duck Art,鴨図,Duck,5,China,Charm + 5,interpretive,,15
+art,Art,Rough Seas Art,波濤図,Rough Seas,4,Japan,Charm + 4,interpretive,,16
+art,Art,Sparrow Art,稲雀図,Sparrows Among Rice Stalks,3,China,Charm + 3,interpretive,,17
+art,Art,Red Plum Art,紅梅図,Red Plum Blossoms,2,Japan,Charm + 2,interpretive,,18
+art,Art,Sunset Art,夕陽朝山図,Sunset over Morning Mountain,1,China,Charm + 1,needs-review,The compound 朝山 is uncommon; this rendering is provisional.,19
+art,Sweets(笑),Walnut Cake,胡桃餅,Walnut Rice Cake,10,Japan,Skill[Rally],interpretive,,20
+art,Sweets(笑),Barley Candy,麦落雁,Barley Rakugan Sweets,9,Japan,Skill[Rally],interpretive,,21
+art,Sweets(笑),Castella,カステラ,Castella Sponge Cake,8,Europe,Skill[Rally],interpretive,,22
+art,Sweets(笑),Sweet Jelly,薄墨羊羹,Usuzumi Yōkan (Sweet Bean Jelly),7,Japan,Skill[Rally],interpretive,,23
+art,Sweets(笑),Senbei,寿煎餅,Celebratory Rice Crackers,6,Japan,Skill[Rally],interpretive,,24
+art,Sweets(笑),Biscuit,ビスケット,Biscuits,5,Europe,Skill[Rally],interpretive,,25
+art,Sweets(笑),Willow Treat,青柳,Aoyagi (Green Willow),4,Japan,Skill[Rally],interpretive,,26
+art,Sweets(笑),Moon Sweets,朧月,Oborozuki (Hazy Moon),3,Japan,Skill[Rally],interpretive,,27
+art,Sweets(笑),Plain Candy,金平糖,Konpeitō (Sugar Candy),2,Europe,Skill[Rally],interpretive,,28
+art,Sweets(笑),Sugar,吐月糖,Togetsutō Sugar Confection,1,Japan,Skill[Rally],needs-review,"A named confection; this is a phonetic rendering, not a literal translation.",29
+art,Jizake,Rose Wine,薔薇葡萄酒,Rose Wine,10,Europe,Skill[Confuse],interpretive,,30
+art,Jizake,Whiskey,アクアヴィテ,Aqua Vitae (Distilled Spirit),9,Europe,Skill[Confuse],interpretive,,31
+art,Jizake,Sparkling Wine,発泡酒,Sparkling Wine,8,Europe,Skill[Confuse],interpretive,,32
+art,Jizake,White Wine,白葡萄酒,White Wine,7,Europe,Skill[Confuse],interpretive,,33
+art,Jizake,Cognac,菩提泉,Bodaisen Sake,6,Japan,Skill[Confuse],interpretive,,34
+art,Jizake,Cider,多武峯,Tōnomine Sake,5,Japan,Skill[Confuse],interpretive,,35
+art,Jizake,Red Wine,赤葡萄酒,Red Wine,4,Europe,Skill[Confuse],interpretive,,36
+art,Jizake,Ale,泡盛,Awamori (Okinawan Distilled Spirit),3,Japan,Skill[Confuse],interpretive,,37
+art,Jizake,Mead,豊原,Toyohara Sake,2,Japan,Skill[Confuse],needs-review,Name of a sake rather than a literal reference to an abundant field; reading provisional.,38
+art,Jizake,Beer,麦酒,Beer,1,Europe,Skill[Confuse],interpretive,,39
+art,Scented Wood,Agarwood,蘭奢待,Ranjatai (Celebrated Agarwood),10,Japan,Skill[Calm],interpretive,,40
+art,Scented Wood,Princewood,太子,Taishi (Prince),10,China,Skill[Calm],interpretive,,41
+art,Scented Wood,Dustcloud Wood,紅塵,Kōjin (Red Dust),9,China,Skill[Calm],needs-review,Traditional literary phrase 'red dust'; reading may vary.,42
+art,Scented Wood,Rosewood,三芳野,Miyoshino,9,China,Skill[Calm],interpretive,,43
+art,Scented Wood,Young Agarwood,逍遙,Shōyō (Wandering Freely),8,China,Skill[Calm],interpretive,,44
+art,Scented Wood,Nutmeg,楊貴妃,Yōkihi (Yang Guifei),8,China,Skill[Calm],interpretive,,45
+art,Scented Wood,Autumn Maple,紅葉賀,Momijiga (Autumn-Leaf Celebration),7,China,Skill[Calm],interpretive,,46
+art,Scented Wood,Aged Cedar,花散里,Hanachirusato (Village of Falling Flowers),7,China,Skill[Calm],interpretive,,47
+art,Scented Wood,Young Rosewood,十五夜,Jūgoya (Fifteenth Night),6,China,Skill[Calm],interpretive,,48
+art,Scented Wood,Late Rain Wood,夕時雨,Yūshigure (Evening Shower),6,China,Skill[Calm],interpretive,,49
+art,Scented Wood,Young Nutmeg,富士煙,Fujikemuri (Mount Fuji Smoke),5,China,Skill[Calm],interpretive,,50
+art,Scented Wood,Harvest Wood,般若,Hannya (Prajñā),5,China,Skill[Calm],interpretive,,51
+art,Scented Wood,Young Maple,飛梅,Tobiume (Flying Plum),4,China,Skill[Calm],interpretive,,52
+art,Scented Wood,Smoky Wood,名月,Meigetsu (Bright Moon),4,China,Skill[Calm],interpretive,,53
+art,Scented Wood,Frosty Wood,須磨,Suma,3,China,Skill[Calm],interpretive,,54
+art,Scented Wood,Young Cedar,隣家,Rinka (Neighboring House),3,China,Skill[Calm],interpretive,,55
+art,Scented Wood,Relaxing Wood,霜夜,Shimoyo (Frosty Night),2,China,Skill[Calm],interpretive,,56
+art,Scented Wood,Pinewood,寝覚,Nezame (Waking from Sleep),2,China,Skill[Calm],interpretive,,57
+art,Scented Wood,Beechwood,篠目,Shinome (Bamboo-Shoot Eye),1,China,Skill[Calm],needs-review,Reading of this named incense wood requires confirmation.,58
+art,Scented Wood,Balsa Wood,上馬,Jōba (Mounted Horse),1,China,Skill[Calm],needs-review,Reading of this named incense wood requires confirmation.,59
+books,Swordsman Scroll,Book of 5 Rings,香取神道流書,Katori Shintō-ryū Swordsmanship Manual,10,Japan,Skill[Taunt],interpretive,,0
+books,Swordsman Scroll,Shinkage Scroll,新陰百首,One Hundred Shinkage Verses,9,Japan,Skill[Taunt],interpretive,,1
+books,Swordsman Scroll,Twin Edge Scroll,陰流之私,Secret Teachings of Kage-ryū,8,Japan,Skill[Taunt],interpretive,,2
+books,Swordsman Scroll,Shinto Scroll,五輪書,The Book of Five Rings,7,Japan,Skill[Taunt],interpretive,,3
+books,Swordsman Scroll,Imperial Scroll,平法口決,Oral Secrets of Strategy,6,Japan,Skill[Taunt],interpretive,,4
+books,Swordsman Scroll,Lone Sword Scroll,一刀流口伝書,Oral Teachings of Ittō-ryū,5,Japan,Skill[Taunt],interpretive,,5
+books,Swordsman Scroll,Duelist's Scroll,田宮流居合書,Tamiya-ryū Iaijutsu Manual,4,Japan,Skill[Taunt],interpretive,,6
+books,Swordsman Scroll,Defensive Scroll,夕雲流剣術書,Sekigumo-ryū Swordsmanship Manual,3,Japan,Skill[Taunt],interpretive,,7
+books,Swordsman Scroll,Warrior's Scroll,平常無敵書,Heijō Muteki Manual,2,Japan,Skill[Taunt],interpretive,,8
+books,Swordsman Scroll,Page's Scroll,本朝武芸小伝,Brief Biographies of Japanese Martial Artists,1,Japan,Skill[Taunt],interpretive,,9
+books,Scroll of Farming,Harvest Scroll,農業全書,Complete Book of Agriculture,10,Japan,Politics + 10,interpretive,,10
+books,Scroll of Farming,Agriculture Tome,農政全書,Complete Book of Agricultural Administration,9,China,Politics + 9,interpretive,,11
+books,Scroll of Farming,Farmer's Scroll,農具便利論,Treatise on the Utility of Farming Implements,8,Japan,Politics + 8,interpretive,,12
+books,Scroll of Farming,Fertilizer Scroll,広益国産考,Studies for Improving Domestic Production,7,Japan,Politics + 7,interpretive,,13
+books,Scroll of Farming,Seiryō Chronicle,清良記,Seiryō Chronicle,6,Japan,Politics + 6,interpretive,,14
+books,Scroll of Farming,Locust Scroll,除蝗録,Record of Locust Eradication,5,Japan,Politics + 5,interpretive,,15
+books,Scroll of Farming,Heritage Scroll,家業伝,Family Trade Traditions,4,Japan,Politics + 4,interpretive,,16
+books,Scroll of Farming,Irrigation Scroll,会津農書,Aizu Agricultural Manual,3,Japan,Politics + 3,interpretive,,17
+books,Scroll of Farming,Traveler's Scroll,南遊紀行,Account of Travels in the South,2,Japan,Politics + 2,interpretive,,18
+books,Scroll of Farming,Grassy Scroll,毛吹草,Kefukigusa (Grass-Blown Sayings),1,Japan,Politics + 1,interpretive,,19
+books,Scroll of Commerce,Economics Diary,経済録,Record of Economics,10,Japan,Politics + 10,interpretive,,20
+books,Scroll of Commerce,Sōkyū Imai Diary,今井宗久日記,Diary of Imai Sōkyū,9,Japan,Politics + 9,interpretive,,21
+books,Scroll of Commerce,Diary of Routes,蔭凉軒日録,Inryōken Daily Record,8,Japan,Politics + 8,needs-review,The established title is Inryōken Nichiroku.,22
+books,Scroll of Commerce,Diary of Mistakes,島井宗室訓戒,Admonitions of Shimai Sōshitsu,7,Japan,Politics + 7,interpretive,,23
+books,Scroll of Commerce,Merchant's Diary,町人考見録,Observations on Townspeople,6,Japan,Politics + 6,interpretive,,24
+books,Scroll of Commerce,Sōtan Diary,宗湛日記,Diary of Sōtan,5,Japan,Politics + 5,interpretive,,25
+books,Scroll of Commerce,Umezu Diary,梅津政景日記,Diary of Umezu Masakage,4,Japan,Politics + 4,interpretive,,26
+books,Scroll of Commerce,Diary of Rivers,松屋筆記,Matsuya Notes,3,Japan,Politics + 3,interpretive,,27
+books,Scroll of Commerce,Diary of Ideas,中島両以記文,Writings of Nakajima Ryōi,2,Japan,Politics + 2,interpretive,,28
+books,Scroll of Commerce,Diary of Debts,身自鏡,Mirror of Oneself,1,Japan,Politics + 1,interpretive,,29
+books,Building Manual,Fortification Guide,築城記,Record of Castle Construction,10,Japan,Politics + 10,interpretive,,30
+books,Building Manual,Formulae Manual,秘伝軍礼聞書,Secret Military Ceremonial Teachings,9,Japan,Politics + 9,needs-review,Reading and title need confirmation.,31
+books,Building Manual,Artisan's Manual,愚子見記,Gushikenki (Artisan's Records),8,Japan,Politics + 8,needs-review,Commonly titled Gushikenki; source transcription may vary.,32
+books,Building Manual,Workman's Manual,惣地取奥義,Secret Techniques of Land Surveying,7,Japan,Politics + 7,interpretive,,33
+books,Building Manual,Mechanic's Manual,匠明,Shōmei (Master Builders' Manual),6,Japan,Politics + 6,interpretive,,34
+books,Building Manual,Housing Manual,匠家極秘伝,Secret Teachings of Master Carpenters,5,Japan,Politics + 5,interpretive,,35
+books,Building Manual,Modeler's Manual,武教全書,Complete Book of Military Instruction,4,Japan,Politics + 4,interpretive,,36
+books,Building Manual,Carpenter's Manual,匠道奥秘巻,Secret Scroll of the Carpenter's Way,3,Japan,Politics + 3,interpretive,,37
+books,Building Manual,Patterns Manual,士鑑用法,Guide to Warrior Practice,2,Japan,Politics + 2,interpretive,,38
+books,Building Manual,Beginner's Manual,兵法雄鑑,Military Strategy Guide,1,Japan,Politics + 1,interpretive,,39
+books,Scroll of History,Complete Histories,徒然草,Essays in Idleness,10,Japan,Intelligence + 10,interpretive,,40
+books,Scroll of History,Archived Periodicals,閑吟集,Kanginshū (Collection of Leisurely Songs),9,Japan,Intelligence + 9,interpretive,,41
+books,Scroll of History,Jōzan Periodicals,常山紀談,Jōzan Kidan (Tales of Mount Jō),8,Japan,Intelligence + 8,interpretive,,42
+books,Scroll of History,Abbot's Periodicals,方丈記,The Ten-Foot-Square Hut,7,Japan,Intelligence + 7,interpretive,,43
+books,Scroll of History,Uji Periodicals,宇治拾遺物語,Tales of Uji,6,Japan,Intelligence + 6,interpretive,,44
+books,Scroll of History,Venerable Periodicals,老人雑話,Conversations of Elderly People,5,Japan,Intelligence + 5,interpretive,,45
+books,Scroll of History,Lamplight Periodicals,武野燭談,Takeno Shokudan (Candlelit War Tales),4,Japan,Intelligence + 4,interpretive,,46
+books,Scroll of History,Old Periodicals,翁草,Okina-gusa (Old Man's Grass),3,Japan,Intelligence + 3,interpretive,,47
+books,Scroll of History,Essays in Idleness,落穂集,Collection of Fallen Ears,2,Japan,Intelligence + 2,interpretive,,48
+books,Scroll of History,Nijō Periodicals,二条河原落書,Nijō Riverbed Graffiti,1,Japan,Intelligence + 1,interpretive,,49
+books,Scroll of Diplomacy,Diplomatic Scroll,善隣国宝記,Record of Treasured Foreign Relations,10,Japan,Charm + 10,interpretive,,50
+books,Scroll of Diplomacy,Neighborly Scroll,歴代宝案,Rekidai Hōan (Documents of Successive Generations),9,Japan,Charm + 9,interpretive,,51
+books,Scroll of Diplomacy,Successive Tome,海東諸国記,Account of Countries East of the Sea,8,China,Charm + 8,interpretive,,52
+books,Scroll of Diplomacy,Foreign Scroll,異国日記,Diary of Foreign Lands,7,Japan,Charm + 7,interpretive,,53
+books,Scroll of Diplomacy,Japanese Tome,日本一鑑,A Mirror of Japan,6,China,Charm + 6,interpretive,,54
+books,Scroll of Diplomacy,Western Scroll,西遊雑記,Miscellaneous Notes on Travels in the West,5,Japan,Charm + 5,interpretive,,55
+books,Scroll of Diplomacy,Eastern Scroll,東国紀行,Account of Travels in the Eastern Provinces,4,Japan,Charm + 4,interpretive,,56
+books,Scroll of Diplomacy,Municipal Scroll,都の,Miyako no (Incomplete Title),3,Japan,Charm + 3,needs-review,Source appears truncated. The Japanese does not establish the full work's title.,57
+books,Scroll of Diplomacy,Harmonious Scroll,廻国雑記,Notes on a Journey Around the Country,2,Japan,Charm + 2,interpretive,,58
+books,Scroll of Diplomacy,16 Moon Scroll,十六夜日記,Diary of the Sixteenth Night,1,Japan,Charm + 1,interpretive,,59
+books,Warrior's Scroll,Hero's Scroll,竹内流柔術書,Takeuchi-ryū Jūjutsu Manual,10,Japan,Leadership + 10,interpretive,,60
+books,Warrior's Scroll,Righteous Scroll,楊心流柔術書,Yōshin-ryū Jūjutsu Manual,9,Japan,Leadership + 9,interpretive,,61
+books,Warrior's Scroll,Vanguard's Scroll,大東流柔術書,Daitō-ryū Jūjutsu Manual,8,Japan,Leadership + 8,interpretive,,62
+books,Warrior's Scroll,Life Tree Scroll,高木流柔術書,Takagi-ryū Jūjutsu Manual,7,Japan,Leadership + 7,interpretive,,63
+books,Warrior's Scroll,Mind's Eye Scroll,福野流柔術書,Fukuno-ryū Jūjutsu Manual,6,Japan,Leadership + 6,interpretive,,64
+books,Warrior's Scroll,Tactician's Scroll,心眼流柔術書,Shingan-ryū Jūjutsu Manual,5,Japan,Leadership + 5,interpretive,,65
+books,Warrior's Scroll,Willow Heart Scroll,磯貝流柔術書,Isogai-ryū Jūjutsu Manual,4,Japan,Leadership + 4,interpretive,,66
+books,Warrior's Scroll,Soldier's Scroll,起倒流柔術書,Kitō-ryū Jūjutsu Manual,3,Japan,Leadership + 3,interpretive,,67
+books,Warrior's Scroll,Ripped Scroll,三浦流柔術書,Miura-ryū Jūjutsu Manual,2,Japan,Leadership + 2,interpretive,,68
+books,Warrior's Scroll,Bloodied Scroll,関口流柔術書,Sekiguchi-ryū Jūjutsu Manual,1,Japan,Leadership + 1,interpretive,,69
+books,Equestrian Scroll,Empathy Scroll,大坪流桐坪巻,Ōtsubo-ryū Kiritubo Scroll,10,Japan,Skill[Charge 1],interpretive,,70
+books,Equestrian Scroll,Ogasawara Scroll,小笠原流庭乗,Ogasawara-ryū Garden Riding,9,Japan,Skill[Charge 1],interpretive,,71
+books,Equestrian Scroll,Horsemanship Scroll,荒木流馬術書,Araki-ryū Horsemanship Manual,8,Japan,Skill[Charge 1],interpretive,,72
+books,Equestrian Scroll,Mongolian Scroll,八条流幸秀論,Hachijō-ryū Treatise by Yukihide,7,Japan,Skill[Charge 1],interpretive,,73
+books,Equestrian Scroll,Equestrian Scroll,神当流音捨巻,Shintō-ryū Onsha Scroll,6,Japan,Skill[Charge 1],interpretive,,74
+books,Equestrian Scroll,Knight's Scroll,騎士用本,Knight's Handbook,5,Japan,Skill[Charge 1],interpretive,,75
+books,Equestrian Scroll,Rider's Scroll,射法一統,Unified School of Archery,4,Japan,Skill[Charge 1],interpretive,,76
+books,Equestrian Scroll,Dressage Scroll,馬術秘書,Secret Manual of Horsemanship,3,Japan,Skill[Charge 1],interpretive,,77
+books,Equestrian Scroll,Trodden Scroll,馬術歌之書,Book of Equestrian Verses,2,Japan,Skill[Charge 1],interpretive,,78
+books,Equestrian Scroll,Squire's Scroll,庭乗之書,Book of Garden Riding,1,Japan,Skill[Charge 1],interpretive,,79
+books,Archer's Scroll,Dead Flight Scroll,稲富流砲術書,Inatomi-ryū Gunnery Manual,10,Japan,Skill[Volley 1],interpretive,,80
+books,Archer's Scroll,Lazy Eye Scroll,津田流砲術書,Tsuda-ryū Gunnery Manual,9,Japan,Skill[Volley 1],interpretive,,81
+books,Archer's Scroll,Clout Scroll,外記流砲術書,Geki-ryū Gunnery Manual,8,Japan,Skill[Volley 1],interpretive,,82
+books,Archer's Scroll,Marksman's Scroll,田付流砲術書,Tatsuke-ryū Gunnery Manual,7,Japan,Skill[Volley 1],interpretive,,83
+books,Archer's Scroll,Hunter's Scroll,関流砲術書,Seki-ryū Gunnery Manual,6,Japan,Skill[Volley 1],interpretive,,84
+books,Archer's Scroll,Nocking Scroll,霞流砲術書,Kasumi-ryū Gunnery Manual,5,Japan,Skill[Volley 1],interpretive,,85
+books,Archer's Scroll,Focus Scroll,荻野流砲術書,Ogino-ryū Gunnery Manual,4,Japan,Skill[Volley 1],interpretive,,86
+books,Archer's Scroll,Stringing Scroll,高島流秘伝書,Takashima-ryū Secret Teachings,3,Japan,Skill[Volley 1],interpretive,,87
+books,Archer's Scroll,Simple Scroll,天山流砲術書,Tenzan-ryū Gunnery Manual,2,Japan,Skill[Volley 1],interpretive,,88
+books,Archer's Scroll,Pierced Scroll,中島流砲術書,Nakajima-ryū Gunnery Manual,1,Japan,Skill[Volley 1],interpretive,,89
+books,Knowledge Script,Mantis Analects,史記,Records of the Grand Historian,10,China,Politics + 10,interpretive,,90
+books,Knowledge Script,Jōgan Era Analects,貞観政要,Essentials of Government in the Zhenguan Era,10,China,Politics + 10,interpretive,,91
+books,Knowledge Script,Jōei Era Analects,貞永式目抄,Commentary on the Jōei Code,9,Japan,Politics + 9,interpretive,,92
+books,Knowledge Script,Confucian Analects,論語,The Analects,9,China,Politics + 9,interpretive,,93
+books,Knowledge Script,Ancient Analects,春秋佐氏伝,Zuo's Commentary on the Spring and Autumn Annals,8,China,Politics + 8,interpretive,,94
+books,Knowledge Script,Seasonal Analects,憔談治要,Essentials of Governance (Questionable Text),8,Japan,Politics + 8,needs-review,Possibly a corrupted transcription of 群書治要. Cross-check source scan before replacing Japanese.,95
+books,Knowledge Script,Pivotal Analects,古事記,Records of Ancient Matters (Kojiki),7,Japan,Politics + 7,interpretive,,96
+books,Knowledge Script,Registry Analects,十八史略,Epitome of the Eighteen Histories,7,China,Politics + 7,interpretive,,97
+books,Knowledge Script,Archival Analects,政事要略,Summary of Government Affairs,6,Japan,Politics + 6,interpretive,,98
+books,Knowledge Script,Political Analects,日本大文典,Arte da Lingoa de Iapam (Japanese Grammar),6,Europe,Politics + 6,interpretive,,99
+books,Knowledge Script,Linguist's Analects,延喜式,Engishiki (Regulations of the Engi Era),5,Japan,Politics + 5,interpretive,,100
+books,Knowledge Script,Regulatory Analects,漢書,Book of Han,5,China,Politics + 5,interpretive,,101
+books,Knowledge Script,Chinese Analects,吾妻鏡,Azuma Kagami (Mirror of the East),4,Japan,Politics + 4,interpretive,,102
+books,Knowledge Script,Mirrored Analects,資治通鑑,Comprehensive Mirror in Aid of Governance,4,China,Politics + 4,interpretive,,103
+books,Knowledge Script,Historical Analects,日葡辞書,Japanese–Portuguese Dictionary,3,Europe,Politics + 3,interpretive,,104
+books,Knowledge Script,Foreign Analects,和漢朗詠集,Japanese and Chinese Poems to Sing,3,Japan,Politics + 3,interpretive,,105
+books,Knowledge Script,Poetic Analects,尺素往来,Shakuso Ōrai (Model Correspondence),2,Japan,Politics + 2,interpretive,,106
+books,Knowledge Script,Principle Analects,塵塚物語,Dust-Heap Stories,2,Japan,Politics + 2,interpretive,,107
+books,Knowledge Script,Homemade Analects,節用集,Setsuyōshū (Practical Wordbook),1,Japan,Politics + 1,interpretive,,108
+books,Knowledge Script,Dictionary Analects,庭訓往来,Teikin Ōrai (Model Household Letters),1,Japan,Politics + 1,interpretive,,109
+books,Tactics Manual,The Art of War,呉子,Wuzi (Master Wu),10,China,Intelligence + 10,interpretive,,110
+books,Tactics Manual,Valiant Manual,孫子,The Art of War (Sunzi),10,China,Intelligence + 10,interpretive,,111
+books,Tactics Manual,Visionary Manual,黄石公三略,Three Strategies of Huang Shigong,9,China,Intelligence + 9,interpretive,,112
+books,Tactics Manual,6 Arts Manual,六韜,Six Secret Teachings,9,China,Intelligence + 9,interpretive,,113
+books,Tactics Manual,3 Kingdoms Manual,三國志演義,Romance of the Three Kingdoms,8,China,Intelligence + 8,interpretive,,114
+books,Tactics Manual,Taiheki,太平記,Taiheiki (Chronicle of Great Peace),8,Japan,Intelligence + 8,interpretive,,115
+books,Tactics Manual,Foresight Manual,司馬法,Methods of the Sima,7,China,Intelligence + 7,interpretive,,116
+books,Tactics Manual,Siege Manual,平家物語,The Tale of the Heike,7,Japan,Intelligence + 7,interpretive,,117
+books,Tactics Manual,36 Strategy Manual,三十六計,Thirty-Six Stratagems,6,China,Intelligence + 6,interpretive,,118
+books,Tactics Manual,The Water Margin,水滸伝,Water Margin,6,China,Intelligence + 6,interpretive,,119
+books,Tactics Manual,Jailer's Manual,義経記,The Chronicle of Yoshitsune,5,Japan,Intelligence + 5,interpretive,,120
+books,Tactics Manual,Mongolian Manual,梅松論,Baishōron (Chronicle of the Nanboku-chō Wars),5,Japan,Intelligence + 5,interpretive,,121
+books,Tactics Manual,Warlord's Manual,尉繚子,Wei Liaozi,4,China,Intelligence + 4,interpretive,,122
+books,Tactics Manual,Combat Manual,蒙古秘史,Secret History of the Mongols,4,China,Intelligence + 4,interpretive,,123
+books,Tactics Manual,Ōnin Era Chronicle,応仁記,Ōnin Chronicle,3,Japan,Intelligence + 3,interpretive,,124
+books,Tactics Manual,Skirmish Manual,鬼谷子,Guiguzi (Master of Ghost Valley),3,China,Intelligence + 3,interpretive,,125
+books,Tactics Manual,Jōkyu Era Chronicle,承久記,Jōkyū Chronicle,2,Japan,Intelligence + 2,interpretive,,126
+books,Tactics Manual,Civil War Manual,李衛公問対,Questions and Replies between Tang Taizong and Li Weigong,2,China,Intelligence + 2,interpretive,,127
+books,Tactics Manual,Eikyō Era Chronicle,永享記,Eikyō Chronicle,1,Japan,Intelligence + 1,interpretive,,128
+books,Tactics Manual,Old Manual,戦国策,Strategies of the Warring States,1,China,Intelligence + 1,interpretive,,129
+books,Medical Scroll,Entire Medical Works,医書大全,Complete Medical Compendium,10,Japan,increases life span,interpretive,,130
+books,Medical Scroll,Venerable Works,三喜廻翁医書,Sanki Kaiō's Medical Writings,8,Japan,increases life span,interpretive,,131
+books,Medical Scroll,Enlightened Works,啓迪集,Keitekishū (Collection of Medical Enlightenment),6,Japan,increases life span,interpretive,,132
+books,Medical Scroll,Complex Works,徳本医方,Tokuhon's Medical Prescriptions,4,Japan,increases life span,interpretive,,133
+books,Medical Scroll,Difficult Works,八十一難経,Classic of Eighty-One Difficult Issues,2,Japan,increases life span,interpretive,,134
+tea,Teapot,99 Leaf Teapot,九十九髪茄子,Tsukumogami Nasu Tea Caddy,10,China,Charm + 10,interpretive,,0
+tea,Teapot,Master's Teapot,上杉瓢箪,Uesugi Hyōtan Tea Caddy,10,China,Charm + 10,interpretive,,1
+tea,Teapot,Gold Leaf Teapot,珠光文琳,Jukō Bunrin Tea Caddy,10,Japan,Charm + 10,interpretive,,2
+tea,Teapot,Exquisite Teapot,楢柴肩衝,Narashiba Katatsuki Tea Caddy,9,Japan,Charm + 9,interpretive,,3
+tea,Teapot,Blooming Teapot,新田肩衝,Nitta Katatsuki Tea Caddy,9,China,Charm + 9,interpretive,,4
+tea,Teapot,Governor's Teapot,初花肩衝,Hatsuhana Katatsuki Tea Caddy,9,China,Charm + 9,interpretive,,5
+tea,Teapot,Attractive Teapot,国司茄子,Kokushi Nasu Tea Caddy,8,Japan,Charm + 8,interpretive,,6
+tea,Teapot,Fuji Teapot,富士茄子,Fuji Nasu Tea Caddy,8,China,Charm + 8,interpretive,,7
+tea,Teapot,Elegant Teapot,松屋肩衝,Matsuya Katatsuki Tea Caddy,8,China,Charm + 8,interpretive,,8
+tea,Teapot,Enameled Teapot,珠光小茄子,Jukō Small Nasu Tea Caddy,7,China,Charm + 7,interpretive,,9
+tea,Teapot,Refined Teapot,紹鴎茄子,Jōō Nasu Tea Caddy,7,China,Charm + 7,interpretive,,10
+tea,Teapot,Delicate Teapot,似たり茄子,Nitari Nasu Tea Caddy,7,China,Charm + 7,interpretive,,11
+tea,Teapot,Honganji Teapot,本願寺肩衝,Honganji Katatsuki Tea Caddy,6,Japan,Charm + 6,interpretive,,12
+tea,Teapot,Honnōji Teapot,本能寺文琳,Honnōji Bunrin Tea Caddy,6,Japan,Charm + 6,interpretive,,13
+tea,Teapot,Mystical Teapot,松本茄子,Matsumoto Nasu Tea Caddy,6,Japan,Charm + 6,interpretive,,14
+tea,Teapot,Artistic Teapot,打雲大海,Uchigumo Daikai Tea Caddy,5,Japan,Charm + 5,interpretive,,15
+tea,Teapot,Mimic Teapot,円乗坊肩衝,Enjōbō Katatsuki Tea Caddy,5,Japan,Charm + 5,interpretive,,16
+tea,Teapot,Stormy Teapot,遅桜肩衝,Osozakura Katatsuki Tea Caddy,5,China,Charm + 5,interpretive,,17
+tea,Teapot,Sakura Teapot,宗無肩衝,Sōmu Katatsuki Tea Caddy,4,Japan,Charm + 4,interpretive,,18
+tea,Teapot,Polished Teapot,玉垣文琳,Tamagaki Bunrin Tea Caddy,4,China,Charm + 4,interpretive,,19
+tea,Teapot,Gilted Teapot,宮王肩衝,Miyaō Katatsuki Tea Caddy,4,China,Charm + 4,interpretive,,20
+tea,Teapot,Glazed Teapot,安国寺肩衝,Ankokuji Katatsuki Tea Caddy,3,China,Charm + 3,interpretive,,21
+tea,Teapot,Cast Teapot,筒井肩衝,Tsutsui Katatsuki Tea Caddy,3,Japan,Charm + 3,interpretive,,22
+tea,Teapot,Crafted Teapot,酸漿文琳,Hōzuki Bunrin Tea Caddy,3,China,Charm + 3,interpretive,,23
+tea,Teapot,Wooden Teapot,稲葉瓢箪,Inaba Hyōtan Tea Caddy,2,China,Charm + 2,interpretive,,24
+tea,Teapot,Ordinary Teapot,竹中小肩衝,Takenaka Small Katatsuki Tea Caddy,2,Japan,Charm + 2,interpretive,,25
+tea,Teapot,Plain Teapot,筑紫肩衝,Tsukushi Katatsuki Tea Caddy,2,China,Charm + 2,interpretive,,26
+tea,Teapot,Kukibun Teapot,九鬼文琳,Kuki Bunrin Tea Caddy,1,China,Charm + 1,interpretive,,27
+tea,Teapot,Matsumae Teapot,松前肩衝,Matsumae Katatsuki Tea Caddy,1,Japan,Charm + 1,interpretive,,28
+tea,Teapot,Yamanaka Teapot,山名肩衝,Yamana Katatsuki Tea Caddy,1,Japan,Charm + 1,interpretive,,29
+tea,Urn,Crescent Urn,三日月,Mikazuki (Crescent Moon) Jar,10,China,Charm + 10,interpretive,,30
+tea,Urn,Pine Island Urn,松島,Matsushima (Pine Islands) Jar,9,China,Charm + 9,interpretive,,31
+tea,Urn,40 Stone Urn,四十石,Forty-Koku Jar,8,China,Charm + 8,interpretive,,32
+tea,Urn,Needle Bloom Urn,松花,Pine-Blossom Jar,7,China,Charm + 7,interpretive,,33
+tea,Urn,Luzon Urn,呂宋壺,Luzon Jar,6,China,Charm + 6,interpretive,,34
+tea,Urn,Mystic's Urn,橋立,Hashidate (Bridge of Heaven) Jar,5,Japan,Charm + 5,interpretive,,35
+tea,Urn,Artistic Urn,志賀,Shiga Jar,4,Japan,Charm + 4,interpretive,,36
+tea,Urn,Sturdy Urn,裾野,Susono (Foothills) Jar,3,Japan,Charm + 3,interpretive,,37
+tea,Urn,Polished Urn,兵庫,Hyōgo Jar,2,Japan,Charm + 2,interpretive,,38
+tea,Urn,Simple Urn,りんき壺,Rinki Jar,1,Japan,Charm + 1,needs-review,The writing りんき壺 is phonetic and the name/reading cannot be independently confirmed.,39
+tea,Kettle,Spider's Kettle,平蜘蛛釜,Hiragumo (Flat Spider) Kettle,10,Japan,Charm + 10,interpretive,,40
+tea,Kettle,Mantis Kettle,富士形釜,Fuji-Shaped Kettle,9,Japan,Charm + 9,interpretive,,41
+tea,Kettle,Stylish Kettle,乙御前釜,Otomē Kettle,8,Japan,Charm + 8,interpretive,,42
+tea,Kettle,Temple Kettle,阿弥陀堂釜,Amidadō (Amida Hall) Kettle,7,Japan,Charm + 7,interpretive,,43
+tea,Kettle,Theatre Kettle,大講堂釜,Daikōdō (Great Lecture Hall) Kettle,6,Japan,Charm + 6,interpretive,,44
+tea,Kettle,Grandma's Kettle,姥口釜う,Ubaguchi Kettle,5,Japan,Charm + 5,needs-review,The source 姥口釜う seems to include an extraneous final kana.,45
+tea,Kettle,Cast-Iron Kettle,達磨堂釜,Darumadō (Daruma Hall) Kettle,4,Japan,Charm + 4,interpretive,,46
+tea,Kettle,Lacquered Kettle,十二支釜,Twelve-Zodiac-Signs Kettle,3,Japan,Charm + 3,interpretive,,47
+tea,Kettle,Sturdy Kettle,芦屋釜,Ashiya Kettle,2,Japan,Charm + 2,interpretive,,48
+tea,Kettle,Simple Kettle,尻張釜,Wide-Bottomed Kettle,1,Japan,Charm + 1,interpretive,,49
+tea,Teacup,Porcelain Teacup,青磁馬蝗絆,Celadon Bakōhan Tea Bowl,10,China,Charm + 10,interpretive,,50
+tea,Teacup,Exquisite Teacup,青磁松本,Celadon Matsumoto Tea Bowl,10,Japan,Charm + 10,interpretive,,51
+tea,Teacup,Murmuring Teacup,黒楽大黒,Black Raku Daikoku Tea Bowl,9,Japan,Charm + 9,interpretive,,52
+tea,Teacup,Whispering Teacup,細川井戸,Hosokawa Ido Tea Bowl,9,China,Charm + 9,interpretive,,53
+tea,Teacup,Mystical Teacup,加賀井戸,Kaga Ido Tea Bowl,8,China,Charm + 8,interpretive,,54
+tea,Teacup,Elegant Teacup,黒楽東陽坊,Black Raku Tōyōbō Tea Bowl,8,Japan,Charm + 8,interpretive,,55
+tea,Teacup,Attractive Teacup,赤楽早船,Red Raku Hayafune Tea Bowl,7,Japan,Charm + 7,interpretive,,56
+tea,Teacup,Embossed Teacup,喜左衛門井戸,Kizaemon Ido Tea Bowl,7,China,Charm + 7,interpretive,,57
+tea,Teacup,Enameled Teacup,赤楽臨済,Red Raku Rinzai Tea Bowl,6,Japan,Charm + 6,interpretive,,58
+tea,Teacup,Delicate Teacup,曜変稲葉天目,Yōhen Inaba Tenmoku Tea Bowl,6,China,Charm + 6,interpretive,,59
+tea,Teacup,Artistic Teacup,三島藤袴,Mishima Fujibakama Tea Bowl,5,China,Charm + 5,interpretive,,60
+tea,Teacup,Gilted Teacup,三好粉吹,Miyoshi Kohiki Tea Bowl,5,China,Charm + 5,interpretive,,61
+tea,Teacup,Glazed Teacup,有楽井戸,Uraku Ido Tea Bowl,4,China,Charm + 4,interpretive,,62
+tea,Teacup,Simple Teacup,灰被虹天目,Haikaburi Niji Tenmoku Tea Bowl,4,China,Charm + 4,interpretive,,63
+tea,Teacup,Ashen Teacup,荒木高麗,Araki Kōrai Tea Bowl,3,China,Charm + 3,interpretive,,64
+tea,Teacup,Crafted Teacup,雲鶴匹田筒,Unkaku Hikita-zutsu Tea Bowl,3,China,Charm + 3,interpretive,,65
+tea,Teacup,Polished Teacup,柴田井戸,Shibata Ido Tea Bowl,2,China,Charm + 2,interpretive,,66
+tea,Teacup,Wooden Teacup,三島桶,Mishima Oke Tea Bowl,2,China,Charm + 2,interpretive,,67
+tea,Teacup,Plain Teacup,絵志野卯花墻,Pictured Shino U-no-hanagaki Tea Bowl,1,Japan,Charm + 1,interpretive,,68
+tea,Teacup,Simple Teacup,魚屋飯櫃高麗,Totoya Meshibitsu Kōrai Tea Bowl,1,China,Charm + 1,needs-review,The reading of 魚屋飯櫃高麗 needs confirming.,69
+tea,Vase,Closed Eye Vase,大内筒,Ōuchi Cylindrical Flower Vase,10,China,Charm + 10,interpretive,,70
+tea,Vase,Flute Vase,園城寺,Onjōji Flower Vase,9,Japan,Charm + 9,interpretive,,71
+tea,Vase,Precious Vase,夜長,Yonaga (Long Night) Flower Vase,8,Japan,Charm + 8,interpretive,,72
+tea,Vase,Deep Timber Vase,尺八,Shakuhachi (Bamboo Flute) Flower Vase,7,Japan,Charm + 7,interpretive,,73
+tea,Vase,Heavy Snow Vase,貨狄,Kategi Flower Vase,6,China,Charm + 6,needs-review,The reading 貨狄 is uncertain.,74
+tea,Vase,Living Vase,深山木,Miyamagi (Deep-Mountain Wood) Flower Vase,5,Japan,Charm + 5,interpretive,,75
+tea,Vase,Spring Rain Vase,雪折,Yukiore (Snow-Bent Branch) Flower Vase,4,Japan,Charm + 4,interpretive,,76
+tea,Vase,Fancy Vase,旅枕,Tabimakura (Travel Pillow) Flower Vase,3,Japan,Charm + 3,interpretive,,77
+tea,Vase,Simple Vase,春雨,Harusame (Spring Rain) Flower Vase,2,China,Charm + 2,interpretive,,78
+tea,Vase,Plain Vase,からたち,Karatatchi (Trifoliate Orange) Flower Vase,1,Japan,Charm + 1,interpretive,,79
+tea,Ladle,Ladle of Tears,泪,Namida (Tears) Tea Scoop,10,Japan,Charm + 10,interpretive,,80
+tea,Ladle,Bonze's Ladle,弱法師,Yoroboshi (Weak Monk) Tea Scoop,9,Japan,Charm + 9,interpretive,,81
+tea,Ladle,Bamboo Ladle,笹の葉,Sasa-no-Ha (Bamboo Leaf) Tea Scoop,8,Japan,Charm + 8,interpretive,,82
+tea,Ladle,Frosty Ladle,玉霰,Tama-arare (Pearl Hail) Tea Scoop,7,Japan,Charm + 7,interpretive,,83
+tea,Ladle,Early Dew Ladle,武蔵野,Musashino Tea Scoop,6,Japan,Charm + 6,interpretive,,84
+tea,Ladle,Clouded Ladle,二尊院,Nison-in Tea Scoop,5,Japan,Charm + 5,interpretive,,85
+tea,Ladle,Snow Peaks Ladle,残月,Zangetsu (Lingering Moon) Tea Scoop,4,Japan,Charm + 4,interpretive,,86
+tea,Ladle,Bamboo Ladle,蟲喰,Mushikui (Insect-Eaten) Tea Scoop,3,Japan,Charm + 3,interpretive,,87
+tea,Ladle,Wooden Ladle,落曇,Ochigumo (Falling Clouds) Tea Scoop,2,Japan,Charm + 2,needs-review,落曇 is an unusual compound; reading provisional.,88
+tea,Ladle,Simple Ladle,白山,Hakusan (Mount Haku) Tea Scoop,1,Japan,Charm + 1,interpretive,,89
+tea,Censer,Plover's Censer,菱馬,Hishiuma Water Jar,9,Japan,Skill[Calm],needs-review,"Although grouped as Censer in the source, these appear to be tea water jars. Reading of 菱馬 uncertain.",90
+tea,Censer,Guardian Censer,山躑躅,Yamatsutsuji (Wild Azalea) Water Jar,7,Japan,Skill[Calm],interpretive,,91
+tea,Censer,Uplifting Censer,破桶,Yabureoke (Broken Tub) Water Jar,5,Japan,Skill[Calm],interpretive,,92
+tea,Censer,Smoky Censer,阿蘭陀水指,Oranda (Dutch) Water Jar,3,Europe,Skill[Calm],interpretive,,93
+tea,Censer,Wet Censer,種壺,Tanetsubo (Seed Jar) Water Jar,1,Japan,Skill[Calm],interpretive,,94
+tea,Cask,Azalea Cask,千鳥,Chidori (Plover) Vessel,10,China,Charm + 10,interpretive,,95
+tea,Cask,Seeded Cask,向獅子,Mukōjishi (Facing Lion) Vessel,8,China,Charm + 8,interpretive,,96
+tea,Cask,Inventive Cask,袴腰,Hakamagoshi (Hakama Waist) Vessel,6,China,Charm + 6,interpretive,,97
+tea,Cask,Sturdy Cask,浅間,Asama Vessel,4,China,Charm + 4,interpretive,,98
+tea,Cask,Wooden Cask,此世,Konoyo (This World) Vessel,2,Japan,Charm + 2,interpretive,,99

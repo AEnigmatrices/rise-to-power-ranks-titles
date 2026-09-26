@@ -38,7 +38,7 @@
 .items-table tbody tr:hover { background:rgb(213 189 120 / .06); }
 .items-table tbody tr:target { background:rgb(213 189 120 / .17); }
 .items-table tr[hidden],.items-section[hidden] { display:none; }
-.items-table th:nth-child(1) { width:27%; }.items-table th:nth-child(2) { width:23%; }
+.items-table th:nth-child(1) { width:21%; }.items-table th:nth-child(2) { width:18%; }.items-table th:nth-child(3) { width:24%; }
 .items-table td:first-child { min-width:175px; }
 .items-table td:first-child strong { color:#f6f2e8; font-weight:700; }
 .items-table td:nth-child(2) { font-family:var(--jp-serif); font-size:.98rem; }
@@ -48,3 +48,11 @@
 .items-no-results { padding:44px 20px; border:1px dashed #7c6e4f; border-radius:15px; color:#e4dcc9; text-align:center; }
 @media (max-width:850px) { .items-toolbar { grid-template-columns:repeat(2,minmax(0,1fr)); } .items-toolbar__search { grid-column:1/-1; } .items-table { min-width:730px; } }
 @media (max-width:620px) { .items-collection-grid { grid-template-columns:1fr; } .items-toolbar { grid-template-columns:1fr; } .items-toolbar__search { grid-column:auto; } .items-table { min-width:0; } .items-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); } .items-table tr { display:grid; gap:6px; padding:16px; border-bottom:1px solid rgb(255 255 255 / .1); } .items-table td { display:flex; justify-content:space-between; gap:12px; padding:0; border:0; text-align:right; } .items-table td::before { content:attr(data-label); color:#a8b1a7; text-align:left; font-size:.75rem; } .items-table td:first-child { min-width:0; justify-content:flex-start; font-size:1rem; } .items-table td:first-child::before { display:none; } .items-table td:first-child strong { text-align:left; } .items-section__heading { padding:18px; } }
+
+/* English renderings are editorial glosses, distinct from localized source labels. */
+.items-audit-note { margin: -12px 0 24px; color:#c7c5b7; font-size:.82rem; line-height:1.6; }
+.items-english { font-size:.82rem; line-height:1.5; color:#e9e2d1; }
+.items-review-badge { display:inline-block; margin:4px 0 0 7px; padding:3px 6px; border-radius:5px; color:#f5d4a4; background:#5e3f27; font-size:.65rem; font-weight:700; }
+.items-table td:nth-child(3) { max-width:260px; }
+@media (max-width:850px) { .items-table { min-width:900px; } }
+@media (max-width:620px) { .items-table { min-width:0; } .items-table td:nth-child(3) { max-width:none; } }

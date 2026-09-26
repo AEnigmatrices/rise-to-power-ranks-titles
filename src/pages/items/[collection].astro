@@ -18,6 +18,7 @@ const categoryCount = getItemCategories(collection).length;
     <main id="top" class="guide-shell">
         <SectionNav current="items" />
         <GuideHeader compact kicker="Items / Collection" japanese={collection.japanese} title={collection.name} lede={`${collection.items.length} items across ${categoryCount} categories. Search, filter, or jump directly to a category.`} backHref={sitePath('items/')} backLabel="All item collections" />
+        <p class="items-audit-note"><a href={sitePath('data/item-translations.csv')} download>Download the complete item translation audit (CSV) ↓</a></p>
         <ItemCatalogue collection={collection} />
         <footer class="guide-footer"><a href={sitePath('items/')}>← All Items</a><a href={sitePath('ranks/')}>Ranks →</a></footer>
     </main>
