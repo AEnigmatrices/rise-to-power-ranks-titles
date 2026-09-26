@@ -5,7 +5,7 @@ describe('the supplied game item catalogues', () => {
     it('attaches only source-linked trivia to existing Japanese item names', () => {
         const all = itemCollections.flatMap((collection) => collection.items);
         const keys = Object.keys(itemTrivia);
-        expect(keys).toHaveLength(29);
+        expect(keys).toHaveLength(44);
         // Every note belongs to a source item; no trivia is generated for unresearched entries.
         for (const japanese of keys) {
             expect(all.some((item) => item.japanese === japanese)).toBe(true);
@@ -18,6 +18,19 @@ describe('the supplied game item catalogues', () => {
             }
         }
         expect(getItemTrivia({ japanese: '不存在の品' })).toBeUndefined();
+    });
+    it('covers every sword in the supplied game with sourced historical trivia', () => {
+        const swords = itemCollections.flatMap((collection) => collection.items)
+            .filter((item) => item.type === 'Sword');
+        expect(swords).toHaveLength(20);
+        for (const sword of swords) {
+            const trivia = getItemTrivia(sword);
+            expect(trivia, `Missing trivia for ${sword.japanese}`).toBeDefined();
+            expect(trivia?.sources.length).toBeGreaterThan(0);
+            expect(['identified-object', 'historical-work', 'historical-context'])
+                .toContain(trivia?.scope);
+        }
+        expect(getItemTrivia({ japanese: '妙法蓮華経' })?.scope).toBe('historical-context');
     });
     it('supplies Japanese pronunciation for every one of the 430 source entries', () => {
         expect(itemPronunciationCount).toBe(430);

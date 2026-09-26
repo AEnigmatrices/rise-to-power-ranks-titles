@@ -7,9 +7,11 @@ export interface ItemTrivia {
 }
 
 import { secondPassTrivia } from './trivia/second-pass';
+import { swordTrivia } from './trivia/swords';
 
 export const itemTrivia: Record<string, ItemTrivia> = {
     ...secondPassTrivia,
+    ...swordTrivia,
     '童子切安綱': {
         text: 'Tokyo National Museum lists the surviving Dōjigiri Yasutsuna as a National Treasure tachi by Yasutsuna from the Heian period. The game’s English label “Opus Blade” is not the historical name.',
         sources: [{ title: 'Tokyo National Museum — Superb Swords', url: 'https://www.tnm.jp/modules/r_poll/index.php?controller=dtl&lang=en&po_id=34' }],

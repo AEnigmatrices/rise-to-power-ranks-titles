@@ -120,3 +120,16 @@ test('historical trivia is optional, sourced and expandable without changing the
     const other = page.locator('[data-item-row][data-japanese="種子島筒"]');
     await expect(other.getByText('Historical trivia')).toHaveCount(0);
 });
+
+
+test('all 20 swords include optional sourced trivia while unrelated arms remain unaffected', async ({ page }) => {
+    await page.goto('./items/arms/');
+    const swords = page.locator('[data-item-section][data-category="Sword"] [data-item-row]');
+    await expect(swords).toHaveCount(20);
+    await expect(swords.locator('.items-trivia-disclosure')).toHaveCount(20);
+    const religiousName = page.locator('[data-item-row][data-japanese="妙法蓮華経"]');
+    await religiousName.getByText('Historical trivia').click();
+    await expect(religiousName.locator('.items-trivia-body')).toContainText('not a uniquely identifiable surviving sword');
+    const musket = page.locator('[data-item-row][data-japanese="種子島筒"]');
+    await expect(musket.locator('.items-trivia-disclosure')).toHaveCount(1);
+});
