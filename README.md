@@ -36,7 +36,7 @@ No UI framework, database, or runtime server is required.
 - Node.js 24.16+ recommended
 - Node.js 22.22.3+ is also supported by the current lint stack
 - Corepack enabled
-- pnpm 12.5.1 (pinned in `package.json`)
+- pnpm 12.7.0 (pinned in `package.json`)
 
 TypeScript remains on the 6.x line because Astro's language tooling currently depends on language-service APIs that are not yet compatible with TypeScript 7.
 
