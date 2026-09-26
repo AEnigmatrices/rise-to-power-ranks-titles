@@ -86,3 +86,6 @@ export const getItemPronunciation = (item: Pick<Item, 'japanese'>): ItemPronunci
 };
 
 export const itemPronunciationCount = Object.keys(pronunciationsByJapanese).length;
+
+export { getItemTrivia, itemTrivia } from './trivia';
+export type { ItemTrivia } from './trivia';

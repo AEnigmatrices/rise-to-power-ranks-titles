@@ -1,7 +1,23 @@
 import { describe, expect, it } from 'vitest';
-import { getItemCategories, getItemTranslation, getItemPronunciation, itemCollections, itemTranslationCount, itemPronunciationCount } from '../../src/data/items';
+import { getItemCategories, getItemTranslation, getItemPronunciation, itemCollections, itemTranslationCount, itemPronunciationCount, getItemTrivia, itemTrivia } from '../../src/data/items';
 
 describe('the supplied game item catalogues', () => {
+    it('attaches only source-linked trivia to existing Japanese item names', () => {
+        const all = itemCollections.flatMap((collection) => collection.items);
+        const keys = Object.keys(itemTrivia);
+        expect(keys.length).toBeGreaterThan(0);
+        for (const japanese of keys) {
+            expect(all.some((item) => item.japanese === japanese)).toBe(true);
+            const trivia = getItemTrivia({ japanese });
+            expect(trivia?.text.trim()).toBeTruthy();
+            expect(trivia?.sources.length).toBeGreaterThan(0);
+            for (const source of trivia!.sources) {
+                expect(source.url).toMatch(/^https:\/\//);
+                expect(source.title.trim()).toBeTruthy();
+            }
+        }
+        expect(getItemTrivia({ japanese: '不存在の品' })).toBeUndefined();
+    });
     it('supplies Japanese pronunciation for every one of the 430 source entries', () => {
         expect(itemPronunciationCount).toBe(430);
         for (const collection of itemCollections) {

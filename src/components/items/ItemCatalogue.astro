@@ -1,6 +1,6 @@
 ---
 import { RotateCcw, Search, X } from '@lucide/astro';
-import { getItemCategories, getItemTranslation, getItemPronunciation, itemCollections } from '../../data/items';
+import { getItemCategories, getItemTranslation, getItemPronunciation, getItemTrivia, itemCollections } from '../../data/items';
 import type { ItemCollection, ItemCollectionSlug } from '../../data/items';
 import { sitePath } from '../../lib/routes';
 
@@ -246,6 +246,7 @@ const marks: Record<ItemCollectionSlug, string> = {
                                 {category.items.map((item) => {
                                     const translation = getItemTranslation(item);
                                     const pronunciation = getItemPronunciation(item);
+                                    const trivia = getItemTrivia(item);
                                     return (
                                         <tr
                                             id={item.id}
@@ -300,6 +301,20 @@ const marks: Record<ItemCollectionSlug, string> = {
                                                         <div><dt>Effect</dt><dd>{item.effect}</dd></div>
                                                     </dl>
                                                 </details>
+                                                {trivia && (
+                                                    <details class="items-trivia-disclosure">
+                                                        <summary>Historical trivia</summary>
+                                                        <div class="items-trivia-body">
+                                                            <p>{trivia.text}</p>
+                                                            <p class="items-trivia-sources">Sources: {trivia.sources.map((source, index) => (
+                                                                <Fragment>
+                                                                    {index > 0 && <span aria-hidden="true"> · </span>}
+                                                                    <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
+                                                                </Fragment>
+                                                            ))}</p>
+                                                        </div>
+                                                    </details>
+                                                )}
                                             </td>
                                         </tr>
                                     );
