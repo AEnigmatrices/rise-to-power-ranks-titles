@@ -44,13 +44,13 @@ test('region directory navigation reaches a detail page and returns to a catalog
     const related = page.locator('.related-appointment').first();
     await expect(related).toBeVisible();
     const href = await related.getAttribute('href');
-    expect(href).toMatch(/^\/rise-to-power-ranks-titles\/reference\/#(?:rank|title)-/);
+    expect(href).toMatch(/^\/rise-to-power-ranks-titles\/(?:ranks|titles)\/#(?:rank|title)-/);
 
     const targetId = href?.split('#')[1] ?? '';
     expect(targetId).toMatch(/^(?:rank|title)-/);
 
     await related.click();
-    await expect(page).toHaveURL(/\/rise-to-power-ranks-titles\/reference\/#(?:rank|title)-/);
+    await expect(page).toHaveURL(/\/rise-to-power-ranks-titles\/(?:ranks|titles)\/#(?:rank|title)-/);
 
     // WebKit can expose the new URL hash before recalculating the :target pseudo-class
     // after a cross-document view transition. Verify the hashed catalogue row directly.
