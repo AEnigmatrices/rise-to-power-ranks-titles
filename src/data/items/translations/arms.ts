@@ -107,9 +107,9 @@ export const armsTranslations: Record<string, ItemTranslation> = {
         "status": "interpretive"
     },
     "瓶通槍": {
-        "english": "Bottle-Piercing Spear",
-        "status": "needs-review",
-        "note": "The name 瓶通槍 is obscure; literal reading only."
+        "english": "Jar-Piercing Spear",
+        "status": "interpretive",
+        "note": "Historically recorded as 瓶通し, a named spear traditionally associated with Sakai Tadatsugu. A 2017 museum catalogue lists a surviving specimen signed Sanjō Yoshihiro."
     },
     "十文字槍": {
         "english": "Cross-Shaped Spear",

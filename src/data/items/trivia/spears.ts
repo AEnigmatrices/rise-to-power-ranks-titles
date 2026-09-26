@@ -33,9 +33,12 @@ export const spearTrivia: Record<string, ItemTrivia> = {
         scope: "historical-context",
     },
     "瓶通槍": {
-        text: "The spelling 瓶通槍 is retained from the game, but no secure identification of a historical blade, owner or established museum type under that name was found in the researched collections. As context, Japanese spearheads developed diverse shapes during the late Muromachi period, including straight, one-hook and two-hook forms. A specific ‘bottle-piercing’ origin story would be speculative.",
-        sources: [{ title: "Nagoya Touken Museum — Historical spear and naginata forms", url: "https://www.meihaku.jp/sword-basic/yari-naginata/" }],
-        scope: "historical-context",
+        text: "The game’s 瓶通槍 corresponds to the historically recorded spear 瓶通し, traditionally associated with Tokugawa retainer Sakai Tadatsugu. A 2017 Edo-Tokyo Museum exhibition catalogue lists a surviving Muromachi-period spear signed Sanjō Yoshihiro (三条吉広), nicknamed 瓶通し, as privately owned. According to the Sakai-family tradition recorded by a sword-preservation society in Shōnai, Tadatsugu thrust through a large water jar to strike an enemy hiding behind it; the story explains the nickname but is a legend, not an independently verified battlefield event. The catalogue does not establish when Tadatsugu acquired the spear.",
+        sources: [
+            { title: "Edo-Tokyo Museum — 2017 exhibition catalogue, item 122", url: "https://edo-tokyo-museum.or.jp/asset/2025/09/list201707-1.pdf" },
+            { title: "Japanese Sword Preservation Society, Shōnai Branch — Sakai Tadatsugu’s jar-piercing spear", url: "https://toukensyonai.blog.fc2.com/blog-entry-95.html" }
+        ],
+        scope: "identified-object",
     },
     "十文字槍": {
         text: "The cross-shaped spear has a central point with lateral blades on both sides. It became closely associated with Hōzōin-ryū spear fighting: Japan’s Cultural Heritage database describes a nineteenth-century scroll recording 19 postures and techniques for the cross-bladed weapon. Sanada Treasure Museum also holds a surviving cross spear used by the seventh Matsushiro lord, an Edo-period example rather than a confirmed spear of Sanada Nobushige.",

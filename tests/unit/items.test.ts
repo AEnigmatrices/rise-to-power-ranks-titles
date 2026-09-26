@@ -18,6 +18,17 @@ describe('the supplied game item catalogues', () => {
             }
         }
         expect(getItemTrivia({ japanese: '不存在の品' })).toBeUndefined();
+        // The named Sakai spear was omitted from the first pass because it was
+        // treated as an unidentified spear type. Museum documentation confirms
+        // a surviving signed counterpart, while the jar-piercing tale is legend.
+        const jarPiercer = all.find((item) => item.japanese === '瓶通槍')!;
+        expect(jarPiercer.name).toBe("Vanguard's Spear");
+        expect(getItemTranslation(jarPiercer).english).toBe('Jar-Piercing Spear');
+        const correctedTrivia = getItemTrivia(jarPiercer)!;
+        expect(correctedTrivia.scope).toBe('identified-object');
+        expect(correctedTrivia.text).toContain('Sakai Tadatsugu');
+        expect(correctedTrivia.sources.some((source) => source.url.includes('edo-tokyo-museum.or.jp'))).toBe(true);
+        expect(getItemPronunciation(jarPiercer).status).toBe('tentative');
     });
     it('covers every sword in the supplied game with sourced historical trivia', () => {
         const swords = itemCollections.flatMap((collection) => collection.items)
