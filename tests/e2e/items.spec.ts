@@ -22,14 +22,20 @@ test('Items uses the same tabbed reference presentation as Ranks and Titles', as
     await expect(page.locator('#scented-wood')).toBeVisible();
 });
 
-test('category sections share one three-column ledger with translations and game details', async ({ page }) => {
+test('category sections share one three-column ledger with Japanese readings and expandable game details', async ({ page }) => {
     await page.goto('./items/art/');
     await expect(page.locator('[data-item-row]')).toHaveCount(60);
     await expect(page.locator('[data-item-section]')).toHaveCount(5);
     const ledger = page.locator('.items-ledger');
     await expect(ledger.getByRole('columnheader')).toHaveCount(3);
-    await expect(ledger.getByRole('columnheader', { name: 'Japanese and English translation' })).toHaveCount(1);
-    await expect(page.locator('[data-item-row][data-japanese="菩提泉"]')).toContainText('Bodaisen Sake');
+    await expect(ledger.getByRole('columnheader', { name: 'Japanese and pronunciation' })).toHaveCount(1);
+    const sake = page.locator('[data-item-row][data-japanese="菩提泉"]');
+    await expect(sake.locator('.japanese')).toContainText('Bodaisen');
+    await expect(sake.locator('.items-meaning-cell')).toContainText('Bodaisen Sake');
+    await expect(sake.locator('.items-detail-list')).not.toBeVisible();
+    await sake.getByText('Item details').click();
+    await expect(sake.locator('.items-detail-list')).toBeVisible();
+    await expect(sake.locator('.items-detail-list dt')).toHaveText(['Quality', 'Origin', 'Effect']);
     await expect(page.locator('table caption')).toHaveCount(0);
 });
 
@@ -80,7 +86,7 @@ test('mobile item ledger uses grouped cards and remains navigable', async ({ pag
     const row = page.locator('[data-item-row]:visible').first();
     await expect(row.locator('.name-cell')).toBeVisible();
     await expect(row.locator('.japanese')).toBeVisible();
-    await expect(row.locator('.items-detail-cell')).toBeVisible();
+    await expect(row.locator('.items-meaning-cell')).toBeVisible();
 });
 
 test('dedicated Ranks and Titles show only their respective appointments', async ({ page }) => {

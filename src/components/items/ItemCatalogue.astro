@@ -1,6 +1,6 @@
 ---
 import { RotateCcw, Search, X } from '@lucide/astro';
-import { getItemCategories, getItemTranslation, itemCollections } from '../../data/items';
+import { getItemCategories, getItemTranslation, getItemPronunciation, itemCollections } from '../../data/items';
 import type { ItemCollection, ItemCollectionSlug } from '../../data/items';
 import { sitePath } from '../../lib/routes';
 
@@ -26,7 +26,7 @@ const marks: Record<ItemCollectionSlug, string> = {
 >
     <h2 class="sr-only">Browse game items by collection and type</h2>
     <p id="items-search-help" class="sr-only">
-        Search original game names, Japanese names, English translations, origins and effects.
+        Search original game names, Japanese names, romanized pronunciations, English translations, origins and effects.
         Results are grouped by the original item types.
     </p>
 
@@ -175,7 +175,7 @@ const marks: Record<ItemCollectionSlug, string> = {
             <p><strong>Game label:</strong> original English name from the supplied item lists.
                 <strong> Japanese and translation:</strong> original characters and a separate editorial English rendering.</p>
             <p><strong>Quality, origin and effect</strong> follow the source data.
-                An <strong>Uncertain</strong> marker identifies a reading or source entry that needs verification.</p>
+                An <strong>Uncertain</strong> marker identifies a pronunciation or translation that needs verification. Expand Item details for quality, origin and effect.</p>
             <p><a href={sitePath('data/item-translations.csv')} download>Download the complete 430-item translation audit (CSV) ↓</a></p>
         </div>
     </details>
@@ -208,15 +208,15 @@ const marks: Record<ItemCollectionSlug, string> = {
                 <div class="table-shell">
                     <div class="reference-ledger__columns" aria-hidden="true">
                         <span>Game item</span>
-                        <span>Japanese &amp; translation</span>
-                        <span>Item details</span>
+                        <span>Japanese &amp; pronunciation</span>
+                        <span>English translation</span>
                     </div>
                     <table class="reference-table items-ledger" aria-label={`${entry.name} items by type`}>
                         <thead class="sr-only">
                             <tr>
                                 <th scope="col">Game item</th>
-                                <th scope="col">Japanese and English translation</th>
-                                <th scope="col">Quality, origin and effect</th>
+                                <th scope="col">Japanese and pronunciation</th>
+                                <th scope="col">English translation and item details</th>
                             </tr>
                         </thead>
                         {categories.map((category) => (
@@ -245,6 +245,7 @@ const marks: Record<ItemCollectionSlug, string> = {
                                 </tr>
                                 {category.items.map((item) => {
                                     const translation = getItemTranslation(item);
+                                    const pronunciation = getItemPronunciation(item);
                                     return (
                                         <tr
                                             id={item.id}
@@ -252,6 +253,7 @@ const marks: Record<ItemCollectionSlug, string> = {
                                             data-name={item.name}
                                             data-japanese={item.japanese}
                                             data-english={translation.english}
+                                            data-pronunciation={pronunciation.romaji}
                                             data-type={item.type}
                                             data-quality={item.quality}
                                             data-origin={item.origin}
@@ -272,23 +274,32 @@ const marks: Record<ItemCollectionSlug, string> = {
                                                     <span class="entry-type">{category.label}</span>
                                                 </span>
                                             </td>
-                                            <td data-label="Japanese & translation" class="japanese">
+                                            <td data-label="Japanese & pronunciation" class="japanese">
                                                 <span class="japanese__main">
                                                     <span class="japanese__line"><span lang="ja">{item.japanese}</span></span>
-                                                    <span class="pronunciation items-translation">{translation.english}</span>
+                                                    <span class="pronunciation items-pronunciation">{pronunciation.romaji}</span>
                                                 </span>
-                                                {translation.status === 'needs-review' && (
-                                                    <span class="items-review-badge" title={translation.note ?? 'Reading or identification needs verification'}>
-                                                        Uncertain
+                                                {pronunciation.status === 'tentative' && (
+                                                    <span class="items-review-badge" title={pronunciation.note ?? 'Pronunciation needs verification'}>
+                                                        Reading uncertain
                                                     </span>
                                                 )}
                                             </td>
-                                            <td data-label="Item details" class="translation items-detail-cell">
-                                                <span class="items-detail-line">
-                                                    <span class="items-quality">Quality {item.quality}</span>
-                                                    <span class="items-origin">{item.origin}</span>
-                                                </span>
-                                                <span class="items-effect">{item.effect}</span>
+                                            <td data-label="English translation" class="translation items-meaning-cell">
+                                                <span class="items-english-meaning">{translation.english}</span>
+                                                {translation.status === 'needs-review' && (
+                                                    <span class="items-review-badge" title={translation.note ?? 'English translation needs verification'}>
+                                                        Translation uncertain
+                                                    </span>
+                                                )}
+                                                <details class="items-detail-disclosure">
+                                                    <summary>Item details</summary>
+                                                    <dl class="items-detail-list">
+                                                        <div><dt>Quality</dt><dd>{item.quality}</dd></div>
+                                                        <div><dt>Origin</dt><dd>{item.origin}</dd></div>
+                                                        <div><dt>Effect</dt><dd>{item.effect}</dd></div>
+                                                    </dl>
+                                                </details>
                                             </td>
                                         </tr>
                                     );
