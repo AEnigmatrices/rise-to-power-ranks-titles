@@ -38,6 +38,19 @@ describe('the supplied game item catalogues', () => {
         expect(correctedTrivia.text).toContain('Sakai Tadatsugu');
         expect(correctedTrivia.sources.some((source) => source.url.includes('edo-tokyo-museum.or.jp'))).toBe(true);
         expect(getItemPronunciation(jarPiercer).status).toBe('tentative');
+        // The visitor's Matsumoto Castle display account uses precisely the
+        // game's Japanese name. It is a close historical counterpart, not proof
+        // that the museum example was made in Europe or has a rifled barrel.
+        const doubleShot = all.find((item) => item.japanese === '二連発手中筒')!;
+        expect(doubleShot.type).toBe('Rifle');
+        expect(doubleShot.origin).toBe('Europe');
+        const displayTrivia = getItemTrivia(doubleShot)!;
+        expect(displayTrivia.scope).toBe('historical-context');
+        expect(displayTrivia.text).toContain('Matsumoto Castle');
+        expect(displayTrivia.text).toContain('125 mm');
+        expect(displayTrivia.text).toContain('unverified');
+        expect(displayTrivia.sources.some((source) => source.url.includes('be-bygones2.com/japan/matsumoto-2068/'))).toBe(true);
+        expect(displayTrivia.sources.some((source) => source.url.includes('matsumoto-castle.jp/collection'))).toBe(true);
     });
     it('covers every sword in the supplied game with sourced historical trivia', () => {
         const swords = itemCollections.flatMap((collection) => collection.items)

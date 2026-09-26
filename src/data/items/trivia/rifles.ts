@@ -43,8 +43,11 @@ export const rifleTrivia: Record<string, ItemTrivia> = {
         scope: 'historical-context',
     },
     "二連発手中筒": {
-        text: "The name refers to a handheld firearm described as firing twice; its precise Japanese model, magazine design or surviving counterpart is not established by the game data. Comparable European guns combined two barrels or successive shots long before modern repeaters: a Met double-barreled pistol made around 1815–20 was later converted from flintlock to percussion. That example illustrates the broader design principle, not an identification of a Japanese gun.",
-        sources: [{ title: "The Metropolitan Museum of Art — Joseph Egg double-barreled pistol", url: "https://www.metmuseum.org/art/collection/search/29382" }],
+        text: "A visitor's 2022 photographic account of the Akabane Collection on the second floor of Matsumoto Castle describes a palm-sized, 125 mm-long, touch-fired (指火式) weapon displayed under the exact Japanese name 二連発手中筒. This is a substantially closer historical counterpart to the game item than a generic European double-barreled pistol. Matsumoto Castle confirms that the Akabane firearms collection is exhibited there, but its selective online catalogue does not individually document this particular piece. Its maker, original provenance, internal firing arrangement and direct connection to the game remain unverified. The game's ‘Rifle’ category and ‘Europe’ origin are in-game labels, not established properties of the displayed Japanese firearm.",
+        sources: [
+            { title: "Matsumoto Castle visitor's 2022 display account — 二連発手中筒", url: "https://be-bygones2.com/japan/matsumoto-2068/" },
+            { title: "Matsumoto Castle — Akabane firearms collection", url: "https://www.matsumoto-castle.jp/collection/type/type03" },
+        ],
         scope: 'historical-context',
     },
     "匕首鉄砲": {
