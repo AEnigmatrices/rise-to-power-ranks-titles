@@ -22,7 +22,8 @@ test('item categories retain their own sections, search, quality and origin filt
     await search.fill('');
     await page.getByLabel('Minimum quality').selectOption('10');
     await page.getByLabel('Origin').selectOption('Europe');
-    await expect(page.locator('[data-item-row]:visible').count()).resolves.toBeGreaterThanOrEqual(0);
+    await expect(page.locator('[data-item-row]:visible')).toHaveCount(1);
+    await expect(page.locator('[data-item-row]:visible')).toContainText('Rose Wine');
     await page.getByRole('button', { name: /Reset/ }).click();
     await expect(page.locator('[data-item-row]:visible')).toHaveCount(60);
 });
