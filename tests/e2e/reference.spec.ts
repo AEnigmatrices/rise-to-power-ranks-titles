@@ -75,7 +75,7 @@ test('legacy root catalogue URLs forward to the reference page', async ({ page }
     await page.goto('./?view=title&q=Shugo#title-iga-shugo');
 
     await expect(page).toHaveURL(/\/reference\/\?view=title&q=Shugo#title-iga-shugo$/);
-    await expect(page.getByRole('tab', { name: /Shogunate Titles/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('[data-result-count]')).toContainText('70 unique titles');
 });
 
 test('homepage remains an overview rather than embedding the catalogue', async ({ page }) => {
@@ -84,7 +84,7 @@ test('homepage remains an overview rather than embedding the catalogue', async (
     await expect(page.getByRole('heading', { name: 'Ranks and Titles are two different appointment tracks.' })).toBeVisible();
     await expect(page.getByRole('searchbox', { name: 'Search appointments' })).toHaveCount(0);
 
-    await page.getByRole('link', { name: /Browse the reference/ }).click();
+    await page.getByRole('link', { name: /Browse Ranks/ }).click();
     await expect(page).toHaveURL(/\/reference\/$/);
 });
 

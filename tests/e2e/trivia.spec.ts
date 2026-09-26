@@ -93,7 +93,7 @@ test('office directory links use descriptive names and detail pages link back to
     const related = page.getByRole('link', { name: /Supreme Commander/ });
     await expect(related).toHaveAttribute(
         'href',
-        '/rise-to-power-ranks-titles/reference/#rank-danjo-no-kami',
+        '/rise-to-power-ranks-titles/ranks/#rank-danjo-no-kami',
     );
 });
 
