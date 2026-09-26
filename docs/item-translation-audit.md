@@ -15,6 +15,13 @@ The full row-by-row review is published as [item-translations.csv](../public/dat
 - **Potential transcription errors:** 憔談治要 appears suspect; 都の is evidently incomplete; 姥口釜う may have an extraneous final kana. These original spellings are deliberately **not** replaced without checking a primary source.
 - **Religious texts and titles in Arms:** 妙法蓮華経 is the Lotus Sutra; 熊野三所権現 and 妙見大菩薩 are religious designations. The source groups these among swords; those group assignments have not been rewritten.
 
+## External spot checks
+
+- The [National Institutes for Cultural Heritage's e-Museum](https://emuseum.nich.go.jp/detail?content_base_id=100187&content_part_id=0&content_pict_id=0&langId=ja) documents 大包平 as the named sword **Ōkanehira**, not the descriptive original label "Peacebringer."
+- The [Hyōgo Prefectural Museum of Art's literary museum](https://www.artm.pref.hyogo.jp/bungaku/kikaku/musashi/) identifies 五輪書 as Musashi's *The Book of Five Rings*, confirming the source label swap described above.
+
+These are representative confirmations, **not** external verification of every item. The 430-row CSV remains an editorial English rendering and flags unresolved cases.
+
 ## Editorial convention
 
 * Named swords, artifacts, religious objects, individual works, and tea utensils generally retain a transliterated proper name with an explanatory gloss where helpful.
