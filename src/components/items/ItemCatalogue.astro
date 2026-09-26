@@ -1,7 +1,7 @@
 ---
 import { Search, RotateCcw } from '@lucide/astro';
 import type { ItemCollection } from '../../data/items';
-import { getItemCategories } from '../../data/items';
+import { getItemCategories, getItemTranslation } from '../../data/items';
 
 interface Props {
     collection: ItemCollection;
@@ -35,6 +35,7 @@ const origins = [...new Set(collection.items.map((item) => item.origin))].sort()
         <button type="button" class="items-reset" data-item-reset><RotateCcw size={15} aria-hidden="true" /> Reset</button>
     </div>
     <p class="items-result" data-item-count role="status" aria-live="polite">{collection.items.length} items across {categories.length} categories</p>
+    <p class="items-audit-note">Original English names are preserved from the source. English translations are reviewed renderings of the Japanese text; “Uncertain” flags unresolved readings or source transcription issues.</p>
     <div class="items-sections">
         {categories.map((category) => (
             <section class="items-section" id={category.slug} data-item-section>
@@ -44,12 +45,13 @@ const origins = [...new Set(collection.items.map((item) => item.origin))].sort()
                 </div>
                 <div class="items-table-wrap">
                     <table class="items-table" aria-label={`${category.label} items`}>
-                        <thead><tr><th scope="col">Item</th><th scope="col">Japanese name</th><th scope="col">Quality</th><th scope="col">Origin</th><th scope="col">Effect</th></tr></thead>
+                        <thead><tr><th scope="col">Item</th><th scope="col">Japanese name</th><th scope="col">English translation</th><th scope="col">Quality</th><th scope="col">Origin</th><th scope="col">Effect</th></tr></thead>
                         <tbody>
                             {category.items.map((item) => (
-                                <tr id={item.id} data-item-row data-name={item.name} data-japanese={item.japanese} data-type={item.type} data-quality={item.quality} data-origin={item.origin} data-effect={item.effect}>
+                                <tr id={item.id} data-item-row data-name={item.name} data-japanese={item.japanese} data-english={getItemTranslation(item).english} data-type={item.type} data-quality={item.quality} data-origin={item.origin} data-effect={item.effect}>
                                     <td data-label="Item"><a href={`#${item.id}`} class="items-permalink" aria-label={`Link to ${item.name}`}>#</a><strong>{item.name}</strong></td>
                                     <td data-label="Japanese"><span lang="ja">{item.japanese}</span></td>
+                                    <td data-label="English translation"><span class="items-english">{getItemTranslation(item).english}</span>{getItemTranslation(item).status === "needs-review" && <span class="items-review-badge" title={getItemTranslation(item).note ?? "Reading or identification needs verification"}>Uncertain</span>}</td>
                                     <td data-label="Quality"><span class="items-quality">{item.quality}</span></td>
                                     <td data-label="Origin">{item.origin}</td>
                                     <td data-label="Effect">{item.effect}</td>

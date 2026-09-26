@@ -1,7 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { getItemCategories, itemCollections } from '../../src/data/items';
+import { getItemCategories, getItemTranslation, itemCollections, itemTranslationCount } from '../../src/data/items';
 
 describe('the supplied game item catalogues', () => {
+    it('supplies a separate English translation for all 430 Japanese item names', () => {
+        expect(itemTranslationCount).toBe(430);
+        for (const collection of itemCollections) {
+            for (const item of collection.items) {
+                const translation = getItemTranslation(item);
+                expect(translation.english.trim().length).toBeGreaterThan(0);
+                expect(['verified','interpretive','needs-review']).toContain(translation.status);
+            }
+        }
+    });
     it('retains all 430 items in their 34 original item types', () => {
         expect(itemCollections.map((collection) => collection.items.length)).toEqual([135, 60, 135, 100]);
         expect(itemCollections.map((collection) => getItemCategories(collection).length)).toEqual([9, 5, 12, 8]);

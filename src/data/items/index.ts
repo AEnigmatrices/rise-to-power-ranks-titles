@@ -39,3 +39,27 @@ export const getItemCategories = (collection: ItemCollection): ItemCategory[] =>
     }
     return [...categories.values()];
 };
+
+import { armsTranslations } from './translations/arms';
+import { artTranslations } from './translations/art';
+import { bookTranslations } from './translations/books';
+import { teaTranslations } from './translations/tea';
+import type { Item } from './types';
+import type { ItemTranslation } from './translations/types';
+export type { ItemTranslation, TranslationStatus } from './translations/types';
+
+const translationsByJapanese: Record<string, ItemTranslation> = {
+    ...armsTranslations,
+    ...artTranslations,
+    ...bookTranslations,
+    ...teaTranslations,
+};
+
+/** Always resolve translations by original Japanese spelling, not the sometimes misleading game label. */
+export const getItemTranslation = (item: Pick<Item, 'japanese'>): ItemTranslation => {
+    const translation = translationsByJapanese[item.japanese];
+    if (!translation) throw new Error(`Missing English translation for ${item.japanese}`);
+    return translation;
+};
+
+export const itemTranslationCount = Object.keys(translationsByJapanese).length;

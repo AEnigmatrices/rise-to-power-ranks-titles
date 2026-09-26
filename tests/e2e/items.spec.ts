@@ -15,6 +15,7 @@ test('item categories retain their own sections, search, quality and origin filt
     await page.goto('./items/art/');
     await expect(page.locator('[data-item-row]')).toHaveCount(60);
     await expect(page.locator('[data-item-section]')).toHaveCount(5);
+    await expect(page.locator('[data-item-row][data-japanese="菩提泉"]')).toContainText('Bodaisen Sake');
     const search = page.getByRole('searchbox', { name: /Search art/ });
     await search.fill('Walnut Cake');
     await expect(page.locator('[data-item-row]:visible')).toHaveCount(1);
