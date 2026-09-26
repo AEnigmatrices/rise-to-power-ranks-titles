@@ -1,32 +1,86 @@
 import { expect, test } from '@playwright/test';
 
-test('items landing page links to all four source collections and their categories', async ({ page }) => {
+test('Items uses the same tabbed reference presentation as Ranks and Titles', async ({ page }) => {
     await page.goto('./items/');
-    await expect(page.getByRole('link', { name: /Download all 430 items/ })).toHaveAttribute('href', /data\/item-translations\.csv$/);
+    await expect(page.getByRole('link', { name: /Download all 430 items/ }))
+        .toHaveAttribute('href', /data\/item-translations\.csv$/);
     await expect(page.getByRole('heading', { name: 'Items', exact: true })).toBeVisible();
-    for (const label of ['Arms', 'Art & Miscellaneous', 'Books & Scrolls', 'Tea Utensils']) {
-        await expect(page.getByRole('heading', { name: label })).toBeVisible();
+
+    const collections = page.getByRole('tablist', { name: 'Item collection' });
+    for (const name of ['Arms', 'Art & Miscellaneous', 'Books & Scrolls', 'Tea Utensils']) {
+        await expect(collections.getByRole('tab', { name: new RegExp(name) })).toBeVisible();
     }
+    await expect(page.getByText('Items by quality', { exact: true })).toBeVisible();
+    await expect(page.getByText('Items by type', { exact: true })).toBeVisible();
+    await expect(page.locator('[data-collection-panel]:visible [data-item-row]')).toHaveCount(135);
+
+    await collections.getByRole('tab', { name: /Art & Miscellaneous/ }).click();
+    await expect(page.locator('[data-collection-panel]:visible [data-item-row]')).toHaveCount(60);
+    await expect(page.locator('[data-item-count]')).toContainText('60 items');
     await page.getByRole('link', { name: /Scented Wood/ }).click();
     await expect(page).toHaveURL(/\/items\/art\/#scented-wood$/);
-    await expect(page.getByRole('heading', { name: 'Scented Wood' })).toBeVisible();
+    await expect(page.locator('#scented-wood')).toBeVisible();
 });
 
-test('item categories retain their own sections, search, quality and origin filtering', async ({ page }) => {
+test('category sections share one three-column ledger with translations and game details', async ({ page }) => {
     await page.goto('./items/art/');
     await expect(page.locator('[data-item-row]')).toHaveCount(60);
     await expect(page.locator('[data-item-section]')).toHaveCount(5);
-    const search = page.getByRole('searchbox', { name: /Search art/ });
+    const ledger = page.locator('.items-ledger');
+    await expect(ledger.getByRole('columnheader')).toHaveCount(3);
+    await expect(ledger.getByRole('columnheader', { name: 'Japanese and English translation' })).toHaveCount(1);
+    await expect(page.locator('[data-item-row][data-japanese="菩提泉"]')).toContainText('Bodaisen Sake');
+    await expect(page.locator('table caption')).toHaveCount(0);
+});
+
+test('item search, type, origin, quality and charts filter the same ledger', async ({ page }) => {
+    await page.goto('./items/art/');
+    const search = page.getByRole('searchbox', { name: 'Search items' });
     await search.fill('Walnut Cake');
     await expect(page.locator('[data-item-row]:visible')).toHaveCount(1);
-    await expect(page.locator('[data-item-count]')).toContainText('1 item across 1 category');
+    await expect(page.locator('[data-item-count]')).toContainText('Showing 1 of 60 items');
     await search.fill('');
+
     await page.getByLabel('Minimum quality').selectOption('10');
-    await page.getByLabel('Origin').selectOption('Europe');
+    await page.getByLabel('Filter by origin').selectOption('Europe');
     await expect(page.locator('[data-item-row]:visible')).toHaveCount(1);
     await expect(page.locator('[data-item-row]:visible')).toContainText('Rose Wine');
-    await page.getByRole('button', { name: /Reset/ }).click();
+
+    await page.getByRole('button', { name: 'Reset filters' }).click();
     await expect(page.locator('[data-item-row]:visible')).toHaveCount(60);
+
+    await page.getByRole('button', { name: /Filter type Scented Wood:/ }).click();
+    await expect(page.locator('[data-item-row]:visible')).toHaveCount(20);
+    await expect(page.getByLabel('Filter by type')).toHaveValue('Scented Wood');
+    await expect(page).toHaveURL(/type=Scented\+Wood/);
+
+    await page.getByRole('button', { name: 'Reset filters' }).click();
+    await expect(page.locator('[data-item-row]:visible')).toHaveCount(60);
+});
+
+test('collection tabs support keyboard navigation and retain selected URL state', async ({ page }) => {
+    await page.goto('./items/');
+    const arms = page.getByRole('tab', { name: /^Arms/ });
+    const art = page.getByRole('tab', { name: /^Art & Miscellaneous/ });
+    await arms.focus();
+    await arms.press('ArrowRight');
+    await expect(art).toBeFocused();
+    await expect(art).toHaveAttribute('aria-selected', 'true');
+    await expect(page).toHaveURL(/collection=art/);
+    await page.reload();
+    await expect(art).toHaveAttribute('aria-selected', 'true');
+});
+
+test('mobile item ledger uses grouped cards and remains navigable', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('./items/tea/');
+    await expect(page.getByRole('navigation', { name: 'Item collections' })).toBeVisible();
+    await expect(page.locator('[data-item-section]:visible')).toHaveCount(8);
+    await expect(page.locator('[data-item-row]:visible').first()).toBeVisible();
+    const row = page.locator('[data-item-row]:visible').first();
+    await expect(row.locator('.name-cell')).toBeVisible();
+    await expect(row.locator('.japanese')).toBeVisible();
+    await expect(row.locator('.items-detail-cell')).toBeVisible();
 });
 
 test('dedicated Ranks and Titles show only their respective appointments', async ({ page }) => {
@@ -44,6 +98,7 @@ test('navigation routes remain accessible on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('./items/');
     for (const name of ['Overview', 'Items', 'Ranks', 'Titles']) {
-        await expect(page.getByRole('navigation', { name: 'Site navigation' }).getByRole('link', { name, exact: true })).toBeVisible();
+        await expect(page.getByRole('navigation', { name: 'Site navigation' })
+            .getByRole('link', { name, exact: true })).toBeVisible();
     }
 });
