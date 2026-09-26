@@ -9,6 +9,7 @@ import { sitePath } from '../../lib/routes';
     <main class="guide-shell" id="top">
         <SectionNav current="items" />
         <GuideHeader compact kicker="Game reference" japanese="家宝" title="Items" lede="430 items in 34 original categories. Explore each collection and filter by name, quality, origin, or effect." backHref={sitePath()} backLabel="Back to the overview" />
+        <p class="items-audit-note">English translations are editorial renderings of the Japanese names, shown separately from the original localized English labels. <a href={sitePath('data/item-translations.csv')} download>Download all 430 items and translations (CSV) ↓</a></p>
         <div class="items-collection-grid">
             {itemCollections.map((collection) => (
                 <article class="items-collection-card">

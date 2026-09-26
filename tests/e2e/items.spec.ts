@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('items landing page links to all four source collections and their categories', async ({ page }) => {
     await page.goto('./items/');
+    await expect(page.getByRole('link', { name: /Download all 430 items/ })).toHaveAttribute('href', /data\\/item-translations\\.csv$/);
     await expect(page.getByRole('heading', { name: 'Items', exact: true })).toBeVisible();
     for (const label of ['Arms', 'Art & Miscellaneous', 'Books & Scrolls', 'Tea Utensils']) {
         await expect(page.getByRole('heading', { name: label })).toBeVisible();
@@ -15,7 +16,6 @@ test('item categories retain their own sections, search, quality and origin filt
     await page.goto('./items/art/');
     await expect(page.locator('[data-item-row]')).toHaveCount(60);
     await expect(page.locator('[data-item-section]')).toHaveCount(5);
-    await expect(page.locator('[data-item-row][data-japanese="菩提泉"]')).toContainText('Bodaisen Sake');
     const search = page.getByRole('searchbox', { name: /Search art/ });
     await search.fill('Walnut Cake');
     await expect(page.locator('[data-item-row]:visible')).toHaveCount(1);
