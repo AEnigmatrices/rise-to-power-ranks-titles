@@ -115,7 +115,7 @@ test('historical trivia is optional, sourced and expandable without changing the
     await expect(sword.getByText('Historical trivia')).toBeVisible();
     await expect(sword.locator('.items-trivia-body')).not.toBeVisible();
     await sword.getByText('Historical trivia').click();
-    await expect(sword.locator('.items-trivia-body')).toContainText('Shuten Dōji');
+    await expect(sword.locator('.items-trivia-body')).toContainText('National Treasure');
     await expect(sword.locator('.items-trivia-sources a')).toHaveAttribute('href', /^https:\/\//);
     const other = page.locator('[data-item-row][data-japanese="種子島筒"]');
     await expect(other.getByText('Historical trivia')).toHaveCount(0);
