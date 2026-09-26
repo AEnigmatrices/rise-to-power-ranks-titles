@@ -18,7 +18,7 @@ export const itemCollectionsBySlug = Object.fromEntries(
 ) as Record<ItemCollectionSlug, ItemCollection>;
 
 export const itemCategorySlug = (type: string): string =>
-    type.normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase()
+    type.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
         .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 /** Preserve the source order and original type strings; only the visible Sweets heading is shortened. */

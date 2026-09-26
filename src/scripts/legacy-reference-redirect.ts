@@ -4,7 +4,7 @@ const hasReferenceState = referenceStateKeys.some((key) => params.has(key));
 const hasAppointmentHash = /^#(?:rank|title)-/.test(window.location.hash);
 
 if (hasReferenceState || hasAppointmentHash) {
-    const base = import.meta.env.BASE_URL.replace(/\\/+$/, '');
+    const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
     const kind = window.location.hash.startsWith('#title-') || params.get('view') === 'title'
         ? 'titles'
         : 'ranks';
