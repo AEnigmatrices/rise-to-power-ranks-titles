@@ -306,6 +306,9 @@ const marks: Record<ItemCollectionSlug, string> = {
                                                         <summary>Historical trivia</summary>
                                                         <div class="items-trivia-body">
                                                             <p>{trivia.text}</p>
+                                                            {trivia.scope === 'historical-context' && (
+                                                                <p class="items-trivia-qualification">Historical context; not a confirmed identification of the game item.</p>
+                                                            )}
                                                             <p class="items-trivia-sources">Sources: {trivia.sources.map((source, index) => (
                                                                 <Fragment>
                                                                     {index > 0 && <span aria-hidden="true"> · </span>}
