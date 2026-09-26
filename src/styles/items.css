@@ -324,3 +324,39 @@
     .items-explorer .items-detail-list dd { color: #2d382e; }
     .items-explorer .items-meaning-cell { padding-top: 8px !important; border-top: 1px solid #e8e0d3 !important; }
 }
+
+/* Optional historical notes use the same compact disclosure language as item details. */
+.items-trivia-disclosure { margin-top: 5px; }
+.items-trivia-disclosure summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 0;
+    color: var(--gold-bright);
+    font-family: var(--sans);
+    font-size: .74rem;
+    font-weight: 730;
+    cursor: pointer;
+}
+.items-trivia-disclosure summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.items-trivia-disclosure summary:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+.items-trivia-body {
+    margin-top: 8px;
+    padding: 12px;
+    border: 1px solid rgb(232 201 104 / .18);
+    border-radius: 8px;
+    color: #f1eee0;
+    background: rgb(0 0 0 / .13);
+    font-size: .8rem;
+    line-height: 1.6;
+}
+.items-trivia-body p { margin: 0; }
+.items-trivia-body p + p { margin-top: 9px; }
+.items-trivia-sources { color: #aeb8aa; font-size: .71rem; }
+.items-trivia-sources a { color: #ead29a; text-underline-offset: 3px; }
+@media (max-width: 860px) {
+    .items-explorer .items-trivia-disclosure summary { color: #72531f; }
+    .items-explorer .items-trivia-body { border-color: #d2c29b; color: #2d382e; background: rgb(255 255 255 / .25); }
+    .items-explorer .items-trivia-sources { color: #68675b; }
+    .items-explorer .items-trivia-sources a { color: #72531f; }
+}
