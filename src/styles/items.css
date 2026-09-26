@@ -86,7 +86,9 @@
 .items-explorer .results-line { margin: 0; }
 .items-help { margin-bottom: 16px; }
 .items-help a { color: var(--gold-bright); }
-.items-explorer .items-panel[hidden] { display: none !important; }
+.items-explorer .items-panel[hidden],
+.items-explorer [data-grade-clear][hidden],
+.items-explorer [data-search-clear][hidden] { display: none !important; }
 .items-explorer [data-item-row][hidden],
 .items-explorer [data-item-section][hidden],
 .items-explorer .items-ledger[hidden] { display: none !important; }
