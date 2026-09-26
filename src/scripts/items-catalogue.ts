@@ -211,7 +211,10 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
                 else url.searchParams.delete(key);
             });
             const target = document.getElementById(url.hash.slice(1));
-            if (target?.matches('[data-item-row]') && target.hidden) url.hash = '';
+            if (target && (target.matches('[data-item-row], [data-item-section]')) &&
+                (target.hidden || target.closest('[data-collection-panel]')?.getAttribute('data-collection-panel') !== active)) {
+                url.hash = '';
+            }
             history.replaceState(null, '', url);
         }
     };
@@ -300,7 +303,7 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
             setCollection(owningPanel.dataset.collectionPanel ?? 'arms');
         }
         const target = document.getElementById(id);
-        if (target?.matches('[data-item-row]') && target.hidden) reset();
+        if (target?.matches('[data-item-row], [data-item-section]') && target.hidden) reset();
         requestAnimationFrame(() => target?.scrollIntoView({ block: 'center' }));
     };
 
@@ -311,7 +314,8 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
     } else {
         setCollection(active, true);
     }
-    update();
+    update(false);
     focusHashTarget();
+    update();
     window.addEventListener('hashchange', focusHashTarget);
 });
