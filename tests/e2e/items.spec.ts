@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test('items landing page links to all four source collections and their categories', async ({ page }) => {
     await page.goto('./items/');
-    await expect(page.getByRole('link', { name: /Download all 430 items/ })).toHaveAttribute('href', /data\\/item-translations\\.csv$/);
+    await expect(page.getByRole('link', { name: /Download all 430 items/ })).toHaveAttribute('href', /data\/item-translations\.csv$/);
     await expect(page.getByRole('heading', { name: 'Items', exact: true })).toBeVisible();
     for (const label of ['Arms', 'Art & Miscellaneous', 'Books & Scrolls', 'Tea Utensils']) {
         await expect(page.getByRole('heading', { name: label })).toBeVisible();
