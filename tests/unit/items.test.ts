@@ -5,7 +5,7 @@ describe('the supplied game item catalogues', () => {
     it('attaches only source-linked trivia to existing Japanese item names', () => {
         const all = itemCollections.flatMap((collection) => collection.items);
         const keys = Object.keys(itemTrivia);
-        expect(keys).toHaveLength(64);
+        expect(keys).toHaveLength(82);
         // Every note belongs to a source item; no trivia is generated for unresearched entries.
         for (const japanese of keys) {
             expect(all.some((item) => item.japanese === japanese)).toBe(true);
@@ -60,6 +60,29 @@ describe('the supplied game item catalogues', () => {
         for (const japanese of ['八幡大菩薩', '片山一文字', '当麻銘薙刀', '無銘長巻']) {
             expect(getItemTrivia({ japanese })?.scope).toBe('historical-context');
         }
+    });
+    it('provides contextual or object-specific trivia for every Musket and Rifle', () => {
+        const arms = itemCollections.find((collection) => collection.slug === 'arms')!;
+        const musketItems = arms.items.filter((item) => item.type === 'Musket');
+        const rifleItems = arms.items.filter((item) => item.type === 'Rifle');
+        expect(musketItems).toHaveLength(10);
+        expect(rifleItems).toHaveLength(10);
+        for (const item of [...musketItems, ...rifleItems]) {
+            const trivia = getItemTrivia(item);
+            expect(trivia, `Missing firearm trivia for ${item.japanese}`).toBeDefined();
+            expect(trivia?.sources.length).toBeGreaterThan(0);
+            expect(['identified-object', 'historical-context'])
+                .toContain(trivia?.scope);
+        }
+        // Modern ignition systems and blade/gun hybrids must not be
+        // described as verified Sengoku-era rifle models.
+        for (const japanese of [
+            '管打式銃', '雷粉式銃', '朝鮮短筒', '匕首鉄砲', '脇差鉄砲',
+        ]) {
+            expect(getItemTrivia({ japanese })?.scope).toBe('historical-context');
+        }
+        expect(getItemTrivia({ japanese: '備前筒' })?.text)
+            .toContain('domestic regional type');
     });
     it('supplies Japanese pronunciation for every one of the 430 source entries', () => {
         expect(itemPronunciationCount).toBe(430);
