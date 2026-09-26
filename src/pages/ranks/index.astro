@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionNav from '../../components/navigation/SectionNav.astro';
+import GuideHeader from '../../components/trivia/GuideHeader.astro';
+import ReferenceExplorer from '../../components/reference/ReferenceExplorer.astro';
+import { sitePath } from '../../lib/routes';
+---
+<BaseLayout title="Ranks — Nobunaga's Ambition: Rise to Power" description="Search Imperial Court and provincial Ranks, Japanese names, classes, Politics bonuses, and historical notes.">
+    <main class="guide-shell" id="top">
+        <SectionNav current="ranks" />
+        <GuideHeader compact kicker="Game reference / Imperial Court" japanese="官位" title="Ranks" lede="Explore Imperial Court and provincial appointments. In Rise to Power, Ranks raise Politics." backHref={sitePath()} backLabel="Back to the overview" />
+        <ReferenceExplorer kind="rank" />
+        <footer class="guide-footer"><a href={sitePath('items/')}>← Items</a><a href={sitePath('titles/')}>Titles →</a></footer>
+    </main>
+</BaseLayout>

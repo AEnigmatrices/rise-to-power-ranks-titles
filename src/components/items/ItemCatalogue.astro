@@ -1,0 +1,69 @@
+---
+import { Search, RotateCcw } from '@lucide/astro';
+import type { ItemCollection } from '../../data/items';
+import { getItemCategories } from '../../data/items';
+
+interface Props {
+    collection: ItemCollection;
+}
+
+const { collection } = Astro.props;
+const categories = getItemCategories(collection);
+const origins = [...new Set(collection.items.map((item) => item.origin))].sort();
+---
+<section class="items-catalogue" data-items-catalogue>
+    <nav class="items-category-nav" aria-label={`${collection.name} categories`}>
+        {categories.map((category) => (
+            <a href={`#${category.slug}`} data-category-link={category.slug}>
+                <span>{category.label}</span>
+                <small>{category.items.length}</small>
+            </a>
+        ))}
+    </nav>
+    <div class="items-toolbar">
+        <label class="items-toolbar__search">
+            <span>Search {collection.name.toLowerCase()}</span>
+            <span class="items-toolbar__input"><Search size={17} aria-hidden="true" /><input type="search" data-item-search placeholder="English or Japanese name, type, effect…" autocomplete="off" /></span>
+        </label>
+        <label><span>Minimum quality</span>
+            <select data-quality-filter>
+                <option value="">Any quality</option>
+                {Array.from({ length: 10 }, (_, i) => 10 - i).map((grade) => <option value={grade}>{grade} or higher</option>)}
+            </select>
+        </label>
+        <label><span>Origin</span><select data-origin-filter><option value="">All origins</option>{origins.map((origin) => <option value={origin}>{origin}</option>)}</select></label>
+        <button type="button" class="items-reset" data-item-reset><RotateCcw size={15} aria-hidden="true" /> Reset</button>
+    </div>
+    <p class="items-result" data-item-count role="status" aria-live="polite">{collection.items.length} items across {categories.length} categories</p>
+    <div class="items-sections">
+        {categories.map((category) => (
+            <section class="items-section" id={category.slug} data-item-section>
+                <div class="items-section__heading">
+                    <div><p class="section-kicker">{collection.name}</p><h2>{category.label}</h2></div>
+                    <span data-section-count>{category.items.length} items</span>
+                </div>
+                <div class="items-table-wrap">
+                    <table class="items-table">
+                        <caption>{category.label} in Nobunaga’s Ambition: Rise to Power</caption>
+                        <thead><tr><th scope="col">Item</th><th scope="col">Japanese name</th><th scope="col">Quality</th><th scope="col">Origin</th><th scope="col">Effect</th></tr></thead>
+                        <tbody>
+                            {category.items.map((item) => (
+                                <tr id={item.id} data-item-row data-name={item.name} data-japanese={item.japanese} data-type={item.type} data-quality={item.quality} data-origin={item.origin} data-effect={item.effect}>
+                                    <td data-label="Item"><a href={`#${item.id}`} class="items-permalink" aria-label={`Link to ${item.name}`}>#</a><strong>{item.name}</strong></td>
+                                    <td data-label="Japanese"><span lang="ja">{item.japanese}</span></td>
+                                    <td data-label="Quality"><span class="items-quality">{item.quality}</span></td>
+                                    <td data-label="Origin">{item.origin}</td>
+                                    <td data-label="Effect">{item.effect}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        ))}
+    </div>
+    <div class="items-no-results" data-item-empty hidden>No items match your filters. Try another name or reset the filters.</div>
+</section>
+<script>
+    import '../../scripts/items-catalogue';
+</script>

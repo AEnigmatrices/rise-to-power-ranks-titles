@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionNav from '../../components/navigation/SectionNav.astro';
+import GuideHeader from '../../components/trivia/GuideHeader.astro';
+import ItemCatalogue from '../../components/items/ItemCatalogue.astro';
+import { itemCollections, getItemCategories } from '../../data/items';
+import { sitePath } from '../../lib/routes';
+
+export const getStaticPaths = () => itemCollections.map((collection) => ({
+    params: { collection: collection.slug },
+    props: { collection },
+}));
+
+const { collection } = Astro.props;
+const categoryCount = getItemCategories(collection).length;
+---
+<BaseLayout title={`${collection.name} — Items — Nobunaga's Ambition: Rise to Power`} description={`Browse ${collection.items.length} ${collection.name} items across ${categoryCount} original categories, with English and Japanese names, qualities, origins, and effects.`}>
+    <main id="top" class="guide-shell">
+        <SectionNav current="items" />
+        <GuideHeader compact kicker="Items / Collection" japanese={collection.japanese} title={collection.name} lede={`${collection.items.length} items across ${categoryCount} categories. Search, filter, or jump directly to a category.`} backHref={sitePath('items/')} backLabel="All item collections" />
+        <ItemCatalogue collection={collection} />
+        <footer class="guide-footer"><a href={sitePath('items/')}>← All Items</a><a href={sitePath('ranks/')}>Ranks →</a></footer>
+    </main>
+</BaseLayout>

@@ -4,6 +4,13 @@ import { expect, test } from '@playwright/test';
 const accessibilityRoutes = [
     './',
     './reference/',
+    './items/',
+    './items/arms/',
+    './items/art/',
+    './items/books/',
+    './items/tea/',
+    './ranks/',
+    './titles/',
     './trivia/',
     './trivia/context/',
     './trivia/regions/',

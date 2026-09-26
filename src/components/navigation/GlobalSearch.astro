@@ -32,7 +32,7 @@ const baseUrl = sitePath();
             <div class="global-search__heading">
                 <div>
                     <p class="global-search__eyebrow">Site search</p>
-                    <h2 id="global-search-title">Search the reference &amp; historical guide</h2>
+                    <h2 id="global-search-title">Search items, appointments &amp; historical guide</h2>
                 </div>
                 <button
                     class="global-search__close"
@@ -52,7 +52,7 @@ const baseUrl = sitePath();
                     autocomplete="off"
                     spellcheck="false"
                     aria-describedby="global-search-status"
-                    placeholder="Search names, places, or offices…"
+                    placeholder="Search items, names, places, or offices…"
                     data-global-search-input
                 />
                 <button
@@ -79,7 +79,7 @@ const baseUrl = sitePath();
 
             <div class="global-search__suggestions" data-global-search-suggestions>
                 <span>Try a search</span>
-                {['Shōgun', 'Mutsu', 'Kantō Kanrei'].map((query) => (
+                {['Shōgun', 'Mutsu', 'Opus Blade'].map((query) => (
                     <button type="button" data-global-search-example={query}>
                         {query}
                     </button>
