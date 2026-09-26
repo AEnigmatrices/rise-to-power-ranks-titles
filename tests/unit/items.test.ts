@@ -5,7 +5,8 @@ describe('the supplied game item catalogues', () => {
     it('attaches only source-linked trivia to existing Japanese item names', () => {
         const all = itemCollections.flatMap((collection) => collection.items);
         const keys = Object.keys(itemTrivia);
-        expect(keys.length).toBeGreaterThan(0);
+        expect(keys).toHaveLength(29);
+        // Every note belongs to a source item; no trivia is generated for unresearched entries.
         for (const japanese of keys) {
             expect(all.some((item) => item.japanese === japanese)).toBe(true);
             const trivia = getItemTrivia({ japanese });
