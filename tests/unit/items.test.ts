@@ -5,7 +5,7 @@ describe('the supplied game item catalogues', () => {
     it('attaches only source-linked trivia to existing Japanese item names', () => {
         const all = itemCollections.flatMap((collection) => collection.items);
         const keys = Object.keys(itemTrivia);
-        expect(keys).toHaveLength(44);
+        expect(keys).toHaveLength(64);
         // Every note belongs to a source item; no trivia is generated for unresearched entries.
         for (const japanese of keys) {
             expect(all.some((item) => item.japanese === japanese)).toBe(true);
@@ -31,6 +31,24 @@ describe('the supplied game item catalogues', () => {
                 .toContain(trivia?.scope);
         }
         expect(getItemTrivia({ japanese: '妙法蓮華経' })?.scope).toBe('historical-context');
+    });
+    it('provides sourced trivia for all 20 items in the game’s Spear category', () => {
+        const spearItems = itemCollections.flatMap((collection) => collection.items)
+            .filter((item) => item.type === 'Spear');
+        expect(spearItems).toHaveLength(20);
+        for (const item of spearItems) {
+            const trivia = getItemTrivia(item);
+            expect(trivia, `Missing trivia for ${item.japanese}`).toBeDefined();
+            expect(trivia?.sources.length).toBeGreaterThan(0);
+            expect(['identified-object', 'historical-work', 'historical-context'])
+                .toContain(trivia?.scope);
+        }
+        // The game's polearm grouping must not masquerade as an authenticated
+        // historical spear when the Japanese actually names a sutra, school,
+        // deity, naginata or nagamaki.
+        for (const japanese of ['八幡大菩薩', '片山一文字', '当麻銘薙刀', '無銘長巻']) {
+            expect(getItemTrivia({ japanese })?.scope).toBe('historical-context');
+        }
     });
     it('supplies Japanese pronunciation for every one of the 430 source entries', () => {
         expect(itemPronunciationCount).toBe(430);

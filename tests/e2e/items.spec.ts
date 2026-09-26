@@ -133,3 +133,21 @@ test('all 20 swords include optional sourced trivia while unrelated arms remain 
     const musket = page.locator('[data-item-row][data-japanese="種子島筒"]');
     await expect(musket.locator('.items-trivia-disclosure')).toHaveCount(1);
 });
+
+test('all 20 Spear entries expose cited historical context or qualified object trivia', async ({ page }) => {
+    await page.goto('./items/arms/');
+    const spears = page.locator('[data-item-section][data-category="Spear"] [data-item-row]');
+    await expect(spears).toHaveCount(20);
+    await expect(spears.locator('.items-trivia-disclosure')).toHaveCount(20);
+
+    const nihongo = page.locator('[data-item-row][data-japanese="呑取"]');
+    await nihongo.getByText('Historical trivia').click();
+    await expect(nihongo.locator('.items-trivia-body')).toContainText('Nihongō');
+    await expect(nihongo.locator('.items-trivia-sources a'))
+        .toHaveAttribute('href', /museum\.city\.fukuoka\.jp/);
+
+    const invocation = page.locator('[data-item-row][data-japanese="八幡大菩薩"]');
+    await invocation.getByText('Historical trivia').click();
+    await expect(invocation.locator('.items-trivia-body'))
+        .toContainText('not by itself the name of a verifiable spear');
+});
