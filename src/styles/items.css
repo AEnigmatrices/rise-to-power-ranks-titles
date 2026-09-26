@@ -87,7 +87,9 @@
 .items-help { margin-bottom: 16px; }
 .items-help a { color: var(--gold-bright); }
 .items-explorer .items-panel[hidden] { display: none !important; }
-.items-explorer [data-item-row][hidden], .items-explorer [data-item-section][hidden] { display: none !important; }
+.items-explorer [data-item-row][hidden],
+.items-explorer [data-item-section][hidden],
+.items-explorer .items-ledger[hidden] { display: none !important; }
 .items-explorer .items-category-nav {
     position: relative;
     z-index: 1;

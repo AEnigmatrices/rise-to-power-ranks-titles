@@ -90,14 +90,14 @@ const marks: Record<ItemCollectionSlug, string> = {
                     <strong>Items by quality</strong>
                     <span>Select a quality to show matching items.</span>
                 </figcaption>
-                <div class="items-chart" data-quality-chart aria-label="Items by quality"></div>
+                <div class="items-chart" role="group" data-quality-chart aria-label="Items by quality"></div>
             </figure>
             <figure class="reference-chart-card">
                 <figcaption>
                     <strong>Items by type</strong>
                     <span>Select a source type to filter the ledger.</span>
                 </figcaption>
-                <div class="items-chart items-chart--types" data-type-chart aria-label="Items by type"></div>
+                <div class="items-chart items-chart--types" role="group" data-type-chart aria-label="Items by type"></div>
             </figure>
         </div>
         <p class="sr-only" role="status" aria-live="polite" data-chart-live></p>

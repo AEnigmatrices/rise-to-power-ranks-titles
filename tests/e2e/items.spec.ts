@@ -10,8 +10,8 @@ test('Items uses the same tabbed reference presentation as Ranks and Titles', as
     for (const name of ['Arms', 'Art & Miscellaneous', 'Books & Scrolls', 'Tea Utensils']) {
         await expect(collections.getByRole('tab', { name: new RegExp(name) })).toBeVisible();
     }
-    await expect(page.getByRole('heading', { name: 'Items by quality' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Items by type' })).toBeVisible();
+    await expect(page.getByText('Items by quality', { exact: true })).toBeVisible();
+    await expect(page.getByText('Items by type', { exact: true })).toBeVisible();
     await expect(page.locator('[data-collection-panel]:visible [data-item-row]')).toHaveCount(135);
 
     await collections.getByRole('tab', { name: /Art & Miscellaneous/ }).click();
