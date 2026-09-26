@@ -5,4 +5,4 @@ export const sitePath = (path = '') => {
     return suffix ? `${normalizedBase}/${suffix}` : `${normalizedBase}/`;
 };
 
-export const appointmentPath = (id: string) => `${sitePath('reference/')}#${id}`;
+export const appointmentPath = (id: string) => `${sitePath(id.startsWith('title-') ? 'titles/' : 'ranks/')}#${id}`;

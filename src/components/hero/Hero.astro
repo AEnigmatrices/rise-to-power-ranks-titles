@@ -48,9 +48,11 @@ const { rankRecords, rankEntries, titleRecords, titleEntries } = Astro.props;
         </div>
 
         <nav class="hero__nav" aria-label="Explore the site">
-            <a class="hero__primary" href={sitePath('reference/')}>
-                Browse the reference <span aria-hidden="true">→</span>
+            <a class="hero__primary" href={sitePath('ranks/')}>
+                Browse Ranks <span aria-hidden="true">→</span>
             </a>
+            <a href={sitePath('items/')}>Items →</a>
+            <a href={sitePath('titles/')}>Titles →</a>
             <a href={sitePath('trivia/context/')}>
                 Political context <span aria-hidden="true">→</span>
             </a>

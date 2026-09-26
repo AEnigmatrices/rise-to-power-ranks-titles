@@ -122,3 +122,15 @@
     color: #fffaf0;
     background: rgb(213 189 120 / 0.12);
 }
+
+@media (max-width: 1040px) {
+  .section-nav { border-radius:18px; }
+  .section-nav__links { min-width:0; overflow-x:auto; scrollbar-width:thin; }
+  .section-nav__links > a { flex-shrink:0; }
+  .section-nav__brand { flex-shrink:0; }
+}
+@media (max-width:620px) {
+  .section-nav { flex-wrap:wrap; justify-content:center; }
+  .section-nav__brand { display:none; }
+  .section-nav__links { width:100%; justify-content:flex-start; }
+}

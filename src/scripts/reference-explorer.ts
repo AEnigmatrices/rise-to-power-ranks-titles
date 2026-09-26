@@ -26,10 +26,6 @@ type SearchRecord = {
 
     if (!root) return;
 
-    const fixedKind: ReferenceKind | null =
-        root.dataset.fixedKind === 'rank' || root.dataset.fixedKind === 'title'
-            ? root.dataset.fixedKind
-            : null;
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-view]'));
     const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-panel]'));
     const searchInput = root.querySelector<HTMLInputElement>('[data-search]');
@@ -55,7 +51,7 @@ type SearchRecord = {
           ? 'rank'
           : null;
     let activeKind: ReferenceKind =
-        fixedKind ?? hashKind ??
+        hashKind ??
         (initialParams.get('view') === 'title' || location.hash === '#titles' ? 'title' : 'rank');
     let restoreInitialFilters = true;
     let restoringUrlState = true;
@@ -302,8 +298,7 @@ type SearchRecord = {
         const url = new URL(location.href);
         const query = searchInput.value.trim();
 
-        if (fixedKind) url.searchParams.delete('view');
-        else if (activeKind === 'title') url.searchParams.set('view', 'title');
+        if (activeKind === 'title') url.searchParams.set('view', 'title');
         else url.searchParams.delete('view');
 
         if (query) url.searchParams.set('q', query);
@@ -444,7 +439,7 @@ type SearchRecord = {
 
     const setKind = (kind: string | null, updateHash = true) => {
         closeAllTrivia();
-        activeKind = fixedKind ?? (kind === 'title' ? 'title' : 'rank');
+        activeKind = kind === 'title' ? 'title' : 'rank';
 
         tabs.forEach((tab) => {
             const selected = tab.dataset.view === activeKind;
@@ -596,10 +591,7 @@ type SearchRecord = {
         if (!row) return;
 
         const rowKind: ReferenceKind = row.dataset.kind === 'title' ? 'title' : 'rank';
-        if (rowKind !== activeKind) {
-            if (fixedKind) return;
-            setKind(rowKind, false);
-        }
+        if (rowKind !== activeKind) setKind(rowKind, false);
 
         if (row.hidden) {
             searchInput.value = '';
