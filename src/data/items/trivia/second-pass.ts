@@ -13,7 +13,7 @@ export const secondPassTrivia: Record<string, ItemTrivia> = {
         scope: 'identified-object',
     },
     '日光一文字': {
-        text: 'This National Treasure tachi of the Ichimonji school is preserved at Fukuoka City Museum. Kuroda family records say Hōjō Ujinao presented it to Kuroda Yoshitaka (Josui) in thanks for his role in the 1590 Odawara surrender negotiations. The museum also discusses a conflicting later document attributing the gift to Hideyoshi.',
+        text: 'This National Treasure tachi of the Ichimonji school is preserved at Fukuoka City Museum. Kuroda family records say Hōjō Ujinao presented it to Kuroda Yoshitaka (Josui) in thanks for his role in the 1590 Odawara surrender negotiations. The museum also discusses a later document attributing the gift to Hideyoshi, but regards that document as a subsequent fabrication.',
         sources: [{ title: 'Fukuoka City Museum — Nikkō Ichimonji', url: 'https://museum.city.fukuoka.jp/archives/collection/katana/katana02.html' }],
         scope: 'identified-object',
     },
