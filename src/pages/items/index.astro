@@ -2,29 +2,32 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SectionNav from '../../components/navigation/SectionNav.astro';
 import GuideHeader from '../../components/trivia/GuideHeader.astro';
-import { itemCollections, getItemCategories } from '../../data/items';
+import ItemCatalogue from '../../components/items/ItemCatalogue.astro';
 import { sitePath } from '../../lib/routes';
 ---
-<BaseLayout title="Items — Nobunaga's Ambition: Rise to Power" description="Browse 430 items organized by the 34 original item types across arms, art, books, and tea utensils.">
+<BaseLayout
+    title="Items — Nobunaga's Ambition: Rise to Power"
+    description="Search and compare all 430 items in 34 original types across four collections, with English and Japanese names, translations, quality, origin and effects."
+>
     <main class="guide-shell" id="top">
         <SectionNav current="items" />
-        <GuideHeader compact kicker="Game reference" japanese="家宝" title="Items" lede="430 items in 34 original categories. Explore each collection and filter by name, quality, origin, or effect." backHref={sitePath()} backLabel="Back to the overview" />
-        <p class="items-audit-note">English translations are editorial renderings of the Japanese names, shown separately from the original localized English labels. <a href={sitePath('data/item-translations.csv')} download>Download all 430 items and translations (CSV) ↓</a></p>
-        <div class="items-collection-grid">
-            {itemCollections.map((collection) => (
-                <article class="items-collection-card">
-                    <p class="section-kicker" lang="ja">{collection.japanese}</p>
-                    <h2><a href={sitePath(`items/${collection.slug}/`)}>{collection.name} <span aria-hidden="true">↗</span></a></h2>
-                    <p>{collection.description}</p>
-                    <p class="items-collection-card__count">{collection.items.length} items · {getItemCategories(collection).length} categories</p>
-                    <nav aria-label={`${collection.name} categories`}>
-                        {getItemCategories(collection).map((category) => (
-                            <a href={sitePath(`items/${collection.slug}/#${category.slug}`)}>{category.label} <span>{category.items.length}</span></a>
-                        ))}
-                    </nav>
-                </article>
-            ))}
-        </div>
-        <footer class="guide-footer"><a href={sitePath()}>← Overview</a><a href={sitePath('ranks/')}>Explore Ranks →</a></footer>
+        <GuideHeader
+            compact
+            kicker="Game reference"
+            japanese="家宝"
+            title="Items"
+            lede="430 items across four collections and 34 original types. Choose a collection, explore the quality and type charts, or search the ledger."
+            backHref={sitePath()}
+            backLabel="Back to the overview"
+        />
+        <p class="items-audit-note">
+            Original game labels and separate English translations are both retained.
+            <a href={sitePath('data/item-translations.csv')} download>Download all 430 items and translations (CSV) ↓</a>
+        </p>
+        <ItemCatalogue />
+        <footer class="guide-footer">
+            <a href={sitePath()}>← Overview</a>
+            <a href={sitePath('ranks/')}>Explore Ranks →</a>
+        </footer>
     </main>
 </BaseLayout>
