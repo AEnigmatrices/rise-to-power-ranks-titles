@@ -1,70 +1,313 @@
 ---
-import { Search, RotateCcw } from '@lucide/astro';
-import type { ItemCollection } from '../../data/items';
-import { getItemCategories, getItemTranslation } from '../../data/items';
+import { RotateCcw, Search, X } from '@lucide/astro';
+import { getItemCategories, getItemTranslation, itemCollections } from '../../data/items';
+import type { ItemCollection, ItemCollectionSlug } from '../../data/items';
+import { sitePath } from '../../lib/routes';
 
 interface Props {
-    collection: ItemCollection;
+    collection?: ItemCollection;
 }
-
-const { collection } = Astro.props;
-const categories = getItemCategories(collection);
-const origins = [...new Set(collection.items.map((item) => item.origin))].sort();
+const { collection: fixedCollection } = Astro.props;
+const collections = fixedCollection ? [fixedCollection] : itemCollections;
+const initial = fixedCollection ?? itemCollections[0];
+const marks: Record<ItemCollectionSlug, string> = {
+    arms: '武',
+    art: '美',
+    books: '書',
+    tea: '茶',
+};
 ---
-<section class="items-catalogue" data-items-catalogue>
-    <nav class="items-category-nav" aria-label={`${collection.name} categories`}>
-        {categories.map((category) => (
-            <a href={`#${category.slug}`} data-category-link={category.slug}>
-                <span>{category.label}</span>
-                <small>{category.items.length}</small>
-            </a>
-        ))}
-    </nav>
-    <div class="items-toolbar">
-        <label class="items-toolbar__search">
-            <span>Search {collection.name.toLowerCase()}</span>
-            <span class="items-toolbar__input"><Search size={17} aria-hidden="true" /><input type="search" data-item-search placeholder="English or Japanese name, type, effect…" autocomplete="off" /></span>
-        </label>
-        <label><span>Minimum quality</span>
-            <select data-quality-filter>
-                <option value="">Any quality</option>
-                {Array.from({ length: 10 }, (_, i) => 10 - i).map((grade) => <option value={grade}>{grade} or higher</option>)}
+<section
+    id="reference"
+    class="explorer items-explorer"
+    aria-label="Item reference"
+    data-items-catalogue
+    data-fixed-collection={fixedCollection?.slug}
+>
+    <h2 class="sr-only">Browse game items by collection and type</h2>
+    <p id="items-search-help" class="sr-only">
+        Search original game names, Japanese names, English translations, origins and effects.
+        Results are grouped by the original item types.
+    </p>
+
+    {fixedCollection ? (
+        <nav class="switcher items-switcher" aria-label="Item collections">
+            {itemCollections.map((entry) => (
+                <a
+                    href={sitePath(`items/${entry.slug}/`)}
+                    class:list={['switcher__tab', entry.slug === fixedCollection.slug && 'is-active']}
+                    aria-current={entry.slug === fixedCollection.slug ? 'page' : undefined}
+                >
+                    <span class="switcher__mark" aria-hidden="true">{marks[entry.slug]}</span>
+                    <span class="switcher__copy">
+                        <strong>{entry.name}</strong>
+                        <small>{entry.items.length} items · {getItemCategories(entry).length} types</small>
+                    </span>
+                </a>
+            ))}
+        </nav>
+    ) : (
+        <div class="switcher items-switcher" role="tablist" aria-label="Item collection">
+            {itemCollections.map((entry, index) => (
+                <button
+                    class:list={['switcher__tab', index === 0 && 'is-active']}
+                    type="button"
+                    role="tab"
+                    id={`item-tab-${entry.slug}`}
+                    aria-controls={`item-panel-${entry.slug}`}
+                    aria-selected={index === 0 ? 'true' : 'false'}
+                    tabindex={index === 0 ? 0 : -1}
+                    data-collection-tab={entry.slug}
+                >
+                    <span class="switcher__mark" aria-hidden="true">{marks[entry.slug]}</span>
+                    <span class="switcher__copy">
+                        <strong>{entry.name}</strong>
+                        <small>{entry.items.length} items · {getItemCategories(entry).length} types</small>
+                    </span>
+                </button>
+            ))}
+        </div>
+    )}
+
+    <section class="reference-viz items-viz" aria-labelledby="items-viz-heading">
+        <div class="reference-viz__header">
+            <div>
+                <span class="reference-viz__kicker">Visual overview</span>
+                <h3 id="items-viz-heading">Explore the item collection</h3>
+                <p data-chart-summary>
+                    See how items are distributed by quality and original item type.
+                    Select a bar to filter the ledger.
+                </p>
+            </div>
+            <button class="reference-viz__clear" type="button" data-grade-clear hidden>
+                <RotateCcw size={14} stroke-width={1.9} aria-hidden="true" />
+                Clear quality
+            </button>
+        </div>
+        <div class="reference-viz__grid">
+            <figure class="reference-chart-card">
+                <figcaption>
+                    <strong>Items by quality</strong>
+                    <span>Select a quality to show matching items.</span>
+                </figcaption>
+                <div class="items-chart" data-quality-chart aria-label="Items by quality"></div>
+            </figure>
+            <figure class="reference-chart-card">
+                <figcaption>
+                    <strong>Items by type</strong>
+                    <span>Select a source type to filter the ledger.</span>
+                </figcaption>
+                <div class="items-chart items-chart--types" data-type-chart aria-label="Items by type"></div>
+            </figure>
+        </div>
+        <p class="sr-only" role="status" aria-live="polite" data-chart-live></p>
+    </section>
+
+    <div class="toolbar items-toolbar">
+        <div class="toolbar__search field">
+            <label class="control-label" for="item-reference-search">Search items</label>
+            <div class="control-input">
+                <Search class="field__icon" size={18} stroke-width={1.8} aria-hidden="true" />
+                <input
+                    id="item-reference-search"
+                    type="search"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-describedby="items-search-help"
+                    placeholder="Name, Japanese, translation or effect…"
+                    data-item-search
+                />
+                <button
+                    class="control-clear"
+                    type="button"
+                    aria-label="Clear item search"
+                    data-search-clear
+                    hidden
+                >
+                    <X size={15} stroke-width={2} aria-hidden="true" />
+                </button>
+                <kbd aria-hidden="true">/</kbd>
+            </div>
+        </div>
+        <div class="field">
+            <label class="control-label" for="items-type-filter">Filter by type</label>
+            <select id="items-type-filter" data-category-filter>
+                <option value="">All item types</option>
             </select>
-        </label>
-        <label><span>Origin</span><select data-origin-filter><option value="">All origins</option>{origins.map((origin) => <option value={origin}>{origin}</option>)}</select></label>
-        <button type="button" class="items-reset" data-item-reset><RotateCcw size={15} aria-hidden="true" /> Reset</button>
+        </div>
+        <div class="field">
+            <label class="control-label" for="items-origin-filter">Filter by origin</label>
+            <select id="items-origin-filter" data-origin-filter>
+                <option value="">All origins</option>
+            </select>
+        </div>
+        <div class="field">
+            <label class="control-label" for="items-quality-filter">Minimum quality</label>
+            <select id="items-quality-filter" data-quality-filter>
+                <option value="">Any quality</option>
+                {Array.from({ length: 10 }, (_, i) => 10 - i).map((quality) => (
+                    <option value={quality}>{quality} or higher</option>
+                ))}
+            </select>
+        </div>
+        <button
+            class="reset-button reset-button--icon items-reset"
+            type="button"
+            title="Reset search and filters"
+            aria-label="Reset filters"
+            data-item-reset
+        >
+            <RotateCcw size={15} stroke-width={1.9} aria-hidden="true" />
+            <span>Reset</span>
+        </button>
     </div>
-    <p class="items-result" data-item-count role="status" aria-live="polite">{collection.items.length} items across {categories.length} categories</p>
-    <p class="items-audit-note">Original English names are preserved from the source. English translations are reviewed renderings of the Japanese text; “Uncertain” flags unresolved readings or source transcription issues.</p>
-    <div class="items-sections">
-        {categories.map((category) => (
-            <section class="items-section" id={category.slug} data-item-section>
-                <div class="items-section__heading">
-                    <div><p class="section-kicker">{collection.name}</p><h2>{category.label}</h2></div>
-                    <span data-section-count>{category.items.length} items</span>
-                </div>
-                <div class="items-table-wrap">
-                    <table class="items-table" aria-label={`${category.label} items`}>
-                        <thead><tr><th scope="col">Item</th><th scope="col">Japanese name</th><th scope="col">English translation</th><th scope="col">Quality</th><th scope="col">Origin</th><th scope="col">Effect</th></tr></thead>
-                        <tbody>
-                            {category.items.map((item) => (
-                                <tr id={item.id} data-item-row data-name={item.name} data-japanese={item.japanese} data-english={getItemTranslation(item).english} data-type={item.type} data-quality={item.quality} data-origin={item.origin} data-effect={item.effect}>
-                                    <td data-label="Item"><a href={`#${item.id}`} class="items-permalink" aria-label={`Link to ${item.name}`}>#</a><strong>{item.name}</strong></td>
-                                    <td data-label="Japanese"><span lang="ja">{item.japanese}</span></td>
-                                    <td data-label="English translation"><span class="items-english">{getItemTranslation(item).english}</span>{getItemTranslation(item).status === "needs-review" && <span class="items-review-badge" title={getItemTranslation(item).note ?? "Reading or identification needs verification"}>Uncertain</span>}</td>
-                                    <td data-label="Quality"><span class="items-quality">{item.quality}</span></td>
-                                    <td data-label="Origin">{item.origin}</td>
-                                    <td data-label="Effect">{item.effect}</td>
+
+    <div class="results-line">
+        <p data-item-count role="status" aria-atomic="true">
+            {initial.items.length} items · {getItemCategories(initial).length} categories
+        </p>
+        <p class="results-line__hint">Select a type or quality above · Press <kbd>/</kbd> to search</p>
+    </div>
+
+    <details class="explorer__help items-help">
+        <summary>How to read this reference</summary>
+        <div class="explorer__help-copy">
+            <p><strong>Game label:</strong> original English name from the supplied item lists.
+                <strong> Japanese and translation:</strong> original characters and a separate editorial English rendering.</p>
+            <p><strong>Quality, origin and effect</strong> follow the source data.
+                An <strong>Uncertain</strong> marker identifies a reading or source entry that needs verification.</p>
+            <p><a href={sitePath('data/item-translations.csv')} download>Download the complete 430-item translation audit (CSV) ↓</a></p>
+        </div>
+    </details>
+
+    {collections.map((entry) => {
+        const categories = getItemCategories(entry);
+        return (
+            <section
+                class="reference-panel items-panel"
+                id={`item-panel-${entry.slug}`}
+                data-collection-panel={entry.slug}
+                role={fixedCollection ? undefined : 'tabpanel'}
+                aria-labelledby={fixedCollection ? undefined : `item-tab-${entry.slug}`}
+                hidden={entry.slug !== initial.slug}
+            >
+                <nav class="items-category-nav" aria-label={`${entry.name} item types`}>
+                    {categories.map((category) => (
+                        <a
+                            href={fixedCollection
+                                ? `#${category.slug}`
+                                : sitePath(`items/${entry.slug}/#${category.slug}`)}
+                            data-category-link={category.type}
+                        >
+                            <span>{category.label}</span>
+                            <small>{category.items.length}</small>
+                        </a>
+                    ))}
+                </nav>
+
+                <div class="table-shell">
+                    <div class="reference-ledger__columns" aria-hidden="true">
+                        <span>Game item</span>
+                        <span>Japanese &amp; translation</span>
+                        <span>Item details</span>
+                    </div>
+                    <table class="reference-table items-ledger" aria-label={`${entry.name} items by type`}>
+                        <thead class="sr-only">
+                            <tr>
+                                <th scope="col">Game item</th>
+                                <th scope="col">Japanese and English translation</th>
+                                <th scope="col">Quality, origin and effect</th>
+                            </tr>
+                        </thead>
+                        {categories.map((category) => (
+                            <tbody
+                                class="reference-group items-group"
+                                id={category.slug}
+                                data-item-section
+                                data-category={category.type}
+                            >
+                                <tr class="reference-group__heading">
+                                    <th scope="rowgroup" colspan="3">
+                                        <span class="reference-group__title">
+                                            <span>{category.label}</span>
+                                            <a
+                                                class="items-category-permalink"
+                                                href={fixedCollection
+                                                    ? `#${category.slug}`
+                                                    : sitePath(`items/${entry.slug}/#${category.slug}`)}
+                                                aria-label={`Link to ${category.label}`}
+                                            >#</a>
+                                        </span>
+                                        <span class="reference-group__count" data-section-count>
+                                            {category.items.length} items
+                                        </span>
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
+                                {category.items.map((item) => {
+                                    const translation = getItemTranslation(item);
+                                    return (
+                                        <tr
+                                            id={item.id}
+                                            data-item-row
+                                            data-name={item.name}
+                                            data-japanese={item.japanese}
+                                            data-english={translation.english}
+                                            data-type={item.type}
+                                            data-quality={item.quality}
+                                            data-origin={item.origin}
+                                            data-effect={item.effect}
+                                        >
+                                            <td data-label="Game item" class="name-cell">
+                                                <span class="entry-name-line">
+                                                    <span class="entry-name">{item.name}</span>
+                                                    <a
+                                                        class="entry-permalink"
+                                                        href={fixedCollection
+                                                            ? `#${item.id}`
+                                                            : sitePath(`items/${entry.slug}/#${item.id}`)}
+                                                        aria-label={`Link to ${item.name}`}
+                                                    >#</a>
+                                                </span>
+                                                <span class="entry-meta">
+                                                    <span class="entry-type">{category.label}</span>
+                                                </span>
+                                            </td>
+                                            <td data-label="Japanese & translation" class="japanese">
+                                                <span class="japanese__main">
+                                                    <span class="japanese__line"><span lang="ja">{item.japanese}</span></span>
+                                                    <span class="pronunciation items-translation">{translation.english}</span>
+                                                </span>
+                                                {translation.status === 'needs-review' && (
+                                                    <span class="items-review-badge" title={translation.note ?? 'Reading or identification needs verification'}>
+                                                        Uncertain
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td data-label="Item details" class="translation items-detail-cell">
+                                                <span class="items-detail-line">
+                                                    <span class="items-quality">Quality {item.quality}</span>
+                                                    <span class="items-origin">{item.origin}</span>
+                                                </span>
+                                                <span class="items-effect">{item.effect}</span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        ))}
                     </table>
+                    <div class="empty-state items-no-results" data-item-empty hidden>
+                        <span class="empty-state__mark" aria-hidden="true">無</span>
+                        <strong>No matching items</strong>
+                        <p>Try another search term or loosen one of the filters.</p>
+                        <button class="reset-button" type="button" data-item-reset>Clear search &amp; filters</button>
+                    </div>
                 </div>
             </section>
-        ))}
-    </div>
-    <div class="items-no-results" data-item-empty hidden>No items match your filters. Try another name or reset the filters.</div>
+        );
+    })}
 </section>
+
 <script>
     import '../../scripts/items-catalogue';
 </script>
