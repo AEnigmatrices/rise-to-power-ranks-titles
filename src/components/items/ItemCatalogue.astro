@@ -69,6 +69,20 @@ const marks: Record<ItemCollectionSlug, string> = {
         </div>
     )}
 
+    {collections.some((entry) => entry.slug === 'arms') && (
+        <aside class="items-firearm-note" aria-label="Musket and Rifle terminology" data-arms-firearm-note hidden={initial.slug !== 'arms'}>
+            <strong>Musket vs Rifle in this game</strong>
+            <p>
+                These labels distinguish the <em>origin categories</em> used by the game:
+                <strong> Muskets</strong> are listed as Japanese-made firearms (Origin: Japan),
+                while <strong>Rifles</strong> are listed as European-made firearms (Origin: Europe).
+                This is the game's classification, not a guarantee of each weapon's actual
+                manufacturing history or that every item called a Rifle has a rifled barrel.
+                For example, the Rifle list includes a Korean short gun and later ignition systems.
+            </p>
+        </aside>
+    )}
+
     <section class="reference-viz items-viz" aria-labelledby="items-viz-heading">
         <div class="reference-viz__header">
             <div>

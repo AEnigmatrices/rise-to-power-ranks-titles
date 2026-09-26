@@ -2,6 +2,15 @@ import { describe, expect, it } from 'vitest';
 import { getItemCategories, getItemTranslation, getItemPronunciation, itemCollections, itemTranslationCount, itemPronunciationCount, getItemTrivia, itemTrivia } from '../../src/data/items';
 
 describe('the supplied game item catalogues', () => {
+    it('uses Japan for every Musket origin and Europe for every Rifle origin', () => {
+        const arms = itemCollections.find((collection) => collection.slug === 'arms')!;
+        const muskets = arms.items.filter((item) => item.type === 'Musket');
+        const rifles = arms.items.filter((item) => item.type === 'Rifle');
+        expect(muskets).toHaveLength(10);
+        expect(rifles).toHaveLength(10);
+        expect(new Set(muskets.map((item) => item.origin))).toEqual(new Set(['Japan']));
+        expect(new Set(rifles.map((item) => item.origin))).toEqual(new Set(['Europe']));
+    });
     it('attaches only source-linked trivia to existing Japanese item names', () => {
         const all = itemCollections.flatMap((collection) => collection.items);
         const keys = Object.keys(itemTrivia);
