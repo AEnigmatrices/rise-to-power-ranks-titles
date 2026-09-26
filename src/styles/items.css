@@ -1,0 +1,50 @@
+/* Original item categories are distinct anchored sections within each collection. */
+.items-collection-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px; margin:28px 0 48px; }
+.items-collection-card { padding:clamp(23px,3.5vw,36px); border:1px solid rgb(213 189 120 / .24); border-radius:20px; background:linear-gradient(135deg,#252b25,#141915); box-shadow:var(--shadow-dark); }
+.items-collection-card h2 { margin:8px 0 14px; font-family:var(--serif); font-size:clamp(1.5rem,2.6vw,2rem); }
+.items-collection-card h2 a { color:#f3ead7; text-decoration:none; }
+.items-collection-card h2 a:hover { color:var(--gold-bright); }
+.items-collection-card h2 span { font-family:var(--sans); font-size:.65em; }
+.items-collection-card p:not(.section-kicker) { color:#b9c1b7; line-height:1.6; }
+.items-collection-card .items-collection-card__count { color:var(--gold-bright) !important; font-weight:700; }
+.items-collection-card nav { display:flex; flex-wrap:wrap; gap:7px; margin-top:20px; }
+.items-collection-card nav a { display:inline-flex; gap:8px; align-items:center; padding:7px 10px; border:1px solid rgb(213 189 120 / .18); border-radius:9px; color:#f0eee4; text-decoration:none; background:rgb(255 255 255 / .04); font-size:.77rem; }
+.items-collection-card nav a:hover,.items-category-nav a:hover { border-color:var(--gold-bright); color:#fff; }
+.items-collection-card nav span { color:var(--gold-bright); font-size:.71rem; }
+.items-catalogue { margin:26px 0 50px; }
+.items-category-nav { display:flex; flex-wrap:wrap; gap:8px; padding:18px; border:1px solid rgb(213 189 120 / .22); border-radius:18px 18px 0 0; background:#1b211c; }
+.items-category-nav a { display:inline-flex; align-items:center; gap:9px; padding:9px 12px; border:1px solid rgb(213 189 120 / .22); border-radius:9px; color:#ebe9df; background:#292e27; text-decoration:none; font-size:.81rem; font-weight:650; }
+.items-category-nav a small { color:var(--gold-bright); font-weight:750; }
+.items-category-nav a.is-empty { opacity:.38; }
+.items-toolbar { display:grid; grid-template-columns:minmax(190px,2fr) repeat(2,minmax(130px,1fr)) auto; gap:10px; align-items:end; padding:18px; border:1px solid rgb(213 189 120 / .2); border-top:0; background:#141a15; }
+.items-toolbar label { display:grid; gap:7px; min-width:0; color:#c4c9bd; font-size:.73rem; font-weight:700; }
+.items-toolbar input,.items-toolbar select,.items-reset { width:100%; height:44px; min-width:0; border:1px solid #4e594c; border-radius:9px; color:#f5f1e7; background:#252c25; }
+.items-toolbar input { padding:0 12px 0 40px; }
+.items-toolbar select { padding:0 10px; }
+.items-toolbar__input { position:relative; display:block; }
+.items-toolbar__input svg { position:absolute; top:13px; left:13px; color:var(--gold-bright); }
+.items-reset { display:inline-flex; align-items:center; justify-content:center; gap:6px; padding:0 14px; width:auto; cursor:pointer; font-weight:750; }
+.items-result { margin:16px 0 26px; color:#d6d8cf; font-size:.9rem; }
+.items-sections { display:grid; gap:26px; }
+.items-section { scroll-margin-top:105px; border:1px solid rgb(213 189 120 / .2); border-radius:16px; overflow:hidden; background:#141a15; }
+.items-section__heading { display:flex; align-items:end; justify-content:space-between; gap:14px; padding:23px 23px 18px; background:linear-gradient(110deg,#293225,#171e19); }
+.items-section__heading h2 { margin:6px 0 0; color:#f3ead7; font-family:var(--serif); font-size:clamp(1.45rem,2.7vw,1.95rem); }
+.items-section__heading > span { color:var(--gold-bright); font-size:.78rem; font-weight:750; white-space:nowrap; }
+.items-table-wrap { overflow-x:auto; }
+.items-table { width:100%; border-collapse:collapse; color:#e8e9e1; font-size:.82rem; }
+.items-table th { padding:14px 15px; border-bottom:1px solid rgb(213 189 120 / .25); color:#d4c89e; font-size:.68rem; text-align:left; text-transform:uppercase; letter-spacing:.06em; }
+.items-table td { padding:15px; border-bottom:1px solid rgb(255 255 255 / .07); vertical-align:middle; }
+.items-table tbody tr:nth-child(even) { background:rgb(255 255 255 / .025); }
+.items-table tbody tr:hover { background:rgb(213 189 120 / .06); }
+.items-table tbody tr:target { background:rgb(213 189 120 / .17); }
+.items-table tr[hidden],.items-section[hidden] { display:none; }
+.items-table th:nth-child(1) { width:27%; }.items-table th:nth-child(2) { width:23%; }
+.items-table td:first-child { min-width:175px; }
+.items-table td:first-child strong { color:#f6f2e8; font-weight:700; }
+.items-table td:nth-child(2) { font-family:var(--jp-serif); font-size:.98rem; }
+.items-permalink { margin-right:9px; color:var(--gold-bright); text-decoration:none; opacity:.65; }
+.items-permalink:focus-visible,.items-permalink:hover { opacity:1; }
+.items-quality { display:inline-grid; width:28px; height:28px; place-items:center; border:1px solid rgb(213 189 120 / .35); border-radius:7px; color:#f1d590; font-weight:800; }
+.items-no-results { padding:44px 20px; border:1px dashed #7c6e4f; border-radius:15px; color:#e4dcc9; text-align:center; }
+@media (max-width:850px) { .items-toolbar { grid-template-columns:repeat(2,minmax(0,1fr)); } .items-toolbar__search { grid-column:1/-1; } .items-table { min-width:730px; } }
+@media (max-width:620px) { .items-collection-grid { grid-template-columns:1fr; } .items-toolbar { grid-template-columns:1fr; } .items-toolbar__search { grid-column:auto; } .items-table { min-width:0; } .items-table thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); } .items-table tr { display:grid; gap:6px; padding:16px; border-bottom:1px solid rgb(255 255 255 / .1); } .items-table td { display:flex; justify-content:space-between; gap:12px; padding:0; border:0; text-align:right; } .items-table td::before { content:attr(data-label); color:#a8b1a7; text-align:left; font-size:.75rem; } .items-table td:first-child { min-width:0; justify-content:flex-start; font-size:1rem; } .items-table td:first-child::before { display:none; } .items-table td:first-child strong { text-align:left; } .items-section__heading { padding:18px; } }
