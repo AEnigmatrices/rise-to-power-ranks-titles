@@ -74,7 +74,7 @@ test('desktop catalogue is grouped by class instead of repeating class and effec
 test('legacy root catalogue URLs forward to the reference page', async ({ page }) => {
     await page.goto('./?view=title&q=Shugo#title-iga-shugo');
 
-    await expect(page).toHaveURL(/\/reference\/\?view=title&q=Shugo#title-iga-shugo$/);
+    await expect(page).toHaveURL(/\/titles\/\?q=Shugo#title-iga-shugo$/);
     await expect(page.locator('[data-result-count]')).toContainText('70 unique titles');
 });
 
@@ -85,7 +85,7 @@ test('homepage remains an overview rather than embedding the catalogue', async (
     await expect(page.getByRole('searchbox', { name: 'Search appointments' })).toHaveCount(0);
 
     await page.getByRole('link', { name: /Browse Ranks/ }).click();
-    await expect(page).toHaveURL(/\/reference\/$/);
+    await expect(page).toHaveURL(/\/ranks\/$/);
 });
 
 
