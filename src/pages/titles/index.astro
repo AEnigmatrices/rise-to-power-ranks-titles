@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SectionNav from '../../components/navigation/SectionNav.astro';
+import GuideHeader from '../../components/trivia/GuideHeader.astro';
+import ReferenceExplorer from '../../components/reference/ReferenceExplorer.astro';
+import { sitePath } from '../../lib/routes';
+---
+<BaseLayout title="Titles — Nobunaga's Ambition: Rise to Power" description="Search Shogunate and Shugo Titles, Japanese names, classes, Leadership bonuses, and historical notes.">
+    <main class="guide-shell" id="top">
+        <SectionNav current="titles" />
+        <GuideHeader compact kicker="Game reference / Shogunate" japanese="役職" title="Titles" lede="Explore shogunate offices and regional Shugo appointments. In Rise to Power, Titles raise Leadership." backHref={sitePath()} backLabel="Back to the overview" />
+        <ReferenceExplorer kind="title" />
+        <footer class="guide-footer"><a href={sitePath('ranks/')}>← Ranks</a><a href={sitePath('trivia/context/')}>Historical context →</a></footer>
+    </main>
+</BaseLayout>

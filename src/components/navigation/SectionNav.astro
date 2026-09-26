@@ -3,12 +3,10 @@ import { sitePath } from '../../lib/routes';
 import GlobalSearch from './GlobalSearch.astro';
 
 interface Props {
-    current?: 'home' | 'reference' | 'guide';
+    current?: 'home' | 'items' | 'ranks' | 'titles' | 'reference' | 'guide';
 }
-
 const { current } = Astro.props;
 ---
-
 <nav class="section-nav" aria-label="Site navigation" data-pagefind-ignore>
     <a class="section-nav__brand" href={sitePath()}>
         <span>Tenka Sōsei</span>
@@ -16,12 +14,10 @@ const { current } = Astro.props;
     </a>
     <div class="section-nav__links">
         <a href={sitePath()} aria-current={current === 'home' ? 'page' : undefined}>Overview</a>
-        <a href={sitePath('reference/')} aria-current={current === 'reference' ? 'page' : undefined}>Reference</a>
-        <a
-            href={sitePath('trivia/')}
-            aria-label="Historical Guide"
-            aria-current={current === 'guide' ? 'page' : undefined}
-        >
+        <a href={sitePath('items/')} aria-current={current === 'items' ? 'page' : undefined}>Items</a>
+        <a href={sitePath('ranks/')} aria-current={current === 'ranks' ? 'page' : undefined}>Ranks</a>
+        <a href={sitePath('titles/')} aria-current={current === 'titles' ? 'page' : undefined}>Titles</a>
+        <a href={sitePath('trivia/')} aria-label="Historical Guide" aria-current={current === 'guide' ? 'page' : undefined}>
             <span class="section-nav__guide-label section-nav__guide-label--full" aria-hidden="true">Historical Guide</span>
             <span class="section-nav__guide-label section-nav__guide-label--short" aria-hidden="true">Guide</span>
         </a>
