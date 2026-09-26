@@ -6,6 +6,7 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
     const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-collection-panel]'));
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-collection-tab]'));
     const fixedCollection = root.dataset.fixedCollection || null;
+    const firearmNote = root.querySelector<HTMLElement>('[data-arms-firearm-note]');
     const search = root.querySelector<HTMLInputElement>('[data-item-search]');
     const typeFilter = root.querySelector<HTMLSelectElement>('[data-category-filter]');
     const qualityFilter = root.querySelector<HTMLSelectElement>('[data-quality-filter]');
@@ -223,6 +224,7 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
         if (fixedCollection) return;
         if (!panels.some((candidate) => candidate.dataset.collectionPanel === slug)) return;
         active = slug;
+        if (firearmNote) firearmNote.hidden = slug !== 'arms';
         tabs.forEach((tab) => {
             const selected = tab.dataset.collectionTab === slug;
             tab.classList.toggle('is-active', selected);

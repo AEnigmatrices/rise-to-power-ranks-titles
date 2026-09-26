@@ -151,3 +151,43 @@ test('all 20 Spear entries expose cited historical context or qualified object t
     await expect(invocation.locator('.items-trivia-body'))
         .toContainText('not by itself the name of a verifiable spear');
 });
+
+test('all 20 Musket and Rifle entries include sourced historical context', async ({ page }) => {
+    await page.goto('./items/arms/');
+    for (const category of ['Musket', 'Rifle']) {
+        const rows = page.locator(`[data-item-section][data-category="${category}"] [data-item-row]`);
+        await expect(rows).toHaveCount(10);
+        await expect(rows.locator('.items-trivia-disclosure')).toHaveCount(10);
+    }
+    const rifle = page.locator('[data-item-row][data-japanese="管打式銃"]');
+    await rifle.getByText('Historical trivia').click();
+    await expect(rifle.locator('.items-trivia-body')).toContainText('tube-lock');
+    await expect(rifle.locator('.items-trivia-sources a'))
+        .toHaveAttribute('href', /metmuseum\.org/);
+
+    const musket = page.locator('[data-item-row][data-japanese="備前筒"]');
+    await musket.getByText('Historical trivia').click();
+    await expect(musket.locator('.items-trivia-body'))
+        .toContainText('domestic regional type');
+});
+
+
+test('Arms explains game-specific Japanese Musket and European Rifle classification', async ({ page }) => {
+    await page.goto('./items/arms/');
+    const note = page.getByRole('complementary', { name: 'Musket and Rifle terminology' });
+    await expect(note).toBeVisible();
+    await expect(note).toContainText('Origin: Japan');
+    await expect(note).toContainText('Origin: Europe');
+    await expect(note).toContainText('not a guarantee');
+
+    await page.goto('./items/art/');
+    await expect(page.locator('[data-arms-firearm-note]')).toHaveCount(0);
+
+    await page.goto('./items/');
+    const hubNote = page.locator('[data-arms-firearm-note]');
+    await expect(hubNote).toBeVisible();
+    await page.getByRole('tab', { name: /Art & Miscellaneous/ }).click();
+    await expect(hubNote).toBeHidden();
+    await page.getByRole('tab', { name: /^Arms/ }).click();
+    await expect(hubNote).toBeVisible();
+});

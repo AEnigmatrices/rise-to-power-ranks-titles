@@ -360,3 +360,21 @@
     .items-explorer .items-trivia-sources { color: #68675b; }
     .items-explorer .items-trivia-sources a { color: #72531f; }
 }
+
+/* Explain the game's Japan/Europe origin distinction without redefining historical firearms. */
+.items-firearm-note {
+    margin: 14px 0 18px;
+    padding: 17px 20px;
+    border: 1px solid rgb(232 201 104 / .32);
+    border-left: 3px solid var(--gold-bright);
+    border-radius: 9px;
+    background: rgb(232 201 104 / .065);
+    color: #e6e5d7;
+    font-size: .83rem;
+    line-height: 1.6;
+}
+.items-firearm-note[hidden] { display: none !important; }
+.items-firearm-note > strong { display: block; color: #f3ddaa; font-size: .89rem; margin-bottom: 6px; }
+.items-firearm-note p { margin: 0; }
+.items-firearm-note p strong { color: #f3ddaa; }
+@media (max-width: 720px) { .items-firearm-note { padding: 14px; } }

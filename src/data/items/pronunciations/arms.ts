@@ -28,7 +28,7 @@ export const armsPronunciations = parsePronunciations(String.raw`# Sword
 ?皆朱槍|Kaishu Yari|Reading of this technical descriptive compound should be checked against the game source.
 助光銘薙刀|Sukemitsu-mei Naginata
 片鎌槍|Katakama Yari
-?瓶通槍|Kame-tōshi Yari|Rare weapon designation and uncertain reading.
+?瓶通槍|Kame-tōshi Yari|The historic nickname 瓶通し is read かめとおし in a Shōnai sword-preservation account, while a game reference gives びんどおしやり for 瓶通槍. The exact game reading is unresolved.
 十文字槍|Jūmonji Yari
 長光銘薙刀|Nagamitsu-mei Naginata
 笹穂槍|Sasaho Yari
