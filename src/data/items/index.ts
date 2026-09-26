@@ -63,3 +63,26 @@ export const getItemTranslation = (item: Pick<Item, 'japanese'>): ItemTranslatio
 };
 
 export const itemTranslationCount = Object.keys(translationsByJapanese).length;
+
+import { armsPronunciations } from './pronunciations/arms';
+import { artPronunciations } from './pronunciations/art';
+import { booksPronunciations } from './pronunciations/books';
+import { teaPronunciations } from './pronunciations/tea';
+import type { ItemPronunciation } from './pronunciations/types';
+export type { ItemPronunciation } from './pronunciations/types';
+
+const pronunciationsByJapanese: Record<string, ItemPronunciation> = {
+    ...armsPronunciations,
+    ...artPronunciations,
+    ...booksPronunciations,
+    ...teaPronunciations,
+};
+
+/** Match the source Japanese characters; never derive a reading from the game's English label. */
+export const getItemPronunciation = (item: Pick<Item, 'japanese'>): ItemPronunciation => {
+    const reading = pronunciationsByJapanese[item.japanese];
+    if (!reading) throw new Error(`Missing pronunciation for ${item.japanese}`);
+    return reading;
+};
+
+export const itemPronunciationCount = Object.keys(pronunciationsByJapanese).length;

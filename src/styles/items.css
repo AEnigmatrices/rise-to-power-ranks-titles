@@ -240,7 +240,7 @@
         padding-top: 8px !important;
         border-top: 1px solid #e8e0d3 !important;
     }
-    .items-explorer .items-ledger .items-translation { margin-top: 4px; color: #6c776c; }
+    .items-explorer .items-ledger .items-pronunciation { margin-top: 4px; color: #6c776c; }
     .items-explorer .items-ledger .items-review-badge {
         border-color: #c89d6c;
         color: #6b4023;
@@ -270,4 +270,57 @@
 }
 @media (prefers-reduced-motion: reduce) {
     .items-chart__fill { transition: none; }
+}
+
+/* Rank/Title-style item ledger: Japanese with reading, separate English meaning. */
+.items-ledger .items-pronunciation {
+    display: block;
+    margin-top: 8px;
+    color: #acb8aa;
+    font-family: var(--sans);
+    font-size: .79rem;
+    line-height: 1.48;
+    white-space: normal;
+}
+.items-english-meaning {
+    display: block;
+    color: #f1eee0;
+    font-size: .92rem;
+    line-height: 1.5;
+}
+.items-detail-disclosure { margin-top: 12px; }
+.items-detail-disclosure summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 0;
+    color: var(--gold-bright);
+    font-family: var(--sans);
+    font-size: .74rem;
+    font-weight: 730;
+    cursor: pointer;
+}
+.items-detail-disclosure summary:hover { text-decoration: underline; text-underline-offset: 3px; }
+.items-detail-disclosure summary:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; }
+.items-detail-list {
+    display: grid;
+    gap: 7px;
+    margin: 10px 0 0;
+    padding: 12px;
+    border: 1px solid rgb(232 201 104 / .18);
+    border-radius: 8px;
+    background: rgb(0 0 0 / .13);
+}
+.items-detail-list div { display: grid; grid-template-columns: 55px minmax(0, 1fr); gap: 10px; }
+.items-detail-list dt { color: #acb8aa; font-size: .71rem; font-weight: 730; }
+.items-detail-list dd { margin: 0; color: #f1eee0; font-size: .78rem; line-height: 1.45; }
+.items-meaning-cell .items-review-badge { margin-left: 0; }
+@media (max-width: 860px) {
+    .items-explorer .items-ledger .items-pronunciation { margin-top: 4px; color: #6c776c; }
+    .items-explorer .items-english-meaning { color: #2d382e; }
+    .items-explorer .items-detail-disclosure summary { color: #72531f; }
+    .items-explorer .items-detail-list { border-color: #d2c29b; background: rgb(255 255 255 / .25); }
+    .items-explorer .items-detail-list dt { color: #6b685d; }
+    .items-explorer .items-detail-list dd { color: #2d382e; }
+    .items-explorer .items-meaning-cell { padding-top: 8px !important; border-top: 1px solid #e8e0d3 !important; }
 }

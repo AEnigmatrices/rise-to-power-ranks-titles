@@ -1,7 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { getItemCategories, getItemTranslation, itemCollections, itemTranslationCount } from '../../src/data/items';
+import { getItemCategories, getItemTranslation, getItemPronunciation, itemCollections, itemTranslationCount, itemPronunciationCount } from '../../src/data/items';
 
 describe('the supplied game item catalogues', () => {
+    it('supplies Japanese pronunciation for every one of the 430 source entries', () => {
+        expect(itemPronunciationCount).toBe(430);
+        for (const collection of itemCollections) {
+            for (const item of collection.items) {
+                const pronunciation = getItemPronunciation(item);
+                expect(pronunciation.romaji.trim().length).toBeGreaterThan(0);
+                expect(['editorial', 'tentative']).toContain(pronunciation.status);
+                if (pronunciation.status === 'tentative') expect(pronunciation.note).toBeTruthy();
+            }
+        }
+    });
     it('supplies a separate English translation for all 430 Japanese item names', () => {
         expect(itemTranslationCount).toBe(430);
         for (const collection of itemCollections) {

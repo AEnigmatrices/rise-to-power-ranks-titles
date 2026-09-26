@@ -43,7 +43,7 @@ document.querySelectorAll<HTMLElement>('[data-items-catalogue]').forEach((root) 
     const panel = () => panels.find((candidate) => candidate.dataset.collectionPanel === active);
     const rows = () => Array.from(panel()?.querySelectorAll<Row>('[data-item-row]') ?? []);
     const normalizeRow = (row: Row) => normalizeSearchText([
-        row.dataset.name, row.dataset.japanese, row.dataset.english,
+        row.dataset.name, row.dataset.japanese, row.dataset.pronunciation, row.dataset.english,
         row.dataset.type, row.dataset.origin, row.dataset.effect,
     ].join(' '));
 
